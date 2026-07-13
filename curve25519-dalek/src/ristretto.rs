@@ -601,49 +601,63 @@ impl RistrettoPoint {
             }
         }
 
-        let states: Vec<BatchCompressState> =
-            points.into_iter().map(BatchCompressState::from).collect();
+        // Index `while` loops instead of `into_iter()/iter()/zip()/map()/collect()`:
+        // iterator combinators over slices trip an Aeneas borrow-core internal
+        // error. Semantically identical. See aeneas#464 and aeneas-issues/issue_16
+        // (issue_17 covers the `.map(BatchCompressState::from)` constructor form).
+        let mut states: Vec<BatchCompressState> = Vec::new();
+        for p in points {
+            states.push(BatchCompressState::from(p));
+        }
 
-        let mut invs: Vec<FieldElement> = states.iter().map(|state| state.efgh()).collect();
+        let mut invs: Vec<FieldElement> = Vec::with_capacity(states.len());
+        let mut i = 0;
+        while i < states.len() {
+            invs.push(states[i].efgh());
+            i += 1;
+        }
 
         FieldElement::invert_batch_alloc(&mut invs[..]);
 
-        states
-            .iter()
-            .zip(invs.iter())
-            .map(|(state, inv): (&BatchCompressState, &FieldElement)| {
-                let Zinv = &state.eg * inv;
-                let Tinv = &state.fh * inv;
+        let mut out = Vec::with_capacity(states.len());
+        let mut i = 0;
+        while i < states.len() {
+            let state = &states[i];
+            let inv = &invs[i];
 
-                let mut magic = constants::INVSQRT_A_MINUS_D;
+            let Zinv = &state.eg * inv;
+            let Tinv = &state.fh * inv;
 
-                let negcheck1 = (&state.eg * &Zinv).is_negative();
+            let mut magic = constants::INVSQRT_A_MINUS_D;
 
-                let mut e = state.e;
-                let mut g = state.g;
-                let mut h = state.h;
+            let negcheck1 = (&state.eg * &Zinv).is_negative();
 
-                let minus_e = -&e;
-                let f_times_sqrta = &state.f * &constants::SQRT_M1;
+            let mut e = state.e;
+            let mut g = state.g;
+            let mut h = state.h;
 
-                e.conditional_assign(&state.g, negcheck1);
-                g.conditional_assign(&minus_e, negcheck1);
-                h.conditional_assign(&f_times_sqrta, negcheck1);
+            let minus_e = -&e;
+            let f_times_sqrta = &state.f * &constants::SQRT_M1;
 
-                magic.conditional_assign(&constants::SQRT_M1, negcheck1);
+            e.conditional_assign(&state.g, negcheck1);
+            g.conditional_assign(&minus_e, negcheck1);
+            h.conditional_assign(&f_times_sqrta, negcheck1);
 
-                let negcheck2 = (&(&h * &e) * &Zinv).is_negative();
+            magic.conditional_assign(&constants::SQRT_M1, negcheck1);
 
-                g.conditional_negate(negcheck2);
+            let negcheck2 = (&(&h * &e) * &Zinv).is_negative();
 
-                let mut s = &(&h - &g) * &(&magic * &(&g * &Tinv));
+            g.conditional_negate(negcheck2);
 
-                let s_is_negative = s.is_negative();
-                s.conditional_negate(s_is_negative);
+            let mut s = &(&h - &g) * &(&magic * &(&g * &Tinv));
 
-                CompressedRistretto(s.to_bytes())
-            })
-            .collect()
+            let s_is_negative = s.is_negative();
+            s.conditional_negate(s_is_negative);
+
+            out.push(CompressedRistretto(s.to_bytes()));
+            i += 1;
+        }
+        out
     }
 
     /// Return the coset self + E\[4\], for debugging.

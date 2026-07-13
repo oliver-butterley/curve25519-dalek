@@ -247,11 +247,20 @@ impl FieldElement {
         let mut acc = FieldElement::ONE;
 
         // Pass through the input vector, recording the previous
-        // products in the scratch space
-        for (input, scratch) in inputs.iter().zip(scratch.iter_mut()) {
-            *scratch = acc;
+        // products in the scratch space.
+        //
+        // Index-based loops (instead of `iter().zip(iter_mut())` /
+        // `iter_mut().rev().zip(iter_mut().rev())`): the reversed zip of two
+        // mutable slice iterators, following the first borrowing pass, triggers
+        // an Aeneas internal error (InterpBorrowsCore). Semantically identical.
+        // See aeneas#464 and aeneas-issues/issue_16.
+        let n = inputs.len();
+        let mut i = 0;
+        while i < n {
+            scratch[i] = acc;
             // acc <- acc * input, but skipping zeros (constant-time)
-            acc.conditional_assign(&(&acc * input), !input.is_zero());
+            acc.conditional_assign(&(&acc * &inputs[i]), !inputs[i].is_zero());
+            i += 1;
         }
 
         // acc is nonzero because we skipped zeros in inputs
@@ -262,12 +271,15 @@ impl FieldElement {
 
         // Pass through the vector backwards to compute the inverses
         // in place
-        for (input, scratch) in inputs.iter_mut().rev().zip(scratch.iter_mut().rev()) {
-            let tmp = &acc * input;
+        let mut k = n;
+        while k > 0 {
+            k -= 1;
+            let tmp = &acc * &inputs[k];
             // input <- acc * scratch, then acc <- tmp
             // Again, we skip zeros in a constant-time way
-            let nz = !input.is_zero();
-            input.conditional_assign(&(&acc * scratch), nz);
+            let nz = !inputs[k].is_zero();
+            let prod = &acc * &scratch[k];
+            inputs[k].conditional_assign(&prod, nz);
             acc.conditional_assign(&tmp, nz);
         }
     }

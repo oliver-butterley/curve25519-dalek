@@ -86,3 +86,34 @@ check-cfg = [
     'cfg(curve25519_dalek_bits, values("32", "64"))',
     'cfg(nightly)',
 ]
+
+# Charon (charon cargo --preset=aeneas) reads this section natively to scope the
+# Rust -> LLBC translation. Goal: extract as much as possible. We start from all
+# public items (--start-from-pub, passed by the extraction script) and only:
+#   * exclude Debug/Hash impls (uninteresting and not translatable by Aeneas), and
+#   * mark `opaque` the functions whose bodies Aeneas cannot translate (iterators,
+#     closures, batch ops, region-heavy code) so their signatures still extract.
+[package.metadata.charon]
+exclude = [
+  # Debug impls (use core::fmt::Formatter; not translatable, not of interest)
+  "curve25519_dalek::backend::serial::curve_models::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::backend::serial::u64::field::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::backend::serial::u64::scalar::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::montgomery::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::scalar::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::ristretto::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::edwards::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::edwards::affine::{impl core::fmt::Debug for _}",
+  # Hash impls (use core::hash::Hasher; not translatable, not of interest)
+  "curve25519_dalek::montgomery::{impl core::hash::Hash for _}",
+  "curve25519_dalek::scalar::{impl core::hash::Hash for _}",
+  "curve25519_dalek::ristretto::{impl core::hash::Hash for _}",
+  "curve25519_dalek::edwards::{impl core::hash::Hash for _}",
+]
+# NOTE: a number of functions (iterator/closure/borrow-heavy: invert_batch,
+# mul_bits_be, bits_le, batch compress, pippenger fold, etc.) currently fail to
+# translate in Aeneas. These are distinct Aeneas issues to be fixed upstream and
+# are documented in doc/aeneas-extraction-issues.md. `opaque` is NOT a workaround:
+# Charon's metadata `opaque` does not suppress the failing closures, and these
+# functions have callers so they cannot be `exclude`d cleanly either.
+opaque = []

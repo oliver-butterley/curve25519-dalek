@@ -820,15 +820,24 @@ impl Scalar {
         let mut acc = Scalar::ONE.unpack().as_montgomery();
 
         // Pass through the input vector, recording the previous
-        // products in the scratch space
-        for (input, scratch) in inputs.iter_mut().zip(scratch.iter_mut()) {
-            *scratch = acc;
+        // products in the scratch space.
+        //
+        // Index-based loops (instead of `iter_mut().zip(iter_mut())` /
+        // `iter_mut().rev().zip(iter().rev())`): the reversed zip of the mutable
+        // slice iterators, following the first borrowing pass, triggers an
+        // Aeneas internal error (InterpBorrowsCore). Semantically identical.
+        // See aeneas#464 and aeneas-issues/issue_16.
+        let n = inputs.len();
+        let mut i = 0;
+        while i < n {
+            scratch[i] = acc;
 
             // Avoid unnecessary Montgomery multiplication in second pass by
             // keeping inputs in Montgomery form
-            let tmp = input.unpack().as_montgomery();
-            *input = tmp.pack();
+            let tmp = inputs[i].unpack().as_montgomery();
+            inputs[i] = tmp.pack();
             acc = UnpackedScalar::montgomery_mul(&acc, &tmp);
+            i += 1;
         }
 
         // acc is nonzero iff all inputs are nonzero
@@ -842,9 +851,11 @@ impl Scalar {
 
         // Pass through the vector backwards to compute the inverses
         // in place
-        for (input, scratch) in inputs.iter_mut().rev().zip(scratch.iter().rev()) {
-            let tmp = UnpackedScalar::montgomery_mul(&acc, &input.unpack());
-            *input = UnpackedScalar::montgomery_mul(&acc, scratch).pack();
+        let mut k = n;
+        while k > 0 {
+            k -= 1;
+            let tmp = UnpackedScalar::montgomery_mul(&acc, &inputs[k].unpack());
+            inputs[k] = UnpackedScalar::montgomery_mul(&acc, &scratch[k]).pack();
             acc = tmp;
         }
 

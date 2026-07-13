@@ -9,3 +9,11 @@ build*.txt
 *.bak
 
 *.s
+
+# Charon / Aeneas / Lean verification tooling
+.aeneas/          # cloned + built charon + aeneas binaries
+.lake/            # lake build artifacts and dependencies
+.logs/            # charon/aeneas/opam build logs
+node_modules/
+*.llbc            # charon intermediate output
+# Note: generated curve25519-dalek/translated/*.lean and translation.json are committed.

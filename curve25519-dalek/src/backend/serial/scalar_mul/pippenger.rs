@@ -105,21 +105,39 @@ impl VartimeMultiscalarMul for Pippenger {
 
         // Prepare 2^w/2 buckets.
         // buckets[i] corresponds to a multiplication factor (i+1).
-        let mut buckets: Vec<_> = (0..buckets_count)
-            .map(|_| EdwardsPoint::identity())
-            .collect();
+        //
+        // Index `while` loops + explicit accumulation instead of the lazy
+        // `(0..digits_count).rev().map(closure)` column iterator consumed by
+        // `.next()`/`.fold()`, and instead of the inner iterator loops: these
+        // iterator combinators trip an Aeneas borrow-core internal error.
+        // Semantically identical. See aeneas#464 and aeneas-issues/issue_16.
+        let mut buckets: Vec<EdwardsPoint> = Vec::with_capacity(buckets_count);
+        {
+            let mut b = 0;
+            while b < buckets_count {
+                buckets.push(EdwardsPoint::identity());
+                b += 1;
+            }
+        }
 
-        let mut columns = (0..digits_count).rev().map(|digit_index| {
+        // Process digit columns from most- to least-significant, accumulating
+        // `total = total * 2^w + column` (the high column seeds `total`).
+        let mut total: Option<EdwardsPoint> = None;
+        let mut digit_index = digits_count;
+        while digit_index > 0 {
+            digit_index -= 1;
+
             // Clear the buckets when processing another digit.
-            for bucket in &mut buckets {
-                *bucket = EdwardsPoint::identity();
+            let mut b = 0;
+            while b < buckets_count {
+                buckets[b] = EdwardsPoint::identity();
+                b += 1;
             }
 
-            // Iterate over pairs of (point, scalar)
-            // and add/sub the point to the corresponding bucket.
-            // Note: if we add support for precomputed lookup tables,
-            // we'll be adding/subtracting point premultiplied by `digits[i]` to buckets[0].
-            for (digits, pt) in scalars_points.iter() {
+            // Add/sub each point to the corresponding bucket.
+            let mut si = 0;
+            while si < scalars_points.len() {
+                let (ref digits, ref pt) = scalars_points[si];
                 // Widen digit so that we don't run into edge cases when w=8.
                 let digit = digits[digit_index] as i16;
                 match digit.cmp(&0) {
@@ -133,30 +151,28 @@ impl VartimeMultiscalarMul for Pippenger {
                     }
                     Ordering::Equal => {}
                 }
+                si += 1;
             }
 
-            // Add the buckets applying the multiplication factor to each bucket.
-            // The most efficient way to do that is to have a single sum with two running sums:
-            // an intermediate sum from last bucket to the first, and a sum of intermediate sums.
-            //
-            // For example, to add buckets 1*A, 2*B, 3*C we need to add these points:
-            //   C
-            //   C B
-            //   C B A   Sum = C + (C+B) + (C+B+A)
+            // Add the buckets applying the multiplication factor to each bucket,
+            // via two running sums (intermediate sum from last bucket to first,
+            // and a sum of intermediate sums).
             let mut buckets_intermediate_sum = buckets[buckets_count - 1];
             let mut buckets_sum = buckets[buckets_count - 1];
-            for i in (0..(buckets_count - 1)).rev() {
+            let mut i = buckets_count - 1;
+            while i > 0 {
+                i -= 1;
                 buckets_intermediate_sum += buckets[i];
                 buckets_sum += buckets_intermediate_sum;
             }
 
-            buckets_sum
-        });
+            total = Some(match total {
+                None => buckets_sum,
+                Some(t) => t.mul_by_pow_2(w as u32) + buckets_sum,
+            });
+        }
 
-        // Take the high column as an initial value to avoid wasting time doubling the identity element in `fold()`.
-        let hi_column = columns.next().expect("should have more than zero digits");
-
-        Some(columns.fold(hi_column, |total, p| total.mul_by_pow_2(w as u32) + p))
+        Some(total.expect("should have more than zero digits"))
     }
 }
 

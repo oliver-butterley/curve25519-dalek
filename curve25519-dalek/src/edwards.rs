@@ -597,15 +597,28 @@ impl EdwardsPoint {
         // We will do this in a batch, ie compute (Z-Y) for all the input
         // points, then invert them all at once
 
-        // Compute the denominators in a batch
-        let mut denominators = eds.iter().map(|p| &p.Z - &p.Y).collect::<Vec<_>>();
+        // Compute the denominators in a batch.
+        //
+        // Index `while` loops instead of `.iter().map().collect()` /
+        // `.iter().zip()`: iterator combinators over slices trip an Aeneas
+        // borrow-core internal error. Semantically identical.
+        // See aeneas#464 and aeneas-issues/issue_16.
+        let n = eds.len();
+        let mut denominators = Vec::with_capacity(n);
+        let mut i = 0;
+        while i < n {
+            denominators.push(&eds[i].Z - &eds[i].Y);
+            i += 1;
+        }
         FieldElement::invert_batch_alloc(&mut denominators);
 
         // Now compute the Montgomery u coordinate for every point
-        let mut ret = Vec::with_capacity(eds.len());
-        for (ed, d) in eds.iter().zip(denominators.iter()) {
-            let u = &(&ed.Z + &ed.Y) * d;
+        let mut ret = Vec::with_capacity(n);
+        let mut i = 0;
+        while i < n {
+            let u = &(&eds[i].Z + &eds[i].Y) * &denominators[i];
             ret.push(MontgomeryPoint(u.to_bytes()));
+            i += 1;
         }
 
         ret
@@ -632,18 +645,27 @@ impl EdwardsPoint {
     /// for a significant speedup.
     #[cfg(feature = "alloc")]
     pub fn compress_batch_alloc(inputs: &[EdwardsPoint]) -> Vec<CompressedEdwardsY> {
-        let mut zs = inputs.iter().map(|input| input.Z).collect::<Vec<_>>();
+        // Index `while` loops instead of iterator combinators over slices
+        // (Aeneas borrow-core internal error). Semantically identical.
+        // See aeneas#464 and aeneas-issues/issue_16.
+        let n = inputs.len();
+        let mut zs = Vec::with_capacity(n);
+        let mut i = 0;
+        while i < n {
+            zs.push(inputs[i].Z);
+            i += 1;
+        }
         FieldElement::invert_batch_alloc(&mut zs);
 
-        inputs
-            .iter()
-            .zip(&zs)
-            .map(|(input, recip)| {
-                let x = &input.X * recip;
-                let y = &input.Y * recip;
-                AffinePoint { x, y }.compress()
-            })
-            .collect()
+        let mut out = Vec::with_capacity(n);
+        let mut i = 0;
+        while i < n {
+            let x = &inputs[i].X * &zs[i];
+            let y = &inputs[i].Y * &zs[i];
+            out.push(AffinePoint { x, y }.compress());
+            i += 1;
+        }
+        out
     }
 
     #[cfg(feature = "digest")]

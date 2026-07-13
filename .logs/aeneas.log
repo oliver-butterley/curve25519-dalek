@@ -1,0 +1,209 @@
+[[92mInfo[39m ] Imported: /home/oliver/Projects/Verification/curve25519-dalek/curve25519_dalek.llbc
+[?25lApplied prepasses:  [------------------------------------------------]   0/698 ⠋Applied prepasses:  [------------------------------------------------]   1/698 ⠋Applied prepasses:  [####--------------------------------------------]  67/698 ⠙Applied prepasses:  [#######-----------------------------------------] 102/698 ⠙Applied prepasses:  [###########-------------------------------------] 173/698 ⠙Applied prepasses:  [#################-------------------------------] 256/698 ⠙Applied prepasses:  [##################------------------------------] 270/698 ⠹Applied prepasses:  [##################------------------------------] 273/698 ⠹Applied prepasses:  [####################----------------------------] 300/698 ⠹Applied prepasses:  [#######################-------------------------] 336/698 ⠹Applied prepasses:  [########################------------------------] 353/698 ⠸Applied prepasses:  [##########################----------------------] 388/698 ⠸Applied prepasses:  [###########################---------------------] 407/698 ⠸Applied prepasses:  [##########################################------] 613/698 ⠸Applied prepasses:  [################################################] 698/698 ✔️
+[?25h[?25lTranslated globals:  [-------------------------------------------------]  0/31 ⠋Translated globals:  [#################################################] 31/31 ✔️
+[?25h[?25lTranslated opaque functions:  [--------------------------------------]   0/165 ⠋Translated opaque functions:  [######################################] 165/165 ✔️
+[?25h[?25lTranslated transparent functions:  [---------------------------------]   0/466 ⠋Translated transparent functions:  [---------------------------------]   1/466 ⠙Translated transparent functions:  [---------------------------------]   2/466 ⠙Translated transparent functions:  [---------------------------------]  14/466 ⠹Translated transparent functions:  [#--------------------------------]  23/466 ⠹Translated transparent functions:  [##-------------------------------]  34/466 ⠹Translated transparent functions:  [##-------------------------------]  42/466 ⠹Translated transparent functions:  [###------------------------------]  53/466 ⠹Translated transparent functions:  [###------------------------------]  56/466 ⠸Translated transparent functions:  [####-----------------------------]  64/466 ⠸Translated transparent functions:  [#####----------------------------]  77/466 ⠸Translated transparent functions:  [######---------------------------]  86/466 ⠸Translated transparent functions:  [######---------------------------]  92/466 ⠼Translated transparent functions:  [#######--------------------------] 100/466 ⠼Translated transparent functions:  [#######--------------------------] 105/466 ⠼Translated transparent functions:  [#######--------------------------] 109/466 ⠼Translated transparent functions:  [########-------------------------] 114/466 ⠼Translated transparent functions:  [########-------------------------] 118/466 ⠴Translated transparent functions:  [########-------------------------] 121/466 ⠴Translated transparent functions:  [########-------------------------] 125/466 ⠴Translated transparent functions:  [########-------------------------] 126/466 ⠦Translated transparent functions:  [#########------------------------] 128/466 ⠦Translated transparent functions:  [#########------------------------] 132/466 ⠦Translated transparent functions:  [#########------------------------] 135/466 ⠦Translated transparent functions:  [#########------------------------] 139/466 ⠧Translated transparent functions:  [##########-----------------------] 145/466 ⠧[[91mError[39m] Could not match the contexts
+Source: 'curve25519-dalek/src/backend/serial/scalar_mul/vartime_double_base.rs', lines 33:4-38:5
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::backend::serial::scalar_mul::vartime_double_base::mul because of previous error
+Name pattern: 'curve25519_dalek::backend::serial::scalar_mul::vartime_double_base::mul'
+Definition span: 'curve25519-dalek/src/backend/serial/scalar_mul/vartime_double_base.rs', lines 23:0-72:1
+Source: 'curve25519-dalek/src/backend/serial/scalar_mul/vartime_double_base.rs', lines 33:4-38:5
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [##########-----------------------] 149/466 ⠧Translated transparent functions:  [##########-----------------------] 154/466 ⠧Translated transparent functions:  [###########----------------------] 158/466 ⠇Translated transparent functions:  [###########----------------------] 162/466 ⠇[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 160:4-160:5
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul because of previous error
+Name pattern: 'curve25519_dalek::backend::serial::scalar_mul::pippenger::{curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger, curve25519_dalek::edwards::EdwardsPoint>}::optional_multiscalar_mul'
+Definition span: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 67:4-160:5
+Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 160:4-160:5
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [###########----------------------] 167/466 ⠇Translated transparent functions:  [###########----------------------] 169/466 ⠇Translated transparent functions:  [############---------------------] 171/466 ⠏Translated transparent functions:  [############---------------------] 173/466 ⠏Translated transparent functions:  [############---------------------] 175/466 ⠏[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/scalar.rs', lines 874:4-881:5
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le because of previous error
+Name pattern: 'curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le'
+Definition span: 'curve25519-dalek/src/scalar.rs', lines 874:4-881:5
+Source: 'curve25519-dalek/src/scalar.rs', lines 874:4-881:5
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [############---------------------] 178/466 ⠋Translated transparent functions:  [############---------------------] 182/466 ⠋Translated transparent functions:  [#############--------------------] 185/466 ⠋Translated transparent functions:  [#############--------------------] 189/466 ⠋Translated transparent functions:  [#############--------------------] 192/466 ⠙Translated transparent functions:  [#############--------------------] 196/466 ⠙Translated transparent functions:  [##############-------------------] 199/466 ⠙Translated transparent functions:  [##############-------------------] 203/466 ⠙Translated transparent functions:  [##############-------------------] 204/466 ⠙Translated transparent functions:  [##############-------------------] 205/466 ⠹Translated transparent functions:  [##############-------------------] 207/466 ⠹Translated transparent functions:  [##############-------------------] 211/466 ⠸[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/field.rs', lines 265:60-265:67
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::internal_invert_batch because of previous error
+Name pattern: 'curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::internal_invert_batch'
+Definition span: 'curve25519-dalek/src/field.rs', lines 239:4-273:5
+Source: 'curve25519-dalek/src/field.rs', lines 265:60-265:67
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [###############------------------] 213/466 ⠸Translated transparent functions:  [###############------------------] 216/466 ⠸Translated transparent functions:  [###############------------------] 219/466 ⠼Translated transparent functions:  [###############------------------] 221/466 ⠼Translated transparent functions:  [###############------------------] 223/466 ⠼Translated transparent functions:  [################-----------------] 226/466 ⠴Translated transparent functions:  [################-----------------] 228/466 ⠴Translated transparent functions:  [################-----------------] 229/466 ⠴Translated transparent functions:  [################-----------------] 232/466 ⠴Translated transparent functions:  [################-----------------] 234/466 ⠦Translated transparent functions:  [################-----------------] 238/466 ⠦Translated transparent functions:  [#################----------------] 244/466 ⠦Translated transparent functions:  [#################----------------] 245/466 ⠧Translated transparent functions:  [#################----------------] 249/466 ⠧Translated transparent functions:  [#################----------------] 253/466 ⠧Translated transparent functions:  [##################---------------] 255/466 ⠇Translated transparent functions:  [##################---------------] 256/466 ⠇Translated transparent functions:  [##################---------------] 258/466 ⠇Translated transparent functions:  [##################---------------] 260/466 ⠏Translated transparent functions:  [##################---------------] 262/466 ⠏Translated transparent functions:  [##################---------------] 264/466 ⠏Translated transparent functions:  [##################---------------] 267/466 ⠏Translated transparent functions:  [###################--------------] 269/466 ⠋[[91mError[39m] Unimplemented
+Source: 'curve25519-dalek/src/ristretto.rs', lines 605:12-605:60
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::ristretto::{curve25519_dalek::ristretto::RistrettoPoint}::double_and_compress_batch because of previous error
+Name pattern: 'curve25519_dalek::ristretto::{curve25519_dalek::ristretto::RistrettoPoint}::double_and_compress_batch'
+Definition span: 'curve25519-dalek/src/ristretto.rs', lines 564:4-647:5
+Source: 'curve25519-dalek/src/ristretto.rs', lines 605:12-605:60
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [###################--------------] 273/466 ⠋Translated transparent functions:  [###################--------------] 276/466 ⠋Translated transparent functions:  [###################--------------] 278/466 ⠋Translated transparent functions:  [###################--------------] 281/466 ⠙Translated transparent functions:  [####################-------------] 283/466 ⠙Translated transparent functions:  [####################-------------] 285/466 ⠙Translated transparent functions:  [####################-------------] 287/466 ⠙Translated transparent functions:  [####################-------------] 289/466 ⠹Translated transparent functions:  [####################-------------] 290/466 ⠹Translated transparent functions:  [####################-------------] 292/466 ⠹Translated transparent functions:  [####################-------------] 295/466 ⠸Translated transparent functions:  [#####################------------] 298/466 ⠸Translated transparent functions:  [#####################------------] 300/466 ⠸Translated transparent functions:  [#####################------------] 302/466 ⠸Translated transparent functions:  [#####################------------] 304/466 ⠼Translated transparent functions:  [#####################------------] 305/466 ⠼Translated transparent functions:  [#####################------------] 307/466 ⠼Translated transparent functions:  [#####################------------] 308/466 ⠴Translated transparent functions:  [######################-----------] 311/466 ⠴Translated transparent functions:  [######################-----------] 314/466 ⠴Translated transparent functions:  [######################-----------] 315/466 ⠴Translated transparent functions:  [######################-----------] 316/466 ⠦Translated transparent functions:  [######################-----------] 318/466 ⠦Translated transparent functions:  [######################-----------] 321/466 ⠦Translated transparent functions:  [######################-----------] 322/466 ⠦[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/scalar.rs', lines 845:60-845:67
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::invert_batch_internal because of previous error
+Name pattern: 'curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::invert_batch_internal'
+Definition span: 'curve25519-dalek/src/scalar.rs', lines 811:4-855:5
+Source: 'curve25519-dalek/src/scalar.rs', lines 845:60-845:67
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [######################-----------] 324/466 ⠧Translated transparent functions:  [#######################----------] 326/466 ⠧Translated transparent functions:  [#######################----------] 328/466 ⠧Translated transparent functions:  [#######################----------] 331/466 ⠇Translated transparent functions:  [#######################----------] 334/466 ⠇Translated transparent functions:  [#######################----------] 336/466 ⠇Translated transparent functions:  [########################---------] 340/466 ⠇Translated transparent functions:  [########################---------] 342/466 ⠏Translated transparent functions:  [########################---------] 343/466 ⠏Translated transparent functions:  [########################---------] 344/466 ⠏Translated transparent functions:  [########################---------] 346/466 ⠋[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/scalar.rs', lines 874:4-881:5
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::montgomery::{impl core::ops::arith::Mul<&'_0 curve25519_dalek::scalar::Scalar, curve25519_dalek::montgomery::MontgomeryPoint> for &'_1 curve25519_dalek::montgomery::MontgomeryPoint}::mul because of previous error
+Name pattern: 'curve25519_dalek::montgomery::{core::ops::arith::Mul<&'1 curve25519_dalek::montgomery::MontgomeryPoint, &'0 curve25519_dalek::scalar::Scalar, curve25519_dalek::montgomery::MontgomeryPoint>}::mul'
+Definition span: 'curve25519-dalek/src/montgomery.rs', lines 488:4-492:5
+Source: 'curve25519-dalek/src/scalar.rs', lines 874:4-881:5
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [########################---------] 349/466 ⠋Translated transparent functions:  [########################---------] 351/466 ⠋Translated transparent functions:  [########################---------] 353/466 ⠋Translated transparent functions:  [#########################--------] 356/466 ⠙Translated transparent functions:  [#########################--------] 357/466 ⠙Translated transparent functions:  [#########################--------] 359/466 ⠹Translated transparent functions:  [#########################--------] 360/466 ⠹Translated transparent functions:  [#########################--------] 362/466 ⠹Translated transparent functions:  [#########################--------] 364/466 ⠹Translated transparent functions:  [#########################--------] 367/466 ⠸Translated transparent functions:  [##########################-------] 369/466 ⠸Translated transparent functions:  [##########################-------] 371/466 ⠸Translated transparent functions:  [##########################-------] 373/466 ⠼Translated transparent functions:  [##########################-------] 374/466 ⠼Translated transparent functions:  [##########################-------] 377/466 ⠼Translated transparent functions:  [##########################-------] 379/466 ⠴Translated transparent functions:  [##########################-------] 381/466 ⠴Translated transparent functions:  [###########################------] 384/466 ⠴Translated transparent functions:  [###########################------] 388/466 ⠴[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/edwards.rs', lines 595:4-612:5
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::to_montgomery_batch because of previous error
+Name pattern: 'curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::to_montgomery_batch'
+Definition span: 'curve25519-dalek/src/edwards.rs', lines 595:4-612:5
+Source: 'curve25519-dalek/src/edwards.rs', lines 595:4-612:5
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [###########################------] 389/466 ⠦Translated transparent functions:  [###########################------] 391/466 ⠦Translated transparent functions:  [###########################------] 392/466 ⠦Translated transparent functions:  [############################-----] 397/466 ⠧Translated transparent functions:  [############################-----] 399/466 ⠧Translated transparent functions:  [############################-----] 401/466 ⠧Translated transparent functions:  [############################-----] 402/466 ⠇Translated transparent functions:  [############################-----] 408/466 ⠇Translated transparent functions:  [############################-----] 409/466 ⠇Translated transparent functions:  [#############################----] 415/466 ⠏Translated transparent functions:  [#############################----] 419/466 ⠏[[91mError[39m] Internal error, please file an issue
+Source: 'curve25519-dalek/src/edwards.rs', lines 634:4-647:5
+[[93mWarn[39m ] Could not translate the body of function 'curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::compress_batch_alloc because of previous error
+Name pattern: 'curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::compress_batch_alloc'
+Definition span: 'curve25519-dalek/src/edwards.rs', lines 634:4-647:5
+Source: 'curve25519-dalek/src/edwards.rs', lines 634:4-647:5
+Compiler source: interp/Interp.ml, line 609
+
+Translated transparent functions:  [#############################----] 423/466 ⠏Translated transparent functions:  [##############################---] 424/466 ⠏Translated transparent functions:  [##############################---] 425/466 ⠋Translated transparent functions:  [##############################---] 427/466 ⠋Translated transparent functions:  [##############################---] 431/466 ⠋Translated transparent functions:  [##############################---] 433/466 ⠋Translated transparent functions:  [###############################--] 438/466 ⠋Translated transparent functions:  [###############################--] 443/466 ⠙Translated transparent functions:  [################################-] 454/466 ⠙Translated transparent functions:  [################################-] 458/466 ⠹Translated transparent functions:  [################################-] 459/466 ⠸Translated transparent functions:  [################################-] 460/466 ⠼Translated transparent functions:  [################################-] 461/466 ⠴Translated transparent functions:  [################################-] 462/466 ⠦Translated transparent functions:  [################################-] 463/466 ⠧Translated transparent functions:  [################################-] 464/466 ⠇Translated transparent functions:  [################################-] 465/466 ⠏Translated transparent functions:  [#################################] 466/466 ⠋Translated transparent functions:  [#################################] 466/466 ✔️
+[?25h[?25lTranslated trait declarations:  [--------------------------------------]  0/62 ⠋Translated trait declarations:  [##########################------------] 44/62 ✔️
+[?25h[?25lTranslated trait impls:  [-------------------------------------------]   0/415 ⠋Translated trait impls:  [###################################--------] 344/415 ⠋Translated trait impls:  [######################################-----] 372/415 ✔️
+[?25h[?25lPost-processed translated opaque functions:  [-----------------------]   0/165 ⠋Post-processed translated opaque functions:  [-----------------------]   1/165 ⠙Post-processed translated opaque functions:  [#######################] 165/165 ✔️
+[?25h[?25lPost-processed translated transparent functions:  [------------------]   0/466 ⠋Post-processed translated transparent functions:  [------------------]   1/466 ⠋Post-processed translated transparent functions:  [------------------]   9/466 ⠙Post-processed translated transparent functions:  [------------------]  17/466 ⠙Post-processed translated transparent functions:  [#-----------------]  26/466 ⠙Post-processed translated transparent functions:  [#-----------------]  35/466 ⠙Post-processed translated transparent functions:  [#-----------------]  38/466 ⠹Post-processed translated transparent functions:  [#-----------------]  45/466 ⠹Post-processed translated transparent functions:  [#-----------------]  48/466 ⠹Post-processed translated transparent functions:  [##----------------]  52/466 ⠹Post-processed translated transparent functions:  [##----------------]  57/466 ⠸Post-processed translated transparent functions:  [##----------------]  64/466 ⠸Post-processed translated transparent functions:  [##----------------]  74/466 ⠸Post-processed translated transparent functions:  [##----------------]  77/466 ⠸Post-processed translated transparent functions:  [###---------------]  83/466 ⠸Post-processed translated transparent functions:  [###---------------]  89/466 ⠼Post-processed translated transparent functions:  [###---------------]  95/466 ⠼Post-processed translated transparent functions:  [###---------------] 100/466 ⠼Post-processed translated transparent functions:  [####--------------] 106/466 ⠼Post-processed translated transparent functions:  [####--------------] 113/466 ⠼Post-processed translated transparent functions:  [####--------------] 117/466 ⠴Post-processed translated transparent functions:  [####--------------] 120/466 ⠴Post-processed translated transparent functions:  [####--------------] 123/466 ⠴Post-processed translated transparent functions:  [#####-------------] 133/466 ⠦Post-processed translated transparent functions:  [#####-------------] 141/466 ⠦Post-processed translated transparent functions:  [#####-------------] 148/466 ⠦Post-processed translated transparent functions:  [######------------] 157/466 ⠦Post-processed translated transparent functions:  [######------------] 166/466 ⠦Post-processed translated transparent functions:  [######------------] 170/466 ⠧Post-processed translated transparent functions:  [######------------] 180/466 ⠧Post-processed translated transparent functions:  [#######-----------] 186/466 ⠧Post-processed translated transparent functions:  [#######-----------] 193/466 ⠧Post-processed translated transparent functions:  [#######-----------] 196/466 ⠇Post-processed translated transparent functions:  [########----------] 209/466 ⠇Post-processed translated transparent functions:  [########----------] 216/466 ⠇Post-processed translated transparent functions:  [########----------] 229/466 ⠇Post-processed translated transparent functions:  [#########---------] 238/466 ⠏Post-processed translated transparent functions:  [#########---------] 245/466 ⠏Post-processed translated transparent functions:  [#########---------] 257/466 ⠏Post-processed translated transparent functions:  [##########--------] 262/466 ⠏Post-processed translated transparent functions:  [##########--------] 282/466 ⠋Post-processed translated transparent functions:  [###########-------] 289/466 ⠋Post-processed translated transparent functions:  [###########-------] 309/466 ⠋Post-processed translated transparent functions:  [############------] 332/466 ⠋Post-processed translated transparent functions:  [#############-----] 353/466 ⠋Post-processed translated transparent functions:  [##############----] 377/466 ⠙Post-processed translated transparent functions:  [###############---] 396/466 ⠙Post-processed translated transparent functions:  [################--] 433/466 ⠙Post-processed translated transparent functions:  [#################-] 459/466 ⠙Post-processed translated transparent functions:  [#################-] 461/466 ⠹Post-processed translated transparent functions:  [#################-] 462/466 ⠸Post-processed translated transparent functions:  [#################-] 464/466 ⠼Post-processed translated transparent functions:  [#################-] 465/466 ⠼Post-processed translated transparent functions:  [##################] 466/466 ⠴Post-processed translated transparent functions:  [##################] 466/466 ✔️
+[?25h[[91mError[39m] Name clash detected: the following identifiers are bound to the same name "edwards.CompressedEdwardsY" (the generated code will be incorrect):
+- type name: curve25519_dalek::edwards::CompressedEdwardsY
+  Source: 'curve25519-dalek/src/edwards.rs', lines 175:0-175:44
+- curve25519_dalek::edwards::CompressedEdwardsY
+  Source: 'curve25519-dalek/src/edwards.rs', lines 175:0-175:44
+
+You may want to rename some of your definitions, or report an issue.
+Note that you can change the name used in the generated code by using the attribute #[aeneas::rename("NAME")] or #[charon::rename("NAME")]. For instance:
+
+```
+#![feature(register_tool)]
+#![register_tool(aeneas)]
+
+#[aeneas::rename("Bar")]
+type Foo = i32;
+```
+
+Those attributes can be applied to type definitions, functions, methods, trait
+declarations or trait implementations. For more examples, see:
+https://github.com/AeneasVerif/aeneas/blob/main/tests/src/rename_attribute.rs
+
+
+
+[[91mError[39m] Error when registering the name for id: curve25519_dalek::edwards::CompressedEdwardsY:
+The chosen name is already in the names set: edwards.CompressedEdwardsY
+Source: 'curve25519-dalek/src/edwards.rs', lines 175:0-175:44
+[[91mError[39m] Name clash detected: the following identifiers are bound to the same name "ristretto.CompressedRistretto" (the generated code will be incorrect):
+- type name: curve25519_dalek::ristretto::CompressedRistretto
+  Source: 'curve25519-dalek/src/ristretto.rs', lines 223:0-223:45
+- curve25519_dalek::ristretto::CompressedRistretto
+  Source: 'curve25519-dalek/src/ristretto.rs', lines 223:0-223:45
+
+You may want to rename some of your definitions, or report an issue.
+Note that you can change the name used in the generated code by using the attribute #[aeneas::rename("NAME")] or #[charon::rename("NAME")]. For instance:
+
+```
+#![feature(register_tool)]
+#![register_tool(aeneas)]
+
+#[aeneas::rename("Bar")]
+type Foo = i32;
+```
+
+Those attributes can be applied to type definitions, functions, methods, trait
+declarations or trait implementations. For more examples, see:
+https://github.com/AeneasVerif/aeneas/blob/main/tests/src/rename_attribute.rs
+
+
+
+[[91mError[39m] Error when registering the name for id: curve25519_dalek::ristretto::CompressedRistretto:
+The chosen name is already in the names set: ristretto.CompressedRistretto
+Source: 'curve25519-dalek/src/ristretto.rs', lines 223:0-223:45
+[[91mError[39m] Name clash detected: the following identifiers are bound to the same name "ristretto.RistrettoPoint" (the generated code will be incorrect):
+- type name: curve25519_dalek::ristretto::RistrettoPoint
+  Source: 'curve25519-dalek/src/ristretto.rs', lines 496:0-496:51
+- curve25519_dalek::ristretto::RistrettoPoint
+  Source: 'curve25519-dalek/src/ristretto.rs', lines 496:0-496:51
+
+You may want to rename some of your definitions, or report an issue.
+Note that you can change the name used in the generated code by using the attribute #[aeneas::rename("NAME")] or #[charon::rename("NAME")]. For instance:
+
+```
+#![feature(register_tool)]
+#![register_tool(aeneas)]
+
+#[aeneas::rename("Bar")]
+type Foo = i32;
+```
+
+Those attributes can be applied to type definitions, functions, methods, trait
+declarations or trait implementations. For more examples, see:
+https://github.com/AeneasVerif/aeneas/blob/main/tests/src/rename_attribute.rs
+
+
+
+[[91mError[39m] Error when registering the name for id: curve25519_dalek::ristretto::RistrettoPoint:
+The chosen name is already in the names set: ristretto.RistrettoPoint
+Source: 'curve25519-dalek/src/ristretto.rs', lines 496:0-496:51
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'size_hint'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'zip'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'map'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'skip'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'by_ref'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'collect'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'fold'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[93mWarn[39m ] When retrieving the builtin information for trait decl 'core::iter::traits::iterator::Iterator', could not find the information for item 'rev'. The model defined in the Lean library seems to be missing the corresponding field.
+Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 42:0-42:24
+Compiler source: extract/Extract.ml, line 2864
+
+[[92mInfo[39m ] Generated the partial file (because of 15 errors, including 7 unique errors): /home/oliver/Projects/Verification/curve25519-dalek/curve25519-dalek/translated/TypesExternal_Template.lean
+[[92mInfo[39m ] Generated the partial file (because of 15 errors, including 7 unique errors): /home/oliver/Projects/Verification/curve25519-dalek/curve25519-dalek/translated/Types.lean
+[[92mInfo[39m ] Generated the partial file (because of 15 errors, including 7 unique errors): /home/oliver/Projects/Verification/curve25519-dalek/curve25519-dalek/translated/FunsExternal_Template.lean
+[[91mError[39m] Could not find: trait_impl_id: 427
+Source: 'curve25519-dalek/src/ristretto.rs', lines 568:30-568:35
+[[91mError[39m] Could not find: trait_impl_id: 427
+Source: 'curve25519-dalek/src/ristretto.rs', lines 568:30-568:35
+[[91mError[39m] Could not find: trait_impl_id: 427
+Source: 'curve25519-dalek/src/ristretto.rs', lines 568:30-568:35
+[[91mError[39m] Could not find: trait_impl_id: 427
+Source: 'curve25519-dalek/src/ristretto.rs', lines 568:30-568:35
+[[91mError[39m] Could not find: trait_impl_id: 427
+Source: 'curve25519-dalek/src/ristretto.rs', lines 568:30-568:35
+[[91mError[39m] Could not find: trait_impl_id: 427
+Source: 'curve25519-dalek/src/ristretto.rs', lines 568:30-568:35
+[[92mInfo[39m ] Generated the partial file (because of 21 errors, including 8 unique errors): /home/oliver/Projects/Verification/curve25519-dalek/curve25519-dalek/translated/Funs.lean
+[[92mInfo[39m ] Generated: /home/oliver/Projects/Verification/curve25519-dalek/curve25519-dalek/translation.json
+[[92mInfo[39m ] Total execution time: 11.309763 seconds
