@@ -20,6 +20,45 @@ import { runStreaming } from "./lib/shell.js";
 import { applyTweaks, warnUnmatchedTweaks } from "./lib/tweaks.js";
 import { syncLeanToolchain } from "./lib/lean-toolchain.js";
 
+/**
+ * True if `binPath` is an ELF whose program interpreter lives in the Nix store
+ * (i.e. a Nix-built binary). `make setup-charon` builds Charon via `nix build`,
+ * producing binaries linked against the Nix glibc loader.
+ */
+function usesNixLoader(binPath: string): boolean {
+  try {
+    const fd = fs.openSync(binPath, "r");
+    const buf = Buffer.alloc(4096);
+    fs.readSync(fd, buf, 0, buf.length, 0);
+    fs.closeSync(fd);
+    return /\/nix\/store\/[^\0]*ld-linux/.test(buf.toString("latin1"));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Locate a Nix-provided `libz.so.1` lib dir. A Nix-built charon-driver uses the
+ * Nix glibc loader, whose search path is the Nix store, so it can't see the
+ * system libz.so.1 that `librustc_driver` needs — we must put a matching Nix zlib
+ * on LD_LIBRARY_PATH. Returns null if none is found.
+ */
+function findNixZlibLibDir(): string | null {
+  const store = "/nix/store";
+  let entries: string[];
+  try {
+    entries = fs.readdirSync(store);
+  } catch {
+    return null;
+  }
+  for (const name of entries) {
+    if (!name.includes("-zlib-")) continue;
+    const libDir = path.join(store, name, "lib");
+    if (fs.existsSync(path.join(libDir, "libz.so.1"))) return libDir;
+  }
+  return null;
+}
+
 async function main(): Promise<void> {
   console.log(chalk.bold("\nAeneas Extract\n"));
 
@@ -70,9 +109,29 @@ async function main(): Promise<void> {
   // Force cfg overrides (e.g. the serial u64 backend) for the charon build only,
   // so the crate's normal multi-backend builds are unaffected. CARGO_ENCODED_RUSTFLAGS
   // treats each entry as one flag token (separated by 0x1f), avoiding whitespace splitting.
-  const charonEnv = config.charon.rustflags.length > 0
-    ? { CARGO_ENCODED_RUSTFLAGS: config.charon.rustflags.join("\x1f") }
-    : undefined;
+  const charonEnvParts: Record<string, string> = {};
+  if (config.charon.rustflags.length > 0) {
+    charonEnvParts.CARGO_ENCODED_RUSTFLAGS = config.charon.rustflags.join("\x1f");
+  }
+  // A Nix-built charon-driver (make setup-charon runs `nix build`) uses the Nix
+  // glibc loader, which searches the Nix store and can't find the system
+  // libz.so.1 that librustc_driver needs. Put a matching Nix zlib on
+  // LD_LIBRARY_PATH; Charon forwards this to charon-driver (appending the rustup
+  // toolchain lib dir itself). No-op on non-Nix systems.
+  if (usesNixLoader(charonBin)) {
+    const nixZlibDir = findNixZlibLibDir();
+    if (nixZlibDir) {
+      charonEnvParts.LD_LIBRARY_PATH = [nixZlibDir, process.env.LD_LIBRARY_PATH]
+        .filter(Boolean)
+        .join(":");
+    } else {
+      console.log(chalk.yellow(
+        "  Warning: charon is a Nix build but no Nix zlib was found; " +
+        "charon-driver may fail to load libz.so.1.",
+      ));
+    }
+  }
+  const charonEnv = Object.keys(charonEnvParts).length > 0 ? charonEnvParts : undefined;
 
   await runStreaming(charonBin, charonArgs, {
     cwd: crateDir,  // read [package.metadata.charon] from crate's Cargo.toml

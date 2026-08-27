@@ -94,11 +94,22 @@ check-cfg = [
 #   * mark `opaque` the functions whose bodies Aeneas cannot translate (iterators,
 #     closures, batch ops, region-heavy code) so their signatures still extract.
 [package.metadata.charon]
+# Only translate the serial backend (u32 field + scalar arithmetic) for now. This
+# keeps the higher-level code (ristretto/edwards/montgomery/scalar_mul and the
+# iterator-heavy fns) — which currently fails in Aeneas — out of the translation
+# entirely. Charon translates these start items plus everything they transitively
+# refer to (per the opacity rules).
+start_from = [
+  "curve25519_dalek::backend::serial::u32::field",
+  "curve25519_dalek::backend::serial::u32::scalar",
+]
 exclude = [
   # Debug impls (use core::fmt::Formatter; not translatable, not of interest)
   "curve25519_dalek::backend::serial::curve_models::{impl core::fmt::Debug for _}",
   "curve25519_dalek::backend::serial::u64::field::{impl core::fmt::Debug for _}",
   "curve25519_dalek::backend::serial::u64::scalar::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::backend::serial::u32::field::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::backend::serial::u32::scalar::{impl core::fmt::Debug for _}",
   "curve25519_dalek::montgomery::{impl core::fmt::Debug for _}",
   "curve25519_dalek::scalar::{impl core::fmt::Debug for _}",
   "curve25519_dalek::ristretto::{impl core::fmt::Debug for _}",

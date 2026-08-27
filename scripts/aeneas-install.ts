@@ -1,16 +1,13 @@
 /**
- * Clone and build aeneas + charon from source.
+ * Download and install the charon + aeneas binaries from a GitHub release.
  *
  * Steps:
- * 1. Check dependencies (git, opam, make, rustup)
- * 2. Setup OCaml 5.2.0 switch + deps
- * 3. Clone/update aeneas repo at pinned commit
- * 4. Build charon (make setup-charon) — this clones Charon at its pinned commit
- *    and builds it; Charon's rust-toolchain.toml makes rustup auto-install the
- *    pinned nightly + components (rustc-dev, etc.).
- * 5. Build aeneas (make)
+ * 1. Check dependencies (curl, tar, rustup)
+ * 2. Download the release bundle for this platform
+ * 3. Extract it into .aeneas/
+ * 4. Install the Rust nightly that the bundled charon-driver requires
  *
- * Skips rebuild if the installed aeneas version matches the pinned commit.
+ * Skips the download if the installed aeneas already reports the pinned release tag.
  */
 
 import fs from "node:fs";
@@ -18,7 +15,7 @@ import path from "node:path";
 import chalk from "chalk";
 import ora from "ora";
 import { loadConfig } from "./lib/config.js";
-import { run, runStreaming } from "./lib/shell.js";
+import { run } from "./lib/shell.js";
 import { findBinary } from "./lib/paths.js";
 import { syncLeanToolchain } from "./lib/lean-toolchain.js";
 
@@ -28,36 +25,49 @@ function getAeneasDir(root: string): string {
   return path.join(root, ".aeneas");
 }
 
-function getRepoDir(root: string): string {
-  return path.join(getAeneasDir(root), "aeneas");
+// ── Release assets ────────────────────────────────────────────────────
+
+/**
+ * The release asset for the current platform.
+ */
+function getAssetName(): string {
+  const key = `${process.platform}-${process.arch}`;
+  const assets: Record<string, string> = {
+    "linux-x64": "aeneas-linux-x86_64.tar.gz",
+    "linux-arm64": "aeneas-linux-aarch64.tar.gz",
+    "darwin-arm64": "aeneas-macos-aarch64.tar.gz",
+  };
+
+  const asset = assets[key];
+  if (!asset) {
+    throw new Error(
+      `No aeneas release build for ${key}. Supported: ${Object.keys(assets).join(", ")}. ` +
+        `Build aeneas from source and place the 'aeneas', 'charon' and 'charon-driver' ` +
+        `binaries plus 'backends/' in .aeneas/`,
+    );
+  }
+  return asset;
+}
+
+function getAssetUrl(repo: string, tag: string, asset: string): string {
+  // https://github.com/AeneasVerif/aeneas.git -> https://github.com/AeneasVerif/aeneas
+  const base = repo.replace(/\.git$/, "");
+  return `${base}/releases/download/${tag}/${asset}`;
 }
 
 // ── Version check ─────────────────────────────────────────────────────
 
 /**
- * Check if the currently installed aeneas matches the pinned commit.
- * Uses `aeneas -version` if available, falls back to git rev-parse.
+ * The release tag reported by the installed aeneas, or null if it is absent or unreadable.
+ * A release build prints `aeneas <tag>`.
  */
-async function getInstalledVersion(root: string): Promise<string | null> {
+async function getInstalledTag(root: string): Promise<string | null> {
   const aeneasBin = findBinary("aeneas", root);
   if (!aeneasBin) return null;
 
-  // Try aeneas -version first (available in recent builds)
   try {
     const output = await run(aeneasBin, ["-version"], { silent: true });
-    // Expected to contain a commit hash
-    const match = output.match(/[0-9a-f]{8,40}/);
-    if (match) return match[0];
-  } catch {
-    // -version not supported in this build, fall through
-  }
-
-  // Fallback: check git commit in the repo dir
-  const repoDir = getRepoDir(root);
-  if (!fs.existsSync(repoDir)) return null;
-  try {
-    const output = await run("git", ["rev-parse", "HEAD"], { cwd: repoDir, silent: true });
-    return output.trim();
+    return output.trim().replace(/^aeneas\s+/, "") || null;
   } catch {
     return null;
   }
@@ -67,7 +77,7 @@ async function getInstalledVersion(root: string): Promise<string | null> {
 
 async function checkDependencies(): Promise<void> {
   const spinner = ora("Checking dependencies...").start();
-  const deps = ["git", "opam", "make", "rustup"];
+  const deps = ["curl", "tar", "rustup"];
   const missing: string[] = [];
 
   for (const dep of deps) {
@@ -85,89 +95,50 @@ async function checkDependencies(): Promise<void> {
   spinner.succeed("Dependencies OK");
 }
 
-// ── OCaml setup ───────────────────────────────────────────────────────
+// ── Rust toolchain ────────────────────────────────────────────────────
 
-async function getOpamEnv(switchName: string): Promise<Record<string, string>> {
-  const output = await run("opam", ["env", `--switch=${switchName}`, "--set-switch"], {
+function parseToolchainChannel(filePath: string): string | null {
+  if (!fs.existsSync(filePath)) return null;
+  const content = fs.readFileSync(filePath, "utf-8");
+  const match = content.match(/channel\s*=\s*"?([^"\s]+)"?/);
+  return match ? match[1] : null;
+}
+
+/**
+ * The bundled charon-driver is a rustc driver built against a specific nightly, so that exact
+ * toolchain must be installed locally with `rustc-dev`. The bundle ships the `rust-toolchain`
+ * file naming it.
+ */
+async function setupRustToolchain(aeneasDir: string): Promise<void> {
+  const toolchain = parseToolchainChannel(path.join(aeneasDir, "rust-toolchain")) ?? "nightly";
+
+  const spinner = ora(`Installing Rust ${toolchain}...`).start();
+  await run("rustup", ["toolchain", "install", toolchain], { silent: true });
+  await run("rustup", ["component", "add", "--toolchain", toolchain, "rustfmt", "rustc-dev"], {
     silent: true,
   });
-  const env: Record<string, string> = {};
-  for (const line of output.split("\n")) {
-    const match = line.match(/^(\w+)='([^']*)'; export \1;/);
-    if (match) {
-      env[match[1]] = match[2];
-    }
-  }
-  return env;
+  spinner.succeed(`Rust ${toolchain} ready`);
 }
 
-const OCAML_DEPS = [
-  "ppx_deriving", "visitors", "easy_logging", "zarith", "yojson",
-  "core_unix", "odoc", "ocamlgraph", "menhir", "ocamlformat",
-  "unionFind", "domainslib", "progress",
-];
+// ── Download and extract ──────────────────────────────────────────────
 
-async function setupOcaml(root: string): Promise<Record<string, string>> {
-  const switchName = "5.2.0";
-  const logsDir = path.join(root, ".logs");
-  fs.mkdirSync(logsDir, { recursive: true });
+async function downloadAndExtract(url: string, aeneasDir: string): Promise<void> {
+  // Wipe first: the previous build-from-source layout had .aeneas/aeneas as a directory,
+  // whereas the bundle extracts it as a file.
+  fs.rmSync(aeneasDir, { recursive: true, force: true });
+  fs.mkdirSync(aeneasDir, { recursive: true });
 
-  const switches = await run("opam", ["switch", "list", "--short"], { silent: true });
-  const exists = switches.split("\n").some((s) => s.trim() === switchName);
+  const archive = path.join(aeneasDir, "bundle.tar.gz");
 
-  if (!exists) {
-    console.log("  Creating OCaml 5.2.0 switch...");
-    await runStreaming("opam", ["switch", "create", switchName], {
-      logFile: path.join(logsDir, "opam-switch-create.log"),
-    });
-  }
+  console.log(chalk.dim(`  ${url}`));
+  // -sS rather than a progress bar: the carriage returns flood CI logs.
+  const spinner = ora("Downloading...").start();
+  await run("curl", ["-fL", "-sS", "-o", archive, url], { silent: true });
 
-  const env = await getOpamEnv(switchName);
-
-  console.log("  Updating opam...");
-  await runStreaming("opam", ["update"], {
-    env,
-    logFile: path.join(logsDir, "opam-update.log"),
-  });
-
-  console.log("  Installing OCaml dependencies...");
-  await runStreaming("opam", ["install", "-y", ...OCAML_DEPS], {
-    env,
-    logFile: path.join(logsDir, "opam-install.log"),
-  });
-
-  return env;
-}
-
-// ── Git operations ────────────────────────────────────────────────────
-
-async function setupRepo(repo: string, repoDir: string, commit: string): Promise<void> {
-  if (fs.existsSync(repoDir)) {
-    const spinner = ora("Updating repository...").start();
-    await run("git", ["fetch", "origin"], { cwd: repoDir, silent: true });
-    // Reset any local modifications before switching commits
-    await run("git", ["reset", "--hard", commit], { cwd: repoDir, silent: true });
-    spinner.succeed(`Aeneas at ${commit}`);
-  } else {
-    const spinner = ora(`Cloning ${repo}...`).start();
-    await run("git", ["clone", repo, repoDir], { silent: true });
-    await run("git", ["checkout", commit], { cwd: repoDir, silent: true });
-    spinner.succeed(`Cloned and checked out ${commit}`);
-  }
-}
-
-// ── Build ─────────────────────────────────────────────────────────────
-
-async function buildCharon(repoDir: string, env: Record<string, string>): Promise<void> {
-  const spinner = ora("Building Charon...").start();
-  await runStreaming("make", ["setup-charon"], { cwd: repoDir, env });
-  spinner.succeed("Charon built");
-}
-
-async function buildAeneas(repoDir: string, env: Record<string, string>): Promise<void> {
-  const spinner = ora("Building Aeneas...").start();
-  await runStreaming("make", [], { cwd: repoDir, env });
-  spinner.succeed("Aeneas built");
+  spinner.text = "Extracting...";
+  await run("tar", ["-xzf", archive, "-C", aeneasDir], { silent: true });
+  fs.rmSync(archive, { force: true });
+  spinner.succeed("Downloaded and extracted");
 }
 
 // ── Main ──────────────────────────────────────────────────────────────
@@ -176,44 +147,40 @@ async function main(): Promise<void> {
   console.log(chalk.bold("\nAeneas Install\n"));
 
   const { config, root } = loadConfig();
-  const commit = config.aeneas.commit;
-  const repoDir = getRepoDir(root);
+  const tag = config.aeneas.tag;
+  const aeneasDir = getAeneasDir(root);
 
-  // Check if already installed at correct version
-  const installed = await getInstalledVersion(root);
-  if (installed && installed.startsWith(commit)) {
-    const charonBin = findBinary("charon", root);
-    const aeneasBin = findBinary("aeneas", root);
-    if (charonBin && aeneasBin) {
-      console.log(chalk.green(`Already up to date (${commit}). Skipping.`));
-      return;
-    }
+  // Check if already installed at the correct release
+  const installed = await getInstalledTag(root);
+  if (installed === tag && findBinary("charon", root)) {
+    console.log(chalk.green(`Already up to date (${tag}). Skipping.`));
+    return;
   }
 
   await checkDependencies();
 
-  console.log(chalk.bold("\nSetting up OCaml..."));
-  const opamEnv = await setupOcaml(root);
-  console.log(chalk.green("  OCaml environment ready\n"));
+  const asset = getAssetName();
+  const url = getAssetUrl(config.aeneas.repo, tag, asset);
 
-  await setupRepo(config.aeneas.repo, repoDir, commit);
+  console.log(chalk.bold(`\nDownloading ${tag} (${asset})...`));
+  await downloadAndExtract(url, aeneasDir);
 
-  // The Rust toolchain is handled by `make setup-charon`: it clones Charon at
-  // its pinned commit and builds it, and Charon's own rust-toolchain.toml makes
-  // rustup auto-install the pinned nightly + components (rustc-dev, etc.).
-  console.log();
-  await buildCharon(repoDir, opamEnv);
-  await buildAeneas(repoDir, opamEnv);
+  await setupRustToolchain(aeneasDir);
 
-  // Verify binaries exist
+  // Verify binaries exist and report the expected release
   const charonBin = findBinary("charon", root);
   const aeneasBin = findBinary("aeneas", root);
 
   if (!charonBin || !aeneasBin) {
-    throw new Error("Build completed but binaries not found at expected paths");
+    throw new Error("Download completed but binaries not found at expected paths");
   }
 
-  console.log(chalk.green("\nBuild complete!"));
+  const actual = await getInstalledTag(root);
+  if (actual !== tag) {
+    throw new Error(`Version mismatch: expected '${tag}', got '${actual}'`);
+  }
+
+  console.log(chalk.green("\nInstall complete!"));
   console.log(`  Charon: ${charonBin}`);
   console.log(`  Aeneas: ${aeneasBin}`);
 

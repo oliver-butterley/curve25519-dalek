@@ -10,7 +10,9 @@ export interface Substitution {
 
 export interface AeneasConfig {
   aeneas: {
-    commit: string;
+    /** GitHub release tag of the aeneas bundle to download (charon + aeneas binaries).
+     *  Kept in sync with the `rev` in lakefile.toml. */
+    tag: string;
     repo: string;
   };
   crate: {
@@ -73,8 +75,8 @@ export function loadConfig(root?: string): { config: AeneasConfig; root: string 
   const config = raw as unknown as AeneasConfig;
 
   // Validate required fields
-  if (!config.aeneas?.commit) throw new Error("Missing required field: aeneas.commit");
-  if (!config.aeneas?.repo)   throw new Error("Missing required field: aeneas.repo");
+  if (!config.aeneas?.tag)  throw new Error("Missing required field: aeneas.tag");
+  if (!config.aeneas?.repo) throw new Error("Missing required field: aeneas.repo");
   if (!config.crate?.dir)     throw new Error("Missing required field: crate.dir");
 
   // Apply defaults
