@@ -87,21 +87,10 @@ check-cfg = [
     'cfg(nightly)',
 ]
 
-# Charon (charon cargo --preset=aeneas) reads this section natively to scope the
-# Rust -> LLBC translation. Goal: extract as much as possible. We start from all
-# public items (--start-from-pub, passed by the extraction script) and only:
-#   * exclude Debug/Hash impls (uninteresting and not translatable by Aeneas), and
-#   * mark `opaque` the functions whose bodies Aeneas cannot translate (iterators,
-#     closures, batch ops, region-heavy code) so their signatures still extract.
 [package.metadata.charon]
-# Only translate the serial backend (u32 field + scalar arithmetic) for now. This
-# keeps the higher-level code (ristretto/edwards/montgomery/scalar_mul and the
-# iterator-heavy fns) — which currently fails in Aeneas — out of the translation
-# entirely. Charon translates these start items plus everything they transitively
-# refer to (per the opacity rules).
+
 start_from = [
-  "curve25519_dalek::backend::serial::u32::field",
-  "curve25519_dalek::backend::serial::u32::scalar",
+  "curve25519_dalek::backend::serial",
 ]
 exclude = [
   # Debug impls (use core::fmt::Formatter; not translatable, not of interest)
@@ -127,4 +116,12 @@ exclude = [
 # are documented in doc/aeneas-extraction-issues.md. `opaque` is NOT a workaround:
 # Charon's metadata `opaque` does not suppress the failing closures, and these
 # functions have callers so they cannot be `exclude`d cleanly either.
-opaque = []
+opaque = [
+  # The multiscalar-mul algorithms use iterator ADAPTERS (.map/.zip/.collect/.rev/
+  # .chunks on non-slice iterators). Under Charon `--targets` (translate_all_methods)
+  # this emits full `impl Iterator for {Map,Zip,Chunks,...}` with provided methods
+  # that Aeneas's Iterator model lacks (`zip`/`map`/... "not a field of Iterator")
+  # -> unbuildable Lean. Opaque the whole module until the upstream charon
+  # translate_all_methods bug is fixed. (curve_models uses no iterators and stays.)
+  "curve25519_dalek::backend::serial::scalar_mul",
+]

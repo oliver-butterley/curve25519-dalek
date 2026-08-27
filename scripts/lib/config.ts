@@ -25,6 +25,8 @@ export interface AeneasConfig {
     /** Extra rustc flags (e.g. cfg overrides) passed to the charon build via
      *  CARGO_ENCODED_RUSTFLAGS. Each entry is one flag token. */
     rustflags: string[];
+    /** Target architecture triples for Charon's `--targets`. */
+    targets: string[];
     cargo_args: string[];
   };
   aeneas_args: {
@@ -83,6 +85,7 @@ export function loadConfig(root?: string): { config: AeneasConfig; root: string 
   config.charon = config.charon ?? {} as AeneasConfig["charon"];
   config.charon.preset = config.charon.preset ?? "aeneas";
   config.charon.rustflags = config.charon.rustflags ?? [];
+  config.charon.targets = config.charon.targets ?? [];
   config.charon.cargo_args = config.charon.cargo_args ?? [];
   config.aeneas_args = config.aeneas_args ?? {} as AeneasConfig["aeneas_args"];
   config.aeneas_args.options = config.aeneas_args.options ?? [];

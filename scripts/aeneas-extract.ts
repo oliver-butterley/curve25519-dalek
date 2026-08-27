@@ -93,6 +93,14 @@ async function main(): Promise<void> {
 
   if (config.charon.preset) charonArgs.push(`--preset=${config.charon.preset}`);
 
+  // Multi-target
+  for (const target of config.charon.targets) {
+    charonArgs.push("--targets", target);
+  }
+
+  // Pin the exact LLBC output path.
+  charonArgs.push("--dest-file", llbcPath);
+
   // Running from the crate directory, so --package is not needed.
   // Cargo args (feature flags etc.) go after --
   if (config.charon.cargo_args.length > 0) {

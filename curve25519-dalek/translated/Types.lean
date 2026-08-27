@@ -77,6 +77,14 @@ structure core.ops.arith.SubAssign (Self : Type) (Rhs : Type) where
 structure core.ops.arith.MulAssign (Self : Type) (Rhs : Type) where
   mul_assign : Self → Rhs → Result Self
 
+/-- Trait declaration: [subtle::ConstantTimeEq]
+    Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subtle-2.6.1/src/lib.rs', lines 262:0-262:24
+    Name pattern: [subtle::ConstantTimeEq]
+    Visibility: public -/
+@[rust_trait "subtle::ConstantTimeEq"]
+structure subtle.ConstantTimeEq (Self : Type) where
+  ct_eq : Self → Self → Result subtle.Choice
+
 /-- Trait declaration: [subtle::ConditionallySelectable]
     Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subtle-2.6.1/src/lib.rs', lines 393:0-393:39
     Name pattern: [subtle::ConditionallySelectable]
@@ -86,8 +94,6 @@ structure core.ops.arith.MulAssign (Self : Type) (Rhs : Type) where
 structure subtle.ConditionallySelectable (Self : Type) where
   coremarkerCopyInst : core.marker.Copy Self
   conditional_select : Self → Self → subtle.Choice → Result Self
-  conditional_assign : Self → Self → subtle.Choice → Result Self
-  conditional_swap : Self → Self → subtle.Choice → Result (Self × Self)
 
 /-- Trait declaration: [zeroize::Zeroize]
     Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zeroize-1.8.2/src/lib.rs', lines 272:0-272:17
@@ -107,16 +113,133 @@ structure zeroize.DefaultIsZeroes (Self : Type) where
   coremarkerCopyInst : core.marker.Copy Self
   coredefaultDefaultInst : core.default.Default Self
 
-/-- [curve25519_dalek::backend::serial::u32::scalar::Scalar29]
-    Source: 'curve25519-dalek/src/backend/serial/u32/scalar.rs', lines 25:0-25:34
+/-- [curve25519_dalek::backend::serial::u64::field::FieldElement51]
+    Source: 'curve25519-dalek/src/backend/serial/u64/field.rs', lines 43:0-43:47
     Visibility: public -/
 @[reducible]
-def backend.serial.u32.scalar.Scalar29 := Array Std.U32 9#usize
+def backend.serial.u64.field.FieldElement51 := Array Std.U64 5#usize
+
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectivePoint::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 154:0-158:1
+    Visibility: public -/
+structure backend.serial.curve_models.ProjectivePoint.«x86_64-unknown-linux-gnu»
+  where
+  X : backend.serial.u64.field.FieldElement51
+  Y : backend.serial.u64.field.FieldElement51
+  Z : backend.serial.u64.field.FieldElement51
 
 /-- [curve25519_dalek::backend::serial::u32::field::FieldElement2625]
     Source: 'curve25519-dalek/src/backend/serial/u32/field.rs', lines 54:0-54:50
     Visibility: public -/
 @[reducible]
 def backend.serial.u32.field.FieldElement2625 := Array Std.U32 10#usize
+
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectivePoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 154:0-158:1
+    Visibility: public -/
+structure backend.serial.curve_models.ProjectivePoint.«i686-unknown-linux-gnu»
+  where
+  X : backend.serial.u32.field.FieldElement2625
+  Y : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::curve_models::CompletedPoint::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 169:0-174:1
+    Visibility: public -/
+structure backend.serial.curve_models.CompletedPoint.«x86_64-unknown-linux-gnu»
+  where
+  X : backend.serial.u64.field.FieldElement51
+  Y : backend.serial.u64.field.FieldElement51
+  Z : backend.serial.u64.field.FieldElement51
+  T : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::backend::serial::curve_models::CompletedPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 169:0-174:1
+    Visibility: public -/
+structure backend.serial.curve_models.CompletedPoint.«i686-unknown-linux-gnu»
+  where
+  X : backend.serial.u32.field.FieldElement2625
+  Y : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+  T : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::curve_models::AffineNielsPoint::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 184:0-188:1
+    Visibility: public -/
+structure backend.serial.curve_models.AffineNielsPoint.«x86_64-unknown-linux-gnu»
+  where
+  y_plus_x : backend.serial.u64.field.FieldElement51
+  y_minus_x : backend.serial.u64.field.FieldElement51
+  xy2d : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::backend::serial::curve_models::AffineNielsPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 184:0-188:1
+    Visibility: public -/
+structure backend.serial.curve_models.AffineNielsPoint.«i686-unknown-linux-gnu»
+  where
+  y_plus_x : backend.serial.u32.field.FieldElement2625
+  y_minus_x : backend.serial.u32.field.FieldElement2625
+  xy2d : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 206:0-211:1
+    Visibility: public -/
+structure backend.serial.curve_models.ProjectiveNielsPoint.«x86_64-unknown-linux-gnu»
+  where
+  Y_plus_X : backend.serial.u64.field.FieldElement51
+  Y_minus_X : backend.serial.u64.field.FieldElement51
+  Z : backend.serial.u64.field.FieldElement51
+  T2d : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 206:0-211:1
+    Visibility: public -/
+structure backend.serial.curve_models.ProjectiveNielsPoint.«i686-unknown-linux-gnu»
+  where
+  Y_plus_X : backend.serial.u32.field.FieldElement2625
+  Y_minus_X : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+  T2d : backend.serial.u32.field.FieldElement2625
+
+/-- Trait declaration: [curve25519_dalek::traits::Identity]
+    Source: 'curve25519-dalek/src/traits.rs', lines 26:0-30:1
+    Visibility: public -/
+structure traits.Identity (Self : Type) where
+  identity : Result Self
+
+/-- Trait declaration: [curve25519_dalek::traits::ValidityCheck]
+    Source: 'curve25519-dalek/src/traits.rs', lines 426:0-429:1 -/
+structure traits.ValidityCheck (Self : Type) where
+  is_valid : Self → Result Bool
+
+/-- [curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 390:0-395:1
+    Visibility: public -/
+structure edwards.EdwardsPoint.«x86_64-unknown-linux-gnu» where
+  X : backend.serial.u64.field.FieldElement51
+  Y : backend.serial.u64.field.FieldElement51
+  Z : backend.serial.u64.field.FieldElement51
+  T : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 390:0-395:1
+    Visibility: public -/
+structure edwards.EdwardsPoint.«i686-unknown-linux-gnu» where
+  X : backend.serial.u32.field.FieldElement2625
+  Y : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+  T : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::u32::scalar::Scalar29]
+    Source: 'curve25519-dalek/src/backend/serial/u32/scalar.rs', lines 25:0-25:34
+    Visibility: public -/
+@[reducible]
+def backend.serial.u32.scalar.Scalar29 := Array Std.U32 9#usize
+
+/-- [curve25519_dalek::backend::serial::u64::scalar::Scalar52]
+    Source: 'curve25519-dalek/src/backend/serial/u64/scalar.rs', lines 26:0-26:34
+    Visibility: public -/
+@[reducible]
+def backend.serial.u64.scalar.Scalar52 := Array Std.U64 5#usize
 
 end curve25519_dalek
