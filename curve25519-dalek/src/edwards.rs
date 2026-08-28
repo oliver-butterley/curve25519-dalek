@@ -421,7 +421,9 @@ impl CompressedEdwardsY {
     /// Returns [`TryFromSliceError`] if the input `bytes` slice does not have
     /// a length of 32.
     pub fn from_slice(bytes: &[u8]) -> Result<CompressedEdwardsY, TryFromSliceError> {
-        bytes.try_into().map(CompressedEdwardsY)
+        // TODO: revert to `bytes.try_into().map(CompressedEdwardsY)` once
+        // https://github.com/AeneasVerif/aeneas/issues/767 is fixed.
+        bytes.try_into().map(|b| CompressedEdwardsY(b))
     }
 }
 

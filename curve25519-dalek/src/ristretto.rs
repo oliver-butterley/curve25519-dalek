@@ -253,7 +253,9 @@ impl CompressedRistretto {
     /// Returns [`TryFromSliceError`] if the input `bytes` slice does not have
     /// a length of 32.
     pub fn from_slice(bytes: &[u8]) -> Result<CompressedRistretto, TryFromSliceError> {
-        bytes.try_into().map(CompressedRistretto)
+        // TODO: revert to `bytes.try_into().map(CompressedRistretto)` once
+        // https://github.com/AeneasVerif/aeneas/issues/767 is fixed.
+        bytes.try_into().map(|b| CompressedRistretto(b))
     }
 
     /// Attempt to decompress to an `RistrettoPoint`.
@@ -1003,7 +1005,10 @@ impl VartimeMultiscalarMul for RistrettoPoint {
     {
         let extended_points = points.into_iter().map(|opt_P| opt_P.map(|P| P.0));
 
-        EdwardsPoint::optional_multiscalar_mul(scalars, extended_points).map(RistrettoPoint)
+        // TODO(aeneas): revert to `.map(RistrettoPoint)` once AeneasVerif/aeneas#767
+        // is fixed (PR #1284). The tuple-struct constructor as a fn pointer makes
+        // Aeneas emit a standalone constructor that name-clashes with the type.
+        EdwardsPoint::optional_multiscalar_mul(scalars, extended_points).map(|P| RistrettoPoint(P))
     }
 }
 
@@ -1058,7 +1063,10 @@ impl VartimePrecomputedMultiscalarMul for VartimeRistrettoPrecomputation {
                 dynamic_scalars,
                 dynamic_points.into_iter().map(|P_opt| P_opt.map(|P| P.0)),
             )
-            .map(RistrettoPoint)
+            // TODO(aeneas): revert to `.map(RistrettoPoint)` once AeneasVerif/aeneas#767
+            // is fixed (PR #1284). The tuple-struct constructor as a fn pointer makes
+            // Aeneas emit a standalone constructor that name-clashes with the type.
+            .map(|P| RistrettoPoint(P))
     }
 }
 
