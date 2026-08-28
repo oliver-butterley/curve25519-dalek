@@ -8,7 +8,8 @@ use crate::window::LookupTable;
 
 /// Perform constant-time, variable-base scalar multiplication.
 #[rustfmt::skip] // keep alignment of explanatory comments
-pub(crate) fn mul(point: &EdwardsPoint, scalar: &Scalar) -> EdwardsPoint {
+// TODO: revert `s` to `scalar` once AeneasVerif/aeneas#1098 is fixed.
+pub(crate) fn mul(point: &EdwardsPoint, s: &Scalar) -> EdwardsPoint {
     // Construct a lookup table of [P,2P,3P,4P,5P,6P,7P,8P]
     let lookup_table = LookupTable::<ProjectiveNielsPoint>::from(point);
     // Setting s = scalar, compute
@@ -17,7 +18,7 @@ pub(crate) fn mul(point: &EdwardsPoint, scalar: &Scalar) -> EdwardsPoint {
     //
     // with `-8 ≤ s_i < 8` for `0 ≤ i < 63` and `-8 ≤ s_63 ≤ 8`.
     // This decomposition requires s < 2^255, which is guaranteed by Scalar invariant #1.
-    let scalar_digits = scalar.as_radix_16();
+    let scalar_digits = s.as_radix_16();
     // Compute s*P as
     //
     //    s*P = P*(s_0 +   s_1*16^1 +   s_2*16^2 + ... +   s_63*16^63)

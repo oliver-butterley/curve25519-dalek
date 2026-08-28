@@ -872,13 +872,14 @@ impl Scalar {
         // - if `a` is even, we can just divide by 2;
         // - if `a` is odd, we divide `(a + modulus)` by 2.
         let is_odd = Choice::from(self.as_bytes()[0] & 1);
-        let mut scalar = self.unpack();
-        scalar.conditional_add_l(is_odd);
+        // TODO: revert `unpacked` to `scalar` once AeneasVerif/aeneas#1098 is fixed. 
+        let mut unpacked = self.unpack();
+        unpacked.conditional_add_l(is_odd);
 
-        let carry = scalar.shr1_assign();
+        let carry = unpacked.shr1_assign();
         debug_assert_eq!(carry, 0);
 
-        scalar.pack()
+        unpacked.pack()
     }
 
     /// Get the bits of the scalar, in little-endian order

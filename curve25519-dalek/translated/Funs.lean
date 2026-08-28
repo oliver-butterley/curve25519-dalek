@@ -2326,7 +2326,7 @@ def traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
   core.option.Option.expect o (toStr "should return some point")
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::to_radix_2w_size_hint]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1067:4-1080:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1068:4-1081:5 -/
 def scalar.Scalar.to_radix_2w_size_hint
   (w : Std.Usize) : Result Std.Usize := do
   massert (w >= 4#usize)
@@ -2801,7 +2801,7 @@ def
 }
 
 /-- [curve25519_dalek::scalar::read_le_u64_into]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1389:4-1395:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1390:4-1396:5 -/
 @[rust_loop_body]
 def scalar.read_le_u64_into_loop.body
   (iter : core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
@@ -2839,7 +2839,7 @@ def scalar.read_le_u64_into_loop.body
                back z1))
 
 /-- [curve25519_dalek::scalar::read_le_u64_into]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1389:4-1395:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1390:4-1396:5 -/
 @[rust_loop]
 def scalar.read_le_u64_into_loop
   (iter : core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
@@ -2855,7 +2855,7 @@ def scalar.read_le_u64_into_loop
     (iter, back)
 
 /-- [curve25519_dalek::scalar::read_le_u64_into]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1382:0-1396:1 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1383:0-1397:1 -/
 def scalar.read_le_u64_into
   (src : Slice Std.U8) (dst : Slice Std.U64) : Result (Slice Std.U64) := do
   let i := Slice.len src
@@ -2890,13 +2890,13 @@ def scalar.read_le_u64_into
     fail panic
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16::top_half]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1042:8-1044:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1043:8-1045:9 -/
 def scalar.Scalar.as_radix_16.top_half (x : Std.U8) : Result Std.U8 := do
   let i ← x >>> 4#i32
   ok (i &&& 15#u8)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16::bot_half]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1038:8-1040:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1039:8-1041:9 -/
 def scalar.Scalar.as_radix_16.bot_half (x : Std.U8) : Result Std.U8 := do
   let i ← x >>> 0#i32
   ok (i &&& 15#u8)
@@ -2909,7 +2909,7 @@ def scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8.index
   Array.index_usize self.bytes _index
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1046:8-1049:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1047:8-1050:9 -/
 @[rust_loop_body]
 def scalar.Scalar.as_radix_16_loop0.body
   (self : scalar.Scalar) (iter : core.ops.range.Range Std.Usize)
@@ -2934,7 +2934,7 @@ def scalar.Scalar.as_radix_16_loop0.body
     ok (cont (iter1, a))
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1046:8-1049:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1047:8-1050:9 -/
 @[rust_loop]
 def scalar.Scalar.as_radix_16_loop0
   (iter : core.ops.range.Range Std.Usize) (self : scalar.Scalar)
@@ -2947,7 +2947,7 @@ def scalar.Scalar.as_radix_16_loop0
     (iter, output)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16]: loop body 1:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1053:8-1057:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1054:8-1058:9 -/
 @[rust_loop_body]
 def scalar.Scalar.as_radix_16_loop1.body
   (iter : core.ops.range.Range Std.Usize) (output : Array Std.I8 64#usize) :
@@ -2972,7 +2972,7 @@ def scalar.Scalar.as_radix_16_loop1.body
     ok (cont (iter1, a))
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16]: loop 1:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1053:8-1057:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1054:8-1058:9 -/
 @[rust_loop]
 def scalar.Scalar.as_radix_16_loop1
   (iter : core.ops.range.Range Std.Usize) (output : Array Std.I8 64#usize) :
@@ -2984,7 +2984,7 @@ def scalar.Scalar.as_radix_16_loop1
     (iter, output)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1030:4-1062:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1031:4-1063:5 -/
 def scalar.Scalar.as_radix_16
   (self : scalar.Scalar) : Result (Array Std.I8 64#usize) := do
   let i ← scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8.index self 31#usize
@@ -2997,7 +2997,7 @@ def scalar.Scalar.as_radix_16
     output1
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1123:8-1145:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1124:8-1146:9 -/
 @[rust_loop_body]
 def scalar.Scalar.as_radix_2w_loop.body
   (w : Std.Usize) (scalar64x4 : Array Std.U64 4#usize) (radix : Std.U64)
@@ -3054,7 +3054,7 @@ def scalar.Scalar.as_radix_2w_loop.body
     ok (cont (iter2, carry1, a))
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1123:8-1145:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1124:8-1146:9 -/
 @[rust_loop]
 def scalar.Scalar.as_radix_2w_loop
   (iter : core.ops.range.Range Std.Usize) (w : Std.Usize)
@@ -3068,7 +3068,7 @@ def scalar.Scalar.as_radix_2w_loop
     (iter, carry, digits)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1104:4-1161:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1105:4-1162:5 -/
 def scalar.Scalar.as_radix_2w
   (self : scalar.Scalar) (w : Std.Usize) : Result (Array Std.I8 64#usize) := do
   massert (w >= 4#usize)
@@ -4157,7 +4157,7 @@ def
 }
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 982:8-1015:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 983:8-1016:9 -/
 @[rust_loop_body]
 def scalar.Scalar.non_adjacent_form_loop.body
   (w : Std.Usize) (x_u64 : Array Std.U64 5#usize) (width : Std.U64)
@@ -4212,7 +4212,7 @@ def scalar.Scalar.non_adjacent_form_loop.body
   else ok (done naf)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 982:8-1015:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 983:8-1016:9 -/
 @[rust_loop]
 def scalar.Scalar.non_adjacent_form_loop
   (w : Std.Usize) (naf : Array Std.I8 256#usize)
@@ -4226,7 +4226,7 @@ def scalar.Scalar.non_adjacent_form_loop
     (naf, pos, carry)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 966:4-1018:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 967:4-1019:5 -/
 def scalar.Scalar.non_adjacent_form
   (self : scalar.Scalar) (w : Std.Usize) :
   Result (Array Std.I8 256#usize)
@@ -6220,7 +6220,7 @@ impl_def
 }
 
 /-- [curve25519_dalek::backend::serial::scalar_mul::variable_base::mul]: loop body 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 34:4-46:5 -/
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 35:4-47:5 -/
 @[rust_loop_body]
 def backend.serial.scalar_mul.variable_base.mul_loop.body
   (lookup_table : window.LookupTable
@@ -6268,7 +6268,7 @@ def backend.serial.scalar_mul.variable_base.mul_loop.body
     ok (cont (iter1, tmp31, tmp15))
 
 /-- [curve25519_dalek::backend::serial::scalar_mul::variable_base::mul]: loop 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 34:4-46:5 -/
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 35:4-47:5 -/
 @[rust_loop]
 def backend.serial.scalar_mul.variable_base.mul_loop
   (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
@@ -6285,15 +6285,15 @@ def backend.serial.scalar_mul.variable_base.mul_loop
     (iter, tmp3, tmp1)
 
 /-- [curve25519_dalek::backend::serial::scalar_mul::variable_base::mul]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 11:0-48:1 -/
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 12:0-49:1 -/
 def backend.serial.scalar_mul.variable_base.mul
-  (point : edwards.EdwardsPoint) (scalar : scalar.Scalar) :
+  (point : edwards.EdwardsPoint) (s : scalar.Scalar) :
   Result edwards.EdwardsPoint
   := do
   let lookup_table ←
     window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
       point
-  let scalar_digits ← scalar.Scalar.as_radix_16 scalar
+  let scalar_digits ← scalar.Scalar.as_radix_16 s
   let tmp3 ←
     edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
   let i ← Array.index_usize scalar_digits 63#usize
@@ -9984,7 +9984,7 @@ def edwards.EdwardsPoint.mul_base
   SharedAScalar.Insts.CoreOpsArithMulEdwardsPointEdwardsPoint.mul scalar ep
 
 /-- [curve25519_dalek::scalar::clamp_integer]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1418:0-1423:1
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1419:0-1424:1
     Visibility: public -/
 def scalar.clamp_integer
   (bytes : Array Std.U8 32#usize) : Result (Array Std.U8 32#usize) := do
@@ -10431,14 +10431,14 @@ def field.FieldElement51.invsqrt
   field.FieldElement51.sqrt_ratio_i fe self
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::backend::serial::u64::scalar::Scalar52}::pack]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1186:4-1190:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1187:4-1191:5 -/
 def scalar.Scalar52.pack
   (self : backend.serial.u64.scalar.Scalar52) : Result scalar.Scalar := do
   let a ← backend.serial.u64.scalar.Scalar52.to_bytes self
   ok { bytes := a }
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::unpack]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1164:4-1166:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1165:4-1167:5 -/
 def scalar.Scalar.unpack
   (self : scalar.Scalar) : Result backend.serial.u64.scalar.Scalar52 := do
   backend.serial.u64.scalar.Scalar52.from_bytes self.bytes
@@ -13732,7 +13732,7 @@ def scalar.Scalar.Insts.CoreMarkerCopy : core.marker.Copy scalar.Scalar := {
 }
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::reduce]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1170:4-1175:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1171:4-1176:5 -/
 def scalar.Scalar.reduce (self : scalar.Scalar) : Result scalar.Scalar := do
   let x ← scalar.Scalar.unpack self
   let xR ←
@@ -13770,7 +13770,7 @@ def scalar.Scalar.Insts.SubtleConstantTimeEq.ct_eq
   Slice.Insts.SubtleConstantTimeEq.ct_eq U8.Insts.SubtleConstantTimeEq s s1
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::is_canonical]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1179:4-1181:5 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1180:4-1182:5 -/
 def scalar.Scalar.is_canonical
   (self : scalar.Scalar) : Result subtle.Choice := do
   let s ← scalar.Scalar.reduce self
@@ -14356,7 +14356,7 @@ def scalar.Scalar.as_bytes
   ok self.bytes
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::backend::serial::u64::scalar::Scalar52}::montgomery_invert::square_multiply]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1213:12-1215:13 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1214:12-1216:13 -/
 @[rust_loop_body]
 def scalar.Scalar52.montgomery_invert.square_multiply_loop.body
   (iter : core.ops.range.Range Std.Usize)
@@ -14373,7 +14373,7 @@ def scalar.Scalar52.montgomery_invert.square_multiply_loop.body
     ok (cont (iter1, y1))
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::backend::serial::u64::scalar::Scalar52}::montgomery_invert::square_multiply]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1213:12-1215:13 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1214:12-1216:13 -/
 @[rust_loop]
 def scalar.Scalar52.montgomery_invert.square_multiply_loop
   (iter : core.ops.range.Range Std.Usize)
@@ -14386,7 +14386,7 @@ def scalar.Scalar52.montgomery_invert.square_multiply_loop
     (iter, y)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::backend::serial::u64::scalar::Scalar52}::montgomery_invert::square_multiply]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1212:8-1217:9 -/
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1213:8-1218:9 -/
 def scalar.Scalar52.montgomery_invert.square_multiply
   (y : backend.serial.u64.scalar.Scalar52) (squarings : Std.Usize)
   (x : backend.serial.u64.scalar.Scalar52) :
@@ -14398,7 +14398,7 @@ def scalar.Scalar52.montgomery_invert.square_multiply
   backend.serial.u64.scalar.Scalar52.montgomery_mul y1 x
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::backend::serial::u64::scalar::Scalar52}::montgomery_invert]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1195:4-1248:5
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1196:4-1249:5
     Visibility: public -/
 def scalar.Scalar52.montgomery_invert
   (self : backend.serial.u64.scalar.Scalar52) :
@@ -14454,7 +14454,7 @@ def scalar.Scalar52.montgomery_invert
   scalar.Scalar52.montgomery_invert.square_multiply y26 i9 _11
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::backend::serial::u64::scalar::Scalar52}::invert]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1251:4-1253:5
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1252:4-1254:5
     Visibility: public -/
 def scalar.Scalar52.invert
   (self : backend.serial.u64.scalar.Scalar52) :
@@ -14615,20 +14615,20 @@ def scalar.Scalar.invert_batch_alloc
   ok (s2, inputs1)
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::div_by_2]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 869:4-882:5
+    Source: 'curve25519-dalek/src/scalar.rs', lines 869:4-883:5
     Visibility: public -/
 def scalar.Scalar.div_by_2 (self : scalar.Scalar) : Result scalar.Scalar := do
   let a ← scalar.Scalar.as_bytes self
   let i ← Array.index_usize a 0#usize
   let i1 ← lift (i &&& 1#u8)
   let is_odd ← subtle.Choice.Insts.CoreConvertFromU8.from i1
-  let scalar ← scalar.Scalar.unpack self
-  let (_, scalar1) ←
-    backend.serial.u64.scalar.Scalar52.conditional_add_l scalar is_odd
-  let (carry, scalar2) ←
-    backend.serial.u64.scalar.Scalar52.shr1_assign scalar1
+  let unpacked ← scalar.Scalar.unpack self
+  let (_, unpacked1) ←
+    backend.serial.u64.scalar.Scalar52.conditional_add_l unpacked is_odd
+  let (carry, unpacked2) ←
+    backend.serial.u64.scalar.Scalar52.shr1_assign unpacked1
   massert (carry = 0#u64)
-  scalar.Scalar52.pack scalar2
+  scalar.Scalar52.pack unpacked2
 
 /-- Trait implementation: [curve25519_dalek::traits::{impl curve25519_dalek::traits::IsIdentity for T}]
     Source: 'curve25519-dalek/src/traits.rs', lines 41:0-48:1 -/
