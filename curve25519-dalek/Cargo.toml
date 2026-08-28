@@ -89,8 +89,11 @@ check-cfg = [
 
 [package.metadata.charon]
 
+# Goal: translate as much of the crate as possible with NO Aeneas errors (Class 1);
+# Lean-build errors (Class 2) are deferred. Start from the whole crate (serial
+# backend selected via cfg); only items that make Aeneas itself error go in `opaque`.
 start_from = [
-  "curve25519_dalek::backend::serial",
+  "curve25519_dalek",
 ]
 exclude = [
   # Debug impls (use core::fmt::Formatter; not translatable, not of interest)
@@ -116,12 +119,29 @@ exclude = [
 # are documented in doc/aeneas-extraction-issues.md. `opaque` is NOT a workaround:
 # Charon's metadata `opaque` does not suppress the failing closures, and these
 # functions have callers so they cannot be `exclude`d cleanly either.
+# scalar_mul (9 fns) — checked per-function; ALL are blocked in the current
+# backend-only scope, so the whole module is opaque. Two blocking causes:
+#  (a) intrinsic: straus/precomputed_straus/pippenger take `I: IntoIterator` and
+#      chain iterator ADAPTERS (.map/.zip/.collect/.rev/.chunks). Under Charon
+#      `--targets` (translate_all_methods) this emits `impl Iterator for
+#      {Map,Zip,Chunks,...}` with provided methods Aeneas's Iterator model lacks
+#      ("zip/map ... not a field of Iterator") -> unbuildable.
+#  (b) transitive: variable_base::mul / vartime_double_base::mul are themselves
+#      translatable (index loops + curve_models point ops), but pull in the
+#      top-level `scalar`, `window` (Naf/LookupTable) and `edwards` code, which has
+#      its own adapter/Scalar-projection/IterMut bugs.
+# Revisit (a) when the upstream charon translate_all_methods bug is fixed, and (b)
+# once the higher-level modules are translated. curve_models uses no iterators and
+# stays transparent.
+# Only items that make AENEAS ITSELF error (Class 1) belong here. `scalar_mul` was
+# removed: Aeneas translates it without error; its problems are Class 2 (the Lean
+# it produces doesn't compile — charon translate_all_methods Iterator bug + the
+# `scalar`-module shadowing), which we are deferring. Populate this list from the
+# Aeneas [Error]/partial-file output of a whole-crate run.
 opaque = [
-  # The multiscalar-mul algorithms use iterator ADAPTERS (.map/.zip/.collect/.rev/
-  # .chunks on non-slice iterators). Under Charon `--targets` (translate_all_methods)
-  # this emits full `impl Iterator for {Map,Zip,Chunks,...}` with provided methods
-  # that Aeneas's Iterator model lacks (`zip`/`map`/... "not a field of Iterator")
-  # -> unbuildable Lean. Opaque the whole module until the upstream charon
-  # translate_all_methods bug is fixed. (curve_models uses no iterators and stays.)
-  "curve25519_dalek::backend::serial::scalar_mul",
+  # Class-1 Aeneas errors (own-body constructs Aeneas can't translate).
+  # NOTE: inherent impl methods can't be matched directly; the documented workaround
+  # is `crate::module::_::method` (the `_` matches the inherent impl block).
+  "curve25519_dalek::scalar::_::bits_le",
+  "curve25519_dalek::ristretto::_::double_and_compress_batch",
 ]
