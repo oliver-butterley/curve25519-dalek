@@ -500,7 +500,7 @@ def montgomery.MontgomeryPoint := Array Std.U8 32#usize
 def ristretto.CompressedRistretto := Array Std.U8 32#usize
 
 /-- [curve25519_dalek::ristretto::RistrettoPoint]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 500:0-500:51
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 498:0-498:51
     Visibility: public -/
 @[reducible]
 def ristretto.RistrettoPoint := edwards.EdwardsPoint
@@ -513,29 +513,29 @@ structure edwards.affine.AffinePoint where
   y : backend.serial.u64.field.FieldElement51
 
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::CompressedEdwardsY}::from_slice::closure]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 428:29-428:54 -/
+    Source: 'curve25519-dalek/src/edwards.rs', lines 426:29-426:54 -/
 @[reducible]
 def edwards.CompressedEdwardsY.from_slice.closure := Unit
 
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::compress_batch::closure#1]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 642:29-646:9 -/
+    Source: 'curve25519-dalek/src/edwards.rs', lines 640:29-644:9 -/
 def edwards.EdwardsPoint.compress_batch.closure_1 (N : Std.Usize) :=
   Array edwards.EdwardsPoint N × Array backend.serial.u64.field.FieldElement51
   N
 
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::compress_batch::closure]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 639:50-639:65 -/
+    Source: 'curve25519-dalek/src/edwards.rs', lines 637:50-637:65 -/
 @[reducible]
 def edwards.EdwardsPoint.compress_batch.closure (N : Std.Usize) :=
   Array edwards.EdwardsPoint N
 
 /-- [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::closure]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 871:44-871:75 -/
+    Source: 'curve25519-dalek/src/edwards.rs', lines 869:44-869:75 -/
 @[reducible]
 def edwards.SumEdwardsPointT.sum.closure (T : Type) (I : Type) := Unit
 
 /-- [curve25519_dalek::edwards::VartimeEdwardsPrecomputation]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1064:0-1064:82
+    Source: 'curve25519-dalek/src/edwards.rs', lines 1062:0-1062:82
     Visibility: public -/
 @[reducible]
 def edwards.VartimeEdwardsPrecomputation := backend.VartimePrecomputedStraus
@@ -547,17 +547,17 @@ structure montgomery.ProjectivePoint where
   W : backend.serial.u64.field.FieldElement51
 
 /-- [curve25519_dalek::ristretto::{curve25519_dalek::ristretto::CompressedRistretto}::from_slice::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 260:29-260:55 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 258:29-258:55 -/
 @[reducible]
 def ristretto.CompressedRistretto.from_slice.closure := Unit
 
 /-- [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 908:46-908:77 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 906:46-906:77 -/
 @[reducible]
 def ristretto.SumRistrettoPointT.sum.closure (T : Type) (I : Type) := Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 993:53-993:69 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 991:53-991:69 -/
 @[reducible]
 def ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
   (I : Type) (J : Type) (Clause0_Item : Type) (Clause0_IntoIter : Type)
@@ -565,7 +565,7 @@ def ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
 Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure#1]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1013:77-1013:98 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1011:77-1011:98 -/
 @[reducible]
 def ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1
   (I : Type) (J : Type) (Clause0_Item : Type) (Clause0_IntoIter : Type)
@@ -573,7 +573,7 @@ def ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multisc
 Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1008:71-1008:78 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:71-1006:78 -/
 @[reducible]
 def ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure
   (I : Type) (J : Type) (Clause0_Item : Type) (Clause0_IntoIter : Type)
@@ -581,7 +581,7 @@ def ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multisc
 Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1008:53-1008:79 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:53-1006:79 -/
 @[reducible]
 def ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure
   (I : Type) (J : Type) (Clause0_Item : Type) (Clause0_IntoIter : Type)
@@ -589,14 +589,14 @@ def ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multisc
 Unit
 
 /-- [curve25519_dalek::ristretto::VartimeRistrettoPrecomputation]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1025:0-1025:84
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1023:0-1023:84
     Visibility: public -/
 @[reducible]
 def ristretto.VartimeRistrettoPrecomputation :=
   backend.VartimePrecomputedStraus
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure#1]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1071:17-1071:38 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1069:17-1069:38 -/
 @[reducible]
 def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1
   (I : Type) (J : Type) (K : Type) (Clause0_Item : Type) (Clause0_IntoIter :
@@ -605,7 +605,7 @@ def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRist
 Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1066:65-1066:72 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:65-1064:72 -/
 @[reducible]
 def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure
   (I : Type) (J : Type) (K : Type) (Clause0_Item : Type) (Clause0_IntoIter :
@@ -614,7 +614,7 @@ def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRist
 Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1066:47-1066:73 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:47-1064:73 -/
 @[reducible]
 def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure
   (I : Type) (J : Type) (K : Type) (Clause0_Item : Type) (Clause0_IntoIter :
@@ -623,7 +623,7 @@ def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRist
 Unit
 
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::closure]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1037:42-1037:58 -/
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1035:42-1035:58 -/
 @[reducible]
 def ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure
   (I : Type) (Clause0_Item : Type) (Clause0_IntoIter : Type) :=
