@@ -12,9 +12,11 @@ crate:
 
 charon:
   preset: aeneas
+  targets:
+    - x86_64-unknown-linux-gnu   # -> curve25519_dalek_bits="64" (via build.rs)
+    - i686-unknown-linux-gnu     # -> curve25519_dalek_bits="32" (via build.rs)
   rustflags:
     - '--cfg=curve25519_dalek_backend="serial"'
-    - '--cfg=curve25519_dalek_bits="64"'
   cargo_args:
     - "--no-default-features"
     - "--features"

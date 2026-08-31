@@ -135,6 +135,67 @@ theorem U64.Insts.SubtleConditionallySelectable.conditional_swap_spec
   simp only [spec_ok, Choice.zero, Choice.one]
   refine ⟨fun h => ?_, fun h => ?_⟩ <;> subst h <;> simp
 
+/-! ### `ConditionallySelectable for u32` (needed by the serial u32 backend) -/
+
+/-- [subtle::{impl subtle::ConditionallySelectable for u32}::conditional_select]:
+    Name pattern: [subtle::{subtle::ConditionallySelectable<u32>}::conditional_select] -/
+@[rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_select"]
+def U32.Insts.SubtleConditionallySelectable.conditional_select
+  (a : Std.U32) (b : Std.U32) (choice : subtle.Choice) : Result Std.U32 :=
+  ok (if choice = 1#u8 then b else a)
+
+/-- `conditional_select` returns `a` when `choice == Choice(0)` and `b` when
+    `choice == Choice(1)`. Docs: subtle-2.6.1/src/lib.rs:395-420. -/
+@[step]
+theorem U32.Insts.SubtleConditionallySelectable.conditional_select_spec
+    (a b : Std.U32) (choice : subtle.Choice) :
+    U32.Insts.SubtleConditionallySelectable.conditional_select a b choice ⦃
+      (res : Std.U32) =>
+        (choice = Choice.zero → res = a) ∧ (choice = Choice.one → res = b) ⦄ := by
+  unfold U32.Insts.SubtleConditionallySelectable.conditional_select
+  simp only [spec_ok, Choice.zero, Choice.one]
+  refine ⟨fun h => ?_, fun h => ?_⟩ <;> subst h <;> simp
+
+/-- [subtle::{impl subtle::ConditionallySelectable for u32}::conditional_assign]:
+    Name pattern: [subtle::{subtle::ConditionallySelectable<u32>}::conditional_assign] -/
+@[rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_assign"]
+def U32.Insts.SubtleConditionallySelectable.conditional_assign
+  (a : Std.U32) (b : Std.U32) (choice : subtle.Choice) : Result Std.U32 :=
+  ok (if choice = 1#u8 then b else a)
+
+/-- `conditional_assign(self, other, choice)` assigns `other` to `self` when
+    `choice == Choice(1)`, leaving it unchanged when `choice == Choice(0)`.
+    Docs: subtle-2.6.1/src/lib.rs:421-443. -/
+@[step]
+theorem U32.Insts.SubtleConditionallySelectable.conditional_assign_spec
+    (a b : Std.U32) (choice : subtle.Choice) :
+    U32.Insts.SubtleConditionallySelectable.conditional_assign a b choice ⦃
+      (res : Std.U32) =>
+        (choice = Choice.zero → res = a) ∧ (choice = Choice.one → res = b) ⦄ := by
+  unfold U32.Insts.SubtleConditionallySelectable.conditional_assign
+  simp only [spec_ok, Choice.zero, Choice.one]
+  refine ⟨fun h => ?_, fun h => ?_⟩ <;> subst h <;> simp
+
+/-- [subtle::{impl subtle::ConditionallySelectable for u32}::conditional_swap]:
+    Name pattern: [subtle::{subtle::ConditionallySelectable<u32>}::conditional_swap] -/
+@[rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_swap"]
+def U32.Insts.SubtleConditionallySelectable.conditional_swap
+  (a : Std.U32) (b : Std.U32) (choice : subtle.Choice) : Result (Std.U32 × Std.U32) :=
+  ok (if choice = 1#u8 then (b, a) else (a, b))
+
+/-- `conditional_swap(a, b, choice)` swaps `a` and `b` when `choice == Choice(1)`,
+    leaving them unchanged when `choice == Choice(0)`.
+    Docs: subtle-2.6.1/src/lib.rs:445-473. -/
+@[step]
+theorem U32.Insts.SubtleConditionallySelectable.conditional_swap_spec
+    (a b : Std.U32) (choice : subtle.Choice) :
+    U32.Insts.SubtleConditionallySelectable.conditional_swap a b choice ⦃
+      (res : Std.U32 × Std.U32) =>
+        (choice = Choice.zero → res = (a, b)) ∧ (choice = Choice.one → res = (b, a)) ⦄ := by
+  unfold U32.Insts.SubtleConditionallySelectable.conditional_swap
+  simp only [spec_ok, Choice.zero, Choice.one]
+  refine ⟨fun h => ?_, fun h => ?_⟩ <;> subst h <;> simp
+
 /-! ### `ConditionallySelectable for [T; N]` -/
 
 /-- [subtle::{impl subtle::ConditionallySelectable for [T; N]}::conditional_select]:

@@ -144,59 +144,116 @@ structure zeroize.DefaultIsZeroes (Self : Type) where
 @[reducible]
 def backend.serial.u64.field.FieldElement51 := Array Std.U64 5#usize
 
-/-- [curve25519_dalek::backend::serial::curve_models::ProjectivePoint]
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectivePoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 154:0-158:1
     Visibility: public -/
-structure backend.serial.curve_models.ProjectivePoint where
+structure backend.serial.curve_models.ProjectivePoint.«x86_64-unknown-linux-gnu»
+  where
   X : backend.serial.u64.field.FieldElement51
   Y : backend.serial.u64.field.FieldElement51
   Z : backend.serial.u64.field.FieldElement51
 
-/-- [curve25519_dalek::backend::serial::curve_models::CompletedPoint]
+/-- [curve25519_dalek::backend::serial::u32::field::FieldElement2625]
+    Source: 'curve25519-dalek/src/backend/serial/u32/field.rs', lines 54:0-54:50
+    Visibility: public -/
+@[reducible]
+def backend.serial.u32.field.FieldElement2625 := Array Std.U32 10#usize
+
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectivePoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 154:0-158:1
+    Visibility: public -/
+structure backend.serial.curve_models.ProjectivePoint.«i686-unknown-linux-gnu»
+  where
+  X : backend.serial.u32.field.FieldElement2625
+  Y : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::curve_models::CompletedPoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 169:0-174:1
     Visibility: public -/
-structure backend.serial.curve_models.CompletedPoint where
+structure backend.serial.curve_models.CompletedPoint.«x86_64-unknown-linux-gnu»
+  where
   X : backend.serial.u64.field.FieldElement51
   Y : backend.serial.u64.field.FieldElement51
   Z : backend.serial.u64.field.FieldElement51
   T : backend.serial.u64.field.FieldElement51
 
-/-- [curve25519_dalek::backend::serial::curve_models::AffineNielsPoint]
+/-- [curve25519_dalek::backend::serial::curve_models::CompletedPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 169:0-174:1
+    Visibility: public -/
+structure backend.serial.curve_models.CompletedPoint.«i686-unknown-linux-gnu»
+  where
+  X : backend.serial.u32.field.FieldElement2625
+  Y : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+  T : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::curve_models::AffineNielsPoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 184:0-188:1
     Visibility: public -/
-structure backend.serial.curve_models.AffineNielsPoint where
+structure backend.serial.curve_models.AffineNielsPoint.«x86_64-unknown-linux-gnu»
+  where
   y_plus_x : backend.serial.u64.field.FieldElement51
   y_minus_x : backend.serial.u64.field.FieldElement51
   xy2d : backend.serial.u64.field.FieldElement51
 
-/-- [curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint]
+/-- [curve25519_dalek::backend::serial::curve_models::AffineNielsPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 184:0-188:1
+    Visibility: public -/
+structure backend.serial.curve_models.AffineNielsPoint.«i686-unknown-linux-gnu»
+  where
+  y_plus_x : backend.serial.u32.field.FieldElement2625
+  y_minus_x : backend.serial.u32.field.FieldElement2625
+  xy2d : backend.serial.u32.field.FieldElement2625
+
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 206:0-211:1
     Visibility: public -/
-structure backend.serial.curve_models.ProjectiveNielsPoint where
+structure backend.serial.curve_models.ProjectiveNielsPoint.«x86_64-unknown-linux-gnu»
+  where
   Y_plus_X : backend.serial.u64.field.FieldElement51
   Y_minus_X : backend.serial.u64.field.FieldElement51
   Z : backend.serial.u64.field.FieldElement51
   T2d : backend.serial.u64.field.FieldElement51
 
+/-- [curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/curve_models.rs', lines 206:0-211:1
+    Visibility: public -/
+structure backend.serial.curve_models.ProjectiveNielsPoint.«i686-unknown-linux-gnu»
+  where
+  Y_plus_X : backend.serial.u32.field.FieldElement2625
+  Y_minus_X : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+  T2d : backend.serial.u32.field.FieldElement2625
+
 /-- Trait declaration: [curve25519_dalek::traits::Identity]
-    Source: 'curve25519-dalek/src/traits.rs', lines 54:0-58:1
+    Source: 'curve25519-dalek/src/traits.rs', lines 41:0-45:1
     Visibility: public -/
 structure traits.Identity (Self : Type) where
   identity : Result Self
 
 /-- Trait declaration: [curve25519_dalek::traits::ValidityCheck]
-    Source: 'curve25519-dalek/src/traits.rs', lines 466:0-469:1 -/
+    Source: 'curve25519-dalek/src/traits.rs', lines 447:0-450:1 -/
 structure traits.ValidityCheck (Self : Type) where
   is_valid : Self → Result Bool
 
-/-- [curve25519_dalek::edwards::EdwardsPoint]
+/-- [curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/edwards.rs', lines 390:0-395:1
     Visibility: public -/
-structure edwards.EdwardsPoint where
+structure edwards.EdwardsPoint.«x86_64-unknown-linux-gnu» where
   X : backend.serial.u64.field.FieldElement51
   Y : backend.serial.u64.field.FieldElement51
   Z : backend.serial.u64.field.FieldElement51
   T : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 390:0-395:1
+    Visibility: public -/
+structure edwards.EdwardsPoint.«i686-unknown-linux-gnu» where
+  X : backend.serial.u32.field.FieldElement2625
+  Y : backend.serial.u32.field.FieldElement2625
+  Z : backend.serial.u32.field.FieldElement2625
+  T : backend.serial.u32.field.FieldElement2625
 
 /-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger]
     Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 62:0-62:21
@@ -211,7 +268,7 @@ structure scalar.Scalar where
   bytes : Array Std.U8 32#usize
 
 /-- Trait declaration: [curve25519_dalek::traits::VartimeMultiscalarMul]
-    Source: 'curve25519-dalek/src/traits.rs', lines 165:0-294:1
+    Source: 'curve25519-dalek/src/traits.rs', lines 152:0-279:1
     Visibility: public -/
 structure traits.VartimeMultiscalarMul (Self : Type) (Self_Point : Type) where
   optional_multiscalar_mul : forall {I : Type} {J : Type} {Clause0_Item : Type}
@@ -222,32 +279,30 @@ structure traits.VartimeMultiscalarMul (Self : Type) (Self_Point : Type) where
     scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionPInst :
     core.iter.traits.collect.IntoIterator J (Option Self_Point)
     Clause2_IntoIter), I → J → Result (Option Self_Point)
-  vartime_multiscalar_mul : forall {I : Type} {J : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowInst : core.borrow.Borrow Clause2_Item Self_Point)
-    (corecloneCloneInst : core.clone.Clone Self_Point), I → J → Result
-    Self_Point
 
 /-- [curve25519_dalek::window::NafLookupTable8]
     Source: 'curve25519-dalek/src/window.rs', lines 229:0-229:57 -/
 @[reducible]
 def window.NafLookupTable8 (T : Type) := Array T 64#usize
 
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus]
+/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 29:0-31:1
     Visibility: public -/
-structure backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus
+structure backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»
   where
   static_lookup_tables : alloc.vec.Vec (window.NafLookupTable8
-    backend.serial.curve_models.AffineNielsPoint)
+    backend.serial.curve_models.AffineNielsPoint.«x86_64-unknown-linux-gnu»)
+
+/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 29:0-31:1
+    Visibility: public -/
+structure backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.«i686-unknown-linux-gnu»
+  where
+  static_lookup_tables : alloc.vec.Vec (window.NafLookupTable8
+    backend.serial.curve_models.AffineNielsPoint.«i686-unknown-linux-gnu»)
 
 /-- Trait declaration: [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul]
-    Source: 'curve25519-dalek/src/traits.rs', lines 322:0-454:1
+    Source: 'curve25519-dalek/src/traits.rs', lines 307:0-435:1
     Visibility: public -/
 structure traits.VartimePrecomputedMultiscalarMul (Self : Type) (Self_Point :
   Type) where
@@ -259,24 +314,6 @@ structure traits.VartimePrecomputedMultiscalarMul (Self : Type) (Self_Point :
     Result Self
   len : Self → Result Std.Usize
   is_empty : Self → Result Bool
-  vartime_multiscalar_mul : forall {I : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar), Self → I → Result Self_Point
-  vartime_mixed_multiscalar_mul : forall {I : Type} {J : Type} {K : Type}
-    {Clause0_Item : Type} {Clause0_IntoIter : Type} {Clause2_Item : Type}
-    {Clause2_IntoIter : Type} {Clause4_Item : Type} {Clause4_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowPScalarInst1 : core.borrow.Borrow Clause2_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-    core.iter.traits.collect.IntoIterator K Clause4_Item Clause4_IntoIter)
-    (coreborrowBorrowInst : core.borrow.Borrow Clause4_Item Self_Point), Self
-    → I → J → K → Result Self_Point
   optional_mixed_multiscalar_mul : forall {I : Type} {J : Type} {K : Type}
     {Clause0_Item : Type} {Clause0_IntoIter : Type} {Clause2_Item : Type}
     {Clause2_IntoIter : Type} {Clause4_IntoIter : Type}
@@ -297,7 +334,7 @@ structure traits.VartimePrecomputedMultiscalarMul (Self : Type) (Self_Point :
 def backend.serial.scalar_mul.straus.Straus := Unit
 
 /-- Trait declaration: [curve25519_dalek::traits::MultiscalarMul]
-    Source: 'curve25519-dalek/src/traits.rs', lines 106:0-162:1
+    Source: 'curve25519-dalek/src/traits.rs', lines 93:0-149:1
     Visibility: public -/
 structure traits.MultiscalarMul (Self : Type) (Self_Point : Type) where
   multiscalar_mul : forall {I : Type} {J : Type} {Clause0_Item : Type}
@@ -321,6 +358,12 @@ def window.LookupTable (T : Type) := Array T 8#usize
 @[reducible]
 def window.NafLookupTable5 (T : Type) := Array T 8#usize
 
+/-- [curve25519_dalek::backend::serial::u32::scalar::Scalar29]
+    Source: 'curve25519-dalek/src/backend/serial/u32/scalar.rs', lines 25:0-25:34
+    Visibility: public -/
+@[reducible]
+def backend.serial.u32.scalar.Scalar29 := Array Std.U32 9#usize
+
 /-- [curve25519_dalek::backend::serial::u64::scalar::Scalar52]
     Source: 'curve25519-dalek/src/backend/serial/u64/scalar.rs', lines 26:0-26:34
     Visibility: public -/
@@ -333,13 +376,23 @@ def backend.serial.u64.scalar.Scalar52 := Array Std.U64 5#usize
 inductive backend.BackendKind where
 | Serial : backend.BackendKind
 
-/-- [curve25519_dalek::backend::VartimePrecomputedStraus]
+/-- [curve25519_dalek::backend::VartimePrecomputedStraus::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/backend.rs', lines 100:0-108:1 -/
 @[discriminant isize]
-inductive backend.VartimePrecomputedStraus where
+inductive backend.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu» where
 | Scalar :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus →
-  backend.VartimePrecomputedStraus
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»
+    →
+  backend.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»
+
+/-- [curve25519_dalek::backend::VartimePrecomputedStraus::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/backend.rs', lines 100:0-108:1 -/
+@[discriminant isize]
+inductive backend.VartimePrecomputedStraus.«i686-unknown-linux-gnu» where
+| Scalar :
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.«i686-unknown-linux-gnu»
+    →
+  backend.VartimePrecomputedStraus.«i686-unknown-linux-gnu»
 
 /-- [curve25519_dalek::edwards::CompressedEdwardsY]
     Source: 'curve25519-dalek/src/edwards.rs', lines 175:0-175:44
@@ -359,73 +412,124 @@ def montgomery.MontgomeryPoint := Array Std.U8 32#usize
 @[reducible]
 def ristretto.CompressedRistretto := Array Std.U8 32#usize
 
-/-- [curve25519_dalek::ristretto::RistrettoPoint]
+/-- [curve25519_dalek::ristretto::RistrettoPoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 498:0-498:51
     Visibility: public -/
 @[reducible]
-def ristretto.RistrettoPoint := edwards.EdwardsPoint
+def ristretto.RistrettoPoint.«x86_64-unknown-linux-gnu» :=
+  edwards.EdwardsPoint.«x86_64-unknown-linux-gnu»
 
-/-- [curve25519_dalek::edwards::affine::AffinePoint]
+/-- [curve25519_dalek::ristretto::RistrettoPoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 498:0-498:51
+    Visibility: public -/
+@[reducible]
+def ristretto.RistrettoPoint.«i686-unknown-linux-gnu» :=
+  edwards.EdwardsPoint.«i686-unknown-linux-gnu»
+
+/-- [curve25519_dalek::edwards::affine::AffinePoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/edwards/affine.rs', lines 12:0-15:1
     Visibility: public -/
-structure edwards.affine.AffinePoint where
+structure edwards.affine.AffinePoint.«x86_64-unknown-linux-gnu» where
   x : backend.serial.u64.field.FieldElement51
   y : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::edwards::affine::AffinePoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/edwards/affine.rs', lines 12:0-15:1
+    Visibility: public -/
+structure edwards.affine.AffinePoint.«i686-unknown-linux-gnu» where
+  x : backend.serial.u32.field.FieldElement2625
+  y : backend.serial.u32.field.FieldElement2625
 
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::CompressedEdwardsY}::from_slice::closure]
     Source: 'curve25519-dalek/src/edwards.rs', lines 426:29-426:54 -/
 @[reducible]
 def edwards.CompressedEdwardsY.from_slice.closure := Unit
 
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::compress_batch::closure#1]
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu}::compress_batch::closure#1]
     Source: 'curve25519-dalek/src/edwards.rs', lines 640:29-644:9 -/
-def edwards.EdwardsPoint.compress_batch.closure_1 (N : Std.Usize) :=
-  Array edwards.EdwardsPoint N × Array backend.serial.u64.field.FieldElement51
-  N
+def edwards.«EdwardsPointx86_64-unknown-linux-gnu».compress_batch.closure_1
+  (N : Std.Usize) :=
+  Array edwards.EdwardsPoint.«x86_64-unknown-linux-gnu» N × Array
+  backend.serial.u64.field.FieldElement51 N
 
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::compress_batch::closure]
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu}::compress_batch::closure]
     Source: 'curve25519-dalek/src/edwards.rs', lines 637:50-637:65 -/
 @[reducible]
-def edwards.EdwardsPoint.compress_batch.closure (N : Std.Usize) :=
-  Array edwards.EdwardsPoint N
+def edwards.«EdwardsPointx86_64-unknown-linux-gnu».compress_batch.closure (N
+  : Std.Usize) :=
+  Array edwards.EdwardsPoint.«x86_64-unknown-linux-gnu» N
 
-/-- [curve25519_dalek::edwards::VartimeEdwardsPrecomputation]
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu}::compress_batch::closure#1]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 640:29-644:9 -/
+def edwards.«EdwardsPointi686-unknown-linux-gnu».compress_batch.closure_1 (N
+  : Std.Usize) :=
+  Array edwards.EdwardsPoint.«i686-unknown-linux-gnu» N × Array
+  backend.serial.u32.field.FieldElement2625 N
+
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu}::compress_batch::closure]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 637:50-637:65 -/
+@[reducible]
+def edwards.«EdwardsPointi686-unknown-linux-gnu».compress_batch.closure (N :
+  Std.Usize) :=
+  Array edwards.EdwardsPoint.«i686-unknown-linux-gnu» N
+
+/-- [curve25519_dalek::edwards::VartimeEdwardsPrecomputation::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/edwards.rs', lines 1062:0-1062:82
     Visibility: public -/
 @[reducible]
-def edwards.VartimeEdwardsPrecomputation := backend.VartimePrecomputedStraus
+def edwards.VartimeEdwardsPrecomputation.«x86_64-unknown-linux-gnu» :=
+  backend.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»
 
-/-- [curve25519_dalek::montgomery::ProjectivePoint]
+/-- [curve25519_dalek::edwards::VartimeEdwardsPrecomputation::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 1062:0-1062:82
+    Visibility: public -/
+@[reducible]
+def edwards.VartimeEdwardsPrecomputation.«i686-unknown-linux-gnu» :=
+  backend.VartimePrecomputedStraus.«i686-unknown-linux-gnu»
+
+/-- [curve25519_dalek::montgomery::ProjectivePoint::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/montgomery.rs', lines 369:0-372:1 -/
-structure montgomery.ProjectivePoint where
+structure montgomery.ProjectivePoint.«x86_64-unknown-linux-gnu» where
   U : backend.serial.u64.field.FieldElement51
   W : backend.serial.u64.field.FieldElement51
+
+/-- [curve25519_dalek::montgomery::ProjectivePoint::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/montgomery.rs', lines 369:0-372:1 -/
+structure montgomery.ProjectivePoint.«i686-unknown-linux-gnu» where
+  U : backend.serial.u32.field.FieldElement2625
+  W : backend.serial.u32.field.FieldElement2625
 
 /-- [curve25519_dalek::ristretto::{curve25519_dalek::ristretto::CompressedRistretto}::from_slice::closure]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 258:29-258:55 -/
 @[reducible]
 def ristretto.CompressedRistretto.from_slice.closure := Unit
 
-/-- [curve25519_dalek::ristretto::VartimeRistrettoPrecomputation]
+/-- [curve25519_dalek::ristretto::VartimeRistrettoPrecomputation::x86_64-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 1023:0-1023:84
     Visibility: public -/
 @[reducible]
-def ristretto.VartimeRistrettoPrecomputation :=
-  backend.VartimePrecomputedStraus
+def ristretto.VartimeRistrettoPrecomputation.«x86_64-unknown-linux-gnu» :=
+  backend.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»
+
+/-- [curve25519_dalek::ristretto::VartimeRistrettoPrecomputation::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/ristretto.rs', lines 1023:0-1023:84
+    Visibility: public -/
+@[reducible]
+def ristretto.VartimeRistrettoPrecomputation.«i686-unknown-linux-gnu» :=
+  backend.VartimePrecomputedStraus.«i686-unknown-linux-gnu»
 
 /-- Trait declaration: [curve25519_dalek::traits::IsIdentity]
-    Source: 'curve25519-dalek/src/traits.rs', lines 61:0-64:1
+    Source: 'curve25519-dalek/src/traits.rs', lines 48:0-51:1
     Visibility: public -/
 structure traits.IsIdentity (Self : Type) where
   is_identity : Self → Result Bool
 
 /-- Trait declaration: [curve25519_dalek::traits::BasepointTable]
-    Source: 'curve25519-dalek/src/traits.rs', lines 79:0-103:1
+    Source: 'curve25519-dalek/src/traits.rs', lines 66:0-90:1
     Visibility: public -/
 structure traits.BasepointTable (Self : Type) (Self_Point : Type) where
   create : Self_Point → Result Self
   basepoint : Self → Result Self_Point
   mul_base : Self → scalar.Scalar → Result Self_Point
-  mul_base_clamped : Self → Array Std.U8 32#usize → Result Self_Point
 
 end curve25519_dalek
