@@ -46,182 +46,6 @@ def Str.Insts.CoreFmtDebug : core.fmt.Debug Str := {
   fmt := Str.Insts.CoreFmtDebug.fmt
 }
 
-/-- Trait implementation: [core::fmt::num::imp::{impl core::fmt::Display for usize}]
-    Source: '/rustc/library/core/src/fmt/num.rs', lines 134:8-134:39
-    Name pattern: [core::fmt::Display<usize>] -/
-@[reducible, rust_trait_impl "core::fmt::Display<usize>"]
-def Usize.Insts.CoreFmtDisplay : core.fmt.Display Std.Usize := {
-  fmt := core.fmt.num.imp.DisplayUsize.fmt
-}
-
-/-- Trait implementation: [core::iter::adapters::map::{impl core::iter::traits::iterator::Iterator<B> for core::iter::adapters::map::Map<I, F>}]
-    Source: '/rustc/library/core/src/iter/adapters/map.rs', lines 99:0-101:27
-    Name pattern: [core::iter::traits::iterator::Iterator<core::iter::adapters::map::Map<@I, @F>, @B>] -/
-@[reducible, rust_trait_impl
-  "core::iter::traits::iterator::Iterator<core::iter::adapters::map::Map<@I, @F>, @B>"]
-impl_def core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator {B :
-  Type} {I : Type} {F : Type} {Clause0_Item : Type} (traitsiteratorIteratorInst
-  : core.iter.traits.iterator.Iterator I Clause0_Item)
-  (opsfunctionFnMutFTupleClause0_ItemBInst : core.ops.function.FnMut F
-  Clause0_Item B) : core.iter.traits.iterator.Iterator
-  (core.iter.adapters.map.Map I F) B := {
-  next := core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator.next
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst
-  size_hint :=
-    core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator.size_hint
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst
-  zip := fun {U : Type} {Clause0_Item1 : Type} {Clause0_IntoIter : Type}
-    (collectIntoIteratorInst : core.iter.traits.collect.IntoIterator U
-    Clause0_Item1 Clause0_IntoIter) =>
-    core.iter.traits.iterator.Iterator.zip.trait_default
-    (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst)
-    collectIntoIteratorInst
-  map := fun {B1 : Type} {F1 : Type} (opsfunctionFnMutPTupleBPInst :
-    core.ops.function.FnMut F1 B B1) =>
-    core.iter.traits.iterator.Iterator.map.default
-    (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst)
-    opsfunctionFnMutPTupleBPInst
-  by_ref := core.iter.traits.iterator.Iterator.by_ref.default
-    (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst)
-  collect := fun {B1 : Type} (collectFromIteratorInst :
-    core.iter.traits.collect.FromIterator B1 B) =>
-    core.iter.traits.iterator.Iterator.collect.default
-    (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst)
-    collectFromIteratorInst
-  fold := fun {B1 : Type} {F1 : Type} (opsfunctionFnMutPPairPInst :
-    core.ops.function.FnMut F1 (B1 × B) B1) =>
-    core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator.fold
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst
-    opsfunctionFnMutPPairPInst
-  rev := fun {Clause0_Clause0_Item : Type}
-    (double_endedDoubleEndedIteratorMapPInst :
-    core.iter.traits.double_ended.DoubleEndedIterator
-    (core.iter.adapters.map.Map I F) Clause0_Clause0_Item) =>
-    core.iter.traits.iterator.Iterator.rev.trait_default
-    (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-    traitsiteratorIteratorInst opsfunctionFnMutFTupleClause0_ItemBInst)
-    double_endedDoubleEndedIteratorMapPInst
-}
-
-/-- Trait implementation: [core::iter::adapters::zip::{impl core::iter::traits::iterator::Iterator<(Clause0_Item, Clause1_Item)> for core::iter::adapters::zip::Zip<A, B>}]
-    Source: '/rustc/library/core/src/iter/adapters/zip.rs', lines 74:0-77:16
-    Name pattern: [core::iter::traits::iterator::Iterator<core::iter::adapters::zip::Zip<@A, @B>, (@Clause0_Item, @Clause1_Item)>] -/
-@[reducible, rust_trait_impl
-  "core::iter::traits::iterator::Iterator<core::iter::adapters::zip::Zip<@A, @B>, (@Clause0_Item, @Clause1_Item)>"]
-impl_def core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair {A
-  : Type} {B : Type} {Clause0_Item : Type} {Clause1_Item : Type}
-  (traitsiteratorIteratorInst : core.iter.traits.iterator.Iterator A
-  Clause0_Item) (traitsiteratorIteratorInst1 :
-  core.iter.traits.iterator.Iterator B Clause1_Item) :
-  core.iter.traits.iterator.Iterator (core.iter.adapters.zip.Zip A B)
-  (Clause0_Item × Clause1_Item) := {
-  next :=
-    core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair.next
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1
-  size_hint :=
-    core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair.size_hint
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1
-  zip := fun {U : Type} {Clause0_Item1 : Type} {Clause0_IntoIter : Type}
-    (collectIntoIteratorInst : core.iter.traits.collect.IntoIterator U
-    Clause0_Item1 Clause0_IntoIter) =>
-    core.iter.traits.iterator.Iterator.zip.trait_default
-    (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1)
-    collectIntoIteratorInst
-  map := fun {B1 : Type} {F : Type} (opsfunctionFnMutPTuplePairPInst :
-    core.ops.function.FnMut F (Clause0_Item × Clause1_Item) B1) =>
-    core.iter.traits.iterator.Iterator.map.default
-    (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1)
-    opsfunctionFnMutPTuplePairPInst
-  by_ref := core.iter.traits.iterator.Iterator.by_ref.default
-    (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1)
-  collect := fun {B1 : Type} (collectFromIteratorPPairInst :
-    core.iter.traits.collect.FromIterator B1 (Clause0_Item × Clause1_Item)) =>
-    core.iter.traits.iterator.Iterator.collect.default
-    (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1)
-    collectFromIteratorPPairInst
-  fold := fun {B1 : Type} {F : Type} (opsfunctionFnMutPPairPPairPInst :
-    core.ops.function.FnMut F (B1 × (Clause0_Item × Clause1_Item)) B1) =>
-    core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair.fold
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1
-    opsfunctionFnMutPPairPPairPInst
-  rev := fun {Clause0_Clause0_Item : Type}
-    (double_endedDoubleEndedIteratorZipPInst :
-    core.iter.traits.double_ended.DoubleEndedIterator
-    (core.iter.adapters.zip.Zip A B) Clause0_Clause0_Item) =>
-    core.iter.traits.iterator.Iterator.rev.trait_default
-    (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-    traitsiteratorIteratorInst traitsiteratorIteratorInst1)
-    double_endedDoubleEndedIteratorZipPInst
-}
-
-/-- Trait implementation: [core::iter::sources::empty::{impl core::iter::traits::iterator::Iterator<T> for core::iter::sources::empty::Empty<T>}]
-    Source: '/rustc/library/core/src/iter/sources/empty.rs', lines 40:0-40:29
-    Name pattern: [core::iter::traits::iterator::Iterator<core::iter::sources::empty::Empty<@T>, @T>] -/
-@[reducible, rust_trait_impl
-  "core::iter::traits::iterator::Iterator<core::iter::sources::empty::Empty<@T>, @T>"]
-impl_def core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator (T
-  : Type) : core.iter.traits.iterator.Iterator (core.iter.sources.empty.Empty
-  T) T := {
-  next :=
-    core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator.next
-  size_hint :=
-    core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator.size_hint
-  zip := fun {U : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-    (collectIntoIteratorInst : core.iter.traits.collect.IntoIterator U
-    Clause0_Item Clause0_IntoIter) =>
-    core.iter.traits.iterator.Iterator.zip.trait_default
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator T)
-    collectIntoIteratorInst
-  map := fun {B : Type} {F : Type} (opsfunctionFnMutPTupleBPInst :
-    core.ops.function.FnMut F T B) =>
-    core.iter.traits.iterator.Iterator.map.default
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator T)
-    opsfunctionFnMutPTupleBPInst
-  by_ref := core.iter.traits.iterator.Iterator.by_ref.default
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator T)
-  collect := fun {B : Type} (collectFromIteratorInst :
-    core.iter.traits.collect.FromIterator B T) =>
-    core.iter.traits.iterator.Iterator.collect.default
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator T)
-    collectFromIteratorInst
-  fold := fun {B : Type} {F : Type} (opsfunctionFnMutPPairPInst :
-    core.ops.function.FnMut F (B × T) B) =>
-    core.iter.traits.iterator.Iterator.fold.default
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator T)
-    opsfunctionFnMutPPairPInst
-  rev := fun {Clause0_Clause0_Item : Type}
-    (double_endedDoubleEndedIteratorEmptyPInst :
-    core.iter.traits.double_ended.DoubleEndedIterator
-    (core.iter.sources.empty.Empty T) Clause0_Clause0_Item) =>
-    core.iter.traits.iterator.Iterator.rev.trait_default
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator T)
-    double_endedDoubleEndedIteratorEmptyPInst
-}
-
-/-- Trait implementation: [core::option::{impl core::iter::traits::collect::FromIterator<core::option::Option<A>> for core::option::Option<V>}]
-    Source: '/rustc/library/core/src/option.rs', lines 2789:0-2789:65
-    Name pattern: [core::iter::traits::collect::FromIterator<core::option::Option<@V>, core::option::Option<@A>>] -/
-@[reducible, rust_trait_impl
-  "core::iter::traits::collect::FromIterator<core::option::Option<@V>, core::option::Option<@A>>"]
-def core.option.Option.Insts.CoreIterTraitsCollectFromIteratorOption {A : Type}
-  {V : Type} (itertraitscollectFromIteratorInst :
-  core.iter.traits.collect.FromIterator V A) :
-  core.iter.traits.collect.FromIterator (Option V) (Option A) := {
-  from_iter := fun {T : Type} {Clause0_IntoIter : Type}
-    (itertraitscollectIntoIteratorPOptionPInst :
-    core.iter.traits.collect.IntoIterator T (Option A) Clause0_IntoIter) =>
-    core.option.Option.Insts.CoreIterTraitsCollectFromIteratorOption.from_iter
-    itertraitscollectFromIteratorInst itertraitscollectIntoIteratorPOptionPInst
-}
-
 /-- Trait implementation: [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}]
     Source: '/rustc/library/core/src/slice/index.rs', lines 610:0-610:55
     Name pattern: [core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>] -/
@@ -241,92 +65,6 @@ def core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice (T :
     core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index
   index_mut :=
     core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index_mut
-}
-
-/-- Trait implementation: [core::slice::iter::{impl core::iter::traits::iterator::Iterator<&'a mut T> for core::slice::iter::IterMut<'a, T>}]
-    Source: '/rustc/library/core/src/slice/iter/macros.rs', lines 153:8-153:45
-    Name pattern: [core::iter::traits::iterator::Iterator<core::slice::iter::IterMut<'a, @T>, &'a mut @T>] -/
-@[reducible, rust_trait_impl
-  "core::iter::traits::iterator::Iterator<core::slice::iter::IterMut<'a, @T>, &'a mut @T>"]
-impl_def core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT (T :
-  Type) : core.iter.traits.iterator.Iterator (core.slice.iter.IterMut T) T := {
-  next := core.slice.iter.IteratorIterMut.next
-  size_hint :=
-    core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT.size_hint
-  zip := fun {U : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-    (collectIntoIteratorInst : core.iter.traits.collect.IntoIterator U
-    Clause0_Item Clause0_IntoIter) =>
-    core.iter.traits.iterator.Iterator.zip.trait_default
-    (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT T)
-    collectIntoIteratorInst
-  map := fun {B : Type} {F : Type} (opsfunctionFnMutPTupleMutBPInst :
-    core.ops.function.FnMut F T B) =>
-    core.iter.traits.iterator.Iterator.map.default
-    (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT T)
-    opsfunctionFnMutPTupleMutBPInst
-  by_ref := core.iter.traits.iterator.Iterator.by_ref.default
-    (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT T)
-  collect := fun {B : Type} (collectFromIteratorPMutBInst :
-    core.iter.traits.collect.FromIterator B T) =>
-    core.iter.traits.iterator.Iterator.collect.default
-    (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT T)
-    collectFromIteratorPMutBInst
-  fold := fun {B : Type} {F : Type} (opsfunctionFnMutPPairPMutBPInst :
-    core.ops.function.FnMut F (B × T) B) =>
-    core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT.fold
-    opsfunctionFnMutPPairPMutBPInst
-  rev := fun {Clause0_Clause0_Item : Type}
-    (double_endedDoubleEndedIteratorIterMutPInst :
-    core.iter.traits.double_ended.DoubleEndedIterator (core.slice.iter.IterMut
-    T) Clause0_Clause0_Item) =>
-    core.iter.traits.iterator.Iterator.rev.trait_default
-    (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT T)
-    double_endedDoubleEndedIteratorIterMutPInst
-}
-
-/-- Trait implementation: [core::slice::iter::{impl core::iter::traits::iterator::Iterator<&'a [T]> for core::slice::iter::Chunks<'a, T>}]
-    Source: '/rustc/library/core/src/slice/iter.rs', lines 1499:0-1499:38
-    Name pattern: [core::iter::traits::iterator::Iterator<core::slice::iter::Chunks<'a, @T>, &'a [@T]>] -/
-@[reducible, rust_trait_impl
-  "core::iter::traits::iterator::Iterator<core::slice::iter::Chunks<'a, @T>, &'a [@T]>"]
-impl_def
-  core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice (T :
-  Type) : core.iter.traits.iterator.Iterator (core.slice.iter.Chunks T) (Slice
-  T) := {
-  next :=
-    core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice.next
-  size_hint :=
-    core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice.size_hint
-  zip := fun {U : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-    (collectIntoIteratorInst : core.iter.traits.collect.IntoIterator U
-    Clause0_Item Clause0_IntoIter) =>
-    core.iter.traits.iterator.Iterator.zip.trait_default
-    (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice T)
-    collectIntoIteratorInst
-  map := fun {B : Type} {F : Type} (opsfunctionFnMutPTupleSharedSlicePInst :
-    core.ops.function.FnMut F (Slice T) B) =>
-    core.iter.traits.iterator.Iterator.map.default
-    (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice T)
-    opsfunctionFnMutPTupleSharedSlicePInst
-  by_ref := core.iter.traits.iterator.Iterator.by_ref.default
-    (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice T)
-  collect := fun {B : Type} (collectFromIteratorPSharedSliceInst :
-    core.iter.traits.collect.FromIterator B (Slice T)) =>
-    core.iter.traits.iterator.Iterator.collect.default
-    (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice T)
-    collectFromIteratorPSharedSliceInst
-  fold := fun {B : Type} {F : Type} (opsfunctionFnMutPPairPSharedSlicePInst :
-    core.ops.function.FnMut F (B × (Slice T)) B) =>
-    core.iter.traits.iterator.Iterator.fold.default
-    (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice T)
-    opsfunctionFnMutPPairPSharedSlicePInst
-  rev := fun {Clause0_Clause0_Item : Type}
-    (double_endedDoubleEndedIteratorChunksPInst :
-    core.iter.traits.double_ended.DoubleEndedIterator (core.slice.iter.Chunks
-    T) Clause0_Clause0_Item) =>
-    core.iter.traits.iterator.Iterator.rev.trait_default
-    (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice T)
-    double_endedDoubleEndedIteratorChunksPInst
 }
 
 /-- Trait implementation: [subtle::{impl core::convert::From<subtle::Choice> for bool}]
@@ -409,15 +147,6 @@ def Bool.Insts.ZeroizeDefaultIsZeroes : zeroize.DefaultIsZeroes Bool := {
   coredefaultDefaultInst := Bool.Insts.CoreDefaultDefault
 }
 
-/-- Trait implementation: [zeroize::{impl zeroize::DefaultIsZeroes for i8}]
-    Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zeroize-1.8.2/src/lib.rs', lines 309:10-309:40
-    Name pattern: [zeroize::DefaultIsZeroes<i8>] -/
-@[reducible, rust_trait_impl "zeroize::DefaultIsZeroes<i8>"]
-def I8.Insts.ZeroizeDefaultIsZeroes : zeroize.DefaultIsZeroes Std.I8 := {
-  coremarkerCopyInst := core.marker.CopyI8
-  coredefaultDefaultInst := core.default.DefaultI8
-}
-
 /-- Trait implementation: [zeroize::{impl zeroize::DefaultIsZeroes for u64}]
     Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zeroize-1.8.2/src/lib.rs', lines 309:10-309:40
     Name pattern: [zeroize::DefaultIsZeroes<u64>] -/
@@ -425,15 +154,6 @@ def I8.Insts.ZeroizeDefaultIsZeroes : zeroize.DefaultIsZeroes Std.I8 := {
 def U64.Insts.ZeroizeDefaultIsZeroes : zeroize.DefaultIsZeroes Std.U64 := {
   coremarkerCopyInst := core.marker.CopyU64
   coredefaultDefaultInst := core.default.DefaultU64
-}
-
-/-- Trait implementation: [zeroize::{impl zeroize::Zeroize for [Z; N]}]
-    Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zeroize-1.8.2/src/lib.rs', lines 369:0-371:15
-    Name pattern: [zeroize::Zeroize<[@Z; @N]>] -/
-@[reducible, rust_trait_impl "zeroize::Zeroize<[@Z; @N]>"]
-def Array.Insts.ZeroizeZeroize {Z : Type} (N : Std.Usize) (ZeroizeInst :
-  zeroize.Zeroize Z) : zeroize.Zeroize (Array Z N) := {
-  zeroize := Array.Insts.ZeroizeZeroize.zeroize ZeroizeInst
 }
 
 /-- [curve25519_dalek::backend::serial::curve_models::{impl core::clone::Clone for curve25519_dalek::backend::serial::curve_models::ProjectivePoint}::clone]:
@@ -2173,120 +1893,60 @@ def Shared0AffineNielsPoint.Insts.CoreOpsArithNegAffineNielsPoint :
   neg := Shared0AffineNielsPoint.Insts.CoreOpsArithNegAffineNielsPoint.neg
 }
 
-/-- [curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::{impl core::ops::function::FnMut<(Clause3_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::closure<Self, I, J, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 259:35-259:63 -/
-def
-  traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause3_ItemOption.call_mut
-  {Self : Type} {I : Type} {J : Type} {Clause0_Point : Type} {Clause1_Item :
-  Type} {Clause1_IntoIter : Type} {Clause3_Item : Type} {Clause3_IntoIter :
-  Type} (VartimeMultiscalarMulInst : traits.VartimeMultiscalarMul Self
-  Clause0_Point) (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause3_Item Clause0_Point)
-  (corecloneCloneInst : core.clone.Clone Clause0_Point)
-  (c : traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure Self I J
-  Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item Clause3_IntoIter)
-  (tupled_args : Clause3_Item) :
-  Result ((Option Clause0_Point) ×
-    (traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure Self I J
-    Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item Clause3_IntoIter))
+/-- [curve25519_dalek::traits::collect_optional_points]: loop body 0:
+    Source: 'curve25519-dalek/src/traits.rs', lines 43:4-45:5 -/
+@[rust_loop_body]
+def traits.collect_optional_points_loop.body
+  {P : Type} {It : Type} {Clause1_Item : Type} (corecloneCloneInst :
+  core.clone.Clone P) (coreitertraitsiteratorIteratorInst :
+  core.iter.traits.iterator.Iterator It Clause1_Item) (coreborrowBorrowInst :
+  core.borrow.Borrow Clause1_Item P) (points : It)
+  (wrapped : alloc.vec.Vec (Option P)) :
+  Result (ControlFlow (It × (alloc.vec.Vec (Option P))) (alloc.vec.Vec (Option
+    P)))
   := do
-  let t ← coreborrowBorrowInst.borrow tupled_args
-  let t1 ← corecloneCloneInst.clone t
-  ok (some t1, c)
+  let (o, points1) ← coreitertraitsiteratorIteratorInst.next points
+  match o with
+  | none => ok (done wrapped)
+  | some point =>
+    let t ← coreborrowBorrowInst.borrow point
+    let t1 ← corecloneCloneInst.clone t
+    let wrapped1 ← alloc.vec.Vec.push wrapped (some t1)
+    ok (cont (points1, wrapped1))
 
-/-- [curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause3_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::closure<Self, I, J, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 259:35-259:63 -/
-def
-  traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause3_ItemOption.call_once
-  {Self : Type} {I : Type} {J : Type} {Clause0_Point : Type} {Clause1_Item :
-  Type} {Clause1_IntoIter : Type} {Clause3_Item : Type} {Clause3_IntoIter :
-  Type} (VartimeMultiscalarMulInst : traits.VartimeMultiscalarMul Self
-  Clause0_Point) (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause3_Item Clause0_Point)
-  (corecloneCloneInst : core.clone.Clone Clause0_Point)
-  (c : traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure Self I J
-  Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item Clause3_IntoIter)
-  (t : Clause3_Item) :
-  Result (Option Clause0_Point)
+/-- [curve25519_dalek::traits::collect_optional_points]: loop 0:
+    Source: 'curve25519-dalek/src/traits.rs', lines 43:4-45:5 -/
+@[rust_loop]
+def traits.collect_optional_points_loop
+  {P : Type} {It : Type} {Clause1_Item : Type} (corecloneCloneInst :
+  core.clone.Clone P) (coreitertraitsiteratorIteratorInst :
+  core.iter.traits.iterator.Iterator It Clause1_Item) (coreborrowBorrowInst :
+  core.borrow.Borrow Clause1_Item P) (points : It)
+  (wrapped : alloc.vec.Vec (Option P)) :
+  Result (alloc.vec.Vec (Option P))
   := do
-  let (o, _) ←
-    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause3_ItemOption.call_mut
-      VartimeMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1 coreborrowBorrowInst
-      corecloneCloneInst c t
-  ok o
+  loop
+    (fun (points1, wrapped1) => traits.collect_optional_points_loop.body
+      corecloneCloneInst coreitertraitsiteratorIteratorInst
+      coreborrowBorrowInst points1 wrapped1)
+    (points, wrapped)
 
-/-- Trait implementation: [curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause3_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::closure<Self, I, J, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter>}]
-    Source: 'curve25519-dalek/src/traits.rs', lines 259:35-259:63 -/
+/-- [curve25519_dalek::traits::collect_optional_points]:
+    Source: 'curve25519-dalek/src/traits.rs', lines 30:0-47:1 -/
 @[reducible]
-def
-  traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause3_ItemOption
-  {Self : Type} {I : Type} {J : Type} {Clause0_Point : Type} {Clause1_Item :
-  Type} {Clause1_IntoIter : Type} {Clause3_Item : Type} {Clause3_IntoIter :
-  Type} (VartimeMultiscalarMulInst : traits.VartimeMultiscalarMul Self
-  Clause0_Point) (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause3_Item Clause0_Point)
-  (corecloneCloneInst : core.clone.Clone Clause0_Point) :
-  core.ops.function.FnOnce
-  (traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure Self I J
-  Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item Clause3_IntoIter)
-  Clause3_Item (Option Clause0_Point) := {
-  call_once :=
-    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause3_ItemOption.call_once
-    VartimeMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowInst
-    corecloneCloneInst
-}
-
-/-- Trait implementation: [curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::{impl core::ops::function::FnMut<(Clause3_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul::closure<Self, I, J, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter>}]
-    Source: 'curve25519-dalek/src/traits.rs', lines 259:35-259:63 -/
-@[reducible]
-def
-  traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause3_ItemOption
-  {Self : Type} {I : Type} {J : Type} {Clause0_Point : Type} {Clause1_Item :
-  Type} {Clause1_IntoIter : Type} {Clause3_Item : Type} {Clause3_IntoIter :
-  Type} (VartimeMultiscalarMulInst : traits.VartimeMultiscalarMul Self
-  Clause0_Point) (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause3_Item Clause0_Point)
-  (corecloneCloneInst : core.clone.Clone Clause0_Point) :
-  core.ops.function.FnMut
-  (traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure Self I J
-  Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item Clause3_IntoIter)
-  Clause3_Item (Option Clause0_Point) := {
-  FnOnceInst :=
-    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause3_ItemOption
-    VartimeMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowInst
-    corecloneCloneInst
-  call_mut :=
-    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause3_ItemOption.call_mut
-    VartimeMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowInst
-    corecloneCloneInst
-}
+def traits.collect_optional_points
+  {P : Type} {It : Type} {Clause1_Item : Type} (corecloneCloneInst :
+  core.clone.Clone P) (coreitertraitsiteratorIteratorInst :
+  core.iter.traits.iterator.Iterator It Clause1_Item) (coreborrowBorrowInst :
+  core.borrow.Borrow Clause1_Item P) (points : It) :
+  Result (alloc.vec.Vec (Option P))
+  := do
+  traits.collect_optional_points_loop corecloneCloneInst
+    coreitertraitsiteratorIteratorInst coreborrowBorrowInst points
+    (alloc.vec.Vec.new (Option P))
 
 /-- [curve25519_dalek::traits::VartimeMultiscalarMul::vartime_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 249:4-262:5
+    Source: 'curve25519-dalek/src/traits.rs', lines 277:4-293:5
     Visibility: public -/
 @[trait_default]
 def traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
@@ -2304,56 +1964,272 @@ def traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
   Result Clause0_Point
   := do
   let t ← coreitertraitscollectIntoIteratorInst1.into_iter points
-  let m ←
-    coreitertraitscollectIntoIteratorInst1.iteratorInst.map
-      (traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause3_ItemOption
-      VartimeMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1 coreborrowBorrowInst
-      corecloneCloneInst) t ()
+  let v ←
+    traits.collect_optional_points corecloneCloneInst
+      coreitertraitscollectIntoIteratorInst1.iteratorInst coreborrowBorrowInst
+      t
   let o ←
     VartimeMultiscalarMulInst.optional_multiscalar_mul
       coreitertraitscollectIntoIteratorInst
       coreborrowBorrowClause1_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst1.iteratorInst
-      (traits.VartimeMultiscalarMul.vartime_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause3_ItemOption
-      VartimeMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1 coreborrowBorrowInst
-      corecloneCloneInst))) scalars m
+      (core.iter.traits.collect.IntoIteratorVec (Option Clause0_Point)) scalars
+      v
   core.option.Option.expect o (toStr "should return some point")
 
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::to_radix_2w_size_hint]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1068:4-1081:5 -/
-def scalar.Scalar.to_radix_2w_size_hint
-  (w : Std.Usize) : Result Std.Usize := do
-  massert (w >= 4#usize)
-  massert (w <= 8#usize)
-  if 4#usize <= w
-  then
-    if w <= 7#usize
-    then
-      let digits_count ← core.num.Usize.div_ceil 256#usize w
-      massert (digits_count <= 64#usize)
-      ok digits_count
-    else
-      match w.val with
-      | 8 =>
-        let i ← core.num.Usize.div_ceil 256#usize 8#usize
-        let digits_count ← i + 1#usize
-        massert (digits_count <= 64#usize)
-        ok digits_count
-      | _ => fail panic
-  else
-    match w.val with
-    | 8 =>
-      let i ← core.num.Usize.div_ceil 256#usize 8#usize
-      let digits_count ← i + 1#usize
-      massert (digits_count <= 64#usize)
-      ok digits_count
-    | _ => fail panic
+/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}]
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 64:0-177:1 -/
+@[reducible]
+impl_def
+  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
+  : traits.VartimeMultiscalarMul backend.serial.scalar_mul.pippenger.Pippenger
+  edwards.EdwardsPoint := {
+  optional_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
+    {Clause0_IntoIter : Type} {Clause2_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst :
+    core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
+    Clause2_IntoIter) =>
+    backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst
+  vartime_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
+    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
+    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
+    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause2_Item
+    edwards.EdwardsPoint) (corecloneCloneEdwardsPointInst : core.clone.Clone
+    edwards.EdwardsPoint) =>
+    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
+    backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
+    corecloneCloneEdwardsPointInst
+}
+
+/-- [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul]:
+    Source: 'curve25519-dalek/src/traits.rs', lines 393:4-419:5
+    Visibility: public -/
+@[trait_default]
+def
+  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.default
+  {Self : Type} {I : Type} {J : Type} {K : Type} {Clause0_Point : Type}
+  {Clause1_Item : Type} {Clause1_IntoIter : Type} {Clause3_Item : Type}
+  {Clause3_IntoIter : Type} {Clause5_Item : Type} {Clause5_IntoIter : Type}
+  (VartimePrecomputedMultiscalarMulInst :
+  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
+  (coreitertraitscollectIntoIteratorInst :
+  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
+  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
+  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
+  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
+  (coreborrowBorrowClause3_ItemScalarInst : core.borrow.Borrow Clause3_Item
+  scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
+  core.iter.traits.collect.IntoIterator K Clause5_Item Clause5_IntoIter)
+  (coreborrowBorrowInst : core.borrow.Borrow Clause5_Item Clause0_Point)
+  (self : Self) (static_scalars : I) (dynamic_scalars : J) (dynamic_points : K)
+  :
+  Result Clause0_Point
+  := do
+  let t ← coreitertraitscollectIntoIteratorInst2.into_iter dynamic_points
+  let v ←
+    traits.collect_optional_points
+      VartimePrecomputedMultiscalarMulInst.corecloneCloneInst
+      coreitertraitscollectIntoIteratorInst2.iteratorInst coreborrowBorrowInst
+      t
+  let o ←
+    VartimePrecomputedMultiscalarMulInst.optional_mixed_multiscalar_mul
+      coreitertraitscollectIntoIteratorInst
+      coreborrowBorrowClause1_ItemScalarInst
+      coreitertraitscollectIntoIteratorInst1
+      coreborrowBorrowClause3_ItemScalarInst
+      (core.iter.traits.collect.IntoIteratorVec (Option Clause0_Point)) self
+      static_scalars dynamic_scalars v
+  core.option.Option.expect o (toStr "should return some point")
+
+/-- [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_multiscalar_mul]:
+    Source: 'curve25519-dalek/src/traits.rs', lines 355:4-372:5
+    Visibility: public -/
+@[trait_default]
+def traits.VartimePrecomputedMultiscalarMul.vartime_multiscalar_mul.default
+  {Self : Type} {I : Type} {Clause0_Point : Type} {Clause1_Item : Type}
+  {Clause1_IntoIter : Type} (VartimePrecomputedMultiscalarMulInst :
+  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
+  (coreitertraitscollectIntoIteratorInst :
+  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
+  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
+  scalar.Scalar) (self : Self) (static_scalars : I) :
+  Result Clause0_Point
+  := do
+  VartimePrecomputedMultiscalarMulInst.vartime_mixed_multiscalar_mul
+    coreitertraitscollectIntoIteratorInst
+    coreborrowBorrowClause1_ItemScalarInst
+    (core.iter.traits.collect.IntoIteratorVec scalar.Scalar)
+    (core.borrow.Borrow.Blanket scalar.Scalar)
+    (core.iter.traits.collect.IntoIteratorVec Clause0_Point)
+    (core.borrow.Borrow.Blanket Clause0_Point) self static_scalars
+    (alloc.vec.Vec.new scalar.Scalar) (alloc.vec.Vec.new Clause0_Point)
+
+/-- [curve25519_dalek::edwards::{impl core::clone::Clone for curve25519_dalek::edwards::EdwardsPoint}::clone]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 388:15-388:20
+    Visibility: public -/
+def edwards.EdwardsPoint.Insts.CoreCloneClone.clone
+  (self : edwards.EdwardsPoint) : Result edwards.EdwardsPoint := do
+  ok self
+
+/-- Trait implementation: [curve25519_dalek::edwards::{impl core::clone::Clone for curve25519_dalek::edwards::EdwardsPoint}]
+    Source: 'curve25519-dalek/src/edwards.rs', lines 388:15-388:20 -/
+@[reducible]
+def edwards.EdwardsPoint.Insts.CoreCloneClone : core.clone.Clone
+  edwards.EdwardsPoint := {
+  clone := edwards.EdwardsPoint.Insts.CoreCloneClone.clone
+}
+
+/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::is_empty]:
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 53:4-55:5
+    Visibility: public -/
+def
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.is_empty
+  (self :
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus) :
+  Result Bool
+  := do
+  alloc.vec.Vec.is_empty Global self.static_lookup_tables
+
+/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::len]:
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 49:4-51:5
+    Visibility: public -/
+def
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.len
+  (self :
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus) :
+  Result Std.Usize
+  := do
+  ok (alloc.vec.Vec.len self.static_lookup_tables)
+
+/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}]
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 33:0-128:1 -/
+@[reducible]
+impl_def
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint
+  : traits.VartimePrecomputedMultiscalarMul
+  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus
+  edwards.EdwardsPoint := {
+  corecloneCloneInst := edwards.EdwardsPoint.Insts.CoreCloneClone
+  new := fun {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause0_Item
+    edwards.EdwardsPoint) =>
+    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.new
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPEdwardsPointInst
+  len :=
+    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.len
+  is_empty :=
+    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.is_empty
+  vartime_multiscalar_mul := fun {I : Type} {Clause0_Item : Type}
+    {Clause0_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) =>
+    traits.VartimePrecomputedMultiscalarMul.vartime_multiscalar_mul.default
+    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+  vartime_mixed_multiscalar_mul := fun {I : Type} {J : Type} {K : Type}
+    {Clause0_Item : Type} {Clause0_IntoIter : Type} {Clause2_Item : Type}
+    {Clause2_IntoIter : Type} {Clause4_Item : Type} {Clause4_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
+    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
+    (coreborrowBorrowPScalarInst1 : core.borrow.Borrow Clause2_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
+    core.iter.traits.collect.IntoIterator K Clause4_Item Clause4_IntoIter)
+    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause4_Item
+    edwards.EdwardsPoint) =>
+    traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.default
+    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPScalarInst1
+    coreitertraitscollectIntoIteratorInst2 coreborrowBorrowPEdwardsPointInst
+  optional_mixed_multiscalar_mul := fun {I : Type} {J : Type} {K : Type}
+    {Clause0_Item : Type} {Clause0_IntoIter : Type} {Clause2_Item : Type}
+    {Clause2_IntoIter : Type} {Clause4_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
+    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
+    (coreborrowBorrowPScalarInst1 : core.borrow.Borrow Clause2_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst :
+    core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
+    Clause4_IntoIter) =>
+    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPScalarInst1
+    coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst
+}
+
+/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}]
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 49:0-145:1 -/
+@[reducible]
+def
+  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint
+  : traits.MultiscalarMul backend.serial.scalar_mul.straus.Straus
+  edwards.EdwardsPoint := {
+  multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
+    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
+    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
+    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause2_Item
+    edwards.EdwardsPoint) =>
+    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
+}
+
+/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}]
+    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 147:0-201:1 -/
+@[reducible]
+impl_def
+  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
+  : traits.VartimeMultiscalarMul backend.serial.scalar_mul.straus.Straus
+  edwards.EdwardsPoint := {
+  optional_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
+    {Clause0_IntoIter : Type} {Clause2_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst :
+    core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
+    Clause2_IntoIter) =>
+    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst
+  vartime_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
+    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
+    (coreitertraitscollectIntoIteratorInst :
+    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
+    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
+    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
+    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
+    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause2_Item
+    edwards.EdwardsPoint) (corecloneCloneEdwardsPointInst : core.clone.Clone
+    edwards.EdwardsPoint) =>
+    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
+    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
+    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
+    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
+    corecloneCloneEdwardsPointInst
+}
 
 /-- [curve25519_dalek::backend::serial::u64::constants::EDWARDS_D2]
     Source: 'curve25519-dalek/src/backend/serial/u64/constants.rs', lines 54:0-60:3 -/
@@ -2384,510 +2260,130 @@ def edwards.EdwardsPoint.as_projective_niels
       self.T fe2
   ok { Y_plus_X := fe, Y_minus_X := fe1, Z := self.Z, T2d := fe3 }
 
-/-- [curve25519_dalek::edwards::{impl core::ops::arith::Add<&'a curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for &'_1 curve25519_dalek::edwards::EdwardsPoint}::add]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 821:4-823:5
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop body 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 100:16-137:26
     Visibility: public -/
-def
-  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
-  (self : edwards.EdwardsPoint) (other : edwards.EdwardsPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  let pnp ← edwards.EdwardsPoint.as_projective_niels other
-  let cp ←
-    Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-      self pnp
-  backend.serial.curve_models.CompletedPoint.as_extended cp
-
-/-- [curve25519_dalek::edwards::{impl core::ops::arith::AddAssign<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add_assign]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 833:4-835:5
-    Visibility: public -/
-def
-  edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignSharedAEdwardsPoint.add_assign
-  (self : edwards.EdwardsPoint) (_rhs : edwards.EdwardsPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
-    self _rhs
-
-/-- [curve25519_dalek::edwards::{impl core::ops::arith::AddAssign<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add_assign]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 44:12-46:13
-    Visibility: public -/
-def edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignEdwardsPoint.add_assign
-  (self : edwards.EdwardsPoint) (rhs : edwards.EdwardsPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignSharedAEdwardsPoint.add_assign
-    self rhs
-
-/-- [curve25519_dalek::edwards::{impl core::ops::arith::Add<curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 33:12-35:13
-    Visibility: public -/
-def edwards.EdwardsPoint.Insts.CoreOpsArithAddEdwardsPointEdwardsPoint.add
-  (self : edwards.EdwardsPoint) (rhs : edwards.EdwardsPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
-    self rhs
-
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::as_projective]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 543:4-549:5 -/
-def edwards.EdwardsPoint.as_projective
-  (self : edwards.EdwardsPoint) :
-  Result backend.serial.curve_models.ProjectivePoint
-  := do
-  ok { X := self.X, Y := self.Y, Z := self.Z }
-
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_pow_2]: loop body 0:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1398:8-1401:9 -/
 @[rust_loop_body]
-def edwards.EdwardsPoint.mul_by_pow_2_loop.body
-  (iter : core.ops.range.Range Std.U32)
-  (s : backend.serial.curve_models.ProjectivePoint) :
-  Result (ControlFlow ((core.ops.range.Range Std.U32) ×
-    backend.serial.curve_models.ProjectivePoint)
-    backend.serial.curve_models.ProjectivePoint)
+def
+  window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
+  (P : edwards.EdwardsPoint) (iter : core.ops.range.Range Std.Usize)
+  (points : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize) :
+  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (Array
+    backend.serial.curve_models.ProjectiveNielsPoint 8#usize)) (Array
+    backend.serial.curve_models.ProjectiveNielsPoint 8#usize))
   := do
   let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepU32 iter
+    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
   match o with
-  | none => ok (done s)
-  | some _ =>
-    let r ← backend.serial.curve_models.ProjectivePoint.double s
-    let s1 ← backend.serial.curve_models.CompletedPoint.as_projective r
-    ok (cont (iter1, s1))
+  | none => ok (done points)
+  | some j =>
+    let pnp ← Array.index_usize points j
+    let cp ←
+      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
+        P pnp
+    let ep ← backend.serial.curve_models.CompletedPoint.as_extended cp
+    let pnp1 ← edwards.EdwardsPoint.as_projective_niels ep
+    let i ← j + 1#usize
+    let a ← Array.update points i pnp1
+    ok (cont (iter1, a))
 
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_pow_2]: loop 0:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1398:8-1401:9 -/
-@[rust_loop]
-def edwards.EdwardsPoint.mul_by_pow_2_loop
-  (iter : core.ops.range.Range Std.U32)
-  (s : backend.serial.curve_models.ProjectivePoint) :
-  Result backend.serial.curve_models.ProjectivePoint
-  := do
-  loop
-    (fun (iter1, s1) => edwards.EdwardsPoint.mul_by_pow_2_loop.body iter1 s1)
-    (iter, s)
-
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_pow_2]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1394:4-1404:5 -/
-def edwards.EdwardsPoint.mul_by_pow_2
-  (self : edwards.EdwardsPoint) (k : Std.U32) :
-  Result edwards.EdwardsPoint
-  := do
-  massert (k > 0#u32)
-  let s ← edwards.EdwardsPoint.as_projective self
-  let i ← k - 1#u32
-  let s1 ←
-    edwards.EdwardsPoint.mul_by_pow_2_loop { start := 0#u32, «end» := i } s
-  let cp ← backend.serial.curve_models.ProjectivePoint.double s1
-  backend.serial.curve_models.CompletedPoint.as_extended cp
-
-/-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::Identity for curve25519_dalek::edwards::EdwardsPoint}::identity]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 431:4-438:5
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 100:16-137:26
     Visibility: public -/
-def edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
-  : Result edwards.EdwardsPoint := do
-  let fe ← backend.serial.u64.field.FieldElement51.ZERO
-  let fe1 ← backend.serial.u64.field.FieldElement51.ONE
-  ok { X := fe, Y := fe1, Z := fe1, T := fe }
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2::{impl core::ops::function::FnOnce<(curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint,), ([i8; 64usize], curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint)> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2::closure<'_0, I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 103:44-103:54 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleProjectiveNielsPointPairArrayI864ProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : backend.serial.curve_models.ProjectiveNielsPoint) :
-  Result ((Array Std.I8 64#usize) ×
-    backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  ok (c, tupled_args)
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2::{impl core::ops::function::FnOnce<(curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint,), ([i8; 64usize], curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint)> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2::closure<'_0, I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 103:44-103:54 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleProjectiveNielsPointPairArrayI864ProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  backend.serial.curve_models.ProjectiveNielsPoint ((Array Std.I8 64#usize) ×
-  backend.serial.curve_models.ProjectiveNielsPoint) := {
-  call_once :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleProjectiveNielsPointPairArrayI864ProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(([i8; 64usize], core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>),), core::option::Option<([i8; 64usize], curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint)>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 103:17-103:55 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : ((Array Std.I8 64#usize) × (Option
-  backend.serial.curve_models.ProjectiveNielsPoint))) :
-  Result ((Option ((Array Std.I8 64#usize) ×
-    backend.serial.curve_models.ProjectiveNielsPoint)) ×
-    (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2
-    I J Clause0_Item Clause0_IntoIter Clause2_IntoIter))
-  := do
-  let (s, maybe_p) := tupled_args
-  let o ←
-    core.option.Option.map
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleProjectiveNielsPointPairArrayI864ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      maybe_p s
-  ok (o, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(([i8; 64usize], core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>),), core::option::Option<([i8; 64usize], curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint)>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 103:17-103:55 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (p : ((Array Std.I8 64#usize) × (Option
-  backend.serial.curve_models.ProjectiveNielsPoint))) :
-  Result (Option ((Array Std.I8 64#usize) ×
-    backend.serial.curve_models.ProjectiveNielsPoint))
-  := do
-  let (o, _) ←
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-      c p
-  ok o
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(([i8; 64usize], core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>),), core::option::Option<([i8; 64usize], curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint)>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 103:17-103:55 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) ((Array Std.I8 64#usize)
-  × (Option backend.serial.curve_models.ProjectiveNielsPoint)) (Option ((Array
-  Std.I8 64#usize) × backend.serial.curve_models.ProjectiveNielsPoint)) := {
-  call_once :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(([i8; 64usize], core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>),), core::option::Option<([i8; 64usize], curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint)>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#2<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 103:17-103:55 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) ((Array Std.I8 64#usize)
-  × (Option backend.serial.curve_models.ProjectiveNielsPoint)) (Option ((Array
-  Std.I8 64#usize) × backend.serial.curve_models.ProjectiveNielsPoint)) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 99:27-99:54 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : edwards.EdwardsPoint) :
-  Result backend.serial.curve_models.ProjectiveNielsPoint
-  := do
-  edwards.EdwardsPoint.as_projective_niels tupled_args
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 99:27-99:54 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) edwards.EdwardsPoint
-  backend.serial.curve_models.ProjectiveNielsPoint := {
-  call_once :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 99:17-99:55 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : Option edwards.EdwardsPoint) :
-  Result ((Option backend.serial.curve_models.ProjectiveNielsPoint) ×
-    (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1
-    I J Clause0_Item Clause0_IntoIter Clause2_IntoIter))
-  := do
-  let o ←
-    core.option.Option.map
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      tupled_args ()
-  ok (o, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 99:17-99:55 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (o : Option edwards.EdwardsPoint) :
-  Result (Option backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  let (o1, _) ←
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-      c o
-  ok o1
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 99:17-99:55 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (Option
-  edwards.EdwardsPoint) (Option
-  backend.serial.curve_models.ProjectiveNielsPoint) := {
-  call_once :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 99:17-99:55 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (Option
-  edwards.EdwardsPoint) (Option
-  backend.serial.curve_models.ProjectiveNielsPoint) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionProjectiveNielsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::scalar::read_le_u64_into]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1390:4-1396:5 -/
-@[rust_loop_body]
-def scalar.read_le_u64_into_loop.body
-  (iter : core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
-  (core.slice.iter.IterMut Std.U64))
-  (back : core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
-  (core.slice.iter.IterMut Std.U64) → core.iter.adapters.zip.Zip
-  (core.slice.iter.Chunks Std.U8) (core.slice.iter.IterMut Std.U64)) :
-  Result (ControlFlow ((core.iter.adapters.zip.Zip (core.slice.iter.Chunks
-    Std.U8) (core.slice.iter.IterMut Std.U64)) × (core.iter.adapters.zip.Zip
-    (core.slice.iter.Chunks Std.U8) (core.slice.iter.IterMut Std.U64) →
-    core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
-    (core.slice.iter.IterMut Std.U64))) (core.iter.adapters.zip.Zip
-    (core.slice.iter.Chunks Std.U8) (core.slice.iter.IterMut Std.U64)))
-  := do
-  let (o, iter1, next_back) ←
-    core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair.next
-      (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice
-      Std.U8)
-      (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT
-      Std.U64) iter
-  match o with
-  | none => ok (done (let z := next_back iter1 none
-                      back z))
-  | some p =>
-    let (bytes, _) := p
-    let r ←
-      core.array.TryFromArrayCopySlice.try_from 8#usize core.marker.CopyU8
-        bytes
-    let a ←
-      core.result.Result.expect core.fmt.DebugTryFromSliceError r (toStr
-        "Incorrect src length, should be 8 * dst.len()")
-    let val ← lift (core.num.U64.from_le_bytes a)
-    ok (cont (iter1,
-      fun z => let z1 := next_back z (some (bytes, val))
-               back z1))
-
-/-- [curve25519_dalek::scalar::read_le_u64_into]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1390:4-1396:5 -/
 @[rust_loop]
-def scalar.read_le_u64_into_loop
-  (iter : core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
-  (core.slice.iter.IterMut Std.U64))
-  (back : core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
-  (core.slice.iter.IterMut Std.U64) → core.iter.adapters.zip.Zip
-  (core.slice.iter.Chunks Std.U8) (core.slice.iter.IterMut Std.U64)) :
-  Result (core.iter.adapters.zip.Zip (core.slice.iter.Chunks Std.U8)
-    (core.slice.iter.IterMut Std.U64))
+def
+  window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
+  (iter : core.ops.range.Range Std.Usize) (P : edwards.EdwardsPoint)
+  (points : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize) :
+  Result (Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize)
   := do
   loop
-    (fun (iter1, back1) => scalar.read_le_u64_into_loop.body iter1 back1)
-    (iter, back)
+    (fun (iter1, points1) =>
+      window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
+      P iter1 points1)
+    (iter, points)
 
-/-- [curve25519_dalek::scalar::read_le_u64_into]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1383:0-1397:1 -/
-def scalar.read_le_u64_into
-  (src : Slice Std.U8) (dst : Slice Std.U64) : Result (Slice Std.U64) := do
-  let i := Slice.len src
-  let i1 := Slice.len dst
-  let i2 ← 8#usize * i1
-  if i = i2
-  then
-    let c ← core.slice.Slice.chunks src 8#usize
-    let (im, iter_mut_back) ← core.slice.Slice.iter_mut dst
-    let (iter, zip_back) ←
-      core.iter.traits.iterator.Iterator.zip.trait_default
-        (core.slice.iter.Chunks.Insts.CoreIterTraitsIteratorIteratorSharedASlice
-        Std.U8) (core.iter.traits.collect.IntoIterator.Blanket
-        (core.slice.iter.IterMut.Insts.CoreIterTraitsIteratorIteratorMutAT
-        Std.U64)) c im
-    let back ← scalar.read_le_u64_into_loop iter (fun z => z)
-    let im1 := zip_back back
-    ok (iter_mut_back im1)
-  else
-    let i3 := Slice.len src
-    let i4 := Slice.len dst
-    let a ← core.fmt.rt.Argument.new_display Usize.Insts.CoreFmtDisplay i3
-    let a1 ← core.fmt.rt.Argument.new_display Usize.Insts.CoreFmtDisplay i4
-    let _ ←
-      core.fmt.Arguments.new
-        (Array.make 31#usize [
-          12#u8, 115#u8, 114#u8, 99#u8, 46#u8, 108#u8, 101#u8, 110#u8, 40#u8,
-          41#u8, 32#u8, 61#u8, 32#u8, 192#u8, 14#u8, 44#u8, 32#u8, 100#u8,
-          115#u8, 116#u8, 46#u8, 108#u8, 101#u8, 110#u8, 40#u8, 41#u8, 32#u8,
-          61#u8, 32#u8, 192#u8, 0#u8
-          ]) (Array.make 2#usize [ a, a1 ])
-    fail panic
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]:
+    Source: 'curve25519-dalek/src/window.rs', lines 98:12-104:13
+    Visibility: public -/
+def
+  window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
+  (P : edwards.EdwardsPoint) :
+  Result (window.LookupTable backend.serial.curve_models.ProjectiveNielsPoint)
+  := do
+  let pnp ← edwards.EdwardsPoint.as_projective_niels P
+  let points := Array.repeat 8#usize pnp
+  let points1 ←
+    window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
+      { start := 0#usize, «end» := 7#usize } P points
+  ok points1
+
+/-- [curve25519_dalek::window::{curve25519_dalek::window::LookupTable<T>}::select]: loop body 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 64:16-136:20
+    Visibility: public -/
+@[rust_loop_body]
+def window.LookupTable.select_loop.body
+  {T : Type} (subtleConditionallySelectableInst :
+  subtle.ConditionallySelectable T) (xabs : Std.I16)
+  (iter : core.ops.range.Range Std.Usize) (self : window.LookupTable T) 
+  (t : T) :
+  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (window.LookupTable
+    T) × T) T)
+  := do
+  let (o, iter1) ←
+    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
+  match o with
+  | none => ok (done t)
+  | some j =>
+    let i ← lift (IScalar.hcast .U16 xabs)
+    let i1 ← lift (UScalar.cast .U16 j)
+    let c ← U16.Insts.SubtleConstantTimeEq.ct_eq i i1
+    let i2 ← j - 1#usize
+    let t1 ← Array.index_usize self i2
+    let t2 ← subtleConditionallySelectableInst.conditional_assign t t1 c
+    ok (cont (iter1, self, t2))
+
+/-- [curve25519_dalek::window::{curve25519_dalek::window::LookupTable<T>}::select]: loop 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 64:16-136:20
+    Visibility: public -/
+@[rust_loop]
+def window.LookupTable.select_loop
+  {T : Type} (subtleConditionallySelectableInst :
+  subtle.ConditionallySelectable T) (iter : core.ops.range.Range Std.Usize)
+  (self : window.LookupTable T) (xabs : Std.I16) (t : T) :
+  Result T
+  := do
+  loop
+    (fun (iter1, self1, t1) => window.LookupTable.select_loop.body
+      subtleConditionallySelectableInst xabs iter1 self1 t1)
+    (iter, self, t)
+
+/-- [curve25519_dalek::window::{curve25519_dalek::window::LookupTable<T>}::select]:
+    Source: 'curve25519-dalek/src/window.rs', lines 54:12-76:13
+    Visibility: public -/
+def window.LookupTable.select
+  {T : Type} (traitsIdentityInst : traits.Identity T)
+  (subtleConditionallySelectableInst : subtle.ConditionallySelectable T)
+  (subtleConditionallyNegatableInst : subtle.ConditionallyNegatable T)
+  (self : window.LookupTable T) (x : Std.I8) :
+  Result T
+  := do
+  massert (x >= (-8)#i8)
+  let i ← lift (IScalar.cast .I16 x)
+  massert (i <= 8#i16)
+  let i1 ← lift (IScalar.cast .I16 x)
+  let xmask ← i1 >>> 7#i32
+  let i2 ← lift (IScalar.cast .I16 x)
+  let i3 ← i2 + xmask
+  let xabs ← lift (i3 ^^^ xmask)
+  let t ← traitsIdentityInst.identity
+  let t1 ←
+    window.LookupTable.select_loop subtleConditionallySelectableInst
+      { start := 1#usize, «end» := 9#usize } self xabs t
+  let i4 ← lift (xmask &&& 1#i16)
+  let i5 ← lift (IScalar.hcast .U8 i4)
+  let neg_mask ← subtle.Choice.Insts.CoreConvertFromU8.from i5
+  subtleConditionallyNegatableInst.conditional_negate t1 neg_mask
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_16::top_half]:
     Source: 'curve25519-dalek/src/scalar.rs', lines 1043:8-1045:9 -/
@@ -2996,3228 +2492,14 @@ def scalar.Scalar.as_radix_16
   scalar.Scalar.as_radix_16_loop1 { start := 0#usize, «end» := 63#usize }
     output1
 
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1124:8-1146:9 -/
-@[rust_loop_body]
-def scalar.Scalar.as_radix_2w_loop.body
-  (w : Std.Usize) (scalar64x4 : Array Std.U64 4#usize) (radix : Std.U64)
-  (window_mask : Std.U64) (iter : core.ops.range.Range Std.Usize)
-  (carry : Std.U64) (digits : Array Std.I8 64#usize) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) × Std.U64 × (Array
-    Std.I8 64#usize)) (Std.U64 × (Array Std.I8 64#usize)))
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done (carry, digits))
-  | some i =>
-    let bit_offset ← i * w
-    let u64_idx ← bit_offset / 64#usize
-    let bit_idx ← bit_offset % 64#usize
-    let i1 ← 64#usize - w
-    let (iter2, bit_buf) ←
-      if bit_idx < i1
-      then
-        do
-        let i2 ← Array.index_usize scalar64x4 u64_idx
-        let bit_buf1 ← i2 >>> bit_idx
-        ok (iter1, bit_buf1)
-      else
-        do
-        let i2 ←
-          if u64_idx = 3#usize
-          then
-            do
-            let i3 ← Array.index_usize scalar64x4 u64_idx
-            i3 >>> bit_idx
-          else
-            do
-            let i3 ← Array.index_usize scalar64x4 u64_idx
-            let i4 ← i3 >>> bit_idx
-            let i5 ← 1#usize + u64_idx
-            let i6 ← Array.index_usize scalar64x4 i5
-            let i7 ← 64#usize - bit_idx
-            let i8 ← i6 <<< i7
-            ok (i4 ||| i8)
-        ok (iter1, i2)
-    let i2 ← lift (bit_buf &&& window_mask)
-    let coef ← carry + i2
-    let i3 ← radix / 2#u64
-    let i4 ← coef + i3
-    let carry1 ← i4 >>> w
-    let i5 ← lift (UScalar.hcast .I64 coef)
-    let i6 ← carry1 <<< w
-    let i7 ← lift (UScalar.hcast .I64 i6)
-    let i8 ← i5 - i7
-    let i9 ← lift (IScalar.cast .I8 i8)
-    let a ← Array.update digits i i9
-    ok (cont (iter2, carry1, a))
-
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1124:8-1146:9 -/
-@[rust_loop]
-def scalar.Scalar.as_radix_2w_loop
-  (iter : core.ops.range.Range Std.Usize) (w : Std.Usize)
-  (scalar64x4 : Array Std.U64 4#usize) (radix : Std.U64)
-  (window_mask : Std.U64) (carry : Std.U64) (digits : Array Std.I8 64#usize) :
-  Result (Std.U64 × (Array Std.I8 64#usize))
-  := do
-  loop
-    (fun (iter1, carry1, digits1) => scalar.Scalar.as_radix_2w_loop.body w
-      scalar64x4 radix window_mask iter1 carry1 digits1)
-    (iter, carry, digits)
-
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1105:4-1162:5 -/
-def scalar.Scalar.as_radix_2w
-  (self : scalar.Scalar) (w : Std.Usize) : Result (Array Std.I8 64#usize) := do
-  massert (w >= 4#usize)
-  massert (w <= 8#usize)
-  if w = 4#usize
-  then scalar.Scalar.as_radix_16 self
-  else
-    let scalar64x4 := Array.repeat 4#usize 0#u64
-    let s ← lift (Array.to_slice self.bytes)
-    let (s1, index_mut_back) ←
-      core.array.Array.index_mut (core.ops.index.IndexMutSlice
-        (core.slice.index.SliceIndexRangeUsizeSlice Std.U64)) scalar64x4
-        { start := 0#usize, «end» := 4#usize }
-    let s2 ← scalar.read_le_u64_into s s1
-    let radix ← 1#u64 <<< w
-    let window_mask ← radix - 1#u64
-    let digits := Array.repeat 64#usize 0#i8
-    let digits_count ← core.num.Usize.div_ceil 256#usize w
-    let scalar64x41 := index_mut_back s2
-    let (carry, digits1) ←
-      scalar.Scalar.as_radix_2w_loop
-        { start := 0#usize, «end» := digits_count } w scalar64x41 radix
-        window_mask 0#u64 digits
-    match w.val with
-    | 8 =>
-      let i ← lift (UScalar.hcast .I8 carry)
-      let i1 ← Array.index_usize digits1 digits_count
-      let i2 ← i1 + i
-      Array.update digits1 digits_count i2
-    | _ =>
-      let i ← carry <<< w
-      let i1 ← lift (UScalar.hcast .I8 i)
-      let i2 ← digits_count - 1#usize
-      let i3 ← Array.index_usize digits1 i2
-      let i4 ← i3 + i1
-      Array.update digits1 i2 i4
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure<'_0, I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 95:34-95:63 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : Clause0_Item) :
-  Result ((Array Std.I8 64#usize) ×
-    (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure
-    I J Clause0_Item Clause0_IntoIter Clause2_IntoIter))
-  := do
-  let s ← coreborrowBorrowClause0_ItemScalarInst.borrow tupled_args
-  let a ← scalar.Scalar.as_radix_2w s c
-  ok (a, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure<'_0, I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 95:34-95:63 -/
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (t : Clause0_Item) :
-  Result (Array Std.I8 64#usize)
-  := do
-  let (a, _) ←
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-      c t
-  ok a
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure<'_0, I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 95:34-95:63 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) Clause0_Item (Array
-  Std.I8 64#usize) := {
-  call_once :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul::closure<'_0, I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 95:34-95:63 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) Clause0_Item (Array
-  Std.I8 64#usize) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop body 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 117:12-120:13
+/-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::Identity for curve25519_dalek::edwards::EdwardsPoint}::identity]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 431:4-438:5
     Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0.body
-  (buckets_count : Std.Usize) (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (b : Std.Usize) :
-  Result (ControlFlow ((alloc.vec.Vec edwards.EdwardsPoint) × Std.Usize)
-    (alloc.vec.Vec edwards.EdwardsPoint))
-  := do
-  if b < buckets_count
-  then
-    let ep ←
-      edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
-    let buckets1 ← alloc.vec.Vec.push buckets ep
-    let b1 ← b + 1#usize
-    ok (cont (buckets1, b1))
-  else ok (done buckets)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 117:12-120:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0
-  (buckets_count : Std.Usize) (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (b : Std.Usize) :
-  Result (alloc.vec.Vec edwards.EdwardsPoint)
-  := do
-  loop
-    (fun (buckets1, b1) =>
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0.body
-      buckets_count buckets1 b1)
-    (buckets, b)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop body 2:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 132:12-135:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop0.body
-  (buckets_count : Std.Usize) (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (b : Std.Usize) :
-  Result (ControlFlow ((alloc.vec.Vec edwards.EdwardsPoint) × Std.Usize)
-    (alloc.vec.Vec edwards.EdwardsPoint))
-  := do
-  if b < buckets_count
-  then
-    let ep ←
-      edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
-    let (_, index_mut_back) ←
-      alloc.vec.Vec.index_mut (core.slice.index.SliceIndexUsizeSlice
-        edwards.EdwardsPoint) buckets b
-    let b1 ← b + 1#usize
-    let buckets1 := index_mut_back ep
-    ok (cont (buckets1, b1))
-  else ok (done buckets)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop 2:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 132:12-135:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop0
-  (buckets_count : Std.Usize) (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (b : Std.Usize) :
-  Result (alloc.vec.Vec edwards.EdwardsPoint)
-  := do
-  loop
-    (fun (buckets1, b1) =>
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop0.body
-      buckets_count buckets1 b1)
-    (buckets, b)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop body 3:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 139:12-155:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop1.body
-  (scalars_points : alloc.vec.Vec ((Array Std.I8 64#usize) ×
-  backend.serial.curve_models.ProjectiveNielsPoint)) (digit_index : Std.Usize)
-  (buckets : alloc.vec.Vec edwards.EdwardsPoint) (si : Std.Usize) :
-  Result (ControlFlow ((alloc.vec.Vec edwards.EdwardsPoint) × Std.Usize)
-    (alloc.vec.Vec edwards.EdwardsPoint))
-  := do
-  let i := alloc.vec.Vec.len scalars_points
-  if si < i
-  then
-    let (digits, pt) ←
-      alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice ((Array Std.I8
-        64#usize) × backend.serial.curve_models.ProjectiveNielsPoint))
-        scalars_points si
-    let i1 ← Array.index_usize digits digit_index
-    let digit ← lift (IScalar.cast .I16 i1)
-    let o ← lift (core.cmp.impls.OrdI16.cmp digit 0#i16)
-    let buckets1 ←
-      match o with
-      | Ordering.lt =>
-        do
-        let i2 ← -. digit
-        let i3 ← i2 - 1#i16
-        let b ← lift (IScalar.hcast .Usize i3)
-        let ep ←
-          alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-            edwards.EdwardsPoint) buckets b
-        let cp ←
-          Shared0EdwardsPoint.Insts.CoreOpsArithSubSharedAProjectiveNielsPointCompletedPoint.sub
-            ep pt
-        let ep1 ← backend.serial.curve_models.CompletedPoint.as_extended cp
-        let (_, index_mut_back) ←
-          alloc.vec.Vec.index_mut (core.slice.index.SliceIndexUsizeSlice
-            edwards.EdwardsPoint) buckets b
-        ok (index_mut_back ep1)
-      | Ordering.eq => ok buckets
-      | Ordering.gt =>
-        do
-        let i2 ← digit - 1#i16
-        let b ← lift (IScalar.hcast .Usize i2)
-        let ep ←
-          alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-            edwards.EdwardsPoint) buckets b
-        let cp ←
-          Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-            ep pt
-        let ep1 ← backend.serial.curve_models.CompletedPoint.as_extended cp
-        let (_, index_mut_back) ←
-          alloc.vec.Vec.index_mut (core.slice.index.SliceIndexUsizeSlice
-            edwards.EdwardsPoint) buckets b
-        ok (index_mut_back ep1)
-    let si1 ← si + 1#usize
-    ok (cont (buckets1, si1))
-  else ok (done buckets)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop 3:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 139:12-155:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop1
-  (scalars_points : alloc.vec.Vec ((Array Std.I8 64#usize) ×
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (buckets : alloc.vec.Vec edwards.EdwardsPoint) (digit_index : Std.Usize)
-  (si : Std.Usize) :
-  Result (alloc.vec.Vec edwards.EdwardsPoint)
-  := do
-  loop
-    (fun (buckets1, si1) =>
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop1.body
-      scalars_points digit_index buckets1 si1)
-    (buckets, si)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop body 4:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 163:12-167:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop2.body
-  (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (buckets_intermediate_sum : edwards.EdwardsPoint)
-  (buckets_sum : edwards.EdwardsPoint) (i : Std.Usize) :
-  Result (ControlFlow (edwards.EdwardsPoint × edwards.EdwardsPoint ×
-    Std.Usize) edwards.EdwardsPoint)
-  := do
-  if i > 0#usize
-  then
-    let i1 ← i - 1#usize
-    let ep ←
-      alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-        edwards.EdwardsPoint) buckets i1
-    let buckets_intermediate_sum1 ←
-      edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignEdwardsPoint.add_assign
-        buckets_intermediate_sum ep
-    let buckets_sum1 ←
-      edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignEdwardsPoint.add_assign
-        buckets_sum buckets_intermediate_sum1
-    ok (cont (buckets_intermediate_sum1, buckets_sum1, i1))
-  else ok (done buckets_sum)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop 4:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 163:12-167:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop2
-  (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (buckets_intermediate_sum : edwards.EdwardsPoint)
-  (buckets_sum : edwards.EdwardsPoint) (i : Std.Usize) :
-  Result edwards.EdwardsPoint
-  := do
-  loop
-    (fun (buckets_intermediate_sum1, buckets_sum1, i1) =>
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop2.body
-      buckets buckets_intermediate_sum1 buckets_sum1 i1)
-    (buckets_intermediate_sum, buckets_sum, i)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop body 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 127:8-173:9
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1.body
-  (w : Std.Usize) (buckets_count : Std.Usize)
-  (scalars_points : alloc.vec.Vec ((Array Std.I8 64#usize) ×
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (total : Option edwards.EdwardsPoint) (digit_index : Std.Usize) :
-  Result (ControlFlow ((alloc.vec.Vec edwards.EdwardsPoint) × (Option
-    edwards.EdwardsPoint) × Std.Usize) (Option edwards.EdwardsPoint))
-  := do
-  if digit_index > 0#usize
-  then
-    let digit_index1 ← digit_index - 1#usize
-    let buckets1 ←
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop0
-        buckets_count buckets 0#usize
-    let buckets2 ←
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop1
-        scalars_points buckets1 digit_index1 0#usize
-    let i ← buckets_count - 1#usize
-    let buckets_intermediate_sum ←
-      alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-        edwards.EdwardsPoint) buckets2 i
-    let buckets_sum ←
-      alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-        edwards.EdwardsPoint) buckets2 i
-    let buckets_sum1 ←
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1_loop2
-        buckets2 buckets_intermediate_sum buckets_sum i
-    match total with
-    | none => ok (cont (buckets2, some buckets_sum1, digit_index1))
-    | some t =>
-      let i1 ← lift (UScalar.cast .U32 w)
-      let ep ← edwards.EdwardsPoint.mul_by_pow_2 t i1
-      let buckets_sum2 ←
-        edwards.EdwardsPoint.Insts.CoreOpsArithAddEdwardsPointEdwardsPoint.add
-          ep buckets_sum1
-      ok (cont (buckets2, some buckets_sum2, digit_index1))
-  else ok (done total)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]: loop 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 127:8-173:9
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1
-  (w : Std.Usize) (buckets_count : Std.Usize)
-  (scalars_points : alloc.vec.Vec ((Array Std.I8 64#usize) ×
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (buckets : alloc.vec.Vec edwards.EdwardsPoint)
-  (total : Option edwards.EdwardsPoint) (digit_index : Std.Usize) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  loop
-    (fun (buckets1, total1, digit_index1) =>
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1.body
-      w buckets_count scalars_points buckets1 total1 digit_index1)
-    (buckets, total, digit_index)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}::optional_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 67:4-176:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) (scalars : I) (points : J) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  let scalars1 ← coreitertraitscollectIntoIteratorInst.into_iter scalars
-  let (t, by_ref_back) ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.by_ref scalars1
-  let (size, _) ←
-    Mut0I.Insts.CoreIterTraitsIteratorIterator.size_hint
-      coreitertraitscollectIntoIteratorInst.iteratorInst t
-  let (scalars2, w) ←
-    if size < 500#usize
-    then let scalars3 := by_ref_back t
-         ok (scalars3, 6#usize)
-    else
-      if size < 800#usize
-      then let scalars3 := by_ref_back t
-           ok (scalars3, 7#usize)
-      else let scalars3 := by_ref_back t
-           ok (scalars3, 8#usize)
-  let max_digit ← 1#usize <<< w
-  let digits_count ← scalar.Scalar.to_radix_2w_size_hint w
-  let buckets_count ← max_digit / 2#usize
-  let scalars3 ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.map
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      scalars2 w
-  let t1 ←
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.into_iter
-      points
-  let points1 ←
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst.map
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      t1 ()
-  let z ←
-    core.iter.traits.iterator.Iterator.zip.trait_default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst))
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)))
-      scalars3 points1
-  let m ←
-    core.iter.traits.iterator.Iterator.map.default
-      (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst))
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)))
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      z ()
-  let o ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      (core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst))
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)))
-      (backend.serial.scalar_mul.pippenger.VartimeMultiscalarMulPippengerEdwardsPoint.optional_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTuplePairArrayI864OptionProjectiveNielsPointOptionPairArrayI864ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst))
-      (core.option.Option.Insts.CoreIterTraitsCollectFromIteratorOption
-      (core.iter.traits.collect.FromIteratorVec ((Array Std.I8 64#usize) ×
-      backend.serial.curve_models.ProjectiveNielsPoint))) m
-  let cf ← core.option.Option.Insts.CoreOpsTry_traitTry.branch o
-  match cf with
-  | core.ops.control_flow.ControlFlow.Continue val =>
-    let buckets :=
-      alloc.vec.Vec.with_capacity edwards.EdwardsPoint buckets_count
-    let buckets1 ←
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0
-        buckets_count buckets 0#usize
-    let total ←
-      backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop1
-        w buckets_count val buckets1 none digits_count
-    let ep ←
-      core.option.Option.expect total (toStr
-        "should have more than zero digits")
-    ok (some ep)
-  | core.ops.control_flow.ControlFlow.Break residual =>
-    core.option.Option.Insts.CoreOpsTry_traitFromResidualOptionInfallible.from_residual
-      edwards.EdwardsPoint residual
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::pippenger::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs', lines 64:0-177:1 -/
-@[reducible]
-impl_def
-  backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
-  : traits.VartimeMultiscalarMul backend.serial.scalar_mul.pippenger.Pippenger
-  edwards.EdwardsPoint := {
-  optional_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} {Clause2_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst :
-    core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-    Clause2_IntoIter) =>
-    backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst
-  vartime_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause2_Item
-    edwards.EdwardsPoint) (corecloneCloneEdwardsPointInst : core.clone.Clone
-    edwards.EdwardsPoint) =>
-    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
-    backend.serial.scalar_mul.pippenger.Pippenger.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
-    corecloneCloneEdwardsPointInst
-}
-
-/-- [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(Clause5_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::closure<Self, I, J, K, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter, Clause5_Item, Clause5_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 376:43-376:71 -/
-def
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause5_ItemOption.call_mut
-  {Self : Type} {I : Type} {J : Type} {K : Type} {Clause0_Point : Type}
-  {Clause1_Item : Type} {Clause1_IntoIter : Type} {Clause3_Item : Type}
-  {Clause3_IntoIter : Type} {Clause5_Item : Type} {Clause5_IntoIter : Type}
-  (VartimePrecomputedMultiscalarMulInst :
-  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowClause3_ItemScalarInst : core.borrow.Borrow Clause3_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-  core.iter.traits.collect.IntoIterator K Clause5_Item Clause5_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause5_Item Clause0_Point)
-  (c :
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure
-  Self I J K Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item
-  Clause3_IntoIter Clause5_Item Clause5_IntoIter) (tupled_args : Clause5_Item)
-  :
-  Result ((Option Clause0_Point) ×
-    (traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure
-    Self I J K Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item
-    Clause3_IntoIter Clause5_Item Clause5_IntoIter))
-  := do
-  let t ← coreborrowBorrowInst.borrow tupled_args
-  let t1 ← VartimePrecomputedMultiscalarMulInst.corecloneCloneInst.clone t
-  ok (some t1, c)
-
-/-- [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause5_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::closure<Self, I, J, K, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter, Clause5_Item, Clause5_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 376:43-376:71 -/
-def
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause5_ItemOption.call_once
-  {Self : Type} {I : Type} {J : Type} {K : Type} {Clause0_Point : Type}
-  {Clause1_Item : Type} {Clause1_IntoIter : Type} {Clause3_Item : Type}
-  {Clause3_IntoIter : Type} {Clause5_Item : Type} {Clause5_IntoIter : Type}
-  (VartimePrecomputedMultiscalarMulInst :
-  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowClause3_ItemScalarInst : core.borrow.Borrow Clause3_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-  core.iter.traits.collect.IntoIterator K Clause5_Item Clause5_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause5_Item Clause0_Point)
-  (c :
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure
-  Self I J K Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item
-  Clause3_IntoIter Clause5_Item Clause5_IntoIter) (t : Clause5_Item) :
-  Result (Option Clause0_Point)
-  := do
-  let (o, _) ←
-    traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause5_ItemOption.call_mut
-      VartimePrecomputedMultiscalarMulInst
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause3_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst2 coreborrowBorrowInst c t
-  ok o
-
-/-- Trait implementation: [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause5_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::closure<Self, I, J, K, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter, Clause5_Item, Clause5_IntoIter>}]
-    Source: 'curve25519-dalek/src/traits.rs', lines 376:43-376:71 -/
-@[reducible]
-def
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause5_ItemOption
-  {Self : Type} {I : Type} {J : Type} {K : Type} {Clause0_Point : Type}
-  {Clause1_Item : Type} {Clause1_IntoIter : Type} {Clause3_Item : Type}
-  {Clause3_IntoIter : Type} {Clause5_Item : Type} {Clause5_IntoIter : Type}
-  (VartimePrecomputedMultiscalarMulInst :
-  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowClause3_ItemScalarInst : core.borrow.Borrow Clause3_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-  core.iter.traits.collect.IntoIterator K Clause5_Item Clause5_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause5_Item Clause0_Point) :
-  core.ops.function.FnOnce
-  (traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure
-  Self I J K Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item
-  Clause3_IntoIter Clause5_Item Clause5_IntoIter) Clause5_Item (Option
-  Clause0_Point) := {
-  call_once :=
-    traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause5_ItemOption.call_once
-    VartimePrecomputedMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause3_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst2 coreborrowBorrowInst
-}
-
-/-- Trait implementation: [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(Clause5_Item,), core::option::Option<Clause0_Point>> for curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul::closure<Self, I, J, K, Clause0_Point, Clause1_Item, Clause1_IntoIter, Clause3_Item, Clause3_IntoIter, Clause5_Item, Clause5_IntoIter>}]
-    Source: 'curve25519-dalek/src/traits.rs', lines 376:43-376:71 -/
-@[reducible]
-def
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause5_ItemOption
-  {Self : Type} {I : Type} {J : Type} {K : Type} {Clause0_Point : Type}
-  {Clause1_Item : Type} {Clause1_IntoIter : Type} {Clause3_Item : Type}
-  {Clause3_IntoIter : Type} {Clause5_Item : Type} {Clause5_IntoIter : Type}
-  (VartimePrecomputedMultiscalarMulInst :
-  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowClause3_ItemScalarInst : core.borrow.Borrow Clause3_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-  core.iter.traits.collect.IntoIterator K Clause5_Item Clause5_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause5_Item Clause0_Point) :
-  core.ops.function.FnMut
-  (traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure
-  Self I J K Clause0_Point Clause1_Item Clause1_IntoIter Clause3_Item
-  Clause3_IntoIter Clause5_Item Clause5_IntoIter) Clause5_Item (Option
-  Clause0_Point) := {
-  FnOnceInst :=
-    traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause5_ItemOption
-    VartimePrecomputedMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause3_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst2 coreborrowBorrowInst
-  call_mut :=
-    traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause5_ItemOption.call_mut
-    VartimePrecomputedMultiscalarMulInst coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause3_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst2 coreborrowBorrowInst
-}
-
-/-- [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_mixed_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 358:4-379:5
-    Visibility: public -/
-@[trait_default]
-def
-  traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.default
-  {Self : Type} {I : Type} {J : Type} {K : Type} {Clause0_Point : Type}
-  {Clause1_Item : Type} {Clause1_IntoIter : Type} {Clause3_Item : Type}
-  {Clause3_IntoIter : Type} {Clause5_Item : Type} {Clause5_IntoIter : Type}
-  (VartimePrecomputedMultiscalarMulInst :
-  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause3_Item Clause3_IntoIter)
-  (coreborrowBorrowClause3_ItemScalarInst : core.borrow.Borrow Clause3_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-  core.iter.traits.collect.IntoIterator K Clause5_Item Clause5_IntoIter)
-  (coreborrowBorrowInst : core.borrow.Borrow Clause5_Item Clause0_Point)
-  (self : Self) (static_scalars : I) (dynamic_scalars : J) (dynamic_points : K)
-  :
-  Result Clause0_Point
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst2.into_iter dynamic_points
-  let m ←
-    coreitertraitscollectIntoIteratorInst2.iteratorInst.map
-      (traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause5_ItemOption
-      VartimePrecomputedMultiscalarMulInst
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause3_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst2 coreborrowBorrowInst) t ()
-  let o ←
-    VartimePrecomputedMultiscalarMulInst.optional_mixed_multiscalar_mul
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause3_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst2.iteratorInst
-      (traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause5_ItemOption
-      VartimePrecomputedMultiscalarMulInst
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause1_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause3_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst2 coreborrowBorrowInst))) self
-      static_scalars dynamic_scalars m
-  core.option.Option.expect o (toStr "should return some point")
-
-/-- [curve25519_dalek::traits::VartimePrecomputedMultiscalarMul::vartime_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 324:4-337:5
-    Visibility: public -/
-@[trait_default]
-def traits.VartimePrecomputedMultiscalarMul.vartime_multiscalar_mul.default
-  {Self : Type} {I : Type} {Clause0_Point : Type} {Clause1_Item : Type}
-  {Clause1_IntoIter : Type} (VartimePrecomputedMultiscalarMulInst :
-  traits.VartimePrecomputedMultiscalarMul Self Clause0_Point)
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause1_Item Clause1_IntoIter)
-  (coreborrowBorrowClause1_ItemScalarInst : core.borrow.Borrow Clause1_Item
-  scalar.Scalar) (self : Self) (static_scalars : I) :
-  Result Clause0_Point
-  := do
-  let e ← core.iter.sources.empty.empty scalar.Scalar
-  let e1 ← core.iter.sources.empty.empty Clause0_Point
-  VartimePrecomputedMultiscalarMulInst.vartime_mixed_multiscalar_mul
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause1_ItemScalarInst
-    (core.iter.traits.collect.IntoIterator.Blanket
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator
-    scalar.Scalar)) (core.borrow.Borrow.Blanket scalar.Scalar)
-    (core.iter.traits.collect.IntoIterator.Blanket
-    (core.iter.sources.empty.Empty.Insts.CoreIterTraitsIteratorIterator
-    Clause0_Point)) (core.borrow.Borrow.Blanket Clause0_Point) self
-    static_scalars e e1
-
-/-- [curve25519_dalek::edwards::{impl core::clone::Clone for curve25519_dalek::edwards::EdwardsPoint}::clone]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 388:15-388:20
-    Visibility: public -/
-def edwards.EdwardsPoint.Insts.CoreCloneClone.clone
-  (self : edwards.EdwardsPoint) : Result edwards.EdwardsPoint := do
-  ok self
-
-/-- Trait implementation: [curve25519_dalek::edwards::{impl core::clone::Clone for curve25519_dalek::edwards::EdwardsPoint}]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 388:15-388:20 -/
-@[reducible]
-def edwards.EdwardsPoint.Insts.CoreCloneClone : core.clone.Clone
-  edwards.EdwardsPoint := {
-  clone := edwards.EdwardsPoint.Insts.CoreCloneClone.clone
-}
-
-/-- [curve25519_dalek::window::{curve25519_dalek::window::NafLookupTable8<T>}::select]:
-    Source: 'curve25519-dalek/src/window.rs', lines 233:4-238:5
-    Visibility: public -/
-def window.NafLookupTable8.select
-  {T : Type} (coremarkerCopyInst : core.marker.Copy T)
-  (self : window.NafLookupTable8 T) (x : Std.Usize) :
-  Result T
-  := do
-  let left_val ← lift (x &&& 1#usize)
-  massert (left_val = 1#usize)
-  massert (x < 128#usize)
-  let i ← x / 2#usize
-  Array.index_usize self i
-
-/-- [curve25519_dalek::window::{curve25519_dalek::window::NafLookupTable5<T>}::select]:
-    Source: 'curve25519-dalek/src/window.rs', lines 187:4-192:5
-    Visibility: public -/
-def window.NafLookupTable5.select
-  {T : Type} (coremarkerCopyInst : core.marker.Copy T)
-  (self : window.NafLookupTable5 T) (x : Std.Usize) :
-  Result T
-  := do
-  let left_val ← lift (x &&& 1#usize)
-  massert (left_val = 1#usize)
-  massert (x < 16#usize)
-  let i ← x / 2#usize
-  Array.index_usize self i
-
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::double]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 810:4-812:5 -/
-def edwards.EdwardsPoint.double
-  (self : edwards.EdwardsPoint) : Result edwards.EdwardsPoint := do
-  let pp ← edwards.EdwardsPoint.as_projective self
-  let cp ← backend.serial.curve_models.ProjectivePoint.double pp
-  backend.serial.curve_models.CompletedPoint.as_extended cp
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop body 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 205:8-207:9
-    Visibility: public -/
-@[rust_loop_body]
-def
-  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
-  (A2 : edwards.EdwardsPoint) (iter : core.ops.range.Range Std.Usize)
-  (Ai : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (Array
-    backend.serial.curve_models.ProjectiveNielsPoint 8#usize)) (Array
-    backend.serial.curve_models.ProjectiveNielsPoint 8#usize))
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done Ai)
-  | some i =>
-    let pnp ← Array.index_usize Ai i
-    let cp ←
-      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-        A2 pnp
-    let ep ← backend.serial.curve_models.CompletedPoint.as_extended cp
-    let pnp1 ← edwards.EdwardsPoint.as_projective_niels ep
-    let i1 ← i + 1#usize
-    let a ← Array.update Ai i1 pnp1
-    ok (cont (iter1, a))
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 205:8-207:9
-    Visibility: public -/
-@[rust_loop]
-def
-  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
-  (iter : core.ops.range.Range Std.Usize)
-  (Ai : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize)
-  (A2 : edwards.EdwardsPoint) :
-  Result (Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize)
-  := do
-  loop
-    (fun (iter1, Ai1) =>
-      window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
-      A2 iter1 Ai1)
-    (iter, Ai)
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]:
-    Source: 'curve25519-dalek/src/window.rs', lines 202:4-210:5
-    Visibility: public -/
-def
-  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-  (A : edwards.EdwardsPoint) :
-  Result (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  let pnp ← edwards.EdwardsPoint.as_projective_niels A
-  let Ai := Array.repeat 8#usize pnp
-  let A2 ← edwards.EdwardsPoint.double A
-  let Ai1 ←
-    window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
-      { start := 0#usize, «end» := 7#usize } Ai A2
-  ok Ai1
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 81:35-81:88 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : edwards.EdwardsPoint) :
-  Result (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-    tupled_args
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 81:35-81:88 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) edwards.EdwardsPoint (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint) := {
-  call_once :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 81:17-81:89 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_mut
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : Option edwards.EdwardsPoint) :
-  Result ((Option (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint)) ×
-    (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2
-    I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-    Clause4_IntoIter))
-  := do
-  let o ←
-    core.option.Option.map
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst)
-      tupled_args ()
-  ok (o, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 81:17-81:89 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (o : Option edwards.EdwardsPoint) :
-  Result (Option (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint))
-  := do
-  let (o1, _) ←
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-      c o
-  ok o1
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 81:17-81:89 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (Option edwards.EdwardsPoint) (Option
-  (window.NafLookupTable5 backend.serial.curve_models.ProjectiveNielsPoint))
-  := {
-  call_once :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#2<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 81:17-81:89 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (Option edwards.EdwardsPoint) (Option
-  (window.NafLookupTable5 backend.serial.curve_models.ProjectiveNielsPoint))
-  := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]: loop body 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 983:8-1016:9 -/
-@[rust_loop_body]
-def scalar.Scalar.non_adjacent_form_loop.body
-  (w : Std.Usize) (x_u64 : Array Std.U64 5#usize) (width : Std.U64)
-  (window_mask : Std.U64) (naf : Array Std.I8 256#usize) (pos : Std.Usize)
-  (carry : Std.U64) :
-  Result (ControlFlow ((Array Std.I8 256#usize) × Std.Usize × Std.U64) (Array
-    Std.I8 256#usize))
-  := do
-  if pos < 256#usize
-  then
-    let u64_idx ← pos / 64#usize
-    let bit_idx ← pos % 64#usize
-    let i ← 64#usize - w
-    let bit_buf ←
-      if bit_idx < i
-      then do
-           let i1 ← Array.index_usize x_u64 u64_idx
-           i1 >>> bit_idx
-      else
-        do
-        let i1 ← Array.index_usize x_u64 u64_idx
-        let i2 ← i1 >>> bit_idx
-        let i3 ← 1#usize + u64_idx
-        let i4 ← Array.index_usize x_u64 i3
-        let i5 ← 64#usize - bit_idx
-        let i6 ← i4 <<< i5
-        ok (i2 ||| i6)
-    let i1 ← lift (bit_buf &&& window_mask)
-    let window ← carry + i1
-    let i2 ← lift (window &&& 1#u64)
-    if i2 = 0#u64
-    then let pos1 ← pos + 1#usize
-         ok (cont (naf, pos1, carry))
-    else
-      let i3 ← width / 2#u64
-      let (naf1, carry1) ←
-        if window < i3
-        then
-          do
-          let i4 ← lift (UScalar.hcast .I8 window)
-          let a ← Array.update naf pos i4
-          ok (a, 0#u64)
-        else
-          do
-          let i4 ← lift (UScalar.hcast .I8 window)
-          let i5 ← lift (UScalar.hcast .I8 width)
-          let i6 ← lift (core.num.I8.wrapping_sub i4 i5)
-          let a ← Array.update naf pos i6
-          ok (a, 1#u64)
-      let pos1 ← pos + w
-      ok (cont (naf1, pos1, carry1))
-  else ok (done naf)
-
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]: loop 0:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 983:8-1016:9 -/
-@[rust_loop]
-def scalar.Scalar.non_adjacent_form_loop
-  (w : Std.Usize) (naf : Array Std.I8 256#usize)
-  (x_u64 : Array Std.U64 5#usize) (width : Std.U64) (window_mask : Std.U64)
-  (pos : Std.Usize) (carry : Std.U64) :
-  Result (Array Std.I8 256#usize)
-  := do
-  loop
-    (fun (naf1, pos1, carry1) => scalar.Scalar.non_adjacent_form_loop.body w
-      x_u64 width window_mask naf1 pos1 carry1)
-    (naf, pos, carry)
-
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 967:4-1019:5 -/
-def scalar.Scalar.non_adjacent_form
-  (self : scalar.Scalar) (w : Std.Usize) :
-  Result (Array Std.I8 256#usize)
-  := do
-  massert (w >= 2#usize)
-  massert (w <= 8#usize)
-  let naf := Array.repeat 256#usize 0#i8
-  let x_u64 := Array.repeat 5#usize 0#u64
-  let s ← lift (Array.to_slice self.bytes)
-  let (s1, index_mut_back) ←
-    core.array.Array.index_mut (core.ops.index.IndexMutSlice
-      (core.slice.index.SliceIndexRangeUsizeSlice Std.U64)) x_u64
-      { start := 0#usize, «end» := 4#usize }
-  let s2 ← scalar.read_le_u64_into s s1
-  let width ← 1#u64 <<< w
-  let window_mask ← width - 1#u64
-  let x_u641 := index_mut_back s2
-  scalar.Scalar.non_adjacent_form_loop w naf x_u641 width window_mask 0#usize
-    0#u64
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(Clause2_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#1<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 76:17-76:52 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause2_ItemArrayI8256.call_mut
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : Clause2_Item) :
-  Result ((Array Std.I8 256#usize) ×
-    (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1
-    I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-    Clause4_IntoIter))
-  := do
-  let s ← coreborrowBorrowClause2_ItemScalarInst.borrow tupled_args
-  let a ← scalar.Scalar.non_adjacent_form s 5#usize
-  ok (a, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause2_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#1<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 76:17-76:52 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemArrayI8256.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (t : Clause2_Item) :
-  Result (Array Std.I8 256#usize)
-  := do
-  let (a, _) ←
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause2_ItemArrayI8256.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-      c t
-  ok a
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause2_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#1<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 76:17-76:52 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemArrayI8256
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) Clause2_Item (Array Std.I8 256#usize) := {
-  call_once :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemArrayI8256.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(Clause2_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure#1<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 76:17-76:52 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause2_ItemArrayI8256
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) Clause2_Item (Array Std.I8 256#usize) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemArrayI8256
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause2_ItemArrayI8256.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 72:17-72:52 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256.call_mut
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : Clause0_Item) :
-  Result ((Array Std.I8 256#usize) ×
-    (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure
-    I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-    Clause4_IntoIter))
-  := do
-  let s ← coreborrowBorrowClause0_ItemScalarInst.borrow tupled_args
-  let a ← scalar.Scalar.non_adjacent_form s 8#usize
-  ok (a, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 72:17-72:52 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (t : Clause0_Item) :
-  Result (Array Std.I8 256#usize)
-  := do
-  let (a, _) ←
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-      c t
-  ok a
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 72:17-72:52 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) Clause0_Item (Array Std.I8 256#usize) := {
-  call_once :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 72:17-72:52 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) Clause0_Item (Array Std.I8 256#usize) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]: loop body 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 96:12-107:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop0.body
-  (dynamic_nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (dynamic_lookup_tables : alloc.vec.Vec (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)) (j : Std.Usize)
-  (iter : core.ops.range.Range Std.Usize)
-  (R : backend.serial.curve_models.CompletedPoint) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) ×
-    backend.serial.curve_models.CompletedPoint)
-    backend.serial.curve_models.CompletedPoint)
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done R)
-  | some i =>
-    let a ←
-      alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice (Array Std.I8
-        256#usize)) dynamic_nafs i
-    let t_ij ← Array.index_usize a j
-    let o1 ← lift (core.cmp.impls.OrdI8.cmp t_ij 0#i8)
-    match o1 with
-    | Ordering.lt =>
-      let ep ← backend.serial.curve_models.CompletedPoint.as_extended R
-      let nlt ←
-        alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-          (window.NafLookupTable5
-          backend.serial.curve_models.ProjectiveNielsPoint))
-          dynamic_lookup_tables i
-      let i1 ← -. t_ij
-      let i2 ← lift (IScalar.hcast .Usize i1)
-      let pnp ←
-        window.NafLookupTable5.select
-          backend.serial.curve_models.ProjectiveNielsPoint.Insts.CoreMarkerCopy
-          nlt i2
-      let R1 ←
-        Shared0EdwardsPoint.Insts.CoreOpsArithSubSharedAProjectiveNielsPointCompletedPoint.sub
-          ep pnp
-      ok (cont (iter1, R1))
-    | Ordering.eq => ok (cont (iter1, R))
-    | Ordering.gt =>
-      let ep ← backend.serial.curve_models.CompletedPoint.as_extended R
-      let nlt ←
-        alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-          (window.NafLookupTable5
-          backend.serial.curve_models.ProjectiveNielsPoint))
-          dynamic_lookup_tables i
-      let i1 ← lift (IScalar.hcast .Usize t_ij)
-      let pnp ←
-        window.NafLookupTable5.select
-          backend.serial.curve_models.ProjectiveNielsPoint.Insts.CoreMarkerCopy
-          nlt i1
-      let R1 ←
-        Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-          ep pnp
-      ok (cont (iter1, R1))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]: loop 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 96:12-107:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop0
-  (iter : core.ops.range.Range Std.Usize)
-  (dynamic_nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (dynamic_lookup_tables : alloc.vec.Vec (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)) (j : Std.Usize)
-  (R : backend.serial.curve_models.CompletedPoint) :
-  Result backend.serial.curve_models.CompletedPoint
-  := do
-  loop
-    (fun (iter1, R1) =>
-      backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop0.body
-      dynamic_nafs dynamic_lookup_tables j iter1 R1)
-    (iter, R)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]: loop body 2:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 110:12-121:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop1.body
-  (v : alloc.vec.Vec (window.NafLookupTable8
-  backend.serial.curve_models.AffineNielsPoint))
-  (static_nafs : alloc.vec.Vec (Array Std.I8 256#usize)) (j : Std.Usize)
-  (iter : core.ops.range.Range Std.Usize)
-  (R : backend.serial.curve_models.CompletedPoint) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) ×
-    backend.serial.curve_models.CompletedPoint)
-    backend.serial.curve_models.CompletedPoint)
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done R)
-  | some i =>
-    let a ←
-      alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice (Array Std.I8
-        256#usize)) static_nafs i
-    let t_ij ← Array.index_usize a j
-    let o1 ← lift (core.cmp.impls.OrdI8.cmp t_ij 0#i8)
-    match o1 with
-    | Ordering.lt =>
-      let ep ← backend.serial.curve_models.CompletedPoint.as_extended R
-      let nlt ←
-        alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-          (window.NafLookupTable8
-          backend.serial.curve_models.AffineNielsPoint)) v i
-      let i1 ← -. t_ij
-      let i2 ← lift (IScalar.hcast .Usize i1)
-      let anp ←
-        window.NafLookupTable8.select
-          backend.serial.curve_models.AffineNielsPoint.Insts.CoreMarkerCopy nlt
-          i2
-      let R1 ←
-        Shared0EdwardsPoint.Insts.CoreOpsArithSubSharedAAffineNielsPointCompletedPoint.sub
-          ep anp
-      ok (cont (iter1, R1))
-    | Ordering.eq => ok (cont (iter1, R))
-    | Ordering.gt =>
-      let ep ← backend.serial.curve_models.CompletedPoint.as_extended R
-      let nlt ←
-        alloc.vec.Vec.index (core.slice.index.SliceIndexUsizeSlice
-          (window.NafLookupTable8
-          backend.serial.curve_models.AffineNielsPoint)) v i
-      let i1 ← lift (IScalar.hcast .Usize t_ij)
-      let anp ←
-        window.NafLookupTable8.select
-          backend.serial.curve_models.AffineNielsPoint.Insts.CoreMarkerCopy nlt
-          i1
-      let R1 ←
-        Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAAffineNielsPointCompletedPoint.add
-          ep anp
-      ok (cont (iter1, R1))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]: loop 2:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 110:12-121:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop1
-  (iter : core.ops.range.Range Std.Usize)
-  (v : alloc.vec.Vec (window.NafLookupTable8
-  backend.serial.curve_models.AffineNielsPoint))
-  (static_nafs : alloc.vec.Vec (Array Std.I8 256#usize)) (j : Std.Usize)
-  (R : backend.serial.curve_models.CompletedPoint) :
-  Result backend.serial.curve_models.CompletedPoint
-  := do
-  loop
-    (fun (iter1, R1) =>
-      backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop1.body
-      v static_nafs j iter1 R1)
-    (iter, R)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]: loop body 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 93:8-124:9
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0.body
-  (v : alloc.vec.Vec (window.NafLookupTable8
-  backend.serial.curve_models.AffineNielsPoint))
-  (static_nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (dynamic_nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (dynamic_lookup_tables : alloc.vec.Vec (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)) (dp : Std.Usize)
-  (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
-  (S : backend.serial.curve_models.ProjectivePoint) :
-  Result (ControlFlow ((core.iter.adapters.rev.Rev (core.ops.range.Range
-    Std.Usize)) × backend.serial.curve_models.ProjectivePoint)
-    backend.serial.curve_models.ProjectivePoint)
-  := do
-  let (o, iter1) ←
-    core.iter.adapters.rev.Rev.Insts.CoreIterTraitsIteratorIterator.next
-      (core.ops.range.Range.Insts.DoubleEndedIterator
-      core.iter.range.StepUsize) iter
-  match o with
-  | none => ok (done S)
-  | some j =>
-    let R ← backend.serial.curve_models.ProjectivePoint.double S
-    let R1 ←
-      backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop0
-        { start := 0#usize, «end» := dp } dynamic_nafs dynamic_lookup_tables
-        j R
-    let i := alloc.vec.Vec.len static_nafs
-    let R2 ←
-      backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0_loop1
-        { start := 0#usize, «end» := i } v static_nafs j R1
-    let S1 ← backend.serial.curve_models.CompletedPoint.as_projective R2
-    ok (cont (iter1, S1))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]: loop 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 93:8-124:9
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0
-  (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
-  (v : alloc.vec.Vec (window.NafLookupTable8
-  backend.serial.curve_models.AffineNielsPoint))
-  (static_nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (dynamic_nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (dynamic_lookup_tables : alloc.vec.Vec (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)) (dp : Std.Usize)
-  (S : backend.serial.curve_models.ProjectivePoint) :
-  Result backend.serial.curve_models.ProjectivePoint
-  := do
-  loop
-    (fun (iter1, S1) =>
-      backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0.body
-      v static_nafs dynamic_nafs dynamic_lookup_tables dp iter1 S1)
-    (iter, S)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::optional_mixed_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 57:4-127:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter)
-  (self :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus)
-  (static_scalars : I) (dynamic_scalars : J) (dynamic_points : K) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst.into_iter static_scalars
-  let m ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.map
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst)
-      t ()
-  let static_nafs ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst))
-      (core.iter.traits.collect.FromIteratorVec (Array Std.I8 256#usize)) m
-  let t1 ← coreitertraitscollectIntoIteratorInst1.into_iter dynamic_scalars
-  let m1 ←
-    coreitertraitscollectIntoIteratorInst1.iteratorInst.map
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause2_ItemArrayI8256
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst)
-      t1 ()
-  let dynamic_nafs ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst1.iteratorInst
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause2_ItemArrayI8256
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst))
-      (core.iter.traits.collect.FromIteratorVec (Array Std.I8 256#usize)) m1
-  let t2 ←
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst.into_iter
-      dynamic_points
-  let m2 ←
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst.iteratorInst.map
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst)
-      t2 ()
-  let o ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst.iteratorInst
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.optional_mixed_multiscalar_mul.closure_2.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst))
-      (core.option.Option.Insts.CoreIterTraitsCollectFromIteratorOption
-      (core.iter.traits.collect.FromIteratorVec (window.NafLookupTable5
-      backend.serial.curve_models.ProjectiveNielsPoint))) m2
-  let cf ← core.option.Option.Insts.CoreOpsTry_traitTry.branch o
-  match cf with
-  | core.ops.control_flow.ControlFlow.Continue val =>
-    let sp := alloc.vec.Vec.len self.static_lookup_tables
-    let dp := alloc.vec.Vec.len val
-    let i := alloc.vec.Vec.len static_nafs
-    massert (sp >= i)
-    let right_val := alloc.vec.Vec.len dynamic_nafs
-    massert (dp = right_val)
-    let S ←
-      backend.serial.curve_models.ProjectivePoint.Insts.Curve25519_dalekTraitsIdentity.identity
-    let iter ←
-      core.iter.traits.iterator.Iterator.rev.trait_default
-        (core.iter.traits.iterator.IteratorRange core.iter.range.StepUsize)
-        (core.ops.range.Range.Insts.DoubleEndedIterator
-        core.iter.range.StepUsize) { start := 0#usize, «end» := 256#usize }
-    let S1 ←
-      backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul_loop0
-        iter self.static_lookup_tables static_nafs dynamic_nafs val dp S
-    let ep ← backend.serial.curve_models.ProjectivePoint.as_extended S1
-    ok (some ep)
-  | core.ops.control_flow.ControlFlow.Break residual =>
-    core.option.Option.Insts.CoreOpsTry_traitFromResidualOptionInfallible.from_residual
-      edwards.EdwardsPoint residual
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::is_empty]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 53:4-55:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.is_empty
-  (self :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus) :
-  Result Bool
-  := do
-  alloc.vec.Vec.is_empty Global self.static_lookup_tables
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::len]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 49:4-51:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.len
-  (self :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus) :
-  Result Std.Usize
-  := do
-  ok (alloc.vec.Vec.len self.static_lookup_tables)
-
-/-- [curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::pow22501]:
-    Source: 'curve25519-dalek/src/field.rs', lines 176:4-210:5 -/
-def field.FieldElement51.pow22501
-  (self : backend.serial.u64.field.FieldElement51) :
-  Result (backend.serial.u64.field.FieldElement51 ×
-    backend.serial.u64.field.FieldElement51)
-  := do
-  let t0 ← backend.serial.u64.field.FieldElement51.square self
-  let fe ← backend.serial.u64.field.FieldElement51.square t0
-  let t1 ← backend.serial.u64.field.FieldElement51.square fe
-  let t2 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      self t1
-  let t3 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t0 t2
-  let t4 ← backend.serial.u64.field.FieldElement51.square t3
-  let t5 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t2 t4
-  let t6 ← backend.serial.u64.field.FieldElement51.pow2k t5 5#u32
-  let t7 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t6 t5
-  let t8 ← backend.serial.u64.field.FieldElement51.pow2k t7 10#u32
-  let t9 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t8 t7
-  let t10 ← backend.serial.u64.field.FieldElement51.pow2k t9 20#u32
-  let t11 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t10 t9
-  let t12 ← backend.serial.u64.field.FieldElement51.pow2k t11 10#u32
-  let t13 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t12 t7
-  let t14 ← backend.serial.u64.field.FieldElement51.pow2k t13 50#u32
-  let t15 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t14 t13
-  let t16 ← backend.serial.u64.field.FieldElement51.pow2k t15 100#u32
-  let t17 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t16 t15
-  let t18 ← backend.serial.u64.field.FieldElement51.pow2k t17 50#u32
-  let t19 ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      t18 t13
-  ok (t19, t3)
-
-/-- [curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::invert]:
-    Source: 'curve25519-dalek/src/field.rs', lines 295:4-304:5 -/
-def field.FieldElement51.invert
-  (self : backend.serial.u64.field.FieldElement51) :
-  Result backend.serial.u64.field.FieldElement51
-  := do
-  let (t19, t3) ← field.FieldElement51.pow22501 self
-  let t20 ← backend.serial.u64.field.FieldElement51.pow2k t19 5#u32
-  Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-    t20 t3
-
-/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::as_affine_niels]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 553:4-563:5 -/
-def edwards.EdwardsPoint.as_affine_niels
-  (self : edwards.EdwardsPoint) :
-  Result backend.serial.curve_models.AffineNielsPoint
-  := do
-  let recip ← field.FieldElement51.invert self.Z
-  let x ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      self.X recip
-  let y ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      self.Y recip
-  let fe ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      x y
-  let fe1 ← backend.serial.u64.constants.EDWARDS_D2
-  let xy2d ←
-    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
-      fe fe1
-  let fe2 ←
-    Shared0FieldElement51.Insts.CoreOpsArithAddSharedAFieldElement51FieldElement51.add
-      y x
-  let fe3 ←
-    Shared0FieldElement51.Insts.CoreOpsArithSubSharedAFieldElement51FieldElement51.sub
-      y x
-  ok { y_plus_x := fe2, y_minus_x := fe3, xy2d }
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}::from]: loop body 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 270:8-272:9
-    Visibility: public -/
-@[rust_loop_body]
-def
-  window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
-  (A2 : edwards.EdwardsPoint) (iter : core.ops.range.Range Std.Usize)
-  (Ai : Array backend.serial.curve_models.AffineNielsPoint 64#usize) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (Array
-    backend.serial.curve_models.AffineNielsPoint 64#usize)) (Array
-    backend.serial.curve_models.AffineNielsPoint 64#usize))
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done Ai)
-  | some i =>
-    let anp ← Array.index_usize Ai i
-    let cp ←
-      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAAffineNielsPointCompletedPoint.add
-        A2 anp
-    let ep ← backend.serial.curve_models.CompletedPoint.as_extended cp
-    let anp1 ← edwards.EdwardsPoint.as_affine_niels ep
-    let i1 ← i + 1#usize
-    let a ← Array.update Ai i1 anp1
-    ok (cont (iter1, a))
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}::from]: loop 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 270:8-272:9
-    Visibility: public -/
-@[rust_loop]
-def
-  window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
-  (iter : core.ops.range.Range Std.Usize)
-  (Ai : Array backend.serial.curve_models.AffineNielsPoint 64#usize)
-  (A2 : edwards.EdwardsPoint) :
-  Result (Array backend.serial.curve_models.AffineNielsPoint 64#usize)
-  := do
-  loop
-    (fun (iter1, Ai1) =>
-      window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
-      A2 iter1 Ai1)
-    (iter, Ai)
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}::from]:
-    Source: 'curve25519-dalek/src/window.rs', lines 267:4-275:5
-    Visibility: public -/
-def
-  window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-  (A : edwards.EdwardsPoint) :
-  Result (window.NafLookupTable8 backend.serial.curve_models.AffineNielsPoint)
-  := do
-  let anp ← edwards.EdwardsPoint.as_affine_niels A
-  let Ai := Array.repeat 64#usize anp
-  let A2 ← edwards.EdwardsPoint.double A
-  let Ai1 ←
-    window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
-      { start := 0#usize, «end» := 63#usize } Ai A2
-  ok Ai1
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::{impl core::ops::function::FnMut<(Clause0_Item,), curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::closure<I, Clause0_Item, Clause0_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 44:21-44:78 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemNafLookupTable8AffineNielsPoint.call_mut
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause0_Item edwards.EdwardsPoint)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) (tupled_args : Clause0_Item) :
-  Result ((window.NafLookupTable8 backend.serial.curve_models.AffineNielsPoint)
-    ×
-    (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure
-    I Clause0_Item Clause0_IntoIter))
-  := do
-  let ep ← coreborrowBorrowClause0_ItemEdwardsPointInst.borrow tupled_args
-  let nlt ←
-    window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-      ep
-  ok (nlt, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::{impl core::ops::function::FnOnce<(Clause0_Item,), curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::closure<I, Clause0_Item, Clause0_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 44:21-44:78 -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemNafLookupTable8AffineNielsPoint.call_once
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause0_Item edwards.EdwardsPoint)
-  (c :
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) (t : Clause0_Item) :
-  Result (window.NafLookupTable8 backend.serial.curve_models.AffineNielsPoint)
-  := do
-  let (nlt, _) ←
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemNafLookupTable8AffineNielsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemEdwardsPointInst c t
-  ok nlt
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::{impl core::ops::function::FnOnce<(Clause0_Item,), curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::closure<I, Clause0_Item, Clause0_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 44:21-44:78 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemNafLookupTable8AffineNielsPoint
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause0_Item edwards.EdwardsPoint) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) Clause0_Item (window.NafLookupTable8
-  backend.serial.curve_models.AffineNielsPoint) := {
-  call_once :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemNafLookupTable8AffineNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemEdwardsPointInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::{impl core::ops::function::FnMut<(Clause0_Item,), curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new::closure<I, Clause0_Item, Clause0_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 44:21-44:78 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemNafLookupTable8AffineNielsPoint
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause0_Item edwards.EdwardsPoint) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) Clause0_Item (window.NafLookupTable8
-  backend.serial.curve_models.AffineNielsPoint) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemNafLookupTable8AffineNielsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemEdwardsPointInst
-  call_mut :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemNafLookupTable8AffineNielsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemEdwardsPointInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}::new]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 36:4-47:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.new
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause0_Item edwards.EdwardsPoint) (static_points : I) :
-  Result backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst.into_iter static_points
-  let m ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.map
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemNafLookupTable8AffineNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemEdwardsPointInst) t ()
-  let v ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedMultiscalarMulVartimePrecomputedStrausEdwardsPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemNafLookupTable8AffineNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemEdwardsPointInst))
-      (core.iter.traits.collect.FromIteratorVec (window.NafLookupTable8
-      backend.serial.curve_models.AffineNielsPoint)) m
-  ok { static_lookup_tables := v }
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs', lines 33:0-128:1 -/
-@[reducible]
-impl_def
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint
-  : traits.VartimePrecomputedMultiscalarMul
-  backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus
-  edwards.EdwardsPoint := {
-  corecloneCloneInst := edwards.EdwardsPoint.Insts.CoreCloneClone
-  new := fun {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause0_Item
-    edwards.EdwardsPoint) =>
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.new
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPEdwardsPointInst
-  len :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.len
-  is_empty :=
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.is_empty
-  vartime_multiscalar_mul := fun {I : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) =>
-    traits.VartimePrecomputedMultiscalarMul.vartime_multiscalar_mul.default
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-  vartime_mixed_multiscalar_mul := fun {I : Type} {J : Type} {K : Type}
-    {Clause0_Item : Type} {Clause0_IntoIter : Type} {Clause2_Item : Type}
-    {Clause2_IntoIter : Type} {Clause4_Item : Type} {Clause4_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowPScalarInst1 : core.borrow.Borrow Clause2_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst2 :
-    core.iter.traits.collect.IntoIterator K Clause4_Item Clause4_IntoIter)
-    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause4_Item
-    edwards.EdwardsPoint) =>
-    traits.VartimePrecomputedMultiscalarMul.vartime_mixed_multiscalar_mul.default
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPScalarInst1
-    coreitertraitscollectIntoIteratorInst2 coreborrowBorrowPEdwardsPointInst
-  optional_mixed_multiscalar_mul := fun {I : Type} {J : Type} {K : Type}
-    {Clause0_Item : Type} {Clause0_IntoIter : Type} {Clause2_Item : Type}
-    {Clause2_IntoIter : Type} {Clause4_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowPScalarInst1 : core.borrow.Borrow Clause2_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst :
-    core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-    Clause4_IntoIter) =>
-    backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPScalarInst1
-    coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst
-}
-
-/-- [curve25519_dalek::window::{curve25519_dalek::window::LookupTable<T>}::select]: loop body 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 64:16-136:20
-    Visibility: public -/
-@[rust_loop_body]
-def window.LookupTable.select_loop.body
-  {T : Type} (subtleConditionallySelectableInst :
-  subtle.ConditionallySelectable T) (xabs : Std.I16)
-  (iter : core.ops.range.Range Std.Usize) (self : window.LookupTable T) 
-  (t : T) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (window.LookupTable
-    T) × T) T)
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done t)
-  | some j =>
-    let i ← lift (IScalar.hcast .U16 xabs)
-    let i1 ← lift (UScalar.cast .U16 j)
-    let c ← U16.Insts.SubtleConstantTimeEq.ct_eq i i1
-    let i2 ← j - 1#usize
-    let t1 ← Array.index_usize self i2
-    let t2 ← subtleConditionallySelectableInst.conditional_assign t t1 c
-    ok (cont (iter1, self, t2))
-
-/-- [curve25519_dalek::window::{curve25519_dalek::window::LookupTable<T>}::select]: loop 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 64:16-136:20
-    Visibility: public -/
-@[rust_loop]
-def window.LookupTable.select_loop
-  {T : Type} (subtleConditionallySelectableInst :
-  subtle.ConditionallySelectable T) (iter : core.ops.range.Range Std.Usize)
-  (self : window.LookupTable T) (xabs : Std.I16) (t : T) :
-  Result T
-  := do
-  loop
-    (fun (iter1, self1, t1) => window.LookupTable.select_loop.body
-      subtleConditionallySelectableInst xabs iter1 self1 t1)
-    (iter, self, t)
-
-/-- [curve25519_dalek::window::{curve25519_dalek::window::LookupTable<T>}::select]:
-    Source: 'curve25519-dalek/src/window.rs', lines 54:12-76:13
-    Visibility: public -/
-def window.LookupTable.select
-  {T : Type} (traitsIdentityInst : traits.Identity T)
-  (subtleConditionallySelectableInst : subtle.ConditionallySelectable T)
-  (subtleConditionallyNegatableInst : subtle.ConditionallyNegatable T)
-  (self : window.LookupTable T) (x : Std.I8) :
-  Result T
-  := do
-  massert (x >= (-8)#i8)
-  let i ← lift (IScalar.cast .I16 x)
-  massert (i <= 8#i16)
-  let i1 ← lift (IScalar.cast .I16 x)
-  let xmask ← i1 >>> 7#i32
-  let i2 ← lift (IScalar.cast .I16 x)
-  let i3 ← i2 + xmask
-  let xabs ← lift (i3 ^^^ xmask)
-  let t ← traitsIdentityInst.identity
-  let t1 ←
-    window.LookupTable.select_loop subtleConditionallySelectableInst
-      { start := 1#usize, «end» := 9#usize } self xabs t
-  let i4 ← lift (xmask &&& 1#i16)
-  let i5 ← lift (IScalar.hcast .U8 i4)
-  let neg_mask ← subtle.Choice.Insts.CoreConvertFromU8.from i5
-  subtleConditionallyNegatableInst.conditional_negate t1 neg_mask
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 125:17-125:45 -/
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint)
-  (c :
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter)
-  (tupled_args : Clause0_Item) :
-  Result ((Array Std.I8 64#usize) ×
-    (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1
-    I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter))
-  := do
-  let s ← coreborrowBorrowClause0_ItemScalarInst.borrow tupled_args
-  let a ← scalar.Scalar.as_radix_16 s
-  ok (a, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 125:17-125:45 -/
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint)
-  (c :
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter)
-  (t : Clause0_Item) :
-  Result (Array Std.I8 64#usize)
-  := do
-  let (a, _) ←
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemEdwardsPointInst c t
-  ok a
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 125:17-125:45 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter) Clause0_Item
-  (Array Std.I8 64#usize) := {
-  call_once :=
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemEdwardsPointInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 64usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 125:17-125:45 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter) Clause0_Item
-  (Array Std.I8 64#usize) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI864
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemEdwardsPointInst
-  call_mut :=
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemEdwardsPointInst
-}
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop body 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 100:16-137:26
-    Visibility: public -/
-@[rust_loop_body]
-def
-  window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
-  (P : edwards.EdwardsPoint) (iter : core.ops.range.Range Std.Usize)
-  (points : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize) :
-  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (Array
-    backend.serial.curve_models.ProjectiveNielsPoint 8#usize)) (Array
-    backend.serial.curve_models.ProjectiveNielsPoint 8#usize))
-  := do
-  let (o, iter1) ←
-    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
-  match o with
-  | none => ok (done points)
-  | some j =>
-    let pnp ← Array.index_usize points j
-    let cp ←
-      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-        P pnp
-    let ep ← backend.serial.curve_models.CompletedPoint.as_extended cp
-    let pnp1 ← edwards.EdwardsPoint.as_projective_niels ep
-    let i ← j + 1#usize
-    let a ← Array.update points i pnp1
-    ok (cont (iter1, a))
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop 0:
-    Source: 'curve25519-dalek/src/window.rs', lines 100:16-137:26
-    Visibility: public -/
-@[rust_loop]
-def
-  window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
-  (iter : core.ops.range.Range Std.Usize) (P : edwards.EdwardsPoint)
-  (points : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize) :
-  Result (Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize)
-  := do
-  loop
-    (fun (iter1, points1) =>
-      window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
-      P iter1 points1)
-    (iter, points)
-
-/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]:
-    Source: 'curve25519-dalek/src/window.rs', lines 98:12-104:13
-    Visibility: public -/
-def
-  window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-  (P : edwards.EdwardsPoint) :
-  Result (window.LookupTable backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  let pnp ← edwards.EdwardsPoint.as_projective_niels P
-  let points := Array.repeat 8#usize pnp
-  let points1 ←
-    window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
-      { start := 0#usize, «end» := 7#usize } P points
-  ok points1
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnMut<(Clause2_Item,), curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 116:17-116:82 -/
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemLookupTableProjectiveNielsPoint.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint)
-  (c :
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter)
-  (tupled_args : Clause2_Item) :
-  Result ((window.LookupTable backend.serial.curve_models.ProjectiveNielsPoint)
-    ×
-    (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure
-    I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter))
-  := do
-  let ep ← coreborrowBorrowClause2_ItemEdwardsPointInst.borrow tupled_args
-  let lt ←
-    window.LookupTableProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-      ep
-  ok (lt, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnOnce<(Clause2_Item,), curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 116:17-116:82 -/
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemLookupTableProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint)
-  (c :
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter)
-  (t : Clause2_Item) :
-  Result (window.LookupTable backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  let (lt, _) ←
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemLookupTableProjectiveNielsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemEdwardsPointInst c t
-  ok lt
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnOnce<(Clause2_Item,), curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 116:17-116:82 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemLookupTableProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter) Clause2_Item
-  (window.LookupTable backend.serial.curve_models.ProjectiveNielsPoint) := {
-  call_once :=
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemLookupTableProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemEdwardsPointInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::{impl core::ops::function::FnMut<(Clause2_Item,), curve25519_dalek::window::LookupTable<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 116:17-116:82 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemLookupTableProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter) Clause2_Item
-  (window.LookupTable backend.serial.curve_models.ProjectiveNielsPoint) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemLookupTableProjectiveNielsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemEdwardsPointInst
-  call_mut :=
-    backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemLookupTableProjectiveNielsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemEdwardsPointInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul]: loop body 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 132:12-137:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0_loop0.body
-  (j : Std.Usize)
-  (iter : core.iter.adapters.zip.Zip (core.slice.iter.Iter (Array Std.I8
-  64#usize)) (core.slice.iter.Iter (window.LookupTable
-  backend.serial.curve_models.ProjectiveNielsPoint)))
-  (Q : edwards.EdwardsPoint) :
-  Result (ControlFlow ((core.iter.adapters.zip.Zip (core.slice.iter.Iter (Array
-    Std.I8 64#usize)) (core.slice.iter.Iter (window.LookupTable
-    backend.serial.curve_models.ProjectiveNielsPoint))) ×
-    edwards.EdwardsPoint) edwards.EdwardsPoint)
-  := do
-  let (o, iter1) ←
-    core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair.next
-      (core.iter.traits.iterator.IteratorSliceIter (Array Std.I8 64#usize))
-      (core.iter.traits.iterator.IteratorSliceIter (window.LookupTable
-      backend.serial.curve_models.ProjectiveNielsPoint)) iter
-  match o with
-  | none => ok (done Q)
-  | some p =>
-    let (s_i, lookup_table_i) := p
-    let i ← Array.index_usize s_i j
-    let R_i ←
-      window.LookupTable.select
-        backend.serial.curve_models.ProjectiveNielsPoint.Insts.Curve25519_dalekTraitsIdentity
-        backend.serial.curve_models.ProjectiveNielsPoint.Insts.SubtleConditionallySelectable
-        (subtle.ConditionallyNegatable.Blanket
-        backend.serial.curve_models.ProjectiveNielsPoint.Insts.SubtleConditionallySelectable
-        Shared0ProjectiveNielsPoint.Insts.CoreOpsArithNegProjectiveNielsPoint)
-        lookup_table_i i
-    let cp ←
-      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-        Q R_i
-    let Q1 ← backend.serial.curve_models.CompletedPoint.as_extended cp
-    ok (cont (iter1, Q1))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul]: loop 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 132:12-137:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0_loop0
-  (iter : core.iter.adapters.zip.Zip (core.slice.iter.Iter (Array Std.I8
-  64#usize)) (core.slice.iter.Iter (window.LookupTable
-  backend.serial.curve_models.ProjectiveNielsPoint)))
-  (Q : edwards.EdwardsPoint) (j : Std.Usize) :
-  Result edwards.EdwardsPoint
-  := do
-  loop
-    (fun (iter1, Q1) =>
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0_loop0.body
-      j iter1 Q1)
-    (iter, Q)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul]: loop body 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 129:8-138:9
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0.body
-  (lookup_tables : alloc.vec.Vec (window.LookupTable
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (scalar_digits : alloc.vec.Vec (Array Std.I8 64#usize))
-  (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
-  (Q : edwards.EdwardsPoint) :
-  Result (ControlFlow ((core.iter.adapters.rev.Rev (core.ops.range.Range
-    Std.Usize)) × edwards.EdwardsPoint) edwards.EdwardsPoint)
-  := do
-  let (o, iter1) ←
-    core.iter.adapters.rev.Rev.Insts.CoreIterTraitsIteratorIterator.next
-      (core.ops.range.Range.Insts.DoubleEndedIterator
-      core.iter.range.StepUsize) iter
-  match o with
-  | none => ok (done Q)
-  | some j =>
-    let Q1 ← edwards.EdwardsPoint.mul_by_pow_2 Q 4#u32
-    let s := alloc.vec.Vec.deref scalar_digits
-    let i ← core.slice.Slice.iter s
-    let s1 := alloc.vec.Vec.deref lookup_tables
-    let i1 ← core.slice.Slice.iter s1
-    let it ←
-      core.iter.traits.iterator.Iterator.zip.trait_default
-        (core.iter.traits.iterator.IteratorSliceIter (Array Std.I8 64#usize))
-        (core.iter.traits.collect.IntoIterator.Blanket
-        (core.iter.traits.iterator.IteratorSliceIter (window.LookupTable
-        backend.serial.curve_models.ProjectiveNielsPoint))) i i1
-    let Q2 ←
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0_loop0
-        it Q1 j
-    ok (cont (iter1, Q2))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul]: loop 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 129:8-138:9
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0
-  (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
-  (lookup_tables : alloc.vec.Vec (window.LookupTable
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (scalar_digits : alloc.vec.Vec (Array Std.I8 64#usize))
-  (Q : edwards.EdwardsPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  loop
-    (fun (iter1, Q1) =>
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0.body
-      lookup_tables scalar_digits iter1 Q1)
-    (iter, Q)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::multiscalar_mul]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 103:4-144:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint) (scalars : I) (points : J) :
-  Result edwards.EdwardsPoint
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst1.into_iter points
-  let m ←
-    coreitertraitscollectIntoIteratorInst1.iteratorInst.map
-      (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemLookupTableProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemEdwardsPointInst) t ()
-  let lookup_tables ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst1.iteratorInst
-      (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemLookupTableProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemEdwardsPointInst))
-      (core.iter.traits.collect.FromIteratorVec (window.LookupTable
-      backend.serial.curve_models.ProjectiveNielsPoint)) m
-  let t1 ← coreitertraitscollectIntoIteratorInst.into_iter scalars
-  let m1 ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.map
-      (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemEdwardsPointInst) t1 ()
-  let scalar_digits ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.straus.MultiscalarMulStrausEdwardsPoint.multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI864
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemEdwardsPointInst))
-      (core.iter.traits.collect.FromIteratorVec (Array Std.I8 64#usize)) m1
-  let Q ← edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
-  let iter ←
-    core.iter.traits.iterator.Iterator.rev.trait_default
-      (core.iter.traits.iterator.IteratorRange core.iter.range.StepUsize)
-      (core.ops.range.Range.Insts.DoubleEndedIterator
-      core.iter.range.StepUsize) { start := 0#usize, «end» := 64#usize }
-  let Q1 ←
-    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul_loop0
-      iter lookup_tables scalar_digits Q
-  let _ ←
-    alloc.vec.Vec.Insts.ZeroizeZeroize.zeroize (Array.Insts.ZeroizeZeroize
-      64#usize (zeroize.Zeroize.Blanket I8.Insts.ZeroizeDefaultIsZeroes))
-      scalar_digits
-  ok Q1
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 49:0-145:1 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint
-  : traits.MultiscalarMul backend.serial.scalar_mul.straus.Straus
-  edwards.EdwardsPoint := {
-  multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause2_Item
-    edwards.EdwardsPoint) =>
-    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 178:35-178:88 -/
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : edwards.EdwardsPoint) :
-  Result (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint)
-  := do
-  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
-    tupled_args
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 178:35-178:88 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) edwards.EdwardsPoint
-  (window.NafLookupTable5 backend.serial.curve_models.ProjectiveNielsPoint)
-  := {
-  call_once :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 178:17-178:89 -/
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : Option edwards.EdwardsPoint) :
-  Result ((Option (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint)) ×
-    (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1
-    I J Clause0_Item Clause0_IntoIter Clause2_IntoIter))
-  := do
-  let o ←
-    core.option.Option.map
-      (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.closure.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointNafLookupTable5ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      tupled_args ()
-  ok (o, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 178:17-178:89 -/
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (o : Option edwards.EdwardsPoint) :
-  Result (Option (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint))
-  := do
-  let (o1, _) ←
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-      c o
-  ok o1
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 178:17-178:89 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (Option
-  edwards.EdwardsPoint) (Option (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)) := {
-  call_once :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::edwards::EdwardsPoint>,), core::option::Option<curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>>> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 178:17-178:89 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (Option
-  edwards.EdwardsPoint) (Option (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 173:17-173:52 -/
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : Clause0_Item) :
-  Result ((Array Std.I8 256#usize) ×
-    (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure
-    I J Clause0_Item Clause0_IntoIter Clause2_IntoIter))
-  := do
-  let s ← coreborrowBorrowClause0_ItemScalarInst.borrow tupled_args
-  let a ← scalar.Scalar.non_adjacent_form s 5#usize
-  ok (a, c)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 173:17-173:52 -/
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter)
-  (c :
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (t : Clause0_Item) :
-  Result (Array Std.I8 256#usize)
-  := do
-  let (a, _) ←
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-      c t
-  ok a
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 173:17-173:52 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) Clause0_Item (Array
-  Std.I8 256#usize) := {
-  call_once :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(Clause0_Item,), [i8; 256usize]> for curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 173:17-173:52 -/
-@[reducible]
-def
-  backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) : core.ops.function.FnMut
-  (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) Clause0_Item (Array
-  Std.I8 256#usize) := {
-  FnOnceInst :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemArrayI8256
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-  call_mut :=
-    backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul]: loop body 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 186:12-194:13
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0_loop0.body
-  (i : Std.Usize)
-  (iter : core.iter.adapters.zip.Zip (core.slice.iter.Iter (Array Std.I8
-  256#usize)) (core.slice.iter.Iter (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint)))
-  (t : backend.serial.curve_models.CompletedPoint) :
-  Result (ControlFlow ((core.iter.adapters.zip.Zip (core.slice.iter.Iter (Array
-    Std.I8 256#usize)) (core.slice.iter.Iter (window.NafLookupTable5
-    backend.serial.curve_models.ProjectiveNielsPoint))) ×
-    backend.serial.curve_models.CompletedPoint)
-    backend.serial.curve_models.CompletedPoint)
-  := do
-  let (o, iter1) ←
-    core.iter.adapters.zip.Zip.Insts.CoreIterTraitsIteratorIteratorPair.next
-      (core.iter.traits.iterator.IteratorSliceIter (Array Std.I8 256#usize))
-      (core.iter.traits.iterator.IteratorSliceIter (window.NafLookupTable5
-      backend.serial.curve_models.ProjectiveNielsPoint)) iter
-  match o with
-  | none => ok (done t)
-  | some p =>
-    let (naf, lookup_table) := p
-    let i1 ← Array.index_usize naf i
-    let o1 ← lift (core.cmp.impls.OrdI8.cmp i1 0#i8)
-    match o1 with
-    | Ordering.lt =>
-      let ep ← backend.serial.curve_models.CompletedPoint.as_extended t
-      let i2 ← -. i1
-      let i3 ← lift (IScalar.hcast .Usize i2)
-      let pnp ←
-        window.NafLookupTable5.select
-          backend.serial.curve_models.ProjectiveNielsPoint.Insts.CoreMarkerCopy
-          lookup_table i3
-      let t1 ←
-        Shared0EdwardsPoint.Insts.CoreOpsArithSubSharedAProjectiveNielsPointCompletedPoint.sub
-          ep pnp
-      ok (cont (iter1, t1))
-    | Ordering.eq => ok (cont (iter1, t))
-    | Ordering.gt =>
-      let ep ← backend.serial.curve_models.CompletedPoint.as_extended t
-      let i2 ← lift (IScalar.hcast .Usize i1)
-      let pnp ←
-        window.NafLookupTable5.select
-          backend.serial.curve_models.ProjectiveNielsPoint.Insts.CoreMarkerCopy
-          lookup_table i2
-      let t1 ←
-        Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
-          ep pnp
-      ok (cont (iter1, t1))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul]: loop 1:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 186:12-194:13
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0_loop0
-  (iter : core.iter.adapters.zip.Zip (core.slice.iter.Iter (Array Std.I8
-  256#usize)) (core.slice.iter.Iter (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint))) (i : Std.Usize)
-  (t : backend.serial.curve_models.CompletedPoint) :
-  Result backend.serial.curve_models.CompletedPoint
-  := do
-  loop
-    (fun (iter1, t1) =>
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0_loop0.body
-      i iter1 t1)
-    (iter, t)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul]: loop body 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 183:8-197:9
-    Visibility: public -/
-@[rust_loop_body]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0.body
-  (nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (lookup_tables : alloc.vec.Vec (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
-  (r : backend.serial.curve_models.ProjectivePoint) :
-  Result (ControlFlow ((core.iter.adapters.rev.Rev (core.ops.range.Range
-    Std.Usize)) × backend.serial.curve_models.ProjectivePoint)
-    backend.serial.curve_models.ProjectivePoint)
-  := do
-  let (o, iter1) ←
-    core.iter.adapters.rev.Rev.Insts.CoreIterTraitsIteratorIterator.next
-      (core.ops.range.Range.Insts.DoubleEndedIterator
-      core.iter.range.StepUsize) iter
-  match o with
-  | none => ok (done r)
-  | some i =>
-    let t ← backend.serial.curve_models.ProjectivePoint.double r
-    let s := alloc.vec.Vec.deref nafs
-    let i1 ← core.slice.Slice.iter s
-    let s1 := alloc.vec.Vec.deref lookup_tables
-    let i2 ← core.slice.Slice.iter s1
-    let iter2 ←
-      core.iter.traits.iterator.Iterator.zip.trait_default
-        (core.iter.traits.iterator.IteratorSliceIter (Array Std.I8 256#usize))
-        (core.iter.traits.collect.IntoIterator.Blanket
-        (core.iter.traits.iterator.IteratorSliceIter (window.NafLookupTable5
-        backend.serial.curve_models.ProjectiveNielsPoint))) i1 i2
-    let t1 ←
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0_loop0
-        iter2 i t
-    let r1 ← backend.serial.curve_models.CompletedPoint.as_projective t1
-    ok (cont (iter1, r1))
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul]: loop 0:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 183:8-197:9
-    Visibility: public -/
-@[rust_loop]
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0
-  (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Std.Usize))
-  (nafs : alloc.vec.Vec (Array Std.I8 256#usize))
-  (lookup_tables : alloc.vec.Vec (window.NafLookupTable5
-  backend.serial.curve_models.ProjectiveNielsPoint))
-  (r : backend.serial.curve_models.ProjectivePoint) :
-  Result backend.serial.curve_models.ProjectivePoint
-  := do
-  loop
-    (fun (iter1, r1) =>
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0.body
-      nafs lookup_tables iter1 r1)
-    (iter, r)
-
-/-- [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}::optional_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 159:4-200:5
-    Visibility: public -/
-def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) (scalars : I) (points : J) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst.into_iter scalars
-  let m ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.map
-      (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      t ()
-  let nafs ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemArrayI8256
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst))
-      (core.iter.traits.collect.FromIteratorVec (Array Std.I8 256#usize)) m
-  let t1 ←
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.into_iter
-      points
-  let m1 ←
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst.map
-      (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst)
-      t1 ()
-  let o ←
-    core.iter.traits.iterator.Iterator.collect.default
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst
-      (backend.serial.scalar_mul.straus.VartimeMultiscalarMulStrausEdwardsPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnMutTupleOptionEdwardsPointOptionNafLookupTable5ProjectiveNielsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst))
-      (core.option.Option.Insts.CoreIterTraitsCollectFromIteratorOption
-      (core.iter.traits.collect.FromIteratorVec (window.NafLookupTable5
-      backend.serial.curve_models.ProjectiveNielsPoint))) m1
-  let cf ← core.option.Option.Insts.CoreOpsTry_traitTry.branch o
-  match cf with
-  | core.ops.control_flow.ControlFlow.Continue val =>
-    let r ←
-      backend.serial.curve_models.ProjectivePoint.Insts.Curve25519_dalekTraitsIdentity.identity
-    let iter ←
-      core.iter.traits.iterator.Iterator.rev.trait_default
-        (core.iter.traits.iterator.IteratorRange core.iter.range.StepUsize)
-        (core.ops.range.Range.Insts.DoubleEndedIterator
-        core.iter.range.StepUsize) { start := 0#usize, «end» := 256#usize }
-    let r1 ←
-      backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul_loop0
-        iter nafs val r
-    let ep ← backend.serial.curve_models.ProjectivePoint.as_extended r1
-    ok (some ep)
-  | core.ops.control_flow.ControlFlow.Break residual =>
-    core.option.Option.Insts.CoreOpsTry_traitFromResidualOptionInfallible.from_residual
-      edwards.EdwardsPoint residual
-
-/-- Trait implementation: [curve25519_dalek::backend::serial::scalar_mul::straus::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::backend::serial::scalar_mul::straus::Straus}]
-    Source: 'curve25519-dalek/src/backend/serial/scalar_mul/straus.rs', lines 147:0-201:1 -/
-@[reducible]
-impl_def
-  backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
-  : traits.VartimeMultiscalarMul backend.serial.scalar_mul.straus.Straus
-  edwards.EdwardsPoint := {
-  optional_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} {Clause2_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst :
-    core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-    Clause2_IntoIter) =>
-    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorPOptionEdwardsPointPInst
-  vartime_multiscalar_mul := fun {I : Type} {J : Type} {Clause0_Item : Type}
-    {Clause0_IntoIter : Type} {Clause2_Item : Type} {Clause2_IntoIter : Type}
-    (coreitertraitscollectIntoIteratorInst :
-    core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-    (coreborrowBorrowPScalarInst : core.borrow.Borrow Clause0_Item
-    scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-    core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-    (coreborrowBorrowPEdwardsPointInst : core.borrow.Borrow Clause2_Item
-    edwards.EdwardsPoint) (corecloneCloneEdwardsPointInst : core.clone.Clone
-    edwards.EdwardsPoint) =>
-    traits.VartimeMultiscalarMul.vartime_multiscalar_mul.default
-    backend.serial.scalar_mul.straus.Straus.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint
-    coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
-    coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
-    corecloneCloneEdwardsPointInst
-}
+def edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
+  : Result edwards.EdwardsPoint := do
+  let fe ← backend.serial.u64.field.FieldElement51.ZERO
+  let fe1 ← backend.serial.u64.field.FieldElement51.ONE
+  ok { X := fe, Y := fe1, Z := fe1, T := fe }
 
 /-- [curve25519_dalek::backend::serial::scalar_mul::variable_base::mul]: loop body 0:
     Source: 'curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs', lines 35:4-47:5 -/
@@ -6317,6 +2599,188 @@ def backend.serial.scalar_mul.variable_base.mul
     backend.serial.scalar_mul.variable_base.mul_loop iter lookup_table
       scalar_digits tmp3 tmp1
   backend.serial.curve_models.CompletedPoint.as_extended tmp11
+
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::as_projective]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 543:4-549:5 -/
+def edwards.EdwardsPoint.as_projective
+  (self : edwards.EdwardsPoint) :
+  Result backend.serial.curve_models.ProjectivePoint
+  := do
+  ok { X := self.X, Y := self.Y, Z := self.Z }
+
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::double]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 810:4-812:5 -/
+def edwards.EdwardsPoint.double
+  (self : edwards.EdwardsPoint) : Result edwards.EdwardsPoint := do
+  let pp ← edwards.EdwardsPoint.as_projective self
+  let cp ← backend.serial.curve_models.ProjectivePoint.double pp
+  backend.serial.curve_models.CompletedPoint.as_extended cp
+
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop body 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 205:8-207:9
+    Visibility: public -/
+@[rust_loop_body]
+def
+  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
+  (A2 : edwards.EdwardsPoint) (iter : core.ops.range.Range Std.Usize)
+  (Ai : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize) :
+  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (Array
+    backend.serial.curve_models.ProjectiveNielsPoint 8#usize)) (Array
+    backend.serial.curve_models.ProjectiveNielsPoint 8#usize))
+  := do
+  let (o, iter1) ←
+    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
+  match o with
+  | none => ok (done Ai)
+  | some i =>
+    let pnp ← Array.index_usize Ai i
+    let cp ←
+      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
+        A2 pnp
+    let ep ← backend.serial.curve_models.CompletedPoint.as_extended cp
+    let pnp1 ← edwards.EdwardsPoint.as_projective_niels ep
+    let i1 ← i + 1#usize
+    let a ← Array.update Ai i1 pnp1
+    ok (cont (iter1, a))
+
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]: loop 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 205:8-207:9
+    Visibility: public -/
+@[rust_loop]
+def
+  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
+  (iter : core.ops.range.Range Std.Usize)
+  (Ai : Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize)
+  (A2 : edwards.EdwardsPoint) :
+  Result (Array backend.serial.curve_models.ProjectiveNielsPoint 8#usize)
+  := do
+  loop
+    (fun (iter1, Ai1) =>
+      window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
+      A2 iter1 Ai1)
+    (iter, Ai)
+
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable5<curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint>}::from]:
+    Source: 'curve25519-dalek/src/window.rs', lines 202:4-210:5
+    Visibility: public -/
+def
+  window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
+  (A : edwards.EdwardsPoint) :
+  Result (window.NafLookupTable5
+    backend.serial.curve_models.ProjectiveNielsPoint)
+  := do
+  let pnp ← edwards.EdwardsPoint.as_projective_niels A
+  let Ai := Array.repeat 8#usize pnp
+  let A2 ← edwards.EdwardsPoint.double A
+  let Ai1 ←
+    window.NafLookupTable5ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
+      { start := 0#usize, «end» := 7#usize } Ai A2
+  ok Ai1
+
+/-- [curve25519_dalek::window::{curve25519_dalek::window::NafLookupTable5<T>}::select]:
+    Source: 'curve25519-dalek/src/window.rs', lines 187:4-192:5
+    Visibility: public -/
+def window.NafLookupTable5.select
+  {T : Type} (coremarkerCopyInst : core.marker.Copy T)
+  (self : window.NafLookupTable5 T) (x : Std.Usize) :
+  Result T
+  := do
+  let left_val ← lift (x &&& 1#usize)
+  massert (left_val = 1#usize)
+  massert (x < 16#usize)
+  let i ← x / 2#usize
+  Array.index_usize self i
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]: loop body 0:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 983:8-1016:9 -/
+@[rust_loop_body]
+def scalar.Scalar.non_adjacent_form_loop.body
+  (w : Std.Usize) (x_u64 : Array Std.U64 5#usize) (width : Std.U64)
+  (window_mask : Std.U64) (naf : Array Std.I8 256#usize) (pos : Std.Usize)
+  (carry : Std.U64) :
+  Result (ControlFlow ((Array Std.I8 256#usize) × Std.Usize × Std.U64) (Array
+    Std.I8 256#usize))
+  := do
+  if pos < 256#usize
+  then
+    let u64_idx ← pos / 64#usize
+    let bit_idx ← pos % 64#usize
+    let i ← 64#usize - w
+    let bit_buf ←
+      if bit_idx < i
+      then do
+           let i1 ← Array.index_usize x_u64 u64_idx
+           i1 >>> bit_idx
+      else
+        do
+        let i1 ← Array.index_usize x_u64 u64_idx
+        let i2 ← i1 >>> bit_idx
+        let i3 ← 1#usize + u64_idx
+        let i4 ← Array.index_usize x_u64 i3
+        let i5 ← 64#usize - bit_idx
+        let i6 ← i4 <<< i5
+        ok (i2 ||| i6)
+    let i1 ← lift (bit_buf &&& window_mask)
+    let window ← carry + i1
+    let i2 ← lift (window &&& 1#u64)
+    if i2 = 0#u64
+    then let pos1 ← pos + 1#usize
+         ok (cont (naf, pos1, carry))
+    else
+      let i3 ← width / 2#u64
+      let (naf1, carry1) ←
+        if window < i3
+        then
+          do
+          let i4 ← lift (UScalar.hcast .I8 window)
+          let a ← Array.update naf pos i4
+          ok (a, 0#u64)
+        else
+          do
+          let i4 ← lift (UScalar.hcast .I8 window)
+          let i5 ← lift (UScalar.hcast .I8 width)
+          let i6 ← lift (core.num.I8.wrapping_sub i4 i5)
+          let a ← Array.update naf pos i6
+          ok (a, 1#u64)
+      let pos1 ← pos + w
+      ok (cont (naf1, pos1, carry1))
+  else ok (done naf)
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]: loop 0:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 983:8-1016:9 -/
+@[rust_loop]
+def scalar.Scalar.non_adjacent_form_loop
+  (w : Std.Usize) (naf : Array Std.I8 256#usize)
+  (x_u64 : Array Std.U64 5#usize) (width : Std.U64) (window_mask : Std.U64)
+  (pos : Std.Usize) (carry : Std.U64) :
+  Result (Array Std.I8 256#usize)
+  := do
+  loop
+    (fun (naf1, pos1, carry1) => scalar.Scalar.non_adjacent_form_loop.body w
+      x_u64 width window_mask naf1 pos1 carry1)
+    (naf, pos, carry)
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::non_adjacent_form]:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 967:4-1019:5 -/
+def scalar.Scalar.non_adjacent_form
+  (self : scalar.Scalar) (w : Std.Usize) :
+  Result (Array Std.I8 256#usize)
+  := do
+  massert (w >= 2#usize)
+  massert (w <= 8#usize)
+  let naf := Array.repeat 256#usize 0#i8
+  let x_u64 := Array.repeat 5#usize 0#u64
+  let s ← lift (Array.to_slice self.bytes)
+  let (s1, index_mut_back) ←
+    core.array.Array.index_mut (core.ops.index.IndexMutSlice
+      (core.slice.index.SliceIndexRangeUsizeSlice Std.U64)) x_u64
+      { start := 0#usize, «end» := 4#usize }
+  let s2 ← scalar.read_le_u64_into s s1
+  let width ← 1#u64 <<< w
+  let window_mask ← width - 1#u64
+  let x_u641 := index_mut_back s2
+  scalar.Scalar.non_adjacent_form_loop w naf x_u641 width window_mask 0#usize
+    0#u64
 
 /-- [curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_POINT]
     Source: 'curve25519-dalek/src/backend/serial/u64/constants.rs', lines 163:0-186:2
@@ -8558,16 +5022,6 @@ impl_def edwards.affine.AffinePoint.Insts.CoreCmpPartialEqAffinePoint :
     edwards.affine.AffinePoint.Insts.CoreCmpPartialEqAffinePoint
 }
 
-/-- Trait implementation: [curve25519_dalek::edwards::affine::{impl core::cmp::Eq for curve25519_dalek::edwards::affine::AffinePoint}]
-    Source: 'curve25519-dalek/src/edwards/affine.rs', lines 53:0-53:26 -/
-@[reducible]
-impl_def edwards.affine.AffinePoint.Insts.CoreCmpEq : core.cmp.Eq
-  edwards.affine.AffinePoint := {
-  partialEqInst := edwards.affine.AffinePoint.Insts.CoreCmpPartialEqAffinePoint
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    edwards.affine.AffinePoint.Insts.CoreCmpEq
-}
-
 /-- Trait implementation: [curve25519_dalek::edwards::affine::{impl zeroize::DefaultIsZeroes for curve25519_dalek::edwards::affine::AffinePoint}]
     Source: 'curve25519-dalek/src/edwards/affine.rs', lines 56:0-56:39 -/
 @[reducible]
@@ -8740,17 +5194,6 @@ impl_def edwards.CompressedEdwardsY.Insts.CoreCmpPartialEqCompressedEdwardsY :
     edwards.CompressedEdwardsY.Insts.CoreCmpPartialEqCompressedEdwardsY
 }
 
-/-- Trait implementation: [curve25519_dalek::edwards::{impl core::cmp::Eq for curve25519_dalek::edwards::CompressedEdwardsY}]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 183:0-183:33 -/
-@[reducible]
-impl_def edwards.CompressedEdwardsY.Insts.CoreCmpEq : core.cmp.Eq
-  edwards.CompressedEdwardsY := {
-  partialEqInst :=
-    edwards.CompressedEdwardsY.Insts.CoreCmpPartialEqCompressedEdwardsY
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    edwards.CompressedEdwardsY.Insts.CoreCmpEq
-}
-
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::CompressedEdwardsY}::to_bytes]:
     Source: 'curve25519-dalek/src/edwards.rs', lines 203:4-205:5
     Visibility: public -/
@@ -8780,6 +5223,56 @@ def edwards.decompress.step_2
     Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
       X1 Y
   ok { X := X1, Y, Z, T := fe }
+
+/-- [curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::pow22501]:
+    Source: 'curve25519-dalek/src/field.rs', lines 176:4-210:5 -/
+def field.FieldElement51.pow22501
+  (self : backend.serial.u64.field.FieldElement51) :
+  Result (backend.serial.u64.field.FieldElement51 ×
+    backend.serial.u64.field.FieldElement51)
+  := do
+  let t0 ← backend.serial.u64.field.FieldElement51.square self
+  let fe ← backend.serial.u64.field.FieldElement51.square t0
+  let t1 ← backend.serial.u64.field.FieldElement51.square fe
+  let t2 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      self t1
+  let t3 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t0 t2
+  let t4 ← backend.serial.u64.field.FieldElement51.square t3
+  let t5 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t2 t4
+  let t6 ← backend.serial.u64.field.FieldElement51.pow2k t5 5#u32
+  let t7 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t6 t5
+  let t8 ← backend.serial.u64.field.FieldElement51.pow2k t7 10#u32
+  let t9 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t8 t7
+  let t10 ← backend.serial.u64.field.FieldElement51.pow2k t9 20#u32
+  let t11 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t10 t9
+  let t12 ← backend.serial.u64.field.FieldElement51.pow2k t11 10#u32
+  let t13 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t12 t7
+  let t14 ← backend.serial.u64.field.FieldElement51.pow2k t13 50#u32
+  let t15 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t14 t13
+  let t16 ← backend.serial.u64.field.FieldElement51.pow2k t15 100#u32
+  let t17 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t16 t15
+  let t18 ← backend.serial.u64.field.FieldElement51.pow2k t17 50#u32
+  let t19 ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      t18 t13
+  ok (t19, t3)
 
 /-- [curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::pow_p58]:
     Source: 'curve25519-dalek/src/field.rs', lines 309:4-318:5 -/
@@ -9182,15 +5675,44 @@ impl_def edwards.EdwardsPoint.Insts.CoreCmpPartialEqEdwardsPoint :
     edwards.EdwardsPoint.Insts.CoreCmpPartialEqEdwardsPoint
 }
 
-/-- Trait implementation: [curve25519_dalek::edwards::{impl core::cmp::Eq for curve25519_dalek::edwards::EdwardsPoint}]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 522:0-522:27 -/
-@[reducible]
-impl_def edwards.EdwardsPoint.Insts.CoreCmpEq : core.cmp.Eq
-  edwards.EdwardsPoint := {
-  partialEqInst := edwards.EdwardsPoint.Insts.CoreCmpPartialEqEdwardsPoint
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    edwards.EdwardsPoint.Insts.CoreCmpEq
-}
+/-- [curve25519_dalek::field::{curve25519_dalek::backend::serial::u64::field::FieldElement51}::invert]:
+    Source: 'curve25519-dalek/src/field.rs', lines 295:4-304:5 -/
+def field.FieldElement51.invert
+  (self : backend.serial.u64.field.FieldElement51) :
+  Result backend.serial.u64.field.FieldElement51
+  := do
+  let (t19, t3) ← field.FieldElement51.pow22501 self
+  let t20 ← backend.serial.u64.field.FieldElement51.pow2k t19 5#u32
+  Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+    t20 t3
+
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::as_affine_niels]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 553:4-563:5 -/
+def edwards.EdwardsPoint.as_affine_niels
+  (self : edwards.EdwardsPoint) :
+  Result backend.serial.curve_models.AffineNielsPoint
+  := do
+  let recip ← field.FieldElement51.invert self.Z
+  let x ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      self.X recip
+  let y ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      self.Y recip
+  let fe ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      x y
+  let fe1 ← backend.serial.u64.constants.EDWARDS_D2
+  let xy2d ←
+    Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51.mul
+      fe fe1
+  let fe2 ←
+    Shared0FieldElement51.Insts.CoreOpsArithAddSharedAFieldElement51FieldElement51.add
+      y x
+  let fe3 ←
+    Shared0FieldElement51.Insts.CoreOpsArithSubSharedAFieldElement51FieldElement51.sub
+      y x
+  ok { y_plus_x := fe2, y_minus_x := fe3, xy2d }
 
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::to_affine]:
     Source: 'curve25519-dalek/src/edwards.rs', lines 566:4-571:5 -/
@@ -9715,6 +6237,20 @@ def edwards.EdwardsPoint.compress_batch_alloc
   let zs2 := deref_mut_back s1
   edwards.EdwardsPoint.compress_batch_alloc_loop1 inputs n zs2 out 0#usize
 
+/-- [curve25519_dalek::edwards::{impl core::ops::arith::Add<&'a curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for &'_1 curve25519_dalek::edwards::EdwardsPoint}::add]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 821:4-823:5
+    Visibility: public -/
+def
+  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
+  (self : edwards.EdwardsPoint) (other : edwards.EdwardsPoint) :
+  Result edwards.EdwardsPoint
+  := do
+  let pnp ← edwards.EdwardsPoint.as_projective_niels other
+  let cp ←
+    Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAProjectiveNielsPointCompletedPoint.add
+      self pnp
+  backend.serial.curve_models.CompletedPoint.as_extended cp
+
 /-- Trait implementation: [curve25519_dalek::edwards::{impl core::ops::arith::Add<&'a curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for &'_1 curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/edwards.rs', lines 819:0-824:1 -/
 @[reducible]
@@ -9724,6 +6260,17 @@ def Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint :
   add :=
     Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
 }
+
+/-- [curve25519_dalek::edwards::{impl core::ops::arith::AddAssign<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add_assign]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 833:4-835:5
+    Visibility: public -/
+def
+  edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignSharedAEdwardsPoint.add_assign
+  (self : edwards.EdwardsPoint) (_rhs : edwards.EdwardsPoint) :
+  Result edwards.EdwardsPoint
+  := do
+  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
+    self _rhs
 
 /-- Trait implementation: [curve25519_dalek::edwards::{impl core::ops::arith::AddAssign<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/edwards.rs', lines 832:0-836:1 -/
@@ -9777,99 +6324,6 @@ def edwards.EdwardsPoint.Insts.CoreOpsArithSubAssignSharedAEdwardsPoint :
   sub_assign :=
     edwards.EdwardsPoint.Insts.CoreOpsArithSubAssignSharedAEdwardsPoint.sub_assign
 }
-
-/-- [curve25519_dalek::edwards::{impl core::ops::arith::Add<&'b curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 19:12-21:13
-    Visibility: public -/
-def
-  edwards.EdwardsPoint.Insts.CoreOpsArithAddSharedBEdwardsPointEdwardsPoint.add
-  (self : edwards.EdwardsPoint) (rhs : edwards.EdwardsPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
-    self rhs
-
-/-- [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::{impl core::ops::function::FnMut<(curve25519_dalek::edwards::EdwardsPoint, T), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::closure<T, I>}::call_mut]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 869:44-869:75 -/
-def
-  edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairEdwardsPointTEdwardsPoint.call_mut
-  {T : Type} {I : Type} (coreborrowBorrowTEdwardsPointInst : core.borrow.Borrow
-  T edwards.EdwardsPoint) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T)
-  (c : edwards.SumEdwardsPointT.sum.closure T I)
-  (tupled_args : (edwards.EdwardsPoint × T)) :
-  Result (edwards.EdwardsPoint × (edwards.SumEdwardsPointT.sum.closure T I))
-  := do
-  let (acc, item) := tupled_args
-  let ep ← coreborrowBorrowTEdwardsPointInst.borrow item
-  let ep1 ←
-    edwards.EdwardsPoint.Insts.CoreOpsArithAddSharedBEdwardsPointEdwardsPoint.add
-      acc ep
-  ok (ep1, c)
-
-/-- [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint, T), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::closure<T, I>}::call_once]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 869:44-869:75 -/
-def
-  edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairEdwardsPointTEdwardsPoint.call_once
-  {T : Type} {I : Type} (coreborrowBorrowTEdwardsPointInst : core.borrow.Borrow
-  T edwards.EdwardsPoint) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T)
-  (c : edwards.SumEdwardsPointT.sum.closure T I)
-  (p : (edwards.EdwardsPoint × T)) :
-  Result edwards.EdwardsPoint
-  := do
-  let (ep, _) ←
-    edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairEdwardsPointTEdwardsPoint.call_mut
-      coreborrowBorrowTEdwardsPointInst coreitertraitsiteratorIteratorInst c p
-  ok ep
-
-/-- Trait implementation: [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint, T), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::closure<T, I>}]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 869:44-869:75 -/
-@[reducible]
-def
-  edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairEdwardsPointTEdwardsPoint
-  {T : Type} {I : Type} (coreborrowBorrowTEdwardsPointInst : core.borrow.Borrow
-  T edwards.EdwardsPoint) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) : core.ops.function.FnOnce
-  (edwards.SumEdwardsPointT.sum.closure T I) (edwards.EdwardsPoint × T)
-  edwards.EdwardsPoint := {
-  call_once :=
-    edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairEdwardsPointTEdwardsPoint.call_once
-    coreborrowBorrowTEdwardsPointInst coreitertraitsiteratorIteratorInst
-}
-
-/-- Trait implementation: [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::{impl core::ops::function::FnMut<(curve25519_dalek::edwards::EdwardsPoint, T), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum::closure<T, I>}]
-    Source: 'curve25519-dalek/src/edwards.rs', lines 869:44-869:75 -/
-@[reducible]
-def
-  edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairEdwardsPointTEdwardsPoint
-  {T : Type} {I : Type} (coreborrowBorrowTEdwardsPointInst : core.borrow.Borrow
-  T edwards.EdwardsPoint) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) : core.ops.function.FnMut
-  (edwards.SumEdwardsPointT.sum.closure T I) (edwards.EdwardsPoint × T)
-  edwards.EdwardsPoint := {
-  FnOnceInst :=
-    edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairEdwardsPointTEdwardsPoint
-    coreborrowBorrowTEdwardsPointInst coreitertraitsiteratorIteratorInst
-  call_mut :=
-    edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairEdwardsPointTEdwardsPoint.call_mut
-    coreborrowBorrowTEdwardsPointInst coreitertraitsiteratorIteratorInst
-}
-
-/-- [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}::sum]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 865:4-870:5
-    Visibility: public -/
-def edwards.EdwardsPoint.Insts.CoreIterTraitsAccumSum.sum
-  {T : Type} {I : Type} (coreborrowBorrowTEdwardsPointInst : core.borrow.Borrow
-  T edwards.EdwardsPoint) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) (iter : I) :
-  Result edwards.EdwardsPoint
-  := do
-  let ep ← edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsIdentity.identity
-  coreitertraitsiteratorIteratorInst.fold
-    (edwards.SumEdwardsPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairEdwardsPointTEdwardsPoint
-    coreborrowBorrowTEdwardsPointInst coreitertraitsiteratorIteratorInst) iter
-    ep ()
 
 /-- Trait implementation: [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/edwards.rs', lines 861:0-871:1 -/
@@ -10027,52 +6481,6 @@ def edwards.EdwardsPoint.mul_base_clamped
   let a ← scalar.clamp_integer bytes
   edwards.EdwardsPoint.mul_base { bytes := a }
 
-/-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::multiscalar_mul]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 994:4-1019:5
-    Visibility: public -/
-def
-  edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause2_Item edwards.EdwardsPoint) (scalars : I) (points : J) :
-  Result edwards.EdwardsPoint
-  := do
-  let scalars1 ← coreitertraitscollectIntoIteratorInst.into_iter scalars
-  let points1 ← coreitertraitscollectIntoIteratorInst1.into_iter points
-  let (t, by_ref_back) ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.by_ref scalars1
-  let (s_lo, s_hi) ←
-    Mut0I.Insts.CoreIterTraitsIteratorIterator.size_hint
-      coreitertraitscollectIntoIteratorInst.iteratorInst t
-  let (t1, by_ref_back1) ←
-    coreitertraitscollectIntoIteratorInst1.iteratorInst.by_ref points1
-  let (p_lo, p_hi) ←
-    Mut0I.Insts.CoreIterTraitsIteratorIterator.size_hint
-      coreitertraitscollectIntoIteratorInst1.iteratorInst t1
-  massert (s_lo = p_lo)
-  let b ←
-    core.option.Option.Insts.CoreCmpPartialEqOption.eq core.cmp.PartialEqUsize
-      s_hi (some s_lo)
-  massert b
-  let b1 ←
-    core.option.Option.Insts.CoreCmpPartialEqOption.eq core.cmp.PartialEqUsize
-      p_hi (some p_lo)
-  massert b1
-  let scalars2 := by_ref_back t
-  let points2 := by_ref_back1 t1
-  backend.straus_multiscalar_mul (core.iter.traits.collect.IntoIterator.Blanket
-    coreitertraitscollectIntoIteratorInst.iteratorInst)
-    coreborrowBorrowClause0_ItemScalarInst
-    (core.iter.traits.collect.IntoIterator.Blanket
-    coreitertraitscollectIntoIteratorInst1.iteratorInst)
-    coreborrowBorrowClause2_ItemEdwardsPointInst scalars2 points2
-
 /-- Trait implementation: [curve25519_dalek::edwards::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/edwards.rs', lines 991:0-1020:1 -/
 @[reducible]
@@ -10091,68 +6499,6 @@ def edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint
     coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
     coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPEdwardsPointInst
 }
-
-/-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::optional_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1026:4-1054:5
-    Visibility: public -/
-def
-  edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option edwards.EdwardsPoint)
-  Clause2_IntoIter) (scalars : I) (points : J) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  let scalars1 ← coreitertraitscollectIntoIteratorInst.into_iter scalars
-  let points1 ←
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.into_iter
-      points
-  let (t, by_ref_back) ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.by_ref scalars1
-  let (s_lo, s_hi) ←
-    Mut0I.Insts.CoreIterTraitsIteratorIterator.size_hint
-      coreitertraitscollectIntoIteratorInst.iteratorInst t
-  let (t1, by_ref_back1) ←
-    coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst.by_ref
-      points1
-  let (p_lo, p_hi) ←
-    Mut0I.Insts.CoreIterTraitsIteratorIterator.size_hint
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst
-      t1
-  massert (s_lo = p_lo)
-  let b ←
-    core.option.Option.Insts.CoreCmpPartialEqOption.eq core.cmp.PartialEqUsize
-      s_hi (some s_lo)
-  massert b
-  let b1 ←
-    core.option.Option.Insts.CoreCmpPartialEqOption.eq core.cmp.PartialEqUsize
-      p_hi (some p_lo)
-  massert b1
-  if s_lo < 190#usize
-  then
-    let scalars2 := by_ref_back t
-    let points2 := by_ref_back1 t1
-    backend.straus_optional_multiscalar_mul
-      (core.iter.traits.collect.IntoIterator.Blanket
-      coreitertraitscollectIntoIteratorInst.iteratorInst)
-      coreborrowBorrowClause0_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst)
-      scalars2 points2
-  else
-    let scalars2 := by_ref_back t
-    let points2 := by_ref_back1 t1
-    backend.pippenger_optional_multiscalar_mul
-      (core.iter.traits.collect.IntoIterator.Blanket
-      coreitertraitscollectIntoIteratorInst.iteratorInst)
-      coreborrowBorrowClause0_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      coreitertraitscollectIntoIteratorJOptionEdwardsPointClause2_IntoIterInst.iteratorInst)
-      scalars2 points2
 
 /-- Trait implementation: [curve25519_dalek::edwards::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/edwards.rs', lines 1023:0-1055:1 -/
@@ -10188,34 +6534,6 @@ impl_def
     corecloneCloneEdwardsPointInst
 }
 
-/-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::VartimeEdwardsPrecomputation}::optional_mixed_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1084:4-1099:5
-    Visibility: public -/
-def
-  edwards.VartimeEdwardsPrecomputation.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.optional_mixed_multiscalar_mul
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option edwards.EdwardsPoint)
-  Clause4_IntoIter) (self : edwards.VartimeEdwardsPrecomputation)
-  (static_scalars : I) (dynamic_scalars : J) (dynamic_points : K) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  backend.VartimePrecomputedStraus.optional_mixed_multiscalar_mul
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionEdwardsPointClause4_IntoIterInst
-    self static_scalars dynamic_scalars dynamic_points
-
 /-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::VartimeEdwardsPrecomputation}::is_empty]:
     Source: 'curve25519-dalek/src/edwards.rs', lines 1080:4-1082:5
     Visibility: public -/
@@ -10231,23 +6549,6 @@ def
   edwards.VartimeEdwardsPrecomputation.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.len
   (self : edwards.VartimeEdwardsPrecomputation) : Result Std.Usize := do
   backend.VartimePrecomputedStraus.len self
-
-/-- [curve25519_dalek::edwards::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::VartimeEdwardsPrecomputation}::new]:
-    Source: 'curve25519-dalek/src/edwards.rs', lines 1068:4-1074:5
-    Visibility: public -/
-def
-  edwards.VartimeEdwardsPrecomputation.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulEdwardsPoint.new
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemEdwardsPointInst : core.borrow.Borrow
-  Clause0_Item edwards.EdwardsPoint) (static_points : I) :
-  Result edwards.VartimeEdwardsPrecomputation
-  := do
-  let vps ←
-    backend.VartimePrecomputedStraus.new coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemEdwardsPointInst static_points
-  ok vps
 
 /-- Trait implementation: [curve25519_dalek::edwards::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::VartimeEdwardsPrecomputation}]
     Source: 'curve25519-dalek/src/edwards.rs', lines 1065:0-1100:1 -/
@@ -10321,6 +6622,51 @@ def edwards.EdwardsPoint.vartime_double_scalar_mul_basepoint
   := do
   backend.vartime_double_base_mul a A b
 
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_pow_2]: loop body 0:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 1398:8-1401:9 -/
+@[rust_loop_body]
+def edwards.EdwardsPoint.mul_by_pow_2_loop.body
+  (iter : core.ops.range.Range Std.U32)
+  (s : backend.serial.curve_models.ProjectivePoint) :
+  Result (ControlFlow ((core.ops.range.Range Std.U32) ×
+    backend.serial.curve_models.ProjectivePoint)
+    backend.serial.curve_models.ProjectivePoint)
+  := do
+  let (o, iter1) ←
+    core.iter.range.IteratorRange.next core.iter.range.StepU32 iter
+  match o with
+  | none => ok (done s)
+  | some _ =>
+    let r ← backend.serial.curve_models.ProjectivePoint.double s
+    let s1 ← backend.serial.curve_models.CompletedPoint.as_projective r
+    ok (cont (iter1, s1))
+
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_pow_2]: loop 0:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 1398:8-1401:9 -/
+@[rust_loop]
+def edwards.EdwardsPoint.mul_by_pow_2_loop
+  (iter : core.ops.range.Range Std.U32)
+  (s : backend.serial.curve_models.ProjectivePoint) :
+  Result backend.serial.curve_models.ProjectivePoint
+  := do
+  loop
+    (fun (iter1, s1) => edwards.EdwardsPoint.mul_by_pow_2_loop.body iter1 s1)
+    (iter, s)
+
+/-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_pow_2]:
+    Source: 'curve25519-dalek/src/edwards.rs', lines 1394:4-1404:5 -/
+def edwards.EdwardsPoint.mul_by_pow_2
+  (self : edwards.EdwardsPoint) (k : Std.U32) :
+  Result edwards.EdwardsPoint
+  := do
+  massert (k > 0#u32)
+  let s ← edwards.EdwardsPoint.as_projective self
+  let i ← k - 1#u32
+  let s1 ←
+    edwards.EdwardsPoint.mul_by_pow_2_loop { start := 0#u32, «end» := i } s
+  let cp ← backend.serial.curve_models.ProjectivePoint.double s1
+  backend.serial.curve_models.CompletedPoint.as_extended cp
+
 /-- [curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint}::mul_by_cofactor]:
     Source: 'curve25519-dalek/src/edwards.rs', lines 1389:4-1391:5
     Visibility: public -/
@@ -10329,7 +6675,7 @@ def edwards.EdwardsPoint.mul_by_cofactor
   edwards.EdwardsPoint.mul_by_pow_2 self 3#u32
 
 /-- [curve25519_dalek::traits::{impl curve25519_dalek::traits::IsIdentity for T}::is_identity]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 45:4-47:5
+    Source: 'curve25519-dalek/src/traits.rs', lines 73:4-75:5
     Visibility: public -/
 def traits.IsIdentity.Blanket.is_identity
   {T : Type} (subtleConstantTimeEqInst : subtle.ConstantTimeEq T) (IdentityInst
@@ -10383,17 +6729,6 @@ impl_def
     backend.serial.u64.field.FieldElement51.Insts.CoreCmpPartialEqFieldElement51.eq
   ne := core.cmp.PartialEq.ne.trait_default
     backend.serial.u64.field.FieldElement51.Insts.CoreCmpPartialEqFieldElement51
-}
-
-/-- Trait implementation: [curve25519_dalek::field::{impl core::cmp::Eq for curve25519_dalek::backend::serial::u64::field::FieldElement51}]
-    Source: 'curve25519-dalek/src/field.rs', lines 84:0-84:27 -/
-@[reducible]
-impl_def backend.serial.u64.field.FieldElement51.Insts.CoreCmpEq : core.cmp.Eq
-  backend.serial.u64.field.FieldElement51 := {
-  partialEqInst :=
-    backend.serial.u64.field.FieldElement51.Insts.CoreCmpPartialEqFieldElement51
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    backend.serial.u64.field.FieldElement51.Insts.CoreCmpEq
 }
 
 /-- Trait implementation: [curve25519_dalek::field::{impl subtle::ConstantTimeEq for curve25519_dalek::backend::serial::u64::field::FieldElement51}]
@@ -10468,6 +6803,17 @@ def scalar.Scalar.Insts.CoreOpsArithAddSharedBScalarScalar : core.ops.arith.Add
   add := scalar.Scalar.Insts.CoreOpsArithAddSharedBScalarScalar.add
 }
 
+/-- [curve25519_dalek::edwards::{impl core::ops::arith::Add<&'b curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add]:
+    Source: 'curve25519-dalek/src/macros.rs', lines 19:12-21:13
+    Visibility: public -/
+def
+  edwards.EdwardsPoint.Insts.CoreOpsArithAddSharedBEdwardsPointEdwardsPoint.add
+  (self : edwards.EdwardsPoint) (rhs : edwards.EdwardsPoint) :
+  Result edwards.EdwardsPoint
+  := do
+  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
+    self rhs
+
 /-- Trait implementation: [curve25519_dalek::edwards::{impl core::ops::arith::Add<&'b curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/macros.rs', lines 17:8-22:9 -/
 @[reducible]
@@ -10477,6 +6823,16 @@ def edwards.EdwardsPoint.Insts.CoreOpsArithAddSharedBEdwardsPointEdwardsPoint :
   add :=
     edwards.EdwardsPoint.Insts.CoreOpsArithAddSharedBEdwardsPointEdwardsPoint.add
 }
+
+/-- [curve25519_dalek::edwards::{impl core::ops::arith::Add<curve25519_dalek::edwards::EdwardsPoint, curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add]:
+    Source: 'curve25519-dalek/src/macros.rs', lines 33:12-35:13
+    Visibility: public -/
+def edwards.EdwardsPoint.Insts.CoreOpsArithAddEdwardsPointEdwardsPoint.add
+  (self : edwards.EdwardsPoint) (rhs : edwards.EdwardsPoint) :
+  Result edwards.EdwardsPoint
+  := do
+  Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAEdwardsPointEdwardsPoint.add
+    self rhs
 
 /-- [curve25519_dalek::ristretto::{impl core::ops::arith::Add<&'a curve25519_dalek::ristretto::RistrettoPoint, curve25519_dalek::ristretto::RistrettoPoint> for &'_1 curve25519_dalek::ristretto::RistrettoPoint}::add]:
     Source: 'curve25519-dalek/src/ristretto.rs', lines 857:4-859:5
@@ -10633,6 +6989,16 @@ def scalar.Scalar.Insts.CoreOpsArithAddAssignScalar : core.ops.arith.AddAssign
   scalar.Scalar scalar.Scalar := {
   add_assign := scalar.Scalar.Insts.CoreOpsArithAddAssignScalar.add_assign
 }
+
+/-- [curve25519_dalek::edwards::{impl core::ops::arith::AddAssign<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}::add_assign]:
+    Source: 'curve25519-dalek/src/macros.rs', lines 44:12-46:13
+    Visibility: public -/
+def edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignEdwardsPoint.add_assign
+  (self : edwards.EdwardsPoint) (rhs : edwards.EdwardsPoint) :
+  Result edwards.EdwardsPoint
+  := do
+  edwards.EdwardsPoint.Insts.CoreOpsArithAddAssignSharedAEdwardsPoint.add_assign
+    self rhs
 
 /-- Trait implementation: [curve25519_dalek::edwards::{impl core::ops::arith::AddAssign<curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::edwards::EdwardsPoint}]
     Source: 'curve25519-dalek/src/macros.rs', lines 43:8-47:9 -/
@@ -11479,17 +7845,6 @@ impl_def montgomery.MontgomeryPoint.Insts.CoreCmpPartialEqMontgomeryPoint :
     montgomery.MontgomeryPoint.Insts.CoreCmpPartialEqMontgomeryPoint
 }
 
-/-- Trait implementation: [curve25519_dalek::montgomery::{impl core::cmp::Eq for curve25519_dalek::montgomery::MontgomeryPoint}]
-    Source: 'curve25519-dalek/src/montgomery.rs', lines 115:0-115:30 -/
-@[reducible]
-impl_def montgomery.MontgomeryPoint.Insts.CoreCmpEq : core.cmp.Eq
-  montgomery.MontgomeryPoint := {
-  partialEqInst :=
-    montgomery.MontgomeryPoint.Insts.CoreCmpPartialEqMontgomeryPoint
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    montgomery.MontgomeryPoint.Insts.CoreCmpEq
-}
-
 /-- [curve25519_dalek::montgomery::{impl curve25519_dalek::traits::Identity for curve25519_dalek::montgomery::MontgomeryPoint}::identity]:
     Source: 'curve25519-dalek/src/montgomery.rs', lines 130:4-132:5
     Visibility: public -/
@@ -12029,17 +8384,6 @@ impl_def
     ristretto.CompressedRistretto.Insts.CoreCmpPartialEqCompressedRistretto
 }
 
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl core::cmp::Eq for curve25519_dalek::ristretto::CompressedRistretto}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 225:0-225:34 -/
-@[reducible]
-impl_def ristretto.CompressedRistretto.Insts.CoreCmpEq : core.cmp.Eq
-  ristretto.CompressedRistretto := {
-  partialEqInst :=
-    ristretto.CompressedRistretto.Insts.CoreCmpPartialEqCompressedRistretto
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    ristretto.CompressedRistretto.Insts.CoreCmpEq
-}
-
 /-- Trait implementation: [curve25519_dalek::ristretto::{impl subtle::ConstantTimeEq for curve25519_dalek::ristretto::CompressedRistretto}]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 232:0-236:1 -/
 @[reducible]
@@ -12492,17 +8836,6 @@ def ristretto.RistrettoPoint.Insts.SubtleConstantTimeEq : subtle.ConstantTimeEq
   ct_eq := ristretto.RistrettoPoint.Insts.SubtleConstantTimeEq.ct_eq
 }
 
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl core::cmp::Eq for curve25519_dalek::ristretto::RistrettoPoint}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 848:0-848:29 -/
-@[reducible]
-impl_def ristretto.RistrettoPoint.Insts.CoreCmpEq : core.cmp.Eq
-  ristretto.RistrettoPoint := {
-  partialEqInst :=
-    ristretto.RistrettoPoint.Insts.CoreCmpPartialEqRistrettoPoint
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    ristretto.RistrettoPoint.Insts.CoreCmpEq
-}
-
 /-- Trait implementation: [curve25519_dalek::ristretto::{impl core::ops::arith::Add<&'a curve25519_dalek::ristretto::RistrettoPoint, curve25519_dalek::ristretto::RistrettoPoint> for &'_1 curve25519_dalek::ristretto::RistrettoPoint}]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 854:0-860:1 -/
 @[reducible]
@@ -12544,92 +8877,6 @@ def ristretto.RistrettoPoint.Insts.CoreOpsArithSubAssignShared0RistrettoPoint :
   sub_assign :=
     ristretto.RistrettoPoint.Insts.CoreOpsArithSubAssignShared0RistrettoPoint.sub_assign
 }
-
-/-- [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::{impl core::ops::function::FnMut<(curve25519_dalek::ristretto::RistrettoPoint, T), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::closure<T, I>}::call_mut]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 906:46-906:77 -/
-def
-  ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairRistrettoPointTRistrettoPoint.call_mut
-  {T : Type} {I : Type} (coreborrowBorrowTRistrettoPointInst :
-  core.borrow.Borrow T ristretto.RistrettoPoint)
-  (coreitertraitsiteratorIteratorInst : core.iter.traits.iterator.Iterator I T)
-  (c : ristretto.SumRistrettoPointT.sum.closure T I)
-  (tupled_args : (ristretto.RistrettoPoint × T)) :
-  Result (ristretto.RistrettoPoint × (ristretto.SumRistrettoPointT.sum.closure
-    T I))
-  := do
-  let (acc, item) := tupled_args
-  let rp ← coreborrowBorrowTRistrettoPointInst.borrow item
-  let rp1 ←
-    ristretto.RistrettoPoint.Insts.CoreOpsArithAddSharedBRistrettoPointRistrettoPoint.add
-      acc rp
-  ok (rp1, c)
-
-/-- [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::{impl core::ops::function::FnOnce<(curve25519_dalek::ristretto::RistrettoPoint, T), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::closure<T, I>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 906:46-906:77 -/
-def
-  ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairRistrettoPointTRistrettoPoint.call_once
-  {T : Type} {I : Type} (coreborrowBorrowTRistrettoPointInst :
-  core.borrow.Borrow T ristretto.RistrettoPoint)
-  (coreitertraitsiteratorIteratorInst : core.iter.traits.iterator.Iterator I T)
-  (c : ristretto.SumRistrettoPointT.sum.closure T I)
-  (p : (ristretto.RistrettoPoint × T)) :
-  Result ristretto.RistrettoPoint
-  := do
-  let (rp, _) ←
-    ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairRistrettoPointTRistrettoPoint.call_mut
-      coreborrowBorrowTRistrettoPointInst coreitertraitsiteratorIteratorInst c
-      p
-  ok rp
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::{impl core::ops::function::FnOnce<(curve25519_dalek::ristretto::RistrettoPoint, T), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::closure<T, I>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 906:46-906:77 -/
-@[reducible]
-def
-  ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairRistrettoPointTRistrettoPoint
-  {T : Type} {I : Type} (coreborrowBorrowTRistrettoPointInst :
-  core.borrow.Borrow T ristretto.RistrettoPoint)
-  (coreitertraitsiteratorIteratorInst : core.iter.traits.iterator.Iterator I T)
-  : core.ops.function.FnOnce (ristretto.SumRistrettoPointT.sum.closure T I)
-  (ristretto.RistrettoPoint × T) ristretto.RistrettoPoint := {
-  call_once :=
-    ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairRistrettoPointTRistrettoPoint.call_once
-    coreborrowBorrowTRistrettoPointInst coreitertraitsiteratorIteratorInst
-}
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::{impl core::ops::function::FnMut<(curve25519_dalek::ristretto::RistrettoPoint, T), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum::closure<T, I>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 906:46-906:77 -/
-@[reducible]
-def
-  ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairRistrettoPointTRistrettoPoint
-  {T : Type} {I : Type} (coreborrowBorrowTRistrettoPointInst :
-  core.borrow.Borrow T ristretto.RistrettoPoint)
-  (coreitertraitsiteratorIteratorInst : core.iter.traits.iterator.Iterator I T)
-  : core.ops.function.FnMut (ristretto.SumRistrettoPointT.sum.closure T I)
-  (ristretto.RistrettoPoint × T) ristretto.RistrettoPoint := {
-  FnOnceInst :=
-    ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnOncePairRistrettoPointTRistrettoPoint
-    coreborrowBorrowTRistrettoPointInst coreitertraitsiteratorIteratorInst
-  call_mut :=
-    ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairRistrettoPointTRistrettoPoint.call_mut
-    coreborrowBorrowTRistrettoPointInst coreitertraitsiteratorIteratorInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}::sum]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 902:4-907:5
-    Visibility: public -/
-def ristretto.RistrettoPoint.Insts.CoreIterTraitsAccumSum.sum
-  {T : Type} {I : Type} (coreborrowBorrowTRistrettoPointInst :
-  core.borrow.Borrow T ristretto.RistrettoPoint)
-  (coreitertraitsiteratorIteratorInst : core.iter.traits.iterator.Iterator I T)
-  (iter : I) :
-  Result ristretto.RistrettoPoint
-  := do
-  let rp ←
-    ristretto.RistrettoPoint.Insts.Curve25519_dalekTraitsIdentity.identity
-  coreitertraitsiteratorIteratorInst.fold
-    (ristretto.SumRistrettoPointT.sum.closure.Insts.CoreOpsFunctionFnMutPairRistrettoPointTRistrettoPoint
-    coreborrowBorrowTRistrettoPointInst coreitertraitsiteratorIteratorInst)
-    iter rp ()
 
 /-- Trait implementation: [curve25519_dalek::ristretto::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::ristretto::RistrettoPoint}]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 898:0-908:1 -/
@@ -12712,152 +8959,6 @@ def ristretto.RistrettoPoint.mul_base
   let rp ← constants.RISTRETTO_BASEPOINT_POINT
   SharedAScalar.Insts.CoreOpsArithMulRistrettoPointRistrettoPoint.mul scalar rp
 
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::{impl core::ops::function::FnMut<(Clause2_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 991:53-991:69 -/
-def
-  ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemEdwardsPoint.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause2_Item ristretto.RistrettoPoint)
-  (c :
-  ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter)
-  (tupled_args : Clause2_Item) :
-  Result (edwards.EdwardsPoint ×
-    (ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
-    I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter))
-  := do
-  let rp ← coreborrowBorrowClause2_ItemRistrettoPointInst.borrow tupled_args
-  ok (rp, c)
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::{impl core::ops::function::FnOnce<(Clause2_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 991:53-991:69 -/
-def
-  ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemEdwardsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause2_Item ristretto.RistrettoPoint)
-  (c :
-  ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter)
-  (t : Clause2_Item) :
-  Result edwards.EdwardsPoint
-  := do
-  let (ep, _) ←
-    ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemEdwardsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemRistrettoPointInst c t
-  ok ep
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::{impl core::ops::function::FnOnce<(Clause2_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 991:53-991:69 -/
-@[reducible]
-def
-  ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemEdwardsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause2_Item ristretto.RistrettoPoint) : core.ops.function.FnOnce
-  (ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter) Clause2_Item
-  edwards.EdwardsPoint := {
-  call_once :=
-    ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemEdwardsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemRistrettoPointInst
-}
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::{impl core::ops::function::FnMut<(Clause2_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 991:53-991:69 -/
-@[reducible]
-def
-  ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemEdwardsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause2_Item ristretto.RistrettoPoint) : core.ops.function.FnMut
-  (ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter) Clause2_Item
-  edwards.EdwardsPoint := {
-  FnOnceInst :=
-    ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleClause2_ItemEdwardsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemRistrettoPointInst
-  call_mut :=
-    ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemEdwardsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemRistrettoPointInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::multiscalar_mul]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 984:4-993:5
-    Visibility: public -/
-def
-  ristretto.RistrettoPoint.Insts.Curve25519_dalekTraitsMultiscalarMulRistrettoPoint.multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_Item : Type} {Clause2_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause2_Item ristretto.RistrettoPoint) (scalars : I) (points : J) :
-  Result ristretto.RistrettoPoint
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst1.into_iter points
-  let extended_points ←
-    coreitertraitscollectIntoIteratorInst1.iteratorInst.map
-      (ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemRistrettoPointInst) t ()
-  let ep ←
-    edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsMultiscalarMulEdwardsPoint.multiscalar_mul
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst1.iteratorInst
-      (ristretto.MultiscalarMulRistrettoPointRistrettoPoint.multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleClause2_ItemEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemRistrettoPointInst)))
-      (core.borrow.Borrow.Blanket edwards.EdwardsPoint) scalars extended_points
-  ok ep
-
 /-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::MultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 981:0-994:1 -/
 @[reducible]
@@ -12878,242 +8979,6 @@ def
     coreitertraitscollectIntoIteratorInst coreborrowBorrowPScalarInst
     coreitertraitscollectIntoIteratorInst1 coreborrowBorrowPRistrettoPointInst
 }
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1011:77-1011:98 -/
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter)
-  (c :
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : edwards.EdwardsPoint) :
-  Result ristretto.RistrettoPoint
-  := do
-  ok tupled_args
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure#1<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1011:77-1011:98 -/
-@[reducible]
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) edwards.EdwardsPoint
-  ristretto.RistrettoPoint := {
-  call_once :=
-    ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure::{impl core::ops::function::FnOnce<(curve25519_dalek::ristretto::RistrettoPoint,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:71-1006:78 -/
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter)
-  (c :
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : ristretto.RistrettoPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  ok tupled_args
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure::{impl core::ops::function::FnOnce<(curve25519_dalek::ristretto::RistrettoPoint,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:71-1006:78 -/
-@[reducible]
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) ristretto.RistrettoPoint
-  edwards.EdwardsPoint := {
-  call_once :=
-    ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:53-1006:79 -/
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint.call_mut
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter)
-  (c :
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (tupled_args : Option ristretto.RistrettoPoint) :
-  Result ((Option edwards.EdwardsPoint) ×
-    (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure
-    I J Clause0_Item Clause0_IntoIter Clause2_IntoIter))
-  := do
-  let o ←
-    core.option.Option.map
-      (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst)
-      tupled_args ()
-  ok (o, c)
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:53-1006:79 -/
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint.call_once
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter)
-  (c :
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter)
-  (o : Option ristretto.RistrettoPoint) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  let (o1, _) ←
-    ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst
-      c o
-  ok o1
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:53-1006:79 -/
-@[reducible]
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter) : core.ops.function.FnOnce
-  (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (Option
-  ristretto.RistrettoPoint) (Option edwards.EdwardsPoint) := {
-  call_once :=
-    ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul::closure<I, J, Clause0_Item, Clause0_IntoIter, Clause2_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1006:53-1006:79 -/
-@[reducible]
-def
-  ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter) : core.ops.function.FnMut
-  (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure
-  I J Clause0_Item Clause0_IntoIter Clause2_IntoIter) (Option
-  ristretto.RistrettoPoint) (Option edwards.EdwardsPoint) := {
-  FnOnceInst :=
-    ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst
-  call_mut :=
-    ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}::optional_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1000:4-1012:5
-    Visibility: public -/
-def
-  ristretto.RistrettoPoint.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulRistrettoPoint.optional_multiscalar_mul
-  {I : Type} {J : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  {Clause2_IntoIter : Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst :
-  core.iter.traits.collect.IntoIterator J (Option ristretto.RistrettoPoint)
-  Clause2_IntoIter) (scalars : I) (points : J) :
-  Result (Option ristretto.RistrettoPoint)
-  := do
-  let t ←
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst.into_iter
-      points
-  let extended_points ←
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst.iteratorInst.map
-      (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst)
-      t ()
-  let o ←
-    edwards.EdwardsPoint.Insts.Curve25519_dalekTraitsVartimeMultiscalarMulEdwardsPoint.optional_multiscalar_mul
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst.iteratorInst
-      (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst)))
-      scalars extended_points
-  core.option.Option.map
-    (ristretto.VartimeMultiscalarMulRistrettoPointRistrettoPoint.optional_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorJOptionRistrettoPointClause2_IntoIterInst)
-    o ()
 
 /-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimeMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::RistrettoPoint}]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 997:0-1013:1 -/
@@ -13150,304 +9015,6 @@ impl_def
     corecloneCloneRistrettoPointInst
 }
 
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure#1<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1069:17-1069:38 -/
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter)
-  (c :
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : edwards.EdwardsPoint) :
-  Result ristretto.RistrettoPoint
-  := do
-  ok tupled_args
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(curve25519_dalek::edwards::EdwardsPoint,), curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure#1<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1069:17-1069:38 -/
-@[reducible]
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) edwards.EdwardsPoint ristretto.RistrettoPoint := {
-  call_once :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure::{impl core::ops::function::FnOnce<(curve25519_dalek::ristretto::RistrettoPoint,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:65-1064:72 -/
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter)
-  (c :
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : ristretto.RistrettoPoint) :
-  Result edwards.EdwardsPoint
-  := do
-  ok tupled_args
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure::{impl core::ops::function::FnOnce<(curve25519_dalek::ristretto::RistrettoPoint,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:65-1064:72 -/
-@[reducible]
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) ristretto.RistrettoPoint edwards.EdwardsPoint := {
-  call_once :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:47-1064:73 -/
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint.call_mut
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter)
-  (c :
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (tupled_args : Option ristretto.RistrettoPoint) :
-  Result ((Option edwards.EdwardsPoint) ×
-    (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure
-    I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-    Clause4_IntoIter))
-  := do
-  let o ←
-    core.option.Option.map
-      (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.closure.Insts.CoreOpsFunctionFnOnceTupleRistrettoPointEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst)
-      tupled_args ()
-  ok (o, c)
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:47-1064:73 -/
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint.call_once
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter)
-  (c :
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (o : Option ristretto.RistrettoPoint) :
-  Result (Option edwards.EdwardsPoint)
-  := do
-  let (o1, _) ←
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst
-      c o
-  ok o1
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnOnce<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:47-1064:73 -/
-@[reducible]
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter) : core.ops.function.FnOnce
-  (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (Option ristretto.RistrettoPoint) (Option
-  edwards.EdwardsPoint) := {
-  call_once :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst
-}
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::{impl core::ops::function::FnMut<(core::option::Option<curve25519_dalek::ristretto::RistrettoPoint>,), core::option::Option<curve25519_dalek::edwards::EdwardsPoint>> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul::closure<I, J, K, Clause0_Item, Clause0_IntoIter, Clause2_Item, Clause2_IntoIter, Clause4_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1064:47-1064:73 -/
-@[reducible]
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter) : core.ops.function.FnMut
-  (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure
-  I J K Clause0_Item Clause0_IntoIter Clause2_Item Clause2_IntoIter
-  Clause4_IntoIter) (Option ristretto.RistrettoPoint) (Option
-  edwards.EdwardsPoint) := {
-  FnOnceInst :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnOnceTupleOptionRistrettoPointOptionEdwardsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst
-  call_mut :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::optional_mixed_multiscalar_mul]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1047:4-1070:5
-    Visibility: public -/
-def
-  ristretto.VartimeRistrettoPrecomputation.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulRistrettoPoint.optional_mixed_multiscalar_mul
-  {I : Type} {J : Type} {K : Type} {Clause0_Item : Type} {Clause0_IntoIter :
-  Type} {Clause2_Item : Type} {Clause2_IntoIter : Type} {Clause4_IntoIter :
-  Type} (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemScalarInst : core.borrow.Borrow Clause0_Item
-  scalar.Scalar) (coreitertraitscollectIntoIteratorInst1 :
-  core.iter.traits.collect.IntoIterator J Clause2_Item Clause2_IntoIter)
-  (coreborrowBorrowClause2_ItemScalarInst : core.borrow.Borrow Clause2_Item
-  scalar.Scalar)
-  (coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst :
-  core.iter.traits.collect.IntoIterator K (Option ristretto.RistrettoPoint)
-  Clause4_IntoIter) (self : ristretto.VartimeRistrettoPrecomputation)
-  (static_scalars : I) (dynamic_scalars : J) (dynamic_points : K) :
-  Result (Option ristretto.RistrettoPoint)
-  := do
-  let t ←
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst.into_iter
-      dynamic_points
-  let m ←
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst.iteratorInst.map
-      (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst)
-      t ()
-  let o ←
-    backend.VartimePrecomputedStraus.optional_mixed_multiscalar_mul
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst.iteratorInst
-      (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure.Insts.CoreOpsFunctionFnMutTupleOptionRistrettoPointOptionEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemScalarInst
-      coreitertraitscollectIntoIteratorInst1
-      coreborrowBorrowClause2_ItemScalarInst
-      coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst)))
-      self static_scalars dynamic_scalars m
-  core.option.Option.map
-    (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.optional_mixed_multiscalar_mul.closure_1.Insts.CoreOpsFunctionFnOnceTupleEdwardsPointRistrettoPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemScalarInst
-    coreitertraitscollectIntoIteratorInst1
-    coreborrowBorrowClause2_ItemScalarInst
-    coreitertraitscollectIntoIteratorKOptionRistrettoPointClause4_IntoIterInst)
-    o ()
-
 /-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::is_empty]:
     Source: 'curve25519-dalek/src/ristretto.rs', lines 1043:4-1045:5
     Visibility: public -/
@@ -13463,114 +9030,6 @@ def
   ristretto.VartimeRistrettoPrecomputation.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulRistrettoPoint.len
   (self : ristretto.VartimeRistrettoPrecomputation) : Result Std.Usize := do
   backend.VartimePrecomputedStraus.len self
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::{impl core::ops::function::FnMut<(Clause0_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::closure<I, Clause0_Item, Clause0_IntoIter>}::call_mut]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1035:42-1035:58 -/
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemEdwardsPoint.call_mut
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause0_Item ristretto.RistrettoPoint)
-  (c :
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) (tupled_args : Clause0_Item) :
-  Result (edwards.EdwardsPoint ×
-    (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure
-    I Clause0_Item Clause0_IntoIter))
-  := do
-  let rp ← coreborrowBorrowClause0_ItemRistrettoPointInst.borrow tupled_args
-  ok (rp, c)
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::{impl core::ops::function::FnOnce<(Clause0_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::closure<I, Clause0_Item, Clause0_IntoIter>}::call_once]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1035:42-1035:58 -/
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemEdwardsPoint.call_once
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause0_Item ristretto.RistrettoPoint)
-  (c :
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) (t : Clause0_Item) :
-  Result edwards.EdwardsPoint
-  := do
-  let (ep, _) ←
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemEdwardsPoint.call_mut
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemRistrettoPointInst c t
-  ok ep
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::{impl core::ops::function::FnOnce<(Clause0_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::closure<I, Clause0_Item, Clause0_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1035:42-1035:58 -/
-@[reducible]
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemEdwardsPoint
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause0_Item ristretto.RistrettoPoint) : core.ops.function.FnOnce
-  (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) Clause0_Item edwards.EdwardsPoint := {
-  call_once :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemEdwardsPoint.call_once
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemRistrettoPointInst
-}
-
-/-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::{impl core::ops::function::FnMut<(Clause0_Item,), curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new::closure<I, Clause0_Item, Clause0_IntoIter>}]
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1035:42-1035:58 -/
-@[reducible]
-def
-  ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemEdwardsPoint
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause0_Item ristretto.RistrettoPoint) : core.ops.function.FnMut
-  (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure
-  I Clause0_Item Clause0_IntoIter) Clause0_Item edwards.EdwardsPoint := {
-  FnOnceInst :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnOnceTupleClause0_ItemEdwardsPoint
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemRistrettoPointInst
-  call_mut :=
-    ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemEdwardsPoint.call_mut
-    coreitertraitscollectIntoIteratorInst
-    coreborrowBorrowClause0_ItemRistrettoPointInst
-}
-
-/-- [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}::new]:
-    Source: 'curve25519-dalek/src/ristretto.rs', lines 1029:4-1037:5
-    Visibility: public -/
-def
-  ristretto.VartimeRistrettoPrecomputation.Insts.Curve25519_dalekTraitsVartimePrecomputedMultiscalarMulRistrettoPoint.new
-  {I : Type} {Clause0_Item : Type} {Clause0_IntoIter : Type}
-  (coreitertraitscollectIntoIteratorInst :
-  core.iter.traits.collect.IntoIterator I Clause0_Item Clause0_IntoIter)
-  (coreborrowBorrowClause0_ItemRistrettoPointInst : core.borrow.Borrow
-  Clause0_Item ristretto.RistrettoPoint) (static_points : I) :
-  Result ristretto.VartimeRistrettoPrecomputation
-  := do
-  let t ← coreitertraitscollectIntoIteratorInst.into_iter static_points
-  let m ←
-    coreitertraitscollectIntoIteratorInst.iteratorInst.map
-      (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemRistrettoPointInst) t ()
-  let vps ←
-    backend.VartimePrecomputedStraus.new
-      (core.iter.traits.collect.IntoIterator.Blanket
-      (core.iter.adapters.map.Map.Insts.CoreIterTraitsIteratorIterator
-      coreitertraitscollectIntoIteratorInst.iteratorInst
-      (ristretto.VartimePrecomputedMultiscalarMulVartimeRistrettoPrecomputationRistrettoPoint.new.closure.Insts.CoreOpsFunctionFnMutTupleClause0_ItemEdwardsPoint
-      coreitertraitscollectIntoIteratorInst
-      coreborrowBorrowClause0_ItemRistrettoPointInst)))
-      (core.borrow.Borrow.Blanket edwards.EdwardsPoint) m
-  ok vps
 
 /-- Trait implementation: [curve25519_dalek::ristretto::{impl curve25519_dalek::traits::VartimePrecomputedMultiscalarMul<curve25519_dalek::ristretto::RistrettoPoint> for curve25519_dalek::ristretto::VartimeRistrettoPrecomputation}]
     Source: 'curve25519-dalek/src/ristretto.rs', lines 1026:0-1071:1 -/
@@ -13809,15 +9268,6 @@ impl_def scalar.Scalar.Insts.CoreCmpPartialEqScalar : core.cmp.PartialEq
     scalar.Scalar.Insts.CoreCmpPartialEqScalar
 }
 
-/-- Trait implementation: [curve25519_dalek::scalar::{impl core::cmp::Eq for curve25519_dalek::scalar::Scalar}]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 287:0-287:21 -/
-@[reducible]
-impl_def scalar.Scalar.Insts.CoreCmpEq : core.cmp.Eq scalar.Scalar := {
-  partialEqInst := scalar.Scalar.Insts.CoreCmpPartialEqScalar
-  assert_fields_are_eq := core.cmp.Eq.assert_fields_are_eq.default
-    scalar.Scalar.Insts.CoreCmpEq
-}
-
 /-- Trait implementation: [curve25519_dalek::scalar::{impl subtle::ConstantTimeEq for curve25519_dalek::scalar::Scalar}]
     Source: 'curve25519-dalek/src/scalar.rs', lines 294:0-298:1 -/
 @[reducible]
@@ -13991,98 +9441,6 @@ impl_def scalar.Scalar.Insts.SubtleConditionallySelectable :
     scalar.Scalar.Insts.SubtleConditionallySelectable
 }
 
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::ONE]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 561:4-566:6
-    Visibility: public -/
-@[global_simps, irreducible]
-def scalar.Scalar.ONE : scalar.Scalar :=
-  {
-    bytes :=
-      (Array.make 32#usize [
-        1#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8,
-        0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8,
-        0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8
-        ])
-  }
-
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::{impl core::ops::function::FnMut<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::closure<T, I>}::call_mut]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 462:31-462:62 -/
-def
-  scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar.call_mut
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T)
-  (c : scalar.ProductScalarT.product.closure T I)
-  (tupled_args : (scalar.Scalar × T)) :
-  Result (scalar.Scalar × (scalar.ProductScalarT.product.closure T I))
-  := do
-  let (acc, item) := tupled_args
-  let s ← coreborrowBorrowTScalarInst.borrow item
-  let s1 ← scalar.Scalar.Insts.CoreOpsArithMulSharedBScalarScalar.mul acc s
-  ok (s1, c)
-
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::{impl core::ops::function::FnOnce<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::closure<T, I>}::call_once]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 462:31-462:62 -/
-def
-  scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar.call_once
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T)
-  (c : scalar.ProductScalarT.product.closure T I) (p : (scalar.Scalar × T)) :
-  Result scalar.Scalar
-  := do
-  let (s, _) ←
-    scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar.call_mut
-      coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst c p
-  ok s
-
-/-- Trait implementation: [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::{impl core::ops::function::FnOnce<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::closure<T, I>}]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 462:31-462:62 -/
-@[reducible]
-def
-  scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) : core.ops.function.FnOnce
-  (scalar.ProductScalarT.product.closure T I) (scalar.Scalar × T)
-  scalar.Scalar := {
-  call_once :=
-    scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar.call_once
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
-}
-
-/-- Trait implementation: [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::{impl core::ops::function::FnMut<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product::closure<T, I>}]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 462:31-462:62 -/
-@[reducible]
-def
-  scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) : core.ops.function.FnMut
-  (scalar.ProductScalarT.product.closure T I) (scalar.Scalar × T)
-  scalar.Scalar := {
-  FnOnceInst :=
-    scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
-  call_mut :=
-    scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar.call_mut
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
-}
-
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 458:4-463:5
-    Visibility: public -/
-def scalar.Scalar.Insts.CoreIterTraitsAccumProduct.product
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) (iter : I) :
-  Result scalar.Scalar
-  := do
-  coreitertraitsiteratorIteratorInst.fold
-    (scalar.ProductScalarT.product.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst) iter
-    scalar.Scalar.ONE ()
-
 /-- Trait implementation: [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}]
     Source: 'curve25519-dalek/src/scalar.rs', lines 454:0-464:1 -/
 @[reducible]
@@ -14095,88 +9453,6 @@ def scalar.Scalar.Insts.CoreIterTraitsAccumProduct {T : Type}
     coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
 }
 
-/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::ZERO]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 558:4-558:53
-    Visibility: public -/
-@[global_simps, irreducible]
-def scalar.Scalar.ZERO : scalar.Scalar :=
-  let a := Array.repeat 32#usize 0#u8
-  { bytes := a }
-
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::{impl core::ops::function::FnMut<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::closure<T, I>}::call_mut]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 474:32-474:63 -/
-def
-  scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar.call_mut
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T)
-  (c : scalar.SumScalarT.sum.closure T I) (tupled_args : (scalar.Scalar × T))
-  :
-  Result (scalar.Scalar × (scalar.SumScalarT.sum.closure T I))
-  := do
-  let (acc, item) := tupled_args
-  let s ← coreborrowBorrowTScalarInst.borrow item
-  let s1 ← scalar.Scalar.Insts.CoreOpsArithAddSharedBScalarScalar.add acc s
-  ok (s1, c)
-
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::{impl core::ops::function::FnOnce<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::closure<T, I>}::call_once]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 474:32-474:63 -/
-def
-  scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar.call_once
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T)
-  (c : scalar.SumScalarT.sum.closure T I) (p : (scalar.Scalar × T)) :
-  Result scalar.Scalar
-  := do
-  let (s, _) ←
-    scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar.call_mut
-      coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst c p
-  ok s
-
-/-- Trait implementation: [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::{impl core::ops::function::FnOnce<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::closure<T, I>}]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 474:32-474:63 -/
-@[reducible]
-def scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) : core.ops.function.FnOnce
-  (scalar.SumScalarT.sum.closure T I) (scalar.Scalar × T) scalar.Scalar := {
-  call_once :=
-    scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar.call_once
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
-}
-
-/-- Trait implementation: [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::{impl core::ops::function::FnMut<(curve25519_dalek::scalar::Scalar, T), curve25519_dalek::scalar::Scalar> for curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum::closure<T, I>}]
-    Source: 'curve25519-dalek/src/scalar.rs', lines 474:32-474:63 -/
-@[reducible]
-def scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) : core.ops.function.FnMut
-  (scalar.SumScalarT.sum.closure T I) (scalar.Scalar × T) scalar.Scalar := {
-  FnOnceInst :=
-    scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnOncePairScalarTScalar
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
-  call_mut :=
-    scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar.call_mut
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst
-}
-
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 470:4-475:5
-    Visibility: public -/
-def scalar.Scalar.Insts.CoreIterTraitsAccumSum.sum
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) (iter : I) :
-  Result scalar.Scalar
-  := do
-  coreitertraitsiteratorIteratorInst.fold
-    (scalar.SumScalarT.sum.closure.Insts.CoreOpsFunctionFnMutPairScalarTScalar
-    coreborrowBorrowTScalarInst coreitertraitsiteratorIteratorInst) iter
-    scalar.Scalar.ZERO ()
-
 /-- Trait implementation: [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}]
     Source: 'curve25519-dalek/src/scalar.rs', lines 466:0-476:1 -/
 @[reducible]
@@ -14188,6 +9464,14 @@ def scalar.Scalar.Insts.CoreIterTraitsAccumSum {T : Type}
     scalar.Scalar.Insts.CoreIterTraitsAccumSum.sum coreborrowBorrowTScalarInst
     coreitertraitsiteratorIteratorInst
 }
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::ZERO]
+    Source: 'curve25519-dalek/src/scalar.rs', lines 558:4-558:53
+    Visibility: public -/
+@[global_simps, irreducible]
+def scalar.Scalar.ZERO : scalar.Scalar :=
+  let a := Array.repeat 32#usize 0#u8
+  { bytes := a }
 
 /-- [curve25519_dalek::scalar::{impl core::default::Default for curve25519_dalek::scalar::Scalar}::default]:
     Source: 'curve25519-dalek/src/scalar.rs', lines 479:4-481:5
@@ -14340,6 +9624,20 @@ def scalar.Scalar.Insts.ZeroizeZeroize.zeroize
 def scalar.Scalar.Insts.ZeroizeZeroize : zeroize.Zeroize scalar.Scalar := {
   zeroize := scalar.Scalar.Insts.ZeroizeZeroize.zeroize
 }
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::ONE]
+    Source: 'curve25519-dalek/src/scalar.rs', lines 561:4-566:6
+    Visibility: public -/
+@[global_simps, irreducible]
+def scalar.Scalar.ONE : scalar.Scalar :=
+  {
+    bytes :=
+      (Array.make 32#usize [
+        1#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8,
+        0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8,
+        0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8, 0#u8
+        ])
+  }
 
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::to_bytes]:
     Source: 'curve25519-dalek/src/scalar.rs', lines 683:4-685:5
@@ -14630,8 +9928,148 @@ def scalar.Scalar.div_by_2 (self : scalar.Scalar) : Result scalar.Scalar := do
   massert (carry = 0#u64)
   scalar.Scalar52.pack unpacked2
 
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::to_radix_2w_size_hint]:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1068:4-1081:5 -/
+def scalar.Scalar.to_radix_2w_size_hint
+  (w : Std.Usize) : Result Std.Usize := do
+  massert (w >= 4#usize)
+  massert (w <= 8#usize)
+  if 4#usize <= w
+  then
+    if w <= 7#usize
+    then
+      let digits_count ← core.num.Usize.div_ceil 256#usize w
+      massert (digits_count <= 64#usize)
+      ok digits_count
+    else
+      match w.val with
+      | 8 =>
+        let i ← core.num.Usize.div_ceil 256#usize 8#usize
+        let digits_count ← i + 1#usize
+        massert (digits_count <= 64#usize)
+        ok digits_count
+      | _ => fail panic
+  else
+    match w.val with
+    | 8 =>
+      let i ← core.num.Usize.div_ceil 256#usize 8#usize
+      let digits_count ← i + 1#usize
+      massert (digits_count <= 64#usize)
+      ok digits_count
+    | _ => fail panic
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]: loop body 0:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1124:8-1146:9 -/
+@[rust_loop_body]
+def scalar.Scalar.as_radix_2w_loop.body
+  (w : Std.Usize) (scalar64x4 : Array Std.U64 4#usize) (radix : Std.U64)
+  (window_mask : Std.U64) (iter : core.ops.range.Range Std.Usize)
+  (carry : Std.U64) (digits : Array Std.I8 64#usize) :
+  Result (ControlFlow ((core.ops.range.Range Std.Usize) × Std.U64 × (Array
+    Std.I8 64#usize)) (Std.U64 × (Array Std.I8 64#usize)))
+  := do
+  let (o, iter1) ←
+    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
+  match o with
+  | none => ok (done (carry, digits))
+  | some i =>
+    let bit_offset ← i * w
+    let u64_idx ← bit_offset / 64#usize
+    let bit_idx ← bit_offset % 64#usize
+    let i1 ← 64#usize - w
+    let (iter2, bit_buf) ←
+      if bit_idx < i1
+      then
+        do
+        let i2 ← Array.index_usize scalar64x4 u64_idx
+        let bit_buf1 ← i2 >>> bit_idx
+        ok (iter1, bit_buf1)
+      else
+        do
+        let i2 ←
+          if u64_idx = 3#usize
+          then
+            do
+            let i3 ← Array.index_usize scalar64x4 u64_idx
+            i3 >>> bit_idx
+          else
+            do
+            let i3 ← Array.index_usize scalar64x4 u64_idx
+            let i4 ← i3 >>> bit_idx
+            let i5 ← 1#usize + u64_idx
+            let i6 ← Array.index_usize scalar64x4 i5
+            let i7 ← 64#usize - bit_idx
+            let i8 ← i6 <<< i7
+            ok (i4 ||| i8)
+        ok (iter1, i2)
+    let i2 ← lift (bit_buf &&& window_mask)
+    let coef ← carry + i2
+    let i3 ← radix / 2#u64
+    let i4 ← coef + i3
+    let carry1 ← i4 >>> w
+    let i5 ← lift (UScalar.hcast .I64 coef)
+    let i6 ← carry1 <<< w
+    let i7 ← lift (UScalar.hcast .I64 i6)
+    let i8 ← i5 - i7
+    let i9 ← lift (IScalar.cast .I8 i8)
+    let a ← Array.update digits i i9
+    ok (cont (iter2, carry1, a))
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]: loop 0:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1124:8-1146:9 -/
+@[rust_loop]
+def scalar.Scalar.as_radix_2w_loop
+  (iter : core.ops.range.Range Std.Usize) (w : Std.Usize)
+  (scalar64x4 : Array Std.U64 4#usize) (radix : Std.U64)
+  (window_mask : Std.U64) (carry : Std.U64) (digits : Array Std.I8 64#usize) :
+  Result (Std.U64 × (Array Std.I8 64#usize))
+  := do
+  loop
+    (fun (iter1, carry1, digits1) => scalar.Scalar.as_radix_2w_loop.body w
+      scalar64x4 radix window_mask iter1 carry1 digits1)
+    (iter, carry, digits)
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::as_radix_2w]:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 1105:4-1162:5 -/
+def scalar.Scalar.as_radix_2w
+  (self : scalar.Scalar) (w : Std.Usize) : Result (Array Std.I8 64#usize) := do
+  massert (w >= 4#usize)
+  massert (w <= 8#usize)
+  if w = 4#usize
+  then scalar.Scalar.as_radix_16 self
+  else
+    let scalar64x4 := Array.repeat 4#usize 0#u64
+    let s ← lift (Array.to_slice self.bytes)
+    let (s1, index_mut_back) ←
+      core.array.Array.index_mut (core.ops.index.IndexMutSlice
+        (core.slice.index.SliceIndexRangeUsizeSlice Std.U64)) scalar64x4
+        { start := 0#usize, «end» := 4#usize }
+    let s2 ← scalar.read_le_u64_into s s1
+    let radix ← 1#u64 <<< w
+    let window_mask ← radix - 1#u64
+    let digits := Array.repeat 64#usize 0#i8
+    let digits_count ← core.num.Usize.div_ceil 256#usize w
+    let scalar64x41 := index_mut_back s2
+    let (carry, digits1) ←
+      scalar.Scalar.as_radix_2w_loop
+        { start := 0#usize, «end» := digits_count } w scalar64x41 radix
+        window_mask 0#u64 digits
+    match w.val with
+    | 8 =>
+      let i ← lift (UScalar.hcast .I8 carry)
+      let i1 ← Array.index_usize digits1 digits_count
+      let i2 ← i1 + i
+      Array.update digits1 digits_count i2
+    | _ =>
+      let i ← carry <<< w
+      let i1 ← lift (UScalar.hcast .I8 i)
+      let i2 ← digits_count - 1#usize
+      let i3 ← Array.index_usize digits1 i2
+      let i4 ← i3 + i1
+      Array.update digits1 i2 i4
+
 /-- Trait implementation: [curve25519_dalek::traits::{impl curve25519_dalek::traits::IsIdentity for T}]
-    Source: 'curve25519-dalek/src/traits.rs', lines 41:0-48:1 -/
+    Source: 'curve25519-dalek/src/traits.rs', lines 69:0-76:1 -/
 @[reducible]
 def traits.IsIdentity.Blanket {T : Type} (subtleConstantTimeEqInst :
   subtle.ConstantTimeEq T) (IdentityInst : traits.Identity T) :
@@ -14641,7 +10079,7 @@ def traits.IsIdentity.Blanket {T : Type} (subtleConstantTimeEqInst :
 }
 
 /-- [curve25519_dalek::traits::BasepointTable::mul_base_clamped]:
-    Source: 'curve25519-dalek/src/traits.rs', lines 66:4-74:5
+    Source: 'curve25519-dalek/src/traits.rs', lines 94:4-102:5
     Visibility: public -/
 @[trait_default]
 def traits.BasepointTable.mul_base_clamped.default
@@ -15058,6 +10496,20 @@ def window.NafLookupTable8.Insts.CoreMarkerCopy {T : Type} (coremarkerCopyInst
     coremarkerCopyInst.cloneInst
 }
 
+/-- [curve25519_dalek::window::{curve25519_dalek::window::NafLookupTable8<T>}::select]:
+    Source: 'curve25519-dalek/src/window.rs', lines 233:4-238:5
+    Visibility: public -/
+def window.NafLookupTable8.select
+  {T : Type} (coremarkerCopyInst : core.marker.Copy T)
+  (self : window.NafLookupTable8 T) (x : Std.Usize) :
+  Result T
+  := do
+  let left_val ← lift (x &&& 1#usize)
+  massert (left_val = 1#usize)
+  massert (x < 128#usize)
+  let i ← x / 2#usize
+  Array.index_usize self i
+
 /-- [curve25519_dalek::window::{impl core::fmt::Debug for curve25519_dalek::window::NafLookupTable8<T>}::fmt]: loop body 0:
     Source: 'curve25519-dalek/src/window.rs', lines 245:12-246:47
     Visibility: public -/
@@ -15213,6 +10665,66 @@ def
   «from» :=
     window.NafLookupTable8ProjectiveNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
 }
+
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}::from]: loop body 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 270:8-272:9
+    Visibility: public -/
+@[rust_loop_body]
+def
+  window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
+  (A2 : edwards.EdwardsPoint) (iter : core.ops.range.Range Std.Usize)
+  (Ai : Array backend.serial.curve_models.AffineNielsPoint 64#usize) :
+  Result (ControlFlow ((core.ops.range.Range Std.Usize) × (Array
+    backend.serial.curve_models.AffineNielsPoint 64#usize)) (Array
+    backend.serial.curve_models.AffineNielsPoint 64#usize))
+  := do
+  let (o, iter1) ←
+    core.iter.range.IteratorRange.next core.iter.range.StepUsize iter
+  match o with
+  | none => ok (done Ai)
+  | some i =>
+    let anp ← Array.index_usize Ai i
+    let cp ←
+      Shared0EdwardsPoint.Insts.CoreOpsArithAddSharedAAffineNielsPointCompletedPoint.add
+        A2 anp
+    let ep ← backend.serial.curve_models.CompletedPoint.as_extended cp
+    let anp1 ← edwards.EdwardsPoint.as_affine_niels ep
+    let i1 ← i + 1#usize
+    let a ← Array.update Ai i1 anp1
+    ok (cont (iter1, a))
+
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}::from]: loop 0:
+    Source: 'curve25519-dalek/src/window.rs', lines 270:8-272:9
+    Visibility: public -/
+@[rust_loop]
+def
+  window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
+  (iter : core.ops.range.Range Std.Usize)
+  (Ai : Array backend.serial.curve_models.AffineNielsPoint 64#usize)
+  (A2 : edwards.EdwardsPoint) :
+  Result (Array backend.serial.curve_models.AffineNielsPoint 64#usize)
+  := do
+  loop
+    (fun (iter1, Ai1) =>
+      window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop.body
+      A2 iter1 Ai1)
+    (iter, Ai)
+
+/-- [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}::from]:
+    Source: 'curve25519-dalek/src/window.rs', lines 267:4-275:5
+    Visibility: public -/
+def
+  window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from
+  (A : edwards.EdwardsPoint) :
+  Result (window.NafLookupTable8 backend.serial.curve_models.AffineNielsPoint)
+  := do
+  let anp ← edwards.EdwardsPoint.as_affine_niels A
+  let Ai := Array.repeat 64#usize anp
+  let A2 ← edwards.EdwardsPoint.double A
+  let Ai1 ←
+    window.NafLookupTable8AffineNielsPoint.Insts.CoreConvertFromSharedAEdwardsPoint.from_loop
+      { start := 0#usize, «end» := 63#usize } Ai A2
+  ok Ai1
 
 /-- Trait implementation: [curve25519_dalek::window::{impl core::convert::From<&'a curve25519_dalek::edwards::EdwardsPoint> for curve25519_dalek::window::NafLookupTable8<curve25519_dalek::backend::serial::curve_models::AffineNielsPoint>}]
     Source: 'curve25519-dalek/src/window.rs', lines 266:0-276:1 -/

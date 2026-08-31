@@ -18,6 +18,21 @@ use core::borrow::Borrow;
 use crate::scalar::{Scalar, clamp_integer};
 use subtle::ConstantTimeEq;
 
+/// TODO: this function exists only as a translation workaround, to be removed
+/// once Aeneas models `Iterator::map` (aeneas #1057 / #1207). 
+fn collect_optional_points<P, It>(mut points: It) -> alloc::vec::Vec<Option<P>>
+where
+    P: Clone,
+    It: Iterator,
+    It::Item: Borrow<P>,
+{
+    let mut wrapped: alloc::vec::Vec<Option<P>> = alloc::vec::Vec::new();
+    while let Some(point) = points.next() {
+        wrapped.push(Some(point.borrow().clone()));
+    }
+    wrapped
+}
+
 // ------------------------------------------------------------------------
 // Public Traits
 // ------------------------------------------------------------------------
@@ -254,11 +269,12 @@ pub trait VartimeMultiscalarMul {
         J::Item: Borrow<Self::Point>,
         Self::Point: Clone,
     {
-        Self::optional_multiscalar_mul(
-            scalars,
-            points.into_iter().map(|P| Some(P.borrow().clone())),
-        )
-        .expect("should return some point")
+        // TODO: revert to
+        //   `Self::optional_multiscalar_mul(scalars,
+        //        points.into_iter().map(|P| Some(P.borrow().clone()))).expect(...)`
+        // once Aeneas models the `Iterator::map` provided method (aeneas #1057 / #1207).
+        Self::optional_multiscalar_mul(scalars, collect_optional_points::<Self::Point, _>(points.into_iter()))
+            .expect("should return some point")
     }
 }
 
@@ -326,13 +342,15 @@ pub trait VartimePrecomputedMultiscalarMul: Sized {
         I: IntoIterator,
         I::Item: Borrow<Scalar>,
     {
-        use core::iter;
-
+        // TODO: revert to `iter::empty::<Scalar>()` / `iter::empty::<Self::Point>()`
+        // once Aeneas models the empty `Iterator` source (aeneas #1057 / #1207).
+        let no_dynamic_scalars: alloc::vec::Vec<Scalar> = alloc::vec::Vec::new();
+        let no_dynamic_points: alloc::vec::Vec<Self::Point> = alloc::vec::Vec::new();
         Self::vartime_mixed_multiscalar_mul(
             self,
             static_scalars,
-            iter::empty::<Scalar>(),
-            iter::empty::<Self::Point>(),
+            no_dynamic_scalars,
+            no_dynamic_points,
         )
     }
 
@@ -369,11 +387,14 @@ pub trait VartimePrecomputedMultiscalarMul: Sized {
         K: IntoIterator,
         K::Item: Borrow<Self::Point>,
     {
+        // TODO: revert to
+        //   `dynamic_points.into_iter().map(|P| Some(P.borrow().clone()))`
+        // once Aeneas models the `Iterator::map` provided method (aeneas #1057 / #1207).
         Self::optional_mixed_multiscalar_mul(
             self,
             static_scalars,
             dynamic_scalars,
-            dynamic_points.into_iter().map(|P| Some(P.borrow().clone())),
+            collect_optional_points::<Self::Point, _>(dynamic_points.into_iter()),
         )
         .expect("should return some point")
     }
