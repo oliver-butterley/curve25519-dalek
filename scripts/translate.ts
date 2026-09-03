@@ -5,11 +5,34 @@
 import fs from "node:fs";
 import path from "node:path";
 import chalk from "chalk";
-import { loadConfig } from "./lib/config.js";
-import { findBinary, readAeneasRev } from "./lib/paths.js";
+import { findBinary, findProjectRoot, readAeneasRev } from "./lib/paths.js";
 import { run, runStreaming } from "./lib/shell.js";
-import { applyTweaks, warnUnmatchedTweaks } from "./lib/tweaks.js";
 import { syncLeanToolchain } from "./lib/lean-toolchain.js";
+
+// ── Translation configuration ─────────────────────────────────────────
+
+/** The Rust crate directory (relative to the project root) and its charon crate name. */
+const CRATE_DIR = "curve25519-dalek";
+const CRATE_NAME = "curve25519_dalek";
+
+/** Charon preset and the per-target triples (build.rs derives `curve25519_dalek_bits`). */
+const CHARON_PRESET = "aeneas";
+const CHARON_TARGETS = [
+  "x86_64-unknown-linux-gnu", // -> curve25519_dalek_bits="64"
+  "i686-unknown-linux-gnu",   // -> curve25519_dalek_bits="32"
+];
+/** rustc cfg overrides for the charon build only (via CARGO_ENCODED_RUSTFLAGS). */
+const CHARON_RUSTFLAGS = ['--cfg=curve25519_dalek_backend="serial"'];
+
+/** Aeneas CLI options (each rendered as `-<opt>`); Lean backend is always used. */
+const AENEAS_OPTIONS = ["split-files", "emit-json"];
+
+/** Lean output root and the sub-dir that becomes the module prefix (`Curve25519Dalek.*`). */
+const DEST = "curve25519-dalek/lean";
+const SUBDIR = "Curve25519Dalek";
+
+/** Files Aeneas must produce (basenames under the output dir); used to detect a failed run. */
+const GENERATED_FILES = ["Funs.lean", "Types.lean", "FunsExternal_Template.lean", "TypesExternal_Template.lean"];
 
 /**
  * True if `binPath` is an ELF whose program interpreter lives in the Nix store
@@ -107,20 +130,18 @@ async function resolveToolchain(root: string): Promise<{ charonBin: string; aene
 async function main(): Promise<void> {
   console.log(chalk.bold("\nAeneas Extract\n"));
 
-  const { config, root } = loadConfig();
+  const root = findProjectRoot();
 
   // Resolve binaries: on-PATH toolchain matching the lakefile rev, else bundled .aeneas/.
   const { charonBin, aeneasBin } = await resolveToolchain(root);
 
   // Charon reads [package.metadata.charon] from ./Cargo.toml in its cwd,
   // but always outputs the LLBC to the workspace root regardless of cwd.
-  const crateDir = path.join(root, config.crate.dir);
-  const llbcFile = `${config.crate.name}.llbc`;
+  const crateDir = path.join(root, CRATE_DIR);
+  const llbcFile = `${CRATE_NAME}.llbc`;
   const llbcPath = path.join(root, llbcFile); // charon outputs to workspace root
-  const destDir = path.join(root, config.aeneas_args.dest);
-  const outputDir = config.aeneas_args.subdir
-    ? path.join(destDir, config.aeneas_args.subdir)
-    : destDir;
+  const destDir = path.join(root, DEST);
+  const outputDir = SUBDIR ? path.join(destDir, SUBDIR) : destDir;
   const logsDir = path.join(root, ".logs");
 
   // ── Step 1: Charon ──────────────────────────────────────────────────
@@ -128,21 +149,18 @@ async function main(): Promise<void> {
 
   const charonArgs: string[] = ["cargo"];
 
-  if (config.charon.preset) charonArgs.push(`--preset=${config.charon.preset}`);
+  if (CHARON_PRESET) charonArgs.push(`--preset=${CHARON_PRESET}`);
 
-  // Multi-target
-  for (const target of config.charon.targets) {
+  // Multi-target (build.rs derives curve25519_dalek_bits per target).
+  for (const target of CHARON_TARGETS) {
     charonArgs.push("--targets", target);
   }
 
   // Pin the exact LLBC output path.
   charonArgs.push("--dest-file", llbcPath);
 
-  // Running from the crate directory, so --package is not needed.
-  // Cargo args (feature flags etc.) go after --
-  if (config.charon.cargo_args.length > 0) {
-    charonArgs.push("--", ...config.charon.cargo_args);
-  }
+  // Cargo feature selection lives in curve25519-dalek/Cargo.toml `[features] default`,
+  // so no `-- <cargo args>` are needed here.
 
   // Remove stale LLBC
   if (fs.existsSync(llbcPath)) {
@@ -155,8 +173,8 @@ async function main(): Promise<void> {
   // so the crate's normal multi-backend builds are unaffected. CARGO_ENCODED_RUSTFLAGS
   // treats each entry as one flag token (separated by 0x1f), avoiding whitespace splitting.
   const charonEnvParts: Record<string, string> = {};
-  if (config.charon.rustflags.length > 0) {
-    charonEnvParts.CARGO_ENCODED_RUSTFLAGS = config.charon.rustflags.join("\x1f");
+  if (CHARON_RUSTFLAGS.length > 0) {
+    charonEnvParts.CARGO_ENCODED_RUSTFLAGS = CHARON_RUSTFLAGS.join("\x1f");
   }
   // A Nix-built charon-driver (make setup-charon runs `nix build`) uses the Nix
   // glibc loader, which searches the Nix store and can't find the system
@@ -194,11 +212,11 @@ async function main(): Promise<void> {
 
   const aeneasArgs: string[] = [
     "-backend", "lean",  // we only ever target the Lean backend
-    ...config.aeneas_args.options.map((o) => `-${o}`),
+    ...AENEAS_OPTIONS.map((o) => `-${o}`),
     "-dest", destDir,
   ];
-  if (config.aeneas_args.subdir) {
-    aeneasArgs.push("-subdir", config.aeneas_args.subdir);
+  if (SUBDIR) {
+    aeneasArgs.push("-subdir", SUBDIR);
   }
   aeneasArgs.push(llbcPath);  // absolute path since aeneas runs from root
 
@@ -215,7 +233,7 @@ async function main(): Promise<void> {
     });
   } catch {
     // Check if output files were generated despite the error
-    const missingFiles = config.tweaks.files.filter(
+    const missingFiles = GENERATED_FILES.filter(
       (f) => !fs.existsSync(path.join(outputDir, f)),
     );
     if (missingFiles.length > 0) {
@@ -228,26 +246,7 @@ async function main(): Promise<void> {
 
   console.log(chalk.green(`  Lean files generated in ${path.relative(root, outputDir)}/\n`));
 
-  // ── Step 3: Tweaks ──────────────────────────────────────────────────
-  if (config.tweaks.substitutions.length > 0 && config.tweaks.files.length > 0) {
-    console.log(chalk.bold("Step 3: Applying tweaks..."));
-
-    const matchedPerFile: Set<number>[] = [];
-    for (const file of config.tweaks.files) {
-      const filePath = path.join(outputDir, file);
-      if (!fs.existsSync(filePath)) {
-        console.log(chalk.yellow(`  Warning: File not found, skipping: ${file}`));
-        continue;
-      }
-      const matched = applyTweaks(filePath, config.tweaks.substitutions);
-      matchedPerFile.push(matched);
-      console.log(chalk.green(`  Tweaks applied to ${file} (${matched.size} substitutions matched)`));
-    }
-    warnUnmatchedTweaks(config.tweaks.substitutions, matchedPerFile);
-    console.log();
-  }
-
-  // ── Step 3.5: Regenerate hand-imported External files from templates ─
+  // ── Step 3: Regenerate hand-imported External files from templates ───
   const externalRegen = [
     {
       template: "FunsExternal_Template.lean",
@@ -262,7 +261,7 @@ async function main(): Promise<void> {
       importLine: "import Subtle.Types",
     },
   ];
-  console.log(chalk.bold("Step 3.5: Regenerating External files..."));
+  console.log(chalk.bold("Step 3: Regenerating External files..."));
   for (const rule of externalRegen) {
     const templatePath = path.join(outputDir, rule.template);
     const targetPath = path.join(outputDir, rule.target);

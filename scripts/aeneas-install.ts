@@ -14,9 +14,8 @@ import fs from "node:fs";
 import path from "node:path";
 import chalk from "chalk";
 import ora from "ora";
-import { loadConfig } from "./lib/config.js";
 import { run } from "./lib/shell.js";
-import { findBinary, readAeneasRev, readAeneasGit } from "./lib/paths.js";
+import { findBinary, findProjectRoot, readAeneasRev, readAeneasGit } from "./lib/paths.js";
 import { syncLeanToolchain } from "./lib/lean-toolchain.js";
 
 // ── Paths ─────────────────────────────────────────────────────────────
@@ -146,7 +145,7 @@ async function downloadAndExtract(url: string, aeneasDir: string): Promise<void>
 async function main(): Promise<void> {
   console.log(chalk.bold("\nAeneas Install\n"));
 
-  const { root } = loadConfig();
+  const root = findProjectRoot();
   const tag = readAeneasRev(root); // single source of truth: the lakefile aeneas `rev`
   const aeneasDir = getAeneasDir(root);
 

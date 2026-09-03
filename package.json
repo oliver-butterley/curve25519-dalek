@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "aeneas-install": "tsx scripts/aeneas-install.ts",
-    "aeneas-extract": "tsx scripts/aeneas-extract.ts",
+    "translate": "tsx scripts/translate.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

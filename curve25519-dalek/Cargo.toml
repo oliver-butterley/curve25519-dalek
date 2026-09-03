@@ -66,7 +66,11 @@ cpufeatures = "0.3"
 fiat-crypto = { version = "0.3.0", default-features = false }
 
 [features]
-default = ["alloc", "precomputed-tables", "zeroize"]
+# TODO (Lean translation): `precomputed-tables` is intentionally dropped from `default`
+# so Aeneas translation is clean.
+# Reactivate by re-adding "precomputed-tables" here once
+# https://github.com/AeneasVerif/aeneas/issues/1098 is fixed.
+default = ["alloc", "zeroize"]
 alloc = ["zeroize?/alloc"]
 precomputed-tables = []
 legacy_compatibility = []
