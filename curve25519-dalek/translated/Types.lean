@@ -85,13 +85,6 @@ structure core.ops.arith.SubAssign (Self : Type) (Rhs : Type) where
 structure core.ops.arith.MulAssign (Self : Type) (Rhs : Type) where
   mul_assign : Self → Rhs → Result Self
 
-/-- [core::ops::range::RangeFull]
-    Source: '/rustc/library/core/src/ops/range.rs', lines 44:0-44:20
-    Name pattern: [core::ops::range::RangeFull]
-    Visibility: public -/
-@[reducible, rust_type "core::ops::range::RangeFull"]
-def core.ops.range.RangeFull := Unit
-
 /-- Trait declaration: [subtle::ConstantTimeEq]
     Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subtle-2.6.1/src/lib.rs', lines 262:0-262:24
     Name pattern: [subtle::ConstantTimeEq]

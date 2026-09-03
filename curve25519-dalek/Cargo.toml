@@ -122,6 +122,11 @@ exclude = [
 opaque = [
   # Closure/iterator bodies Aeneas can't translate:
   "curve25519_dalek::ristretto::_::double_and_compress_batch",
+  # Unsupported operation: &raw const (*(*_4))
+  "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE",
+  # The large constants produce a recursion depth error.
+  "curve25519_dalek::backend::serial::u32::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
+  "curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
   # TODO: montgomery `Mul` calls the excluded scalar::bits_le and so must be opaque
   "curve25519_dalek::montgomery::{impl core::ops::arith::Mul<_> for _}::mul",
   # Multiscalar-mul: these use Iterator combinators (map/zip/fold/sum/product/collect)

@@ -48,42 +48,6 @@ axiom Str.Insts.CoreFmtDebug.fmt
   Str → core.fmt.Formatter → Result ((core.result.Result Unit
     core.fmt.Error) × core.fmt.Formatter)
 
-/-- [core::iter::range::{impl core::iter::range::Step for usize}::backward_overflowing]:
-    Source: '/rustc/library/core/src/iter/range.rs', lines 357:16-357:78
-    Name pattern: [core::iter::range::{core::iter::range::Step<usize>}::backward_overflowing]
-    Visibility: public -/
-@[rust_fun
-  "core::iter::range::{core::iter::range::Step<usize>}::backward_overflowing"]
-axiom Usize.Insts.CoreIterRangeStep.backward_overflowing
-  : Std.Usize → Std.Usize → Result (Std.Usize × Bool)
-
-/-- [core::iter::range::{impl core::iter::range::Step for usize}::forward_overflowing]:
-    Source: '/rustc/library/core/src/iter/range.rs', lines 348:16-348:77
-    Name pattern: [core::iter::range::{core::iter::range::Step<usize>}::forward_overflowing]
-    Visibility: public -/
-@[rust_fun
-  "core::iter::range::{core::iter::range::Step<usize>}::forward_overflowing"]
-axiom Usize.Insts.CoreIterRangeStep.forward_overflowing
-  : Std.Usize → Std.Usize → Result (Std.Usize × Bool)
-
-/-- [core::iter::range::{impl core::iter::range::Step for u32}::backward_overflowing]:
-    Source: '/rustc/library/core/src/iter/range.rs', lines 357:16-357:78
-    Name pattern: [core::iter::range::{core::iter::range::Step<u32>}::backward_overflowing]
-    Visibility: public -/
-@[rust_fun
-  "core::iter::range::{core::iter::range::Step<u32>}::backward_overflowing"]
-axiom U32.Insts.CoreIterRangeStep.backward_overflowing
-  : Std.U32 → Std.Usize → Result (Std.U32 × Bool)
-
-/-- [core::iter::range::{impl core::iter::range::Step for u32}::forward_overflowing]:
-    Source: '/rustc/library/core/src/iter/range.rs', lines 348:16-348:77
-    Name pattern: [core::iter::range::{core::iter::range::Step<u32>}::forward_overflowing]
-    Visibility: public -/
-@[rust_fun
-  "core::iter::range::{core::iter::range::Step<u32>}::forward_overflowing"]
-axiom U32.Insts.CoreIterRangeStep.forward_overflowing
-  : Std.U32 → Std.Usize → Result (Std.U32 × Bool)
-
 /-- [core::num::{usize}::div_ceil]:
     Source: '/rustc/library/core/src/num/uint_macros.rs', lines 3787:8-3787:54
     Name pattern: [core::num::{usize}::div_ceil]
@@ -100,72 +64,6 @@ axiom core.result.Result.map
   {T : Type} {E : Type} {U : Type} {F : Type} (opsfunctionFnOnceFTupleTUInst :
   core.ops.function.FnOnce F T U) :
   core.result.Result T E → F → Result (core.result.Result U E)
-
-/-- [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::index_mut]:
-    Source: '/rustc/library/core/src/slice/index.rs', lines 641:4-641:51
-    Name pattern: [core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::index_mut]
-    Visibility: public -/
-@[rust_fun
-  "core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::index_mut"]
-axiom
-  core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index_mut
-  {T : Type} :
-  core.ops.range.RangeFull → Slice T → Result ((Slice T) × (Slice T →
-    Slice T))
-
-/-- [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::index]:
-    Source: '/rustc/library/core/src/slice/index.rs', lines 635:4-635:39
-    Name pattern: [core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::index]
-    Visibility: public -/
-@[rust_fun
-  "core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::index"]
-axiom core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index
-  {T : Type} : core.ops.range.RangeFull → Slice T → Result (Slice T)
-
-/-- [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get_unchecked_mut]:
-    Source: '/rustc/library/core/src/slice/index.rs', lines 630:4-630:66
-    Name pattern: [core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get_unchecked_mut]
-    Visibility: public -/
-@[rust_fun
-  "core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get_unchecked_mut"]
-axiom
-  core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_unchecked_mut
-  {T : Type} :
-  core.ops.range.RangeFull → MutRawPtr (Slice T) → Result (MutRawPtr (Slice
-    T))
-
-/-- [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get_unchecked]:
-    Source: '/rustc/library/core/src/slice/index.rs', lines 625:4-625:66
-    Name pattern: [core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get_unchecked]
-    Visibility: public -/
-@[rust_fun
-  "core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get_unchecked"]
-axiom
-  core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_unchecked
-  {T : Type} :
-  core.ops.range.RangeFull → ConstRawPtr (Slice T) → Result (ConstRawPtr
-    (Slice T))
-
-/-- [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get_mut]:
-    Source: '/rustc/library/core/src/slice/index.rs', lines 620:4-620:57
-    Name pattern: [core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get_mut]
-    Visibility: public -/
-@[rust_fun
-  "core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get_mut"]
-axiom core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_mut
-  {T : Type} :
-  core.ops.range.RangeFull → Slice T → Result ((Option (Slice T)) ×
-    (Option (Slice T) → Slice T))
-
-/-- [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get]:
-    Source: '/rustc/library/core/src/slice/index.rs', lines 614:4-614:45
-    Name pattern: [core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get]
-    Visibility: public -/
-@[rust_fun
-  "core::slice::index::{core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>}::get"]
-axiom core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get
-  {T : Type} :
-  core.ops.range.RangeFull → Slice T → Result (Option (Slice T))
 
 /-- [alloc::vec::{alloc::vec::Vec<T>}::is_empty]:
     Source: '/rustc/library/alloc/src/vec/mod.rs', lines 3125:4-3125:40

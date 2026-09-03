@@ -1,6 +1,6 @@
 {
-  "aeneas_version": "nightly-2026.08.27-5b9dcf3",
-  "charon_version": "0.1.245",
+  "aeneas_version": "nightly-2026.09.01-379890b",
+  "charon_version": "0.1.247",
   "crate": "curve25519_dalek",
   "functions": [
     {
@@ -55,74 +55,6 @@
       "reducible": false
     },
     {
-      "def_id": 524,
-      "lean_name": "Usize.Insts.CoreIterRangeStep.backward_overflowing",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::iter::range::{impl core::iter::range::Step for usize}::backward_overflowing",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/iter/range.rs",
-        "begin_line": 357,
-        "end_line": 357
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 520,
-      "lean_name": "Usize.Insts.CoreIterRangeStep.forward_overflowing",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::iter::range::{impl core::iter::range::Step for usize}::forward_overflowing",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/iter/range.rs",
-        "begin_line": 348,
-        "end_line": 348
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 610,
-      "lean_name": "U32.Insts.CoreIterRangeStep.backward_overflowing",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::iter::range::{impl core::iter::range::Step for u32}::backward_overflowing",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/iter/range.rs",
-        "begin_line": 357,
-        "end_line": 357
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 606,
-      "lean_name": "U32.Insts.CoreIterRangeStep.forward_overflowing",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::iter::range::{impl core::iter::range::Step for u32}::forward_overflowing",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/iter/range.rs",
-        "begin_line": 348,
-        "end_line": 348
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
       "def_id": 425,
       "lean_name": "core.num.Usize.div_ceil",
       "lean_file": "translated/FunsExternal_Template.lean",
@@ -149,108 +81,6 @@
         "file": "/rustc/library/core/src/result.rs",
         "begin_line": 832,
         "end_line": 834
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 621,
-      "lean_name": "core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index_mut",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::index_mut",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 641,
-        "end_line": 641
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 620,
-      "lean_name": "core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::index",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 635,
-        "end_line": 635
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 619,
-      "lean_name": "core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_unchecked_mut",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get_unchecked_mut",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 630,
-        "end_line": 630
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 618,
-      "lean_name": "core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_unchecked",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get_unchecked",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 625,
-        "end_line": 625
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 617,
-      "lean_name": "core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_mut",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get_mut",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 620,
-        "end_line": 620
-      },
-      "is_opaque": true,
-      "can_fail": true,
-      "can_diverge": false,
-      "is_rec": false,
-      "reducible": false
-    },
-    {
-      "def_id": 616,
-      "lean_name": "core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get",
-      "lean_file": "translated/FunsExternal_Template.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}::get",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 614,
-        "end_line": 614
       },
       "is_opaque": true,
       "can_fail": true,
@@ -14306,7 +14136,7 @@
   ],
   "types": [
     {
-      "def_id": 18,
+      "def_id": 19,
       "lean_name": "subtle.Choice",
       "lean_file": "translated/TypesExternal_Template.lean",
       "rust_name": "subtle::Choice",
@@ -14318,7 +14148,7 @@
       }
     },
     {
-      "def_id": 33,
+      "def_id": 35,
       "lean_name": "subtle.CtOption",
       "lean_file": "translated/TypesExternal_Template.lean",
       "rust_name": "subtle::CtOption",
@@ -14330,19 +14160,7 @@
       }
     },
     {
-      "def_id": 87,
-      "lean_name": "curve25519_dalek.core.ops.range.RangeFull",
-      "lean_file": "translated/Types.lean",
-      "rust_name": "core::ops::range::RangeFull",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/ops/range.rs",
-        "begin_line": 44,
-        "end_line": 44
-      }
-    },
-    {
-      "def_id": 19,
+      "def_id": 20,
       "lean_name": "curve25519_dalek.backend.serial.u64.field.FieldElement51",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::u64::field::FieldElement51",
@@ -14354,7 +14172,7 @@
       }
     },
     {
-      "def_id": 81,
+      "def_id": 83,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.ProjectivePoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::ProjectivePoint::x86_64-unknown-linux-gnu",
@@ -14366,7 +14184,7 @@
       }
     },
     {
-      "def_id": 129,
+      "def_id": 132,
       "lean_name": "curve25519_dalek.backend.serial.u32.field.FieldElement2625",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::u32::field::FieldElement2625",
@@ -14378,7 +14196,7 @@
       }
     },
     {
-      "def_id": 191,
+      "def_id": 195,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.ProjectivePoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::ProjectivePoint::i686-unknown-linux-gnu",
@@ -14390,7 +14208,7 @@
       }
     },
     {
-      "def_id": 84,
+      "def_id": 86,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.CompletedPoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::CompletedPoint::x86_64-unknown-linux-gnu",
@@ -14402,7 +14220,7 @@
       }
     },
     {
-      "def_id": 194,
+      "def_id": 198,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.CompletedPoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::CompletedPoint::i686-unknown-linux-gnu",
@@ -14414,7 +14232,7 @@
       }
     },
     {
-      "def_id": 29,
+      "def_id": 30,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.AffineNielsPoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::AffineNielsPoint::x86_64-unknown-linux-gnu",
@@ -14426,7 +14244,7 @@
       }
     },
     {
-      "def_id": 139,
+      "def_id": 142,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.AffineNielsPoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::AffineNielsPoint::i686-unknown-linux-gnu",
@@ -14438,7 +14256,7 @@
       }
     },
     {
-      "def_id": 28,
+      "def_id": 29,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.ProjectiveNielsPoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint::x86_64-unknown-linux-gnu",
@@ -14450,7 +14268,7 @@
       }
     },
     {
-      "def_id": 138,
+      "def_id": 141,
       "lean_name": "curve25519_dalek.backend.serial.curve_models.ProjectiveNielsPoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::curve_models::ProjectiveNielsPoint::i686-unknown-linux-gnu",
@@ -14462,7 +14280,7 @@
       }
     },
     {
-      "def_id": 5,
+      "def_id": 6,
       "lean_name": "curve25519_dalek.edwards.EdwardsPoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu",
@@ -14474,7 +14292,7 @@
       }
     },
     {
-      "def_id": 115,
+      "def_id": 118,
       "lean_name": "curve25519_dalek.edwards.EdwardsPoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu",
@@ -14486,7 +14304,7 @@
       }
     },
     {
-      "def_id": 88,
+      "def_id": 90,
       "lean_name": "curve25519_dalek.backend.serial.scalar_mul.pippenger.Pippenger",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::scalar_mul::pippenger::Pippenger",
@@ -14498,7 +14316,7 @@
       }
     },
     {
-      "def_id": 1,
+      "def_id": 2,
       "lean_name": "curve25519_dalek.scalar.Scalar",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::scalar::Scalar",
@@ -14510,7 +14328,7 @@
       }
     },
     {
-      "def_id": 15,
+      "def_id": 16,
       "lean_name": "curve25519_dalek.window.NafLookupTable8",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::window::NafLookupTable8",
@@ -14522,7 +14340,7 @@
       }
     },
     {
-      "def_id": 27,
+      "def_id": 28,
       "lean_name": "curve25519_dalek.backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus::x86_64-unknown-linux-gnu",
@@ -14534,7 +14352,7 @@
       }
     },
     {
-      "def_id": 137,
+      "def_id": 140,
       "lean_name": "curve25519_dalek.backend.serial.scalar_mul.precomputed_straus.VartimePrecomputedStraus.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::scalar_mul::precomputed_straus::VartimePrecomputedStraus::i686-unknown-linux-gnu",
@@ -14546,7 +14364,7 @@
       }
     },
     {
-      "def_id": 89,
+      "def_id": 91,
       "lean_name": "curve25519_dalek.backend.serial.scalar_mul.straus.Straus",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::scalar_mul::straus::Straus",
@@ -14558,7 +14376,7 @@
       }
     },
     {
-      "def_id": 13,
+      "def_id": 14,
       "lean_name": "curve25519_dalek.window.LookupTable",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::window::LookupTable",
@@ -14570,7 +14388,7 @@
       }
     },
     {
-      "def_id": 14,
+      "def_id": 15,
       "lean_name": "curve25519_dalek.window.NafLookupTable5",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::window::NafLookupTable5",
@@ -14582,7 +14400,7 @@
       }
     },
     {
-      "def_id": 126,
+      "def_id": 129,
       "lean_name": "curve25519_dalek.backend.serial.u32.scalar.Scalar29",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::u32::scalar::Scalar29",
@@ -14594,7 +14412,7 @@
       }
     },
     {
-      "def_id": 16,
+      "def_id": 17,
       "lean_name": "curve25519_dalek.backend.serial.u64.scalar.Scalar52",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::serial::u64::scalar::Scalar52",
@@ -14606,7 +14424,7 @@
       }
     },
     {
-      "def_id": 11,
+      "def_id": 12,
       "lean_name": "curve25519_dalek.backend.BackendKind",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::BackendKind",
@@ -14618,7 +14436,7 @@
       }
     },
     {
-      "def_id": 12,
+      "def_id": 13,
       "lean_name": "curve25519_dalek.backend.VartimePrecomputedStraus.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::VartimePrecomputedStraus::x86_64-unknown-linux-gnu",
@@ -14630,7 +14448,7 @@
       }
     },
     {
-      "def_id": 122,
+      "def_id": 125,
       "lean_name": "curve25519_dalek.backend.VartimePrecomputedStraus.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::backend::VartimePrecomputedStraus::i686-unknown-linux-gnu",
@@ -14642,7 +14460,7 @@
       }
     },
     {
-      "def_id": 4,
+      "def_id": 5,
       "lean_name": "curve25519_dalek.edwards.CompressedEdwardsY",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::CompressedEdwardsY",
@@ -14654,7 +14472,7 @@
       }
     },
     {
-      "def_id": 2,
+      "def_id": 3,
       "lean_name": "curve25519_dalek.montgomery.MontgomeryPoint",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::montgomery::MontgomeryPoint",
@@ -14666,7 +14484,7 @@
       }
     },
     {
-      "def_id": 7,
+      "def_id": 8,
       "lean_name": "curve25519_dalek.ristretto.CompressedRistretto",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::ristretto::CompressedRistretto",
@@ -14678,7 +14496,7 @@
       }
     },
     {
-      "def_id": 8,
+      "def_id": 9,
       "lean_name": "curve25519_dalek.ristretto.RistrettoPoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::ristretto::RistrettoPoint::x86_64-unknown-linux-gnu",
@@ -14690,7 +14508,7 @@
       }
     },
     {
-      "def_id": 118,
+      "def_id": 121,
       "lean_name": "curve25519_dalek.ristretto.RistrettoPoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::ristretto::RistrettoPoint::i686-unknown-linux-gnu",
@@ -14702,7 +14520,7 @@
       }
     },
     {
-      "def_id": 20,
+      "def_id": 21,
       "lean_name": "curve25519_dalek.edwards.affine.AffinePoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::affine::AffinePoint::x86_64-unknown-linux-gnu",
@@ -14714,7 +14532,7 @@
       }
     },
     {
-      "def_id": 130,
+      "def_id": 133,
       "lean_name": "curve25519_dalek.edwards.affine.AffinePoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::affine::AffinePoint::i686-unknown-linux-gnu",
@@ -14726,7 +14544,7 @@
       }
     },
     {
-      "def_id": 80,
+      "def_id": 82,
       "lean_name": "curve25519_dalek.edwards.CompressedEdwardsY.from_slice.closure",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::{curve25519_dalek::edwards::CompressedEdwardsY}::from_slice::closure",
@@ -14738,7 +14556,7 @@
       }
     },
     {
-      "def_id": 83,
+      "def_id": 85,
       "lean_name": "curve25519_dalek.edwards.«EdwardsPointx86_64-unknown-linux-gnu».compress_batch.closure_1",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu}::compress_batch::closure#1",
@@ -14750,7 +14568,7 @@
       }
     },
     {
-      "def_id": 82,
+      "def_id": 84,
       "lean_name": "curve25519_dalek.edwards.«EdwardsPointx86_64-unknown-linux-gnu».compress_batch.closure",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu}::compress_batch::closure",
@@ -14762,7 +14580,7 @@
       }
     },
     {
-      "def_id": 193,
+      "def_id": 197,
       "lean_name": "curve25519_dalek.edwards.«EdwardsPointi686-unknown-linux-gnu».compress_batch.closure_1",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu}::compress_batch::closure#1",
@@ -14774,7 +14592,7 @@
       }
     },
     {
-      "def_id": 192,
+      "def_id": 196,
       "lean_name": "curve25519_dalek.edwards.«EdwardsPointi686-unknown-linux-gnu».compress_batch.closure",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::{curve25519_dalek::edwards::EdwardsPoint::i686-unknown-linux-gnu}::compress_batch::closure",
@@ -14786,7 +14604,7 @@
       }
     },
     {
-      "def_id": 6,
+      "def_id": 7,
       "lean_name": "curve25519_dalek.edwards.VartimeEdwardsPrecomputation.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::VartimeEdwardsPrecomputation::x86_64-unknown-linux-gnu",
@@ -14798,7 +14616,7 @@
       }
     },
     {
-      "def_id": 116,
+      "def_id": 119,
       "lean_name": "curve25519_dalek.edwards.VartimeEdwardsPrecomputation.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::edwards::VartimeEdwardsPrecomputation::i686-unknown-linux-gnu",
@@ -14810,7 +14628,7 @@
       }
     },
     {
-      "def_id": 3,
+      "def_id": 4,
       "lean_name": "curve25519_dalek.montgomery.ProjectivePoint.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::montgomery::ProjectivePoint::x86_64-unknown-linux-gnu",
@@ -14822,7 +14640,7 @@
       }
     },
     {
-      "def_id": 113,
+      "def_id": 116,
       "lean_name": "curve25519_dalek.montgomery.ProjectivePoint.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::montgomery::ProjectivePoint::i686-unknown-linux-gnu",
@@ -14834,7 +14652,7 @@
       }
     },
     {
-      "def_id": 86,
+      "def_id": 88,
       "lean_name": "curve25519_dalek.ristretto.CompressedRistretto.from_slice.closure",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::ristretto::{curve25519_dalek::ristretto::CompressedRistretto}::from_slice::closure",
@@ -14846,7 +14664,7 @@
       }
     },
     {
-      "def_id": 9,
+      "def_id": 10,
       "lean_name": "curve25519_dalek.ristretto.VartimeRistrettoPrecomputation.«x86_64-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::ristretto::VartimeRistrettoPrecomputation::x86_64-unknown-linux-gnu",
@@ -14858,7 +14676,7 @@
       }
     },
     {
-      "def_id": 119,
+      "def_id": 122,
       "lean_name": "curve25519_dalek.ristretto.VartimeRistrettoPrecomputation.«i686-unknown-linux-gnu»",
       "lean_file": "translated/Types.lean",
       "rust_name": "curve25519_dalek::ristretto::VartimeRistrettoPrecomputation::i686-unknown-linux-gnu",
@@ -15884,21 +15702,6 @@
       },
       "impl_trait_def_id": 13,
       "impl_trait_rust_name": "core::fmt::Debug",
-      "impl_trait_is_builtin": true
-    },
-    {
-      "def_id": 275,
-      "lean_name": "curve25519_dalek.core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice",
-      "lean_file": "translated/Funs.lean",
-      "rust_name": "core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}",
-      "is_local": false,
-      "source": {
-        "file": "/rustc/library/core/src/slice/index.rs",
-        "begin_line": 610,
-        "end_line": 610
-      },
-      "impl_trait_def_id": 50,
-      "impl_trait_rust_name": "core::slice::index::SliceIndex",
       "impl_trait_is_builtin": true
     },
     {

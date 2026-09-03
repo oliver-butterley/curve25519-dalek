@@ -38,27 +38,6 @@ def Str.Insts.CoreFmtDebug : core.fmt.Debug Str := {
   fmt := Str.Insts.CoreFmtDebug.fmt
 }
 
-/-- Trait implementation: [core::slice::index::{impl core::slice::index::SliceIndex<[T], [T]> for core::ops::range::RangeFull}]
-    Source: '/rustc/library/core/src/slice/index.rs', lines 610:0-610:55
-    Name pattern: [core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>] -/
-@[reducible, rust_trait_impl
-  "core::slice::index::SliceIndex<core::ops::range::RangeFull, [@T], [@T]>"]
-def core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice (T :
-  Type) : core.slice.index.SliceIndex core.ops.range.RangeFull (Slice T) (Slice
-  T) := {
-  get := core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get
-  get_mut :=
-    core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_mut
-  get_unchecked :=
-    core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_unchecked
-  get_unchecked_mut :=
-    core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.get_unchecked_mut
-  index :=
-    core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index
-  index_mut :=
-    core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice.index_mut
-}
-
 /-- Trait implementation: [subtle::{impl core::convert::From<subtle::Choice> for bool}]
     Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subtle-2.6.1/src/lib.rs', lines 138:0-138:26
     Name pattern: [core::convert::From<bool, subtle::Choice>] -/
@@ -17515,8 +17494,7 @@ def ristretto.decompress.step_1.«x86_64-unknown-linux-gnu»
   let s_bytes_check ← backend.serial.u64.field.FieldElement51.to_bytes s
   let s1 ←
     core.array.Array.index (core.ops.index.IndexSlice
-      (core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice
-      Std.U8)) s_bytes_check ()
+      (core.slice.index.SliceIndexRangeFullSlice Std.U8)) s_bytes_check ()
   let s2 ← lift (Array.to_slice a)
   let s_encoding_is_canonical ←
     Slice.Insts.SubtleConstantTimeEq.ct_eq U8.Insts.SubtleConstantTimeEq s1 s2
@@ -17623,8 +17601,7 @@ def ristretto.decompress.step_1.«i686-unknown-linux-gnu»
   let s_bytes_check ← backend.serial.u32.field.FieldElement2625.to_bytes s
   let s1 ←
     core.array.Array.index (core.ops.index.IndexSlice
-      (core.ops.range.RangeFull.Insts.CoreSliceIndexSliceIndexSliceSlice
-      Std.U8)) s_bytes_check ()
+      (core.slice.index.SliceIndexRangeFullSlice Std.U8)) s_bytes_check ()
   let s2 ← lift (Array.to_slice a)
   let s_encoding_is_canonical ←
     Slice.Insts.SubtleConstantTimeEq.ct_eq U8.Insts.SubtleConstantTimeEq s1 s2
