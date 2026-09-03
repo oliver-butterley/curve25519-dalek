@@ -8,13 +8,9 @@ export interface Substitution {
   replace: string;
 }
 
+// The aeneas repo `git` URL and `rev` (version/tag) are the lakefile's — see
+// `readAeneasGit` / `readAeneasRev` in ./paths.ts. They are not part of this config.
 export interface AeneasConfig {
-  aeneas: {
-    /** GitHub release tag of the aeneas bundle to download (charon + aeneas binaries).
-     *  Kept in sync with the `rev` in lakefile.toml. */
-    tag: string;
-    repo: string;
-  };
   crate: {
     dir: string;
     name: string;
@@ -77,8 +73,6 @@ export function loadConfig(root?: string): { config: AeneasConfig; root: string 
   const config = raw as unknown as AeneasConfig;
 
   // Validate required fields
-  if (!config.aeneas?.tag)  throw new Error("Missing required field: aeneas.tag");
-  if (!config.aeneas?.repo) throw new Error("Missing required field: aeneas.repo");
   if (!config.crate?.dir)     throw new Error("Missing required field: crate.dir");
 
   // Apply defaults

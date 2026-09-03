@@ -6,8 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 import chalk from "chalk";
 import { loadConfig } from "./lib/config.js";
-import { findBinary } from "./lib/paths.js";
-import { runStreaming } from "./lib/shell.js";
+import { findBinary, readAeneasRev } from "./lib/paths.js";
+import { run, runStreaming } from "./lib/shell.js";
 import { applyTweaks, warnUnmatchedTweaks } from "./lib/tweaks.js";
 import { syncLeanToolchain } from "./lib/lean-toolchain.js";
 
@@ -50,21 +50,67 @@ function findNixZlibLibDir(): string | null {
   return null;
 }
 
+/** Resolve a binary on the system PATH (via `which`), or null if absent. */
+async function whichBin(name: string): Promise<string | null> {
+  try {
+    return (await run("which", [name], { silent: true })).trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+/** The version reported by `aeneas -version` (strips the leading `aeneas `), or null. */
+async function aeneasVersion(bin: string): Promise<string | null> {
+  try {
+    return (await run(bin, ["-version"], { silent: true })).trim().replace(/^aeneas\s+/, "") || null;
+  } catch {
+    return null;
+  }
+}
+
+/** True if the reported version identifies the pinned rev (exact or prefix, for short/full SHAs). */
+function versionMatches(ver: string, rev: string): boolean {
+  return ver === rev || ver.startsWith(rev) || rev.startsWith(ver);
+}
+
+/**
+ * Choose the charon+aeneas binaries. Prefer an on-PATH aeneas whose `-version` matches
+ * the lakefile's pinned rev (using the PATH charon alongside it); otherwise fall back to
+ * the bundled `.aeneas/` release. Returns absolute paths for both.
+ */
+async function resolveToolchain(root: string): Promise<{ charonBin: string; aeneasBin: string }> {
+  const rev = readAeneasRev(root);
+  const pathAeneas = await whichBin("aeneas");
+  if (pathAeneas) {
+    const ver = await aeneasVersion(pathAeneas);
+    if (ver && versionMatches(ver, rev)) {
+      const pathCharon = await whichBin("charon");
+      if (pathCharon) {
+        console.log(chalk.green(`  Using on-PATH toolchain: aeneas ${ver} matches lakefile rev ${rev}.`));
+        return { charonBin: pathCharon, aeneasBin: pathAeneas };
+      }
+      console.log(chalk.yellow("  On-PATH aeneas matches rev but no charon on PATH; using .aeneas/."));
+    }
+  }
+  const charonBin = findBinary("charon", root);
+  const aeneasBin = findBinary("aeneas", root);
+  if (!charonBin || !aeneasBin) {
+    throw new Error(
+      `No matching aeneas for rev ${rev} on PATH, and .aeneas/ is missing binaries. ` +
+      `Run 'npm run aeneas-install' first.`,
+    );
+  }
+  console.log(chalk.dim(`  Using bundled .aeneas/ toolchain (lakefile rev ${rev}).`));
+  return { charonBin, aeneasBin };
+}
+
 async function main(): Promise<void> {
   console.log(chalk.bold("\nAeneas Extract\n"));
 
   const { config, root } = loadConfig();
 
-  // Resolve binaries
-  const charonBin = findBinary("charon", root);
-  const aeneasBin = findBinary("aeneas", root);
-
-  if (!charonBin) {
-    throw new Error("Charon binary not found. Run 'npm run aeneas-install' first.");
-  }
-  if (!aeneasBin) {
-    throw new Error("Aeneas binary not found. Run 'npm run aeneas-install' first.");
-  }
+  // Resolve binaries: on-PATH toolchain matching the lakefile rev, else bundled .aeneas/.
+  const { charonBin, aeneasBin } = await resolveToolchain(root);
 
   // Charon reads [package.metadata.charon] from ./Cargo.toml in its cwd,
   // but always outputs the LLBC to the workspace root regardless of cwd.

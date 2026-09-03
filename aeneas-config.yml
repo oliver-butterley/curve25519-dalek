@@ -1,10 +1,8 @@
 # Aeneas extraction configuration
 # Used by `npm run aeneas-{install,extract}` to run charon and aeneas for Lean code generation.
 
-aeneas:
-  tag: "nightly-2026.09.01-379890b"   # GitHub release tag
-  repo: "https://github.com/AeneasVerif/aeneas.git"
-# The `rev` in lakefile.toml MUST be kept in sync with `aeneas.tag`.
+# The aeneas version (`rev`) and repo (`git`) live in the `aeneas` require of lakefile.toml
+# (single source of truth). `aeneas-install` and `aeneas-extract` read them from there.
 
 crate:
   dir: "curve25519-dalek"
@@ -29,19 +27,3 @@ aeneas_args:
     - emit-json
   dest: "curve25519-dalek/lean"
   subdir: "Curve25519Dalek"
-
-# Post-extraction tweaks applied to generated Lean files.
-tweaks:
-  files:
-    - "Funs.lean"
-    - "Types.lean"
-    - "FunsExternal_Template.lean"
-    - "TypesExternal_Template.lean"
-  substitutions:
-
-    - find: "set_option linter.unusedVariables false"
-      replace: |-
-        set_option linter.unusedVariables false
-        set_option linter.style.whitespace false
-        set_option linter.style.setOption false
-        set_option linter.style.longLine false

@@ -16,7 +16,7 @@ import chalk from "chalk";
 import ora from "ora";
 import { loadConfig } from "./lib/config.js";
 import { run } from "./lib/shell.js";
-import { findBinary } from "./lib/paths.js";
+import { findBinary, readAeneasRev, readAeneasGit } from "./lib/paths.js";
 import { syncLeanToolchain } from "./lib/lean-toolchain.js";
 
 // ── Paths ─────────────────────────────────────────────────────────────
@@ -146,8 +146,8 @@ async function downloadAndExtract(url: string, aeneasDir: string): Promise<void>
 async function main(): Promise<void> {
   console.log(chalk.bold("\nAeneas Install\n"));
 
-  const { config, root } = loadConfig();
-  const tag = config.aeneas.tag;
+  const { root } = loadConfig();
+  const tag = readAeneasRev(root); // single source of truth: the lakefile aeneas `rev`
   const aeneasDir = getAeneasDir(root);
 
   // Check if already installed at the correct release
@@ -160,7 +160,7 @@ async function main(): Promise<void> {
   await checkDependencies();
 
   const asset = getAssetName();
-  const url = getAssetUrl(config.aeneas.repo, tag, asset);
+  const url = getAssetUrl(readAeneasGit(root), tag, asset);
 
   console.log(chalk.bold(`\nDownloading ${tag} (${asset})...`));
   await downloadAndExtract(url, aeneasDir);
