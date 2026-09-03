@@ -20074,6 +20074,62 @@ def scalar.Scalar.div_by_2 (s : scalar.Scalar) : Result scalar.Scalar := do
   then scalar.Scalar.div_by_2.«x86_64-unknown-linux-gnu» s
   else scalar.Scalar.div_by_2.«i686-unknown-linux-gnu» s
 
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::{impl core::ops::function::FnMut<(usize,), bool> for curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::closure<'_0>}::call_mut]:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 887:21-892:9 -/
+def
+  scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnMutTupleUsizeBool.call_mut
+  (c : scalar.Scalar.bits_le.closure) (tupled_args : Std.Usize) :
+  Result (Bool × scalar.Scalar.bits_le.closure)
+  := do
+  let i ← tupled_args >>> 3#i32
+  let i1 ← Array.index_usize c.bytes i
+  let i2 ← lift (tupled_args &&& 7#usize)
+  let i3 ← i1 >>> i2
+  let i4 ← lift (i3 &&& 1#u8)
+  ok (i4 = 1#u8, c)
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::{impl core::ops::function::FnOnce<(usize,), bool> for curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::closure<'_0>}::call_once]:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 887:21-892:9 -/
+def
+  scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnOnceTupleUsizeBool.call_once
+  (c : scalar.Scalar.bits_le.closure) (i : Std.Usize) : Result Bool := do
+  let (b, _) ←
+    scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnMutTupleUsizeBool.call_mut
+      c i
+  ok b
+
+/-- Trait implementation: [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::{impl core::ops::function::FnOnce<(usize,), bool> for curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::closure<'_0>}]
+    Source: 'curve25519-dalek/src/scalar.rs', lines 887:21-892:9 -/
+@[reducible]
+def scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnOnceTupleUsizeBool :
+  core.ops.function.FnOnce scalar.Scalar.bits_le.closure Std.Usize Bool := {
+  call_once :=
+    scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnOnceTupleUsizeBool.call_once
+}
+
+/-- Trait implementation: [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::{impl core::ops::function::FnMut<(usize,), bool> for curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::closure<'_0>}]
+    Source: 'curve25519-dalek/src/scalar.rs', lines 887:21-892:9 -/
+@[reducible]
+def scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnMutTupleUsizeBool :
+  core.ops.function.FnMut scalar.Scalar.bits_le.closure Std.Usize Bool := {
+  FnOnceInst :=
+    scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnOnceTupleUsizeBool
+  call_mut :=
+    scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnMutTupleUsizeBool.call_mut
+}
+
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le]:
+    Source: 'curve25519-dalek/src/scalar.rs', lines 886:4-893:5 -/
+def scalar.Scalar.bits_le
+  (self : scalar.Scalar) :
+  Result (core.iter.adapters.map.Map (core.ops.range.Range Std.Usize)
+    scalar.Scalar.bits_le.closure)
+  := do
+  core.iter.traits.iterator.Iterator.map.default
+    (core.iter.traits.iterator.IteratorRange core.iter.range.StepUsize)
+    scalar.Scalar.bits_le.closure.Insts.CoreOpsFunctionFnMutTupleUsizeBool
+    { start := 0#usize, «end» := 256#usize } self
+
 /-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::to_radix_2w_size_hint]:
     Source: 'curve25519-dalek/src/scalar.rs', lines 1068:4-1081:5 -/
 def scalar.Scalar.to_radix_2w_size_hint

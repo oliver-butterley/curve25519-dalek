@@ -511,6 +511,11 @@ def ristretto.VartimeRistrettoPrecomputation.«x86_64-unknown-linux-gnu» :=
 def ristretto.VartimeRistrettoPrecomputation.«i686-unknown-linux-gnu» :=
   backend.VartimePrecomputedStraus.«i686-unknown-linux-gnu»
 
+/-- [curve25519_dalek::scalar::{curve25519_dalek::scalar::Scalar}::bits_le::closure]
+    Source: 'curve25519-dalek/src/scalar.rs', lines 887:21-892:9 -/
+@[reducible]
+def scalar.Scalar.bits_le.closure := scalar.Scalar
+
 /-- Trait declaration: [curve25519_dalek::traits::IsIdentity]
     Source: 'curve25519-dalek/src/traits.rs', lines 48:0-51:1
     Visibility: public -/

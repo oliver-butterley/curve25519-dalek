@@ -96,9 +96,6 @@ start_from = [
   "curve25519_dalek",
 ]
 exclude = [
-  # TODO: bits_le returns `impl DoubleEndedIterator + '_` -> Aeneas "Internal error" 
-  # https://github.com/AeneasVerif/aeneas/issues/1207
-  "curve25519_dalek::scalar::_::bits_le",
   # Debug impls (use core::fmt::Formatter; not translatable, not of interest)
   "curve25519_dalek::backend::serial::curve_models::{impl core::fmt::Debug for _}",
   "curve25519_dalek::backend::serial::u64::field::{impl core::fmt::Debug for _}",
