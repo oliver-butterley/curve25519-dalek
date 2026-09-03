@@ -206,7 +206,7 @@ async function main(): Promise<void> {
     {
       template: "FunsExternal_Template.lean",
       target: "FunsExternal.lean",
-      importAnchor: "import translated.Types",
+      importAnchor: "import Curve25519Dalek.Types",
       importLine: "import Subtle",
     },
     {

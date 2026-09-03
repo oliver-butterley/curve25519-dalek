@@ -1,6 +1,6 @@
 import Aeneas
 import Subtle.Types
-import translated.Types
+import Curve25519Dalek.Types
 open Aeneas Aeneas.Std Result ControlFlow Error
 open Aeneas.Std.WP
 set_option linter.dupNamespace false

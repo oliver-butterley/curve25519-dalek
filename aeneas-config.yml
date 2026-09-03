@@ -27,8 +27,8 @@ aeneas_args:
   options:
     - split-files
     - emit-json
-  dest: "curve25519-dalek"
-  subdir: "translated"
+  dest: "curve25519-dalek/lean"
+  subdir: "Curve25519Dalek"
 
 # Post-extraction tweaks applied to generated Lean files.
 tweaks:
