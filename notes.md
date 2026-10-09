@@ -35,8 +35,7 @@
   The crate is translated with its default features (`alloc`, `precomputed-tables`,
   `zeroize`).
   - `exclude`: only items we will never verify (Debug, Hash, derived `Eq`).
-  - `opaque`: only items verification needs but we deliberately do not translate (the
-    precomputed basepoint table data).
+  - `opaque`: only items we don't want to translate.
   - Everything else is translated; constructs Aeneas cannot handle are patched.
 - **Patches that change behaviour.** Patches must keep behaviour identical, except
   `edwards-multiscalar_mul`, `edwards-optional_multiscalar_mul` and

@@ -122,11 +122,7 @@ exclude = [
 ]
 # Items verification relies on but which we deliberately do not translate.
 opaque = [
-  # The precomputed basepoint tables are data: we verify the code that reads them,
-  # not their (very large) contents.
-  "curve25519_dalek::backend::serial::u32::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
-  "curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
-  # The same table viewed as a `RistrettoBasepointTable` (a `#[repr(transparent)]`
-  # pointer cast of `ED25519_BASEPOINT_TABLE`).
+  # `&raw const` pointer cast of `ED25519_BASEPOINT_TABLE` to the `#[repr(transparent)]`
+  # `RistrettoBasepointTable`, which Aeneas does not support.
   "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE",
 ]

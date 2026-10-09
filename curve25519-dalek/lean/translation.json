@@ -23274,32 +23274,6 @@
   ],
   "globals": [
     {
-      "def_id": 614,
-      "lean_name": "backend.serial.u32.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
-      "lean_file": "Curve25519Dalek/FunsExternal_Template.lean",
-      "rust_name": "curve25519_dalek::backend::serial::u32::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
-      "is_local": true,
-      "source": {
-        "file": "curve25519-dalek/src/backend/serial/u32/constants.rs",
-        "begin_line": 300,
-        "end_line": 3949
-      },
-      "can_fail": true
-    },
-    {
-      "def_id": 284,
-      "lean_name": "backend.serial.u64.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
-      "lean_file": "Curve25519Dalek/FunsExternal_Template.lean",
-      "rust_name": "curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
-      "is_local": true,
-      "source": {
-        "file": "curve25519-dalek/src/backend/serial/u64/constants.rs",
-        "begin_line": 381,
-        "end_line": 6334
-      },
-      "can_fail": true
-    },
-    {
       "def_id": 12,
       "lean_name": "constants.RISTRETTO_BASEPOINT_TABLE.«x86_64-unknown-linux-gnu»",
       "lean_file": "Curve25519Dalek/FunsExternal_Template.lean",
@@ -23794,6 +23768,19 @@
       "can_fail": true
     },
     {
+      "def_id": 614,
+      "lean_name": "curve25519_dalek.backend.serial.u32.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
+      "lean_file": "Curve25519Dalek/Funs.lean",
+      "rust_name": "curve25519_dalek::backend::serial::u32::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
+      "is_local": true,
+      "source": {
+        "file": "curve25519-dalek/src/backend/serial/u32/constants.rs",
+        "begin_line": 300,
+        "end_line": 3949
+      },
+      "can_fail": true
+    },
+    {
       "def_id": 508,
       "lean_name": "curve25519_dalek.backend.serial.u32.constants.ED25519_BASEPOINT_TABLE",
       "lean_file": "Curve25519Dalek/Funs.lean",
@@ -24037,6 +24024,19 @@
         "file": "curve25519-dalek/src/backend/serial/u64/constants.rs",
         "begin_line": 228,
         "end_line": 228
+      },
+      "can_fail": true
+    },
+    {
+      "def_id": 284,
+      "lean_name": "curve25519_dalek.backend.serial.u64.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
+      "lean_file": "Curve25519Dalek/Funs.lean",
+      "rust_name": "curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN",
+      "is_local": true,
+      "source": {
+        "file": "curve25519-dalek/src/backend/serial/u64/constants.rs",
+        "begin_line": 381,
+        "end_line": 6334
       },
       "can_fail": true
     },

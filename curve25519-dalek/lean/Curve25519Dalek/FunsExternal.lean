@@ -66,16 +66,6 @@ axiom core.result.Result.map
 axiom alloc.vec.Vec.is_empty
   {T : Type} (A : Type) : alloc.vec.Vec T → Result Bool
 
-/-- [curve25519_dalek::backend::serial::u32::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN]
-    Source: 'curve25519-dalek/src/backend/serial/u32/constants.rs', lines 300:0-3949:3 -/
-axiom backend.serial.u32.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN
-  : Result edwards.EdwardsBasepointTable.«i686-unknown-linux-gnu»
-
-/-- [curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN]
-    Source: 'curve25519-dalek/src/backend/serial/u64/constants.rs', lines 381:0-6334:3 -/
-axiom backend.serial.u64.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN
-  : Result edwards.EdwardsBasepointTable.«x86_64-unknown-linux-gnu»
-
 /-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::i686-unknown-linux-gnu]
     Source: 'curve25519-dalek/src/constants.rs', lines 85:0-89:2
     Visibility: public -/
