@@ -34,6 +34,18 @@ theorem update_getElem!_spec {α : Type} [Inhabited α] {n : Usize} (v : Array �
   exact ⟨Array.getElem!_Nat_set_eq _ _ _ _ ⟨rfl, by simpa using hi⟩,
     fun j hj => Array.getElem!_Nat_set_ne _ _ _ _ (Ne.symm hj)⟩
 
+/-- The entries of an array literal `Array.make n l`. -/
+theorem getElem!_make {α : Type} [Inhabited α] {n : Usize} (l : List α) (hl : l.length = n.val)
+    (i : ℕ) : (Array.make n l hl)[i]! = l[i]! := by
+  simp only [Array.getElem!_Nat_eq, Array.make_val]
+
+/-- `index_usize` on an array literal `Array.make n l`, with the result as `l[i]!`. -/
+theorem index_usize_make_spec {α : Type} [Inhabited α] {n : Usize} (l : List α)
+    (hl : l.length = n.val) (i : Usize) (hi : i.val < n.val) :
+    (Array.make n l hl).index_usize i ⦃ (x : α) => x = l[i.val]! ⦄ := by
+  step*
+  simp_lists [*, Array.make_val]
+
 /-- A bound on five limbs, unfolded into its five instances (for `simp_lists`). -/
 theorem _root_.Nat.forall_lt_five {P : ℕ → Prop} :
     (∀ i < 5, P i) ↔ P 0 ∧ P 1 ∧ P 2 ∧ P 3 ∧ P 4 := by

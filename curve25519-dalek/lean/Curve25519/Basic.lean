@@ -90,6 +90,12 @@ theorem L_eq_limbs :
 
 theorem L_mod_two_pow_52 : L % 2 ^ 52 = 671914833335277 := by decide
 
+theorem L_mod_two : L % 2 = 1 := by decide
+
+theorem L_lt_two_pow_260 : L < 2 ^ 260 := by
+  rw [show 260 = 253 + 7 from rfl, pow_add]
+  exact L_lt.trans_le (Nat.le_mul_of_pos_right _ (by decide))
+
 /-- The Montgomery radix `2^260` modulo `L`. -/
 theorem two_pow_260_mod_L :
     2 ^ 260 % L =

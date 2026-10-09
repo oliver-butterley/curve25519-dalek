@@ -36,7 +36,7 @@ theorem negate_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2
     have hlimbs : ∀ i < 5, a[i]!.val + self[i]!.val = SIXTEEN_P[i]!.val := fun i hi => by
       rw [Array.getElem!_Nat_eq, getElem!_pos a.val i (by simpa using hi)]
       exact ha i (by simpa using hi)
-    step as ⟨r, hr, hr_lt⟩
+    step as ⟨r, hr, hr_lt, hr_2p⟩
     refine ⟨?_, hr_lt⟩
     have hsum : FieldElement51.asNat a + self.asNat = FieldElement51.asNat SIXTEEN_P :=
       Array.asNat_add_eq 51 a self SIXTEEN_P hlimbs

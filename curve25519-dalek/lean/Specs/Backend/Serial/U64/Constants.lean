@@ -28,7 +28,7 @@ Not translated (`digest` feature off): `ED25519_SQRTAM2`, `MONTGOMERY_A`, `MONTG
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open curve25519_dalek.backend.serial.u64.scalar (Scalar52 montgomeryRadix)
 open curve25519 (p a d A)
 
 namespace curve25519_dalek.backend.serial.u64.constants
@@ -136,7 +136,7 @@ theorem LFACTOR_spec' :
 
 /-- `R`: the Montgomery radix `2^260 mod ℓ`. -/
 theorem R_spec' :
-    Scalar52.asNat R = 2 ^ 260 % curve25519.L ∧ ∀ i < 5, R[i]!.val < 2 ^ 52 :=
+    Scalar52.asNat R = montgomeryRadix % curve25519.L ∧ ∀ i < 5, R[i]!.val < 2 ^ 52 :=
   R_spec
 
 /-- [propext, Classical.choice, Quot.sound] -/
@@ -144,7 +144,7 @@ theorem R_spec' :
 
 /-- `RR`: `R² = 2^520 mod ℓ`. -/
 theorem RR_spec' :
-    Scalar52.asNat RR = 2 ^ 520 % curve25519.L ∧ ∀ i < 5, RR[i]!.val < 2 ^ 52 :=
+    Scalar52.asNat RR = montgomeryRadix ^ 2 % curve25519.L ∧ ∀ i < 5, RR[i]!.val < 2 ^ 52 :=
   RR_spec
 
 /-- [propext, Classical.choice, Quot.sound] -/

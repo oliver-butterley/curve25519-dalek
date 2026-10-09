@@ -1,0 +1,21 @@
+module
+public import Curve25519
+public import Curve25519Dalek.Funs
+public import Specs.Backend.Serial.U64.Defs
+public import Subtle
+public section
+
+open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
+open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+
+namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexUsizeU64
+
+@[step]
+theorem index_spec (self : Scalar52) (_index : Usize) (hindex : _index.val < 5) :
+    index self _index ⦃ (r : U64) =>
+      r = self[_index.val]! ⦄ := by
+  unfold index
+  step*
+  simp_lists [*]
+
+end curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexUsizeU64

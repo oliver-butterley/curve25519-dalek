@@ -52,7 +52,7 @@ theorem sub_spec (self _rhs : FieldElement51)
       fun i hi => by
         rw [Array.getElem!_Nat_eq, getElem!_pos a.val i (by simpa using hi)]
         exact ha i (by simpa using hi)
-    step as ⟨r, hr, hr_lt⟩
+    step as ⟨r, hr, hr_lt, hr_2p⟩
     refine ⟨?_, hr_lt⟩
     have hsum : FieldElement51.asNat a + _rhs.asNat = self.asNat + FieldElement51.asNat SIXTEEN_P :=
       Array.asNat_add_eq_add 51 a _rhs self SIXTEEN_P hlimbs

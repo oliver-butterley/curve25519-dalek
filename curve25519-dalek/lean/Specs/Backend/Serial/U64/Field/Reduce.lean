@@ -22,27 +22,30 @@ theorem reduce.LOW_51_BIT_MASK_spec :
   unfold reduce.LOW_51_BIT_MASK
   step*
 
-/-- The carry propagation of `reduce` preserves the value modulo `p`: the top carry `a₄ / 2^51`
-re-enters the bottom limb multiplied by `19 = 2^255 mod p`. -/
-private theorem reduce_asNat_mod (a₀ a₁ a₂ a₃ a₄ : ℕ) :
+/-- The carry propagation of `reduce`, exactly: the top carry `a₄ / 2^51` re-enters the bottom limb
+multiplied by `19 = 2^255 - p`, so `p` is subtracted `a₄ / 2^51` times. -/
+private theorem reduce_asNat_add (a₀ a₁ a₂ a₃ a₄ : ℕ) :
     (a₀ % 2 ^ 51 + 19 * (a₄ / 2 ^ 51) + 2 ^ 51 * (a₁ % 2 ^ 51 + a₀ / 2 ^ 51)
       + 2 ^ 102 * (a₂ % 2 ^ 51 + a₁ / 2 ^ 51) + 2 ^ 153 * (a₃ % 2 ^ 51 + a₂ / 2 ^ 51)
-      + 2 ^ 204 * (a₄ % 2 ^ 51 + a₃ / 2 ^ 51)) % p
-      = (a₀ + 2 ^ 51 * a₁ + 2 ^ 102 * a₂ + 2 ^ 153 * a₃ + 2 ^ 204 * a₄) % p := by
+      + 2 ^ 204 * (a₄ % 2 ^ 51 + a₃ / 2 ^ 51)) + p * (a₄ / 2 ^ 51)
+      = a₀ + 2 ^ 51 * a₁ + 2 ^ 102 * a₂ + 2 ^ 153 * a₃ + 2 ^ 204 * a₄ := by
   have h₀ := Nat.div_add_mod a₀ (2 ^ 51)
   have h₁ := Nat.div_add_mod a₁ (2 ^ 51)
   have h₂ := Nat.div_add_mod a₂ (2 ^ 51)
   have h₃ := Nat.div_add_mod a₃ (2 ^ 51)
   have h₄ := Nat.div_add_mod a₄ (2 ^ 51)
   have hp := p_add_nineteen
-  have h : (a₀ % 2 ^ 51 + 19 * (a₄ / 2 ^ 51) + 2 ^ 51 * (a₁ % 2 ^ 51 + a₀ / 2 ^ 51)
-      + 2 ^ 102 * (a₂ % 2 ^ 51 + a₁ / 2 ^ 51) + 2 ^ 153 * (a₃ % 2 ^ 51 + a₂ / 2 ^ 51)
-      + 2 ^ 204 * (a₄ % 2 ^ 51 + a₃ / 2 ^ 51)) + p * (a₄ / 2 ^ 51)
-      = a₀ + 2 ^ 51 * a₁ + 2 ^ 102 * a₂ + 2 ^ 153 * a₃ + 2 ^ 204 * a₄ := by
-    zify at *
-    linear_combination h₀ + 2 ^ 51 * h₁ + 2 ^ 102 * h₂ + 2 ^ 153 * h₃ + 2 ^ 204 * h₄
-      + (a₄ / 2 ^ 51 : ℤ) * hp
-  rw [← h, Nat.add_mul_mod_self_left]
+  zify at *
+  linear_combination h₀ + 2 ^ 51 * h₁ + 2 ^ 102 * h₂ + 2 ^ 153 * h₃ + 2 ^ 204 * h₄
+    + (a₄ / 2 ^ 51 : ℤ) * hp
+
+/-- Five limbs below `2^51 + 2^18` represent a number below `2 p`. -/
+private theorem asNat_lt_two_mul_p {r₀ r₁ r₂ r₃ r₄ : ℕ} (h₀ : r₀ < 2 ^ 51 + 2 ^ 18)
+    (h₁ : r₁ < 2 ^ 51 + 2 ^ 18) (h₂ : r₂ < 2 ^ 51 + 2 ^ 18) (h₃ : r₃ < 2 ^ 51 + 2 ^ 18)
+    (h₄ : r₄ < 2 ^ 51 + 2 ^ 18) :
+    r₀ + 2 ^ 51 * r₁ + 2 ^ 102 * r₂ + 2 ^ 153 * r₃ + 2 ^ 204 * r₄ < 2 * p := by
+  have hp := p_add_nineteen
+  omega
 
 set_option linter.hashCommand false in
 #decompose reduce reduce_eq
@@ -77,24 +80,29 @@ theorem reduce.carry_spec (c0 c1 c2 c3 c4 : U64) (limbs5 : Array U64 5#usize)
   step*
   agrind
 
-/-- `reduce` with the additional bound `r.asNat < 2 p`, used by `to_bytes`. -/
-theorem reduce_lt_spec (limbs : Array U64 5#usize) :
+/-- `reduce` exactly: `p` is subtracted `limbs[4] / 2^51` times, and the limbs are below
+`2^51 + 2^18`. `reduce_spec` follows from this. -/
+theorem reduce_exact_spec (limbs : Array U64 5#usize) :
     reduce limbs ⦃ (r : FieldElement51) =>
-      r.asNat % p = FieldElement51.asNat limbs % p ∧ (∀ i < 5, r[i]!.val < 2 ^ 52) ∧
-      r.asNat < 2 * p ⦄ := by
+      r.asNat + p * (limbs[4]!.val / 2 ^ 51) = FieldElement51.asNat limbs ∧
+      ∀ i < 5, r[i]!.val < 2 ^ 51 + 2 ^ 18 ⦄ := by
   rw [reduce_eq]
   step*
-  have hp := p_add_nineteen
   rw [FieldElement51.asNat_eq, FieldElement51.asNat_eq, Nat.forall_lt_five]
   simp only [*, Nat.shiftRight_eq_div_pow]
-  refine ⟨reduce_asNat_mod _ _ _ _ _, ?_, ?_⟩
-  · scalar_tac
-  · scalar_tac
+  refine ⟨reduce_asNat_add _ _ _ _ _, ?_, ?_, ?_, ?_, ?_⟩ <;> scalar_tac
 
 @[step]
 theorem reduce_spec (limbs : Array U64 5#usize) :
     reduce limbs ⦃ (r : FieldElement51) =>
-      r.asNat % p = FieldElement51.asNat limbs % p ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
-  spec_mono (reduce_lt_spec limbs) fun _ h => ⟨h.1, h.2.1⟩
+      r.asNat % p = FieldElement51.asNat limbs % p ∧ (∀ i < 5, r[i]!.val < 2 ^ 52) ∧
+      r.asNat < 2 * p ⦄ := by
+  apply spec_mono (reduce_exact_spec limbs)
+  rintro r ⟨heq, hr⟩
+  refine ⟨by rw [← heq, Nat.add_mul_mod_self_left], fun i hi => (hr i hi).trans (by norm_num),
+    ?_⟩
+  rw [Nat.forall_lt_five] at hr
+  rw [FieldElement51.asNat_eq]
+  exact asNat_lt_two_mul_p hr.1 hr.2.1 hr.2.2.1 hr.2.2.2.1 hr.2.2.2.2
 
 end curve25519_dalek.backend.serial.u64.field.FieldElement51

@@ -230,7 +230,7 @@ theorem to_bytes_spec (self : FieldElement51) :
     to_bytes self ⦃ (r : Array U8 32#usize) =>
       r.asNat 8 = self.asNat % p ⦄ := by
   rw [to_bytes_eq]
-  step with reduce_lt_spec as ⟨fe, hfe_mod, hfe, hfe_lt⟩
+  step as ⟨fe, hfe_mod, hfe, hfe_lt⟩
   step as ⟨i, hi⟩
   step as ⟨q, hq⟩
   have hq1 : q.val ≤ 1 := by

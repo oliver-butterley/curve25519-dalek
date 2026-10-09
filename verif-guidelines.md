@@ -68,8 +68,8 @@ Specs/Lemmas/AsNat.lean                      lemmas shared crate-wide (here: abo
 - **File naming:** a file named after a function means that function is in that Rust file. Two items with the same name are distinguished by a detail (`Mul.lean` / `MulAssign.lean`).
 - **What goes in a function's file:** its loops and loop bodies, inner `fn`s, local consts and closure helpers.
 - **Other files:** `Defs.lean` (definitions used in statements, audited) and `Lemmas.lean` or
-  `Lemmas/<Topic>.lean` (shared proof lemmas, not audited). No other names. (`Aux` is a reserved file
-  name on Windows, which Lean rejects.)
+  `Lemmas/<Topic>.lean` (shared proof lemmas, not audited). No other names. (`Aux` is a reserved
+  file name on Windows, which Lean rejects.)
 - **Imports:**
   - audit file → its folder's proof files;
   - proof file → callees' proof files, `Defs`, `Curve25519`, external libraries.
@@ -152,6 +152,12 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
   that folder; facts about curve25519 constants go in `Curve25519/Basic.lean`. Shared lemmas are
   stated in their natural generality (e.g. for any radix or array length, not just the instance at
   hand).
+- **Large powers (`exponent … exceeds the threshold 256`).** Lean core declines to evaluate
+  `b ^ n` when the exponent `n` exceeds `exponentiation.threshold` (256) and warns, whenever
+  unification, `simp` or `omega`/`scalar_tac` merely meet such a term. Keep large powers
+  irreducible: name them like `p` and `L` (e.g. `montgomeryRadix` for `2^260`), with an
+  unfolding lemma that is exactly the definition (`montgomeryRadix_eq`) and characterisation
+  lemmas proved before `attribute [irreducible]`; state specs with the name.
 - **No auto-generated names.** Never refer to names a tactic invented (`h_1`, `x✝`, `a_post1`,
   `i1`). Name what you use (`step as ⟨r, hr⟩`, `obtain ⟨…⟩`, `intro`).
 - **`p` and `L` stay irreducible.** Use their characterisation lemmas in `Curve25519/Basic.lean`

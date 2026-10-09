@@ -296,10 +296,11 @@ end curve25519_dalek.backend.serial.u64.field.FieldElement51
 
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
 
-/-- `reduce`: same value mod `p`, limbs `< 2^52`. -/
+/-- `reduce`: same value mod `p`, limbs `< 2^52`, value `< 2 p`. -/
 theorem reduce_spec' (limbs : Array U64 5#usize) :
     reduce limbs ⦃ (r : FieldElement51) =>
-      r.asNat % p = FieldElement51.asNat limbs % p ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
+      r.asNat % p = FieldElement51.asNat limbs % p ∧ (∀ i < 5, r[i]!.val < 2 ^ 52) ∧
+      r.asNat < 2 * p ⦄ :=
   reduce_spec limbs
 
 /-- [propext, Classical.choice, Quot.sound] -/

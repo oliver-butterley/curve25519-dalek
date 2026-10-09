@@ -47,6 +47,20 @@ theorem asNat_five {ty : UScalarTy} (bits : ℕ) (a : Array (UScalar ty) 5#usize
       List.getElem!_cons_succ]
     ring
 
+theorem asNat_nine {ty : UScalarTy} (bits : ℕ) (a : Array (UScalar ty) 9#usize) :
+    a.asNat bits = a[0]!.val + 2 ^ bits * a[1]!.val + 2 ^ (2 * bits) * a[2]!.val
+      + 2 ^ (3 * bits) * a[3]!.val + 2 ^ (4 * bits) * a[4]!.val + 2 ^ (5 * bits) * a[5]!.val
+      + 2 ^ (6 * bits) * a[6]!.val + 2 ^ (7 * bits) * a[7]!.val
+      + 2 ^ (8 * bits) * a[8]!.val := by
+  have h : a.val.length = 9 := by simp
+  simp only [Array.asNat, Array.getElem!_Nat_eq]
+  generalize a.val = l at h ⊢
+  match l, h with
+  | [x0, x1, x2, x3, x4, x5, x6, x7, x8], _ =>
+    simp only [Nat.ofDigits, List.map_cons, List.map_nil, Nat.cast_id, List.getElem!_cons_zero,
+      List.getElem!_cons_succ]
+    ring
+
 end Aeneas.Std.Array
 
 namespace curve25519_dalek.backend.serial.u64
@@ -62,3 +76,52 @@ theorem scalar.Scalar52.asNat_eq (a : scalar.Scalar52) :
   simp only [scalar.Scalar52.asNat, Array.asNat_five]
 
 end curve25519_dalek.backend.serial.u64
+
+namespace Aeneas.Std.Array
+
+/-- A little-endian number with `k` digits below `2 ^ bits` is below `2 ^ (bits * k)`. -/
+theorem sum_pow_mul_lt (bits k : ℕ) (x : ℕ → ℕ) (hx : ∀ j < k, x j < 2 ^ bits) :
+    ∑ j ∈ Finset.range k, 2 ^ (bits * j) * x j < 2 ^ (bits * k) := by
+  induction k with
+  | zero => simp
+  | succ k ih =>
+    rw [Finset.sum_range_succ, Nat.mul_succ, Nat.pow_add]
+    calc ∑ j ∈ Finset.range k, 2 ^ (bits * j) * x j + 2 ^ (bits * k) * x k
+        < 2 ^ (bits * k) + 2 ^ (bits * k) * x k :=
+          Nat.add_lt_add_right (ih fun j hj => hx j (by omega)) _
+      _ = 2 ^ (bits * k) * (x k + 1) := by ring
+      _ ≤ 2 ^ (bits * k) * 2 ^ bits := Nat.mul_le_mul_left _ (hx k (by omega))
+
+/-- An array with digits below `2 ^ bits` represents a number below `2 ^ (bits * n)`. -/
+theorem asNat_lt {ty : UScalarTy} {n : Usize} (bits : ℕ) (a : Array (UScalar ty) n)
+    (h : ∀ i < n.val, a[i]!.val < 2 ^ bits) :
+    a.asNat bits < 2 ^ (bits * n.val) := by
+  rw [asNat_eq_sum]
+  exact sum_pow_mul_lt bits n.val (fun j => a[j]!.val) h
+
+/-- The digit sum of the first `k + 1` digits after setting digit `k` to `x`. -/
+theorem sum_range_succ_set {ty : UScalarTy} {n : Usize} (bits : ℕ) (a : Array (UScalar ty) n)
+    (k : Usize) (x : UScalar ty) (hk : k.val < n.val) :
+    ∑ j ∈ Finset.range (k.val + 1), 2 ^ (bits * j) * (a.set k x)[j]!.val
+      = ∑ j ∈ Finset.range k.val, 2 ^ (bits * j) * a[j]!.val + 2 ^ (bits * k.val) * x.val := by
+  rw [Finset.sum_range_succ, Array.getElem!_Nat_set_eq _ _ _ _ ⟨rfl, by simpa using hk⟩]
+  refine congrArg (· + _) (Finset.sum_congr rfl fun j hj => ?_)
+  rw [Array.getElem!_Nat_set_ne _ _ _ _ (by simp at hj; omega)]
+
+
+/-- Grouping the digits of an array into `m` blocks of `w` digits. -/
+theorem asNat_eq_sum_blocks {ty : UScalarTy} {n : Usize} (bits w m : ℕ) (a : Array (UScalar ty) n)
+    (h : w * m = n.val) :
+    a.asNat bits = ∑ k ∈ Finset.range m,
+      2 ^ (bits * w * k) * ∑ j ∈ Finset.range w, 2 ^ (bits * j) * a[w * k + j]!.val := by
+  rw [asNat_eq_sum, ← h]
+  clear h
+  induction m with
+  | zero => simp
+  | succ m ih =>
+    rw [Nat.mul_succ, Finset.sum_range_add, ih, Finset.sum_range_succ, Finset.mul_sum]
+    refine congrArg (_ + ·) (Finset.sum_congr rfl fun j _ => ?_)
+    rw [← Nat.mul_assoc, ← Nat.pow_add]
+    ring_nf
+
+end Aeneas.Std.Array
