@@ -5,7 +5,7 @@
   - Serial 64 backend (field.rs, scalar.rs)
   - primality of p, L
   - src/field.rs
-  - src.scalar.rs
+  - src/scalar.rs
   - Serial 32 backend
   - Elliptic curves
   - All the other files
