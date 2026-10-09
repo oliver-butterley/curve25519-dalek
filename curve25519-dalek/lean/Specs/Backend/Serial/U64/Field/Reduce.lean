@@ -97,12 +97,9 @@ theorem reduce_spec (limbs : Array U64 5#usize) :
     reduce limbs ⦃ (r : FieldElement51) =>
       r.asNat % p = FieldElement51.asNat limbs % p ∧ (∀ i < 5, r[i]!.val < 2 ^ 52) ∧
       r.asNat < 2 * p ⦄ := by
-  apply spec_mono (reduce_exact_spec limbs)
-  rintro r ⟨heq, hr⟩
-  refine ⟨by rw [← heq, Nat.add_mul_mod_self_left], fun i hi => (hr i hi).trans (by norm_num),
-    ?_⟩
-  rw [Nat.forall_lt_five] at hr
-  rw [FieldElement51.asNat_eq]
-  exact asNat_lt_two_mul_p hr.1 hr.2.1 hr.2.2.1 hr.2.2.2.1 hr.2.2.2.2
+  step with reduce_exact_spec
+  refine ⟨by grind [Nat.add_mul_mod_self_left], by grind, ?_⟩
+  rw [asNat_eq]
+  apply asNat_lt_two_mul_p <;> grind
 
 end curve25519_dalek.backend.serial.u64.field.FieldElement51
