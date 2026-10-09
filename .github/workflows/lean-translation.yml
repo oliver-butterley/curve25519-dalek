@@ -6,12 +6,14 @@ on:
   push:
     branches: [ '**' ]
     paths: &paths
-      - 'curve25519-dalek/src/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
       - 'curve25519-dalek/Cargo.toml'
       - 'curve25519-dalek/build.rs'
-      - 'curve25519-dalek/lean/**'
-      - 'Cargo.lock'
+      - 'curve25519-dalek/src/**'
       - 'curve25519-dalek/translation-patches/**'
+      - 'curve25519-dalek/lean/Curve25519Dalek/**'
+      - 'curve25519-dalek/lean/translation.json'
       - 'scripts/aeneas-*.sh'
       - 'lakefile.toml'
       - 'lean-toolchain'
@@ -20,9 +22,17 @@ on:
     branches: [ '**' ]
     paths: *paths
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   translation-is-current:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -31,32 +41,33 @@ jobs:
         run: echo "tag=$(awk -F'"' '/^\[/{name=""} /^name = /{name=$2} /^rev = / && name=="aeneas"{print $2}' lakefile.toml)" >> "$GITHUB_OUTPUT"
 
       # Binaries + the nightly (with rustc-dev) charon-driver needs; changes only with the pin.
-      - name: Cache Aeneas toolchain
-        uses: actions/cache@v4
+      # Restore and save are split so the cache is saved even when the freshness check fails.
+      - name: Restore Aeneas toolchain
+        id: cache
+        uses: actions/cache/restore@v4
         with:
-          path: |
+          path: &toolchain-paths |
             .aeneas
             ~/.rustup/toolchains/nightly-*
-          key: aeneas-${{ runner.os }}-${{ runner.arch }}-${{ steps.aeneas.outputs.tag }}
-
-      - name: Cache cargo registry
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry/index
-            ~/.cargo/registry/cache
-            ~/.cargo/git/db
-          key: cargo-registry-${{ hashFiles('Cargo.lock') }}
-          restore-keys: cargo-registry-
+            ~/.rustup/update-hashes/nightly-*
+          key: &toolchain-key aeneas-${{ runner.os }}-${{ runner.arch }}-${{ steps.aeneas.outputs.tag }}
 
       - run: ./scripts/aeneas-install.sh
+
+      - name: Save Aeneas toolchain
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: *toolchain-paths
+          key: *toolchain-key
+
       - run: ./scripts/aeneas-translate.sh
 
       - name: Check committed translation is current
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
             git status --short
-            git diff --stat
+            git diff | head -200
             echo "::error::Committed translation is stale: run ./scripts/aeneas-translate.sh and commit the result."
             exit 1
           fi
