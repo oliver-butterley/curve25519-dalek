@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Translate curve25519-dalek to Lean: apply curve25519-dalek/translation-patches/, run charon + aeneas,
-# then revert the patches. Charon settings live in curve25519-dalek/Cargo.toml
-# [package.metadata.charon].
+# then revert the patches. Charon settings live in curve25519-dalek/Cargo.toml.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -26,12 +25,23 @@ for patch in curve25519-dalek/translation-patches/*.patch; do
 done
 
 mkdir -p .llbc
-# The serial backend is forced for the charon build only; build.rs derives
-# curve25519_dalek_bits (64 or 32) from each target.
-(cd curve25519-dalek && CARGO_ENCODED_RUSTFLAGS='--cfg=curve25519_dalek_backend="serial"' \
-    ../.aeneas/charon cargo --preset=aeneas \
-    --targets x86_64-unknown-linux-gnu --targets i686-unknown-linux-gnu \
+# Four configurations, merged by charon's multi-target translation:
+# {64-bit, 32-bit} x {with precomputed-tables, without precomputed-tables} 
+unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS
+rustc="$(.aeneas/charon toolchain-path)/bin/rustc"
+serial='--cfg curve25519_dalek_backend="serial"'
+targets=()
+for arch in x86_64 i686; do
+    triple=$arch-unknown-linux-gnu
+    spec=$arch-no-tables
+    "$rustc" -Z unstable-options --print target-spec-json --target "$triple" > ".llbc/$spec.json"
+    targets+=(--targets "$triple" --targets "$PWD/.llbc/$spec.json")
+    export "CARGO_TARGET_$(tr 'a-z-' 'A-Z_' <<< "$triple")_RUSTFLAGS=$serial --cfg feature=\"precomputed-tables\""
+    export "CARGO_TARGET_$(tr 'a-z-' 'A-Z_' <<< "$spec")_RUSTFLAGS=$serial"
+done
+(cd curve25519-dalek && ../.aeneas/charon cargo --preset=aeneas "${targets[@]}" \
     --dest-file ../.llbc/curve25519_dalek.llbc \
-    -- --locked)
+    -- --locked --no-default-features --features alloc,zeroize \
+    -Zjson-target-spec -Zbuild-std=core,alloc)
 .aeneas/aeneas -backend lean -split-files -emit-json \
     -dest curve25519-dalek/lean -subdir Curve25519Dalek .llbc/curve25519_dalek.llbc
