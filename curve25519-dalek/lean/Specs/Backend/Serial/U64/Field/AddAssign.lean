@@ -2,18 +2,53 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Lemmas.Array
 public import Subtle
 public section
-set_option linter.style.longLine false
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.CoreOpsArithAddAssignSharedAFieldElement51
+namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace CoreOpsArithAddAssignSharedAFieldElement51
+
+attribute [local step] Array.index_usize_getElem!_spec in
+/-- The loop of `add_assign` adds the limbs one by one. -/
+@[step]
+theorem add_assign_loop_spec (self _rhs : FieldElement51)
+    (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) (hrhs : ∀ i < 5, _rhs[i]!.val < 2 ^ 54) :
+    add_assign_loop { start := 0#usize, «end» := 5#usize } self _rhs ⦃ (r : FieldElement51) =>
+      ∀ i < 5, r[i]!.val = self[i]!.val + _rhs[i]!.val ⦄ := by
+  unfold add_assign_loop
+  apply loop.spec_decr_nat (measure := fun (iter, _, _) => 5 - iter.start.val)
+    (inv := fun (iter, a, b) => b = _rhs ∧ iter.end = 5#usize ∧ iter.start.val ≤ 5 ∧
+      (∀ i < iter.start.val, a[i]!.val = self[i]!.val + _rhs[i]!.val) ∧
+      ∀ i < 5, iter.start.val ≤ i → a[i]! = self[i]!)
+  · rintro ⟨iter, a, b⟩ ⟨hb, hend, hstart, hlo, hhi⟩
+    subst hb
+    unfold add_assign_loop.body
+    by_cases hlt : iter.start.val < 5
+    · step with core.iter.range.IteratorRange.next_Usize_some_spec as ⟨o, iter1, ho, hstart1, hend1⟩
+      subst ho
+      step*
+      subst_vars
+      refine ⟨by agrind, by agrind, fun j hj => ?_, fun j hj hsj => ?_, by agrind⟩
+      · by_cases hjs : iter.start.val = j
+        · rw [Array.getElem!_Nat_set_eq _ _ _ _ ⟨hjs, by scalar_tac⟩]
+          agrind
+        · rw [Array.getElem!_Nat_set_ne _ _ _ _ hjs]
+          agrind
+      · rw [Array.getElem!_Nat_set_ne _ _ _ _ (by scalar_tac)]
+        agrind
+    · step*
+  · simp
+
 @[step]
 theorem add_assign_spec (self _rhs : FieldElement51)
     (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) (hrhs : ∀ i < 5, _rhs[i]!.val < 2 ^ 54) :
     add_assign self _rhs ⦃ (r : FieldElement51) =>
       ∀ i < 5, r[i]!.val = self[i]!.val + _rhs[i]!.val ⦄ := by
-  sorry
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.CoreOpsArithAddAssignSharedAFieldElement51
+  unfold add_assign
+  step*
+end CoreOpsArithAddAssignSharedAFieldElement51
+end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts

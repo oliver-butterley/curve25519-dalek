@@ -2,12 +2,14 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Field.FromLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
+open curve25519 (lt_p_iff mod_p_fold mod_p_of_lt d_eq)
 
 namespace curve25519_dalek.backend.serial.u64.constants
 
@@ -16,6 +18,15 @@ theorem SQRT_AD_MINUS_ONE_spec :
     SQRT_AD_MINUS_ONE ⦃ (r : FieldElement51) =>
       r.asNat < p ∧
       r.asNat ^ 2 % p = (a * d - 1).val ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ := by
-  sorry
+  unfold SQRT_AD_MINUS_ONE
+  step*
+  subst_vars
+  refine ⟨lt_p_iff.mpr (by decide), ?_, by decide⟩
+  rw [← ZMod.val_natCast]
+  refine congrArg ZMod.val ?_
+  rw [a, neg_one_mul, ← neg_add', eq_neg_iff_add_eq_zero, d_eq]
+  norm_cast
+  rw [ZMod.natCast_eq_zero_iff, Nat.dvd_iff_mod_eq_zero, mod_p_fold, mod_p_fold, mod_p_of_lt] <;>
+    decide
 
 end curve25519_dalek.backend.serial.u64.constants

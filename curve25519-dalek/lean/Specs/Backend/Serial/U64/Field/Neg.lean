@@ -3,8 +3,8 @@ public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
+public import Specs.Backend.Serial.U64.Field.Negate
 public section
-set_option linter.style.longLine false
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
@@ -14,5 +14,6 @@ namespace curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithNegFieldEleme
 theorem neg_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
     neg self ⦃ (r : FieldElement51) =>
       (r.asNat + self.asNat) % p = 0 ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ := by
-  sorry
+  unfold neg
+  step*
 end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithNegFieldElement51

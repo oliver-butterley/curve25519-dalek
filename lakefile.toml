@@ -38,7 +38,7 @@ srcDir = "curve25519-dalek/lean"
 name = "Curve25519"
 srcDir = "curve25519-dalek/lean"
 
-# Spec statements (audit files, one per Rust file) and their proofs. See guidelines.md.
+# Spec statements (audit files, one per Rust file) and their proofs. See verif-guidelines.md.
 [[lean_lib]]
 name = "Specs"
 srcDir = "curve25519-dalek/lean"

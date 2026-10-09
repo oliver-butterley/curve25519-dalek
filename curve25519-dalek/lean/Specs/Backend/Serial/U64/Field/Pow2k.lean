@@ -3,17 +3,46 @@ public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
+public import Specs.Backend.Serial.U64.Field.SquareLimbs
 public section
-set_option linter.style.longLine false
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
 @[step]
+theorem pow2k_loop_spec (k : U32) (a : Array U64 5#usize) (hk : 0 < k.val)
+    (ha : ∀ i < 5, a[i]!.val < 2 ^ 54) :
+    pow2k_loop k a ⦃ (r : Array U64 5#usize) =>
+      FieldElement51.asNat r % p = FieldElement51.asNat a ^ 2 ^ k.val % p ∧
+      ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ := by
+  unfold pow2k_loop
+  apply loop.spec_decr_nat (measure := fun s => s.1.val)
+    (inv := fun s => 0 < s.1.val ∧ s.1.val ≤ k.val ∧ (∀ i < 5, s.2[i]!.val < 2 ^ 54) ∧
+      FieldElement51.asNat s.2 % p = FieldElement51.asNat a ^ 2 ^ (k.val - s.1.val) % p)
+  · rintro ⟨k', a'⟩ ⟨hk0, hkk, ha', hmod⟩
+    unfold pow2k_loop.body
+    step as ⟨a1, hsq, ha1⟩
+    step as ⟨k1, hk1⟩
+    have hpow : FieldElement51.asNat a1 % p =
+        FieldElement51.asNat a ^ 2 ^ (k.val - k1.val) % p := by
+      have he : k.val - k1.val = k.val - k'.val + 1 := by scalar_tac
+      rw [hsq, Nat.pow_mod, hmod, ← Nat.pow_mod, ← pow_mul, ← pow_succ, he]
+    by_cases hz : k1 = 0#u32
+    · have hk1z : k1.val = 0 := by simp [hz]
+      simp only [hz, if_true, WP.spec_ok]
+      exact ⟨by simpa [hk1z] using hpow, ha1⟩
+    · have hk1z : k1.val ≠ 0 := fun h => hz (by scalar_tac)
+      simp only [hz, if_false, WP.spec_ok]
+      exact ⟨by scalar_tac, by scalar_tac, fun i hi => (ha1 i hi).trans (by norm_num), hpow,
+        by scalar_tac⟩
+  · exact ⟨hk, le_refl _, ha, by simp⟩
+
+@[step]
 theorem pow2k_spec (self : FieldElement51) (k : U32) (hk : 0 < k.val)
     (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
     pow2k self k ⦃ (r : FieldElement51) =>
       r.asNat % p = self.asNat ^ 2 ^ k.val % p ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ := by
-  sorry
+  unfold pow2k
+  step*
 end curve25519_dalek.backend.serial.u64.field.FieldElement51

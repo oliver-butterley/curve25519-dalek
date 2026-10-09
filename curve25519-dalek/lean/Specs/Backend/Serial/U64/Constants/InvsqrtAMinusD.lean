@@ -2,12 +2,15 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Field.FromLimbs
+public import Specs.Lemmas.ZMod
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
+open curve25519 (p_pos lt_p_iff mod_p_fold mod_p_of_lt d_eq)
 
 namespace curve25519_dalek.backend.serial.u64.constants
 
@@ -16,6 +19,16 @@ theorem INVSQRT_A_MINUS_D_spec :
     INVSQRT_A_MINUS_D ⦃ (r : FieldElement51) =>
       r.asNat < p ∧
       r.asNat ^ 2 * (a - d).val % p = 1 ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ := by
-  sorry
+  unfold INVSQRT_A_MINUS_D
+  step*
+  subst_vars
+  haveI : NeZero p := ⟨p_pos.ne'⟩
+  refine ⟨lt_p_iff.mpr (by decide), ?_, by decide⟩
+  rw [← ZMod.val_natCast, Nat.cast_mul, ZMod.natCast_zmod_val, eq_comm]
+  refine ZMod.eq_val_of_natCast_eq (lt_p_iff.mpr (by decide)) ?_
+  rw [a, ← neg_add', mul_neg, Nat.cast_one, eq_neg_iff_add_eq_zero, d_eq]
+  norm_cast
+  rw [ZMod.natCast_eq_zero_iff, Nat.dvd_iff_mod_eq_zero, mod_p_fold, mod_p_fold, mod_p_fold,
+    mod_p_of_lt] <;> decide
 
 end curve25519_dalek.backend.serial.u64.constants

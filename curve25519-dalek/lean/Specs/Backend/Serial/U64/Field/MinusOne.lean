@@ -3,8 +3,8 @@ public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
+public import Specs.Backend.Serial.U64.Field.FromLimbs
 public section
-set_option linter.style.longLine false
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
@@ -14,5 +14,11 @@ namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
 theorem MINUS_ONE_spec :
     MINUS_ONE ⦃ (r : FieldElement51) =>
       r.asNat + 1 = p ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ := by
-  sorry
+  unfold MINUS_ONE
+  step*
+  subst_vars
+  refine ⟨?_, by decide⟩
+  apply Nat.add_right_cancel (m := 19)
+  rw [p_add_nineteen]
+  decide
 end curve25519_dalek.backend.serial.u64.field.FieldElement51

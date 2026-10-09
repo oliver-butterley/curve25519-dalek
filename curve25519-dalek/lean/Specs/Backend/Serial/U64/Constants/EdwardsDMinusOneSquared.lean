@@ -2,12 +2,15 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Field.FromLimbs
+public import Specs.Lemmas.ZMod
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
+open curve25519 (lt_p_iff mod_p_fold mod_p_of_lt d_eq)
 
 namespace curve25519_dalek.backend.serial.u64.constants
 
@@ -15,6 +18,13 @@ namespace curve25519_dalek.backend.serial.u64.constants
 theorem EDWARDS_D_MINUS_ONE_SQUARED_spec :
     EDWARDS_D_MINUS_ONE_SQUARED ⦃ (r : FieldElement51) =>
       r.asNat = ((d - 1) ^ 2).val ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ := by
-  sorry
+  unfold EDWARDS_D_MINUS_ONE_SQUARED
+  step*
+  subst_vars
+  refine ⟨ZMod.eq_val_of_natCast_eq (lt_p_iff.mpr (by decide)) ?_, by decide⟩
+  rw [d_eq, ← Nat.cast_pred (by decide), eq_comm]
+  norm_cast
+  apply ZMod.natCast_eq_natCast_of_mod_eq
+  rw [mod_p_fold, mod_p_fold, mod_p_of_lt] <;> decide
 
 end curve25519_dalek.backend.serial.u64.constants

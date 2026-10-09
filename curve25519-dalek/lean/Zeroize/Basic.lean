@@ -5,7 +5,6 @@ public import Curve25519Dalek.Types
 -- The style linter misreads `@[rust_fun "..."]` attributes.
 set_option linter.style.whitespace false
 -- Docstrings quote the Aeneas name patterns, which exceed 100 characters.
-set_option linter.style.longLine false
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek
 

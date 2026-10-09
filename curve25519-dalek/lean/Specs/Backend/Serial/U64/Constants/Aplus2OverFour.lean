@@ -2,6 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Field.FromLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
@@ -15,6 +16,9 @@ namespace curve25519_dalek.backend.serial.u64.constants
 theorem APLUS2_OVER_FOUR_spec :
     APLUS2_OVER_FOUR ⦃ (r : FieldElement51) =>
       r.asNat * 4 = A + 2 ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ := by
-  sorry
+  unfold APLUS2_OVER_FOUR
+  step*
+  subst_vars
+  decide
 
 end curve25519_dalek.backend.serial.u64.constants

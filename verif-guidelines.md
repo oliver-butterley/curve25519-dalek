@@ -29,6 +29,9 @@ How the Lean verification of curve25519-dalek is arranged. The plan and the open
 - **External files are hand-written.** `FunsExternal.lean` and `TypesExternal.lean` are never
   overwritten. After each translation, compare them against the gitignored
   `*External_Template.lean` files Aeneas emits, and update them by hand.
+- **External function signatures are `opaque`** wherever possible (the template prints `axiom`;
+  replace it), so that they add no axiom. Their behaviour is then given by spec axioms, which are
+  the only trusted additions and are listed by `#print axioms`.
 
 ## Libraries
 
@@ -57,13 +60,16 @@ Specs/Defs.lean                              spec definitions used crate-wide (a
 Specs/Backend/Serial/U64/Defs.lean           spec definitions for this directory (audited)
 Specs/Backend/Serial/U64/Field.lean          AUDIT FILE for src/backend/serial/u64/field.rs
 Specs/Backend/Serial/U64/Field/Reduce.lean   proof of fn `reduce`
-Specs/Backend/Serial/U64/Field/Aux.lean      lemmas shared by several proof files of field.rs
+Specs/Backend/Serial/U64/Field/Lemmas.lean   lemmas shared by several proof files of field.rs
+Specs/Lemmas/AsNat.lean                      lemmas shared crate-wide (here: about `Array.asNat`)
 ```
 
 - **Per Rust file:** one audit file `<File>.lean` and a folder `<File>/` with one proof file per Rust item.
 - **File naming:** a file named after a function means that function is in that Rust file. Two items with the same name are distinguished by a detail (`Mul.lean` / `MulAssign.lean`).
 - **What goes in a function's file:** its loops and loop bodies, inner `fn`s, local consts and closure helpers.
-- **Other files:** `Defs.lean` (definitions used in statements, audited) and `Aux.lean` (shared proof lemmas, not audited). No other names.
+- **Other files:** `Defs.lean` (definitions used in statements, audited) and `Lemmas.lean` or
+  `Lemmas/<Topic>.lean` (shared proof lemmas, not audited). No other names. (`Aux` is a reserved file
+  name on Windows, which Lean rejects.)
 - **Imports:**
   - audit file → its folder's proof files;
   - proof file → callees' proof files, `Defs`, `Curve25519`, external libraries.
@@ -83,13 +89,14 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
       r.asNat % p = self.asNat ^ 2 % p ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
   square_spec self hself
 
-/-- info: '….square_spec'' depends on axioms: [propext,
- Classical.choice,
- Quot.sound] -/
-#guard_msgs in
-#print axioms square_spec'
+/-- [propext, Classical.choice, Quot.sound] -/
+#guard_msgs (whitespace := lax, substring := true) in #print axioms square_spec'
 ```
 
+  The axiom list is matched as a substring, with whitespace collapsed (Lean wraps the list when the
+  name is long). A list over 100 characters is wrapped at the commas.
+
+- **Order:** the statements appear in the order of the items in the Rust file.
 - **Same statement:** the proof term type-checks only if both statements agree, up to definitional equality.
 - **Pinned axioms:** `#guard_msgs` fixes the axioms each statement rests on.
   - `sorryAx` while the proof is pending.
@@ -122,16 +129,49 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
   - **no natural-number subtraction or division that could truncate**: move terms to the other
     side (`r.asNat + 1 = p`, `(r.asNat + _rhs.asNat) % p = self.asNat % p`, `r.asNat * 4 = A + 2`);
   - lines stay within 100 characters (wrap conjuncts).
+- **Line length (all hand-written files):** the 100-character linter is never switched off for a
+  whole file. A long `namespace X.Y` is split into two consecutive `namespace` commands (closed by
+  two `end`s); long strings use string gaps (`\` at the end of the line). Only a single token over
+  100 characters justifies `set_option linter.style.longLine false in` on that one command.
 - **Docstrings:** short. The function name (with its trait or type only when needed), then the
   content in a phrase (`limbs < 2^54 in, < 2^52 out`). No full Rust paths.
 - **No explanatory comments** on linter options or `nolint` attributes.
+
+## Proof quality
+
+- **`step*` as far as it goes.** Proofs start `unfold f` then `step*`, and only close what `step*`
+  leaves. When `step*` stops early, find out why (missing `@[step]` lemma, missing simp lemma) and
+  fix that, instead of stepping by hand.
+- **Fast.** Each proof file elaborates in seconds. Raise `maxHeartbeats` only with a reason, before
+  the theorem (`set_option maxHeartbeats N in`), never inside a proof.
+- **Logical parts.** A long function is split into parts with `#decompose` or into helper lemmas,
+  one logical fact each, rather than one long tactic script.
+- **Where helper lemmas go.** A lemma used by only one proof stays in that proof's file and is
+  `private`. A lemma with wider use moves to a central `Lemmas` file: the Rust folder's
+  `Lemmas.lean` / `Lemmas/<Topic>.lean`, or `Specs/Lemmas/<Topic>.lean` if it is not specific to
+  that folder; facts about curve25519 constants go in `Curve25519/Basic.lean`. Shared lemmas are
+  stated in their natural generality (e.g. for any radix or array length, not just the instance at
+  hand).
+- **No auto-generated names.** Never refer to names a tactic invented (`h_1`, `x✝`, `a_post1`,
+  `i1`). Name what you use (`step as ⟨r, hr⟩`, `obtain ⟨…⟩`, `intro`).
+- **`p` and `L` stay irreducible.** Use their characterisation lemmas in `Curve25519/Basic.lean`
+  (add new ones there, before the `attribute [irreducible]` line) instead of unfolding them.
+- **No** `sorry`, `native_decide` or `admit`. `bv_decide` is allowed; its certificate axioms then
+  appear in the audit file's axiom list.
+- **Tactics Aeneas's `aeneas-lean-core` guidance bans** (`omega`, `linarith`, `nlinarith`,
+  `congr N`, …) are banned only in proofs about the generated code: spec theorems, loop specs and
+  their helpers, where the goals involve Aeneas scalars and containers. In pure mathematical
+  lemmas (e.g. about `Nat`, `ZMod p`, `Nat.ofDigits`), use whichever tactic is right, including
+  these.
+- **Statements are frozen.** A proof file never changes the statement text of its theorem.
 
 ## Specs: workflow per Rust file
 
 1. **Inventory:** list the Rust items and their Lean names (`Funs.lean` doc comments).
 2. **Statements:** write the `Defs` additions, the proof files (theorems proved by `sorry`) and the audit file. Fill the `#guard_msgs` lines from the output of `lake env lean <audit file>`.
 3. **Review gate:** the owner reviews the audit file and `Defs`. Statements are then frozen; any change needs sign-off.
-4. **Proofs:** fill in the proofs (the Aeneas `aeneas-lean-core` workflow), and update the `#guard_msgs` lines as they land.
+4. **Proofs:** fill in the proofs following "Proof quality" (and the Aeneas `aeneas-lean-core`
+   workflow), and update the `#guard_msgs` lines as they land.
 5. **Done:** no `sorryAx` left in the audit file. Add the audit module to the strict CI build.
 
 ## CI

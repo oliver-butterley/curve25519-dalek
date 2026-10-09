@@ -3,17 +3,19 @@ public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
+public import Specs.Backend.Serial.U64.Field.AddAssign
 public section
-set_option linter.style.longLine false
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithAddSharedAFieldElement51FieldElement51
+namespace curve25519_dalek.Shared0FieldElement51.Insts
+namespace CoreOpsArithAddSharedAFieldElement51FieldElement51
 @[step]
 theorem add_spec (self _rhs : FieldElement51)
     (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) (hrhs : ∀ i < 5, _rhs[i]!.val < 2 ^ 54) :
     add self _rhs ⦃ (r : FieldElement51) =>
       ∀ i < 5, r[i]!.val = self[i]!.val + _rhs[i]!.val ⦄ := by
-  sorry
+  unfold add
+  step*
 end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithAddSharedAFieldElement51FieldElement51

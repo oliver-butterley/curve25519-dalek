@@ -1,29 +1,14 @@
-## Plan for integrating Lean proof code into curve25519-dalek:
+# To do
 
-1. Translation (clean translation of entire crate without tweaks)
-2. Std lib models ~100 (upstream models to Aeneas)
-3. Adjust spec statements to fit Michael's preferences (very little to do following latest discussion)
-4. Incorporate the new formalisation of elliptic curve models (a version has already been prepared)
-5. Additional specs and proofs (for new parts in updated Rust code)
-6. Shadow main repo to test workflow of updating proofs
+1. Add std lib models to Aeneas
+2. Incorporate all proofs
+3. Make it so Aeneas supports project-defined traits for external-crate (see below)
+4. Incorporate the new formalisation of elliptic curve models
 
 ## Conventions
 
 The repository layout, translation rules, external-crate libraries and the spec/proof
-conventions are in `guidelines.md`.
-
-## Specs campaign
-
-One Rust file at a time, starting with the u64 backend (`src/backend/serial/u64/`):
-`constants.rs` and `field.rs` have their statements (proofs `sorry`), awaiting review;
-`scalar.rs` is next.
-
-To do (later): define `FieldElement51.asNat`, `Scalar52.asNat` and the byte-array `asNat` via one
-general radix-`2^k` `Array.asNat`, so that lemmas about it are shared.
-
-## Std library models
-
-Many more need to be added to Aeneas.
+conventions are in `verif-guidelines.md`.
 
 ## To do: project-defined traits for external-crate libraries
 
@@ -34,8 +19,24 @@ from Aeneas's own Lean library (the `@[rust_trait "..."]` attribute); there is n
 project's own declarations. So `Subtle` (its 5 trait-generic functions) and `Zeroize` (all of it)
 depend on the generated types and are specific to this translation.
 
-- Raise upstream: let a project register its own `rust_trait` declarations as built-ins, so the
+- Add upstream: let a project register its own `rust_trait` declarations as built-ins, so the
   trait structures can live in `Subtle`/`Zeroize` themselves and those libraries become
   independent of the curve25519-dalek translation.
 - Until then, leave `Subtle` and `Zeroize` as they are. Afterwards: move the trait structures
   into the libraries, and drop their `Curve25519Dalek.Types` imports.
+
+## Spec campaign status
+
+- `src/backend/serial/u64/field.rs`, `constants.rs`: all statements proved (no `sorryAx`); audit
+  modules in the strict CI build. The `EdwardsPoint` constants and tables wait for the curve model.
+- Next: `src/backend/serial/u64/scalar.rs`.
+
+## To report upstream (Aeneas)
+
+- `#decompose` panics (`declRangeExt … not defined in the current module`) when a proof in one
+  module reuses a definition produced by `#decompose` in another. `mul` and `square_limbs` share
+  their carry tail, so `Field/Lemmas/Mul.lean` restates it by hand (`carryChain`).
+- `attribute [local step] X` creates a public `X.mvcgen_spec`; doing it again in another module
+  that imports the first gives a warning, which fails `--wfail`. Workaround: scoped registrations
+  in `Specs/Lemmas/StepSpecs.lean`.
+- `#decompose` needs `set_option linter.hashCommand false` under Mathlib's linter set.

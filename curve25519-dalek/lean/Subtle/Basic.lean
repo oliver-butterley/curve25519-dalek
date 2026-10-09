@@ -6,7 +6,6 @@ public import Curve25519Dalek.Types
 -- The style linter misreads `@[rust_fun "..."]`/`@[rust_type "..."]` attributes.
 set_option linter.style.whitespace false
 -- Docstrings quote the Aeneas name patterns, which exceed 100 characters.
-set_option linter.style.longLine false
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek
 
@@ -18,9 +17,9 @@ This file and `Subtle/Types.lean` are the trusted base for `subtle`. Nothing her
   `Curve25519Dalek/FunsExternal_Template.lean`) is an `opaque` constant with the template's exact
   name, type and `@[rust_fun]` attribute. `opaque` adds no axiom, so `#print axioms` lists exactly
   the spec axioms below.
-* **Spec axioms.** Each function has one `@[step]` axiom that restates the Rust documentation (quoted
-  in its doc comment). Specs that call trait methods of a generic `T` assume the behaviour of those
-  methods as a hypothesis. An unconditional spec there could prove `False`.
+* **Spec axioms.** Each function has one `@[step]` axiom that restates the Rust documentation
+  (quoted in its doc comment). Specs that call trait methods of a generic `T` assume the behaviour
+  of those methods as a hypothesis. An unconditional spec there could prove `False`.
 * **Faithful bodies.** Three functions keep a body that is a verbatim translation of the Rust body:
   the two `@[trait_default]` methods of `ConditionallySelectable` (`impl_def` in `Funs.lean` must
   unfold them) and the generic `ConditionallyNegatable::conditional_negate`.
@@ -68,9 +67,11 @@ axiom Bool.Insts.CoreConvertFromChoice.from_spec (c : subtle.Choice)
     (h : c = 0#u8 ∨ c = 1#u8) :
     Bool.Insts.CoreConvertFromChoice.from c ⦃ b => b = (c != 0#u8) ⦄
 
-/-- [subtle::{impl core::ops::bit::BitAnd<subtle::Choice, subtle::Choice> for subtle::Choice}::bitand]:
+/-- [subtle::{impl core::ops::bit::BitAnd<subtle::Choice, subtle::Choice>
+    for subtle::Choice}::bitand]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 162:4-162:42
-    Name pattern: [subtle::{core::ops::bit::BitAnd<subtle::Choice, subtle::Choice, subtle::Choice>}::bitand] -/
+    Name pattern:
+    [subtle::{core::ops::bit::BitAnd<subtle::Choice, subtle::Choice, subtle::Choice>}::bitand] -/
 @[rust_fun
   "subtle::{core::ops::bit::BitAnd<subtle::Choice, subtle::Choice, subtle::Choice>}::bitand"]
 opaque subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand :
@@ -84,9 +85,11 @@ axiom subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand_spec (a b : subtle
     (ha : a = 0#u8 ∨ a = 1#u8) (hb : b = 0#u8 ∨ b = 1#u8) :
     subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand a b ⦃ c => c = a &&& b ⦄
 
-/-- [subtle::{impl core::ops::bit::BitOr<subtle::Choice, subtle::Choice> for subtle::Choice}::bitor]:
+/-- [subtle::{impl core::ops::bit::BitOr<subtle::Choice, subtle::Choice>
+    for subtle::Choice}::bitor]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 177:4-177:41
-    Name pattern: [subtle::{core::ops::bit::BitOr<subtle::Choice, subtle::Choice, subtle::Choice>}::bitor] -/
+    Name pattern:
+    [subtle::{core::ops::bit::BitOr<subtle::Choice, subtle::Choice, subtle::Choice>}::bitor] -/
 @[rust_fun
   "subtle::{core::ops::bit::BitOr<subtle::Choice, subtle::Choice, subtle::Choice>}::bitor"]
 opaque subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor :
