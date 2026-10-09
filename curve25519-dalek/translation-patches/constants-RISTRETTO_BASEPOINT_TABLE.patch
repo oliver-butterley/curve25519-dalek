@@ -1,0 +1,49 @@
+Translation patch: RISTRETTO_BASEPOINT_TABLE (src/constants.rs)
+
+Change: the pointer cast
+`&*(ED25519_BASEPOINT_TABLE as *const EdwardsBasepointTable as *const RistrettoBasepointTable)`
+(in an `unsafe` block) becomes
+`&RistrettoBasepointTable(EdwardsBasepointTable(ED25519_BASEPOINT_TABLE.0))`, i.e. the
+static is built by copying the table's `Copy` array of lookup tables into a new
+`RistrettoBasepointTable` instead of reinterpreting the pointer to the Ed25519 table.
+
+Why: Charon turns the cast into a raw borrow (`&raw const`), which Aeneas rejects
+("Unsupported operation"), so the original could only be translated as opaque.
+
+Behaviour: same value, different memory. `RistrettoBasepointTable` is a
+`#[repr(transparent)]` wrapper of `EdwardsBasepointTable`, so the copy holds exactly the
+same table entries and every multiplication through it reads the same data and returns
+the same result. The difference: the binary holds a second copy of the table data
+(about 30 KB) and `RISTRETTO_BASEPOINT_TABLE.0` no longer has the same address as
+`*ED25519_BASEPOINT_TABLE`; nothing in the crate compares these addresses.
+(Context is plain rather than `-W`: a `static` has no function boundary, so `-W` would
+include the whole file above it.)
+
+Remove this patch when Aeneas translates the original code: delete the file, add the
+static back to `opaque` in Cargo.toml if needed, run ./scripts/aeneas-translate.sh and
+`lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/constants.rs b/curve25519-dalek/src/constants.rs
+index 6f5ffa8..0172ac5 100644
+--- a/curve25519-dalek/src/constants.rs
++++ b/curve25519-dalek/src/constants.rs
+@@ -79,17 +79,14 @@
+ 
+ #[cfg(feature = "precomputed-tables")]
+ use crate::ristretto::RistrettoBasepointTable;
+ 
+ /// The Ristretto basepoint, as a `RistrettoBasepointTable` for scalar multiplication.
+ #[cfg(feature = "precomputed-tables")]
+-pub static RISTRETTO_BASEPOINT_TABLE: &RistrettoBasepointTable = unsafe {
+-    // SAFETY: `RistrettoBasepointTable` is a `#[repr(transparent)]` newtype of
+-    // `EdwardsBasepointTable`
+-    &*(ED25519_BASEPOINT_TABLE as *const EdwardsBasepointTable as *const RistrettoBasepointTable)
+-};
++pub static RISTRETTO_BASEPOINT_TABLE: &RistrettoBasepointTable =
++    &RistrettoBasepointTable(EdwardsBasepointTable(ED25519_BASEPOINT_TABLE.0));
+ 
+ /// X25519 low order points.
+ ///
+ /// The output of any scalar multiplied by these points is zero. Protocols which need to ensure
+ /// "contributory" behavior should reject these points.
+ ///

@@ -121,8 +121,4 @@ exclude = [
   "curve25519_dalek::scalar::{impl core::cmp::Eq for _}",
 ]
 # Items verification relies on but which we deliberately do not translate.
-opaque = [
-  # `&raw const` pointer cast of `ED25519_BASEPOINT_TABLE` to the `#[repr(transparent)]`
-  # `RistrettoBasepointTable`, which Aeneas does not support.
-  "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE",
-]
+opaque = []

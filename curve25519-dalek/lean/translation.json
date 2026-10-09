@@ -23274,32 +23274,6 @@
   ],
   "globals": [
     {
-      "def_id": 12,
-      "lean_name": "constants.RISTRETTO_BASEPOINT_TABLE.«x86_64-unknown-linux-gnu»",
-      "lean_file": "Curve25519Dalek/FunsExternal_Template.lean",
-      "rust_name": "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::x86_64-unknown-linux-gnu",
-      "is_local": true,
-      "source": {
-        "file": "curve25519-dalek/src/constants.rs",
-        "begin_line": 85,
-        "end_line": 89
-      },
-      "can_fail": true
-    },
-    {
-      "def_id": 342,
-      "lean_name": "constants.RISTRETTO_BASEPOINT_TABLE.«i686-unknown-linux-gnu»",
-      "lean_file": "Curve25519Dalek/FunsExternal_Template.lean",
-      "rust_name": "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::i686-unknown-linux-gnu",
-      "is_local": true,
-      "source": {
-        "file": "curve25519-dalek/src/constants.rs",
-        "begin_line": 85,
-        "end_line": 89
-      },
-      "can_fail": true
-    },
-    {
       "def_id": 229,
       "lean_name": "curve25519_dalek.backend.serial.u64.field.FieldElement51.reduce.LOW_51_BIT_MASK",
       "lean_file": "Curve25519Dalek/Funs.lean",
@@ -24158,6 +24132,32 @@
       "can_fail": false
     },
     {
+      "def_id": 12,
+      "lean_name": "curve25519_dalek.constants.RISTRETTO_BASEPOINT_TABLE.«x86_64-unknown-linux-gnu»",
+      "lean_file": "Curve25519Dalek/Funs.lean",
+      "rust_name": "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::x86_64-unknown-linux-gnu",
+      "is_local": true,
+      "source": {
+        "file": "curve25519-dalek/src/constants.rs",
+        "begin_line": 85,
+        "end_line": 86
+      },
+      "can_fail": true
+    },
+    {
+      "def_id": 342,
+      "lean_name": "curve25519_dalek.constants.RISTRETTO_BASEPOINT_TABLE.«i686-unknown-linux-gnu»",
+      "lean_file": "Curve25519Dalek/Funs.lean",
+      "rust_name": "curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::i686-unknown-linux-gnu",
+      "is_local": true,
+      "source": {
+        "file": "curve25519-dalek/src/constants.rs",
+        "begin_line": 85,
+        "end_line": 86
+      },
+      "can_fail": true
+    },
+    {
       "def_id": 13,
       "lean_name": "curve25519_dalek.constants.X25519_LOW_ORDER_POINTS",
       "lean_file": "Curve25519Dalek/Funs.lean",
@@ -24165,8 +24165,8 @@
       "is_local": true,
       "source": {
         "file": "curve25519-dalek/src/constants.rs",
-        "begin_line": 98,
-        "end_line": 119
+        "begin_line": 95,
+        "end_line": 116
       },
       "can_fail": false
     },

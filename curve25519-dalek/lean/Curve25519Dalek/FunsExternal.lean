@@ -66,18 +66,6 @@ axiom core.result.Result.map
 axiom alloc.vec.Vec.is_empty
   {T : Type} (A : Type) : alloc.vec.Vec T → Result Bool
 
-/-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::i686-unknown-linux-gnu]
-    Source: 'curve25519-dalek/src/constants.rs', lines 85:0-89:2
-    Visibility: public -/
-axiom constants.RISTRETTO_BASEPOINT_TABLE.«i686-unknown-linux-gnu»
-  : Result ristretto.RistrettoBasepointTable.«i686-unknown-linux-gnu»
-
-/-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::x86_64-unknown-linux-gnu]
-    Source: 'curve25519-dalek/src/constants.rs', lines 85:0-89:2
-    Visibility: public -/
-axiom constants.RISTRETTO_BASEPOINT_TABLE.«x86_64-unknown-linux-gnu»
-  : Result ristretto.RistrettoBasepointTable.«x86_64-unknown-linux-gnu»
-
 /-- [core::borrow::{impl core::borrow::Borrow<T> for T}::borrow]:
     Source: '/rustc/library/core/src/borrow.rs', lines 214:4-214:26
     Name pattern: [core::borrow::{core::borrow::Borrow<@T, @T>}::borrow]

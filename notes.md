@@ -40,8 +40,10 @@
 - **Patches that change behaviour.** Patches must keep behaviour identical, except
   `edwards-multiscalar_mul`, `edwards-optional_multiscalar_mul` and
   `pippenger-optional_multiscalar_mul`. These replace `Iterator::size_hint`, which Aeneas
-  cannot model, with the length of the collected inputs; the patch headers spell out the
-  difference.
+  cannot model, with the length of the collected inputs; and
+  `constants-RISTRETTO_BASEPOINT_TABLE`, which copies the basepoint table instead of a
+  pointer cast (same values, a second copy in memory). The patch headers spell out the
+  differences.
 
 ## Std library models
 

@@ -27711,8 +27711,26 @@ def constants.BASEPOINT_ORDER : scalar.Scalar :=
         ])
   }
 
+/-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/constants.rs', lines 85:0-86:79
+    Visibility: public -/
+@[global_simps, irreducible]
+def constants.RISTRETTO_BASEPOINT_TABLE.«x86_64-unknown-linux-gnu»
+  : Result ristretto.RistrettoBasepointTable.«x86_64-unknown-linux-gnu» := do
+  let ebt ← backend.serial.u64.constants.ED25519_BASEPOINT_TABLE
+  ok ebt
+
+/-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/constants.rs', lines 85:0-86:79
+    Visibility: public -/
+@[global_simps, irreducible]
+def constants.RISTRETTO_BASEPOINT_TABLE.«i686-unknown-linux-gnu»
+  : Result ristretto.RistrettoBasepointTable.«i686-unknown-linux-gnu» := do
+  let ebt ← backend.serial.u32.constants.ED25519_BASEPOINT_TABLE
+  ok ebt
+
 /-- [curve25519_dalek::constants::X25519_LOW_ORDER_POINTS]
-    Source: 'curve25519-dalek/src/constants.rs', lines 98:0-119:2
+    Source: 'curve25519-dalek/src/constants.rs', lines 95:0-116:2
     Visibility: public -/
 @[global_simps, irreducible]
 def constants.X25519_LOW_ORDER_POINTS
