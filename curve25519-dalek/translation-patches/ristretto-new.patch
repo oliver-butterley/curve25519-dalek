@@ -1,0 +1,47 @@
+Translation patch: <VartimeRistrettoPrecomputation as VartimePrecomputedMultiscalarMul>::new (src/ristretto.rs)
+
+Change: The lazy `static_points.into_iter().map(|P| P.borrow().0)` becomes a `Vec<EdwardsPoint>` built
+by a nested helper.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+Aeneas also cannot extract a loop that calls `next()` directly on the
+`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
+from ExtractBase.Item"), so the consuming loop lives in a nested helper function
+generic over `It: Iterator`, called with `x.into_iter()`.
+
+Behaviour: identical result; the points are read eagerly instead of lazily, which is only
+observable through an input iterator with side effects.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
+index 269662d..85d6fb5 100644
+--- a/curve25519-dalek/src/ristretto.rs
++++ b/curve25519-dalek/src/ristretto.rs
+@@ -1010,10 +1010,22 @@ impl VartimePrecomputedMultiscalarMul for VartimeRistrettoPrecomputation {
+     fn new<I>(static_points: I) -> Self
+     where
+         I: IntoIterator,
+         I::Item: Borrow<Self::Point>,
+     {
++        fn extended_points<It>(mut points: It) -> Vec<EdwardsPoint>
++        where
++            It: Iterator,
++            It::Item: Borrow<RistrettoPoint>,
++        {
++            let mut out = Vec::new();
++            while let Some(P) = points.next() {
++                out.push(P.borrow().0);
++            }
++            out
++        }
++
+         Self(crate::backend::VartimePrecomputedStraus::new(
+-            static_points.into_iter().map(|P| P.borrow().0),
++            extended_points(static_points.into_iter()),
+         ))
+     }
+ 

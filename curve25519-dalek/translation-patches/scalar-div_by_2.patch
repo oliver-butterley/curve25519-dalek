@@ -14,7 +14,7 @@ diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
 index 7fc7f3c..2165f78 100644
 --- a/curve25519-dalek/src/scalar.rs
 +++ b/curve25519-dalek/src/scalar.rs
-@@ -857,17 +857,17 @@ fn invert_batch_internal(inputs: &mut [Scalar], scratch: &mut [UnpackedScalar])
+@@ -857,16 +857,16 @@ fn invert_batch_internal(inputs: &mut [Scalar], scratch: &mut [UnpackedScalar])
      /// Compute `b` such that `b + b = a mod modulus`.
      pub fn div_by_2(&self) -> Self {
          // We are looking for such `b` that `b + b = a mod modulus`.
@@ -35,4 +35,3 @@ index 7fc7f3c..2165f78 100644
 +        unpacked.pack()
      }
  
-     /// Get the bits of the scalar, in little-endian order

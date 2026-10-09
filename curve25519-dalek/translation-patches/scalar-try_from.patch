@@ -1,0 +1,40 @@
+Translation patch: <HalfWidthScalar as TryFrom<Scalar>>::try_from (src/scalar.rs)
+
+Change: `value.bytes[16..].iter().all(|&byte| byte == 0)` becomes a `while` loop over
+the indices 16..32 that returns `Err(())` at the first nonzero byte, then `Ok(Self(value))`.
+
+Why: Aeneas has no model of `Iterator::all` on slice iterators
+(`core::slice::iter::Iter::all`), so the original leaves an undefined external
+function in the translation.
+
+Behaviour: identical. `all` checks bytes 16, 17, .., 31 in order and stops at the
+first byte that is not zero; the loop does the same, returning `Err(())` exactly
+when some byte in `16..32` is nonzero and `Ok(Self(value))` otherwise. The
+indexing cannot panic: `bytes` has length 32.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh, and check it succeeds.
+
+diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
+index c417780..f0e2199 100644
+--- a/curve25519-dalek/src/scalar.rs
++++ b/curve25519-dalek/src/scalar.rs
+@@ -1429,11 +1429,14 @@ impl TryFrom<Scalar> for HalfWidthScalar {
+     /// Attempt to view `scalar` as a `HalfWidthScalar`. Returns `Ok` if `value` is less
+     /// than \\( 2^{128} \\)
+     fn try_from(value: Scalar) -> Result<Self, Self::Error> {
+-        if value.bytes[16..].iter().all(|&byte| byte == 0) {
+-            Ok(Self(value))
+-        } else {
+-            Err(())
++        let mut i = 16;
++        while i < 32 {
++            if value.bytes[i] != 0 {
++                return Err(());
++            }
++            i += 1;
+         }
++        Ok(Self(value))
+     }
+ }
+ 

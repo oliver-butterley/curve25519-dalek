@@ -1,0 +1,36 @@
+Translation patch: <Scalar as Sum<T>>::sum (src/scalar.rs)
+
+Change: `iter.fold(Scalar::ZERO, |acc, item| acc + item.borrow())` becomes a `while let Some(item) =
+iter.next()` loop accumulating `acc = acc + item.borrow()`.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+
+Behaviour: identical: `fold` is defined as exactly this loop over `next()`.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
+index c417780..662f7ea 100644
+--- a/curve25519-dalek/src/scalar.rs
++++ b/curve25519-dalek/src/scalar.rs
+@@ -469,11 +469,15 @@ impl<T> Sum<T> for Scalar
+ where
+     T: Borrow<Scalar>,
+ {
+-    fn sum<I>(iter: I) -> Self
++    fn sum<I>(mut iter: I) -> Self
+     where
+         I: Iterator<Item = T>,
+     {
+-        iter.fold(Scalar::ZERO, |acc, item| acc + item.borrow())
++        let mut acc = Scalar::ZERO;
++        while let Some(item) = iter.next() {
++            acc = acc + item.borrow();
++        }
++        acc
+     }
+ }
+ 

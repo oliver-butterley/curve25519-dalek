@@ -40,28 +40,6 @@ axiom MutAArray.Insts.CoreIterTraitsCollectIntoIteratorMutATIterMut.into_iter
   Array T N → Result ((core.slice.iter.IterMut T) × (core.slice.iter.IterMut
     T → Array T N))
 
-/-- [core::fmt::{impl core::fmt::Debug for str}::fmt]:
-    Source: '/rustc/library/core/src/fmt/mod.rs', lines 2932:4-2932:50
-    Name pattern: [core::fmt::{core::fmt::Debug<str>}::fmt]
-    Visibility: public -/
-@[rust_fun "core::fmt::{core::fmt::Debug<str>}::fmt"]
-axiom Str.Insts.CoreFmtDebug.fmt
-  :
-  Str → core.fmt.Formatter → Result ((core.result.Result Unit
-    core.fmt.Error) × core.fmt.Formatter)
-
-/-- [core::iter::traits::iterator::Iterator::map]:
-    Source: '/rustc/library/core/src/iter/traits/iterator.rs', lines 831:4-834:34
-    Name pattern: [core::iter::traits::iterator::Iterator::map]
-    Visibility: public -/
-@[trait_default, rust_fun "core::iter::traits::iterator::Iterator::map"]
-axiom core.iter.traits.iterator.Iterator.map.default
-  {Self : Type} {B : Type} {F : Type} {Clause0_Item : Type} (IteratorInst :
-  core.iter.traits.iterator.Iterator Self Clause0_Item)
-  (opsfunctionFnMutFTupleClause0_ItemBInst : core.ops.function.FnMut F
-  Clause0_Item B) :
-  Self → F → Result (core.iter.adapters.map.Map Self F)
-
 /-- [core::num::{usize}::div_ceil]:
     Source: '/rustc/library/core/src/num/uint_macros.rs', lines 3787:8-3787:54
     Name pattern: [core::num::{usize}::div_ceil]
@@ -279,11 +257,6 @@ axiom
   edwards.EdwardsPoint.«i686-unknown-linux-gnu») Clause2_IntoIter) :
   I → J → Result (Option edwards.EdwardsPoint.«i686-unknown-linux-gnu»)
 
-/-- [curve25519_dalek::scalar::read_le_u64_into]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 1383:0-1397:1 -/
-axiom scalar.read_le_u64_into
-  : Slice Std.U8 → Slice Std.U64 → Result (Slice Std.U64)
-
 /-- [curve25519_dalek::edwards::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::edwards::EdwardsPoint::x86_64-unknown-linux-gnu}::sum]:
     Source: 'curve25519-dalek/src/edwards.rs', lines 865:4-870:5
     Visibility: public -/
@@ -453,38 +426,6 @@ axiom
     Visibility: public -/
 axiom
   scalar.Scalar.Insts.CoreOpsArithMulSharedBMontgomeryPointMontgomeryPoint.mul
-  :
-  scalar.Scalar → montgomery.MontgomeryPoint → Result
-    montgomery.MontgomeryPoint
-
-/-- [curve25519_dalek::montgomery::{impl core::ops::arith::Mul<curve25519_dalek::scalar::Scalar, curve25519_dalek::montgomery::MontgomeryPoint> for &'a curve25519_dalek::montgomery::MontgomeryPoint}::mul]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 100:12-102:13
-    Visibility: public -/
-axiom SharedAMontgomeryPoint.Insts.CoreOpsArithMulScalarMontgomeryPoint.mul
-  :
-  montgomery.MontgomeryPoint → scalar.Scalar → Result
-    montgomery.MontgomeryPoint
-
-/-- [curve25519_dalek::montgomery::{impl core::ops::arith::Mul<curve25519_dalek::montgomery::MontgomeryPoint, curve25519_dalek::montgomery::MontgomeryPoint> for &'a curve25519_dalek::scalar::Scalar}::mul]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 100:12-102:13
-    Visibility: public -/
-axiom SharedAScalar.Insts.CoreOpsArithMulMontgomeryPointMontgomeryPoint.mul
-  :
-  scalar.Scalar → montgomery.MontgomeryPoint → Result
-    montgomery.MontgomeryPoint
-
-/-- [curve25519_dalek::montgomery::{impl core::ops::arith::Mul<curve25519_dalek::scalar::Scalar, curve25519_dalek::montgomery::MontgomeryPoint> for curve25519_dalek::montgomery::MontgomeryPoint}::mul]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 107:12-109:13
-    Visibility: public -/
-axiom montgomery.MontgomeryPoint.Insts.CoreOpsArithMulScalarMontgomeryPoint.mul
-  :
-  montgomery.MontgomeryPoint → scalar.Scalar → Result
-    montgomery.MontgomeryPoint
-
-/-- [curve25519_dalek::montgomery::{impl core::ops::arith::Mul<curve25519_dalek::montgomery::MontgomeryPoint, curve25519_dalek::montgomery::MontgomeryPoint> for curve25519_dalek::scalar::Scalar}::mul]:
-    Source: 'curve25519-dalek/src/macros.rs', lines 107:12-109:13
-    Visibility: public -/
-axiom scalar.Scalar.Insts.CoreOpsArithMulMontgomeryPointMontgomeryPoint.mul
   :
   scalar.Scalar → montgomery.MontgomeryPoint → Result
     montgomery.MontgomeryPoint
@@ -689,21 +630,42 @@ axiom
   I → Result
     ristretto.VartimeRistrettoPrecomputation.«i686-unknown-linux-gnu»
 
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Product<T> for curve25519_dalek::scalar::Scalar}::product]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 458:4-463:5
-    Visibility: public -/
-axiom scalar.Scalar.Insts.CoreIterTraitsAccumProduct.product
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) :
-  I → Result scalar.Scalar
 
-/-- [curve25519_dalek::scalar::{impl core::iter::traits::accum::Sum<T> for curve25519_dalek::scalar::Scalar}::sum]:
-    Source: 'curve25519-dalek/src/scalar.rs', lines 470:4-475:5
-    Visibility: public -/
-axiom scalar.Scalar.Insts.CoreIterTraitsAccumSum.sum
-  {T : Type} {I : Type} (coreborrowBorrowTScalarInst : core.borrow.Borrow T
-  scalar.Scalar) (coreitertraitsiteratorIteratorInst :
-  core.iter.traits.iterator.Iterator I T) :
-  I → Result scalar.Scalar
 
+/-- [zeroize::{impl zeroize::Zeroize for alloc::vec::Vec<Z>}::zeroize]:
+    Source: '/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zeroize-1.8.2/src/lib.rs', lines 551:4-551:25
+    Name pattern: [zeroize::{zeroize::Zeroize<alloc::vec::Vec<@Z>>}::zeroize]
+    Visibility: public -/
+@[rust_fun "zeroize::{zeroize::Zeroize<alloc::vec::Vec<@Z>>}::zeroize"]
+axiom alloc.vec.Vec.Insts.ZeroizeZeroize.zeroize
+  {Z : Type} (ZeroizeInst : zeroize.Zeroize Z) :
+  alloc.vec.Vec Z → Result (alloc.vec.Vec Z)
+
+/-- [curve25519_dalek::backend::serial::u32::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN]
+    Source: 'curve25519-dalek/src/backend/serial/u32/constants.rs', lines 300:0-3949:3 -/
+axiom backend.serial.u32.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN
+  : Result edwards.EdwardsBasepointTable.«i686-unknown-linux-gnu»
+
+/-- [curve25519_dalek::backend::serial::u64::constants::ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN]
+    Source: 'curve25519-dalek/src/backend/serial/u64/constants.rs', lines 381:0-6334:3 -/
+axiom backend.serial.u64.constants.ED25519_BASEPOINT_TABLE_INNER_DOC_HIDDEN
+  : Result edwards.EdwardsBasepointTable.«x86_64-unknown-linux-gnu»
+
+/-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::i686-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/constants.rs', lines 85:0-89:2
+    Visibility: public -/
+axiom constants.RISTRETTO_BASEPOINT_TABLE.«i686-unknown-linux-gnu»
+  : Result ristretto.RistrettoBasepointTable.«i686-unknown-linux-gnu»
+
+/-- [curve25519_dalek::constants::RISTRETTO_BASEPOINT_TABLE::x86_64-unknown-linux-gnu]
+    Source: 'curve25519-dalek/src/constants.rs', lines 85:0-89:2
+    Visibility: public -/
+axiom constants.RISTRETTO_BASEPOINT_TABLE.«x86_64-unknown-linux-gnu»
+  : Result ristretto.RistrettoBasepointTable.«x86_64-unknown-linux-gnu»
+
+/-- [core::borrow::{impl core::borrow::Borrow<T> for T}::borrow]:
+    Source: '/rustc/library/core/src/borrow.rs', lines 214:4-214:26
+    Name pattern: [core::borrow::{core::borrow::Borrow<@T, @T>}::borrow]
+    Visibility: public -/
+@[rust_fun "core::borrow::{core::borrow::Borrow<@T, @T>}::borrow"]
+axiom core.borrow.Borrow.Blanket.borrow {T : Type} : T → Result T

@@ -1,0 +1,61 @@
+Translation patch: <RistrettoPoint as VartimeMultiscalarMul>::optional_multiscalar_mul (src/ristretto.rs)
+
+Change: The lazy `points.into_iter().map(|opt_P| opt_P.map(|P| P.0))` becomes a
+`Vec<Option<EdwardsPoint>>` built by a nested helper.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+Aeneas also cannot extract a loop that calls `next()` directly on the
+`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
+from ExtractBase.Item"), so the consuming loop lives in a nested helper function
+generic over `It: Iterator`, called with `x.into_iter()`.
+
+Behaviour: same result: the callee receives the same `Option`s in the same order and
+returns `None` iff one of them is `None`. The points are read eagerly (all of them, even
+after a `None`) before the callee reads the scalars; this is only observable through an
+input iterator with side effects.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
+index 269662d..29f52a1 100644
+--- a/curve25519-dalek/src/ristretto.rs
++++ b/curve25519-dalek/src/ristretto.rs
+@@ -984,23 +984,34 @@ impl VartimeMultiscalarMul for RistrettoPoint {
+     fn optional_multiscalar_mul<I, J>(scalars: I, points: J) -> Option<RistrettoPoint>
+     where
+         I: IntoIterator,
+         I::Item: Borrow<Scalar>,
+         J: IntoIterator<Item = Option<RistrettoPoint>>,
+     {
+-        let extended_points = points.into_iter().map(|opt_P| opt_P.map(|P| P.0));
++        fn extended_points<It>(mut points: It) -> Vec<Option<EdwardsPoint>>
++        where
++            It: Iterator<Item = Option<RistrettoPoint>>,
++        {
++            let mut out = Vec::new();
++            while let Some(opt_P) = points.next() {
++                out.push(opt_P.map(|P| P.0));
++            }
++            out
++        }
++
++        let extended_points = extended_points(points.into_iter());
+ 
+         EdwardsPoint::optional_multiscalar_mul(scalars, extended_points).map(RistrettoPoint)
+     }
+ }
+ 
+ /// Precomputation for variable-time multiscalar multiplication with `RistrettoPoint`s.
+ ///
+ /// Note that for large numbers of `RistrettoPoint`s, this functionality may be less
+ /// efficient than the corresponding `VartimeMultiscalarMul` implementation.
+ // This wraps the inner implementation in a facade type so that we can
+ // decouple stability of the inner type from the stability of the
+ // outer type.
+ #[cfg(feature = "alloc")]
+ pub struct VartimeRistrettoPrecomputation(crate::backend::VartimePrecomputedStraus);
+ 
+ #[cfg(feature = "alloc")]

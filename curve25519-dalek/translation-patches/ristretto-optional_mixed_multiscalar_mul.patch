@@ -1,0 +1,59 @@
+Translation patch: <VartimeRistrettoPrecomputation as VartimePrecomputedMultiscalarMul>::optional_mixed_multiscalar_mul (src/ristretto.rs)
+
+Change: The lazy `dynamic_points.into_iter().map(|P_opt| P_opt.map(|P| P.0))` becomes a
+`Vec<Option<EdwardsPoint>>` built by a nested helper.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+Aeneas also cannot extract a loop that calls `next()` directly on the
+`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
+from ExtractBase.Item"), so the consuming loop lives in a nested helper function
+generic over `It: Iterator`, called with `x.into_iter()`.
+
+Behaviour: same result: the callee receives the same `Option`s in the same order. The
+dynamic points are read eagerly (all of them, even after a `None`) before the callee reads
+the scalars; this is only observable through an input iterator with side effects.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
+index 269662d..174f38b 100644
+--- a/curve25519-dalek/src/ristretto.rs
++++ b/curve25519-dalek/src/ristretto.rs
+@@ -1028,22 +1028,33 @@ fn is_empty(&self) -> bool {
+     fn optional_mixed_multiscalar_mul<I, J, K>(
+         &self,
+         static_scalars: I,
+         dynamic_scalars: J,
+         dynamic_points: K,
+     ) -> Option<Self::Point>
+     where
+         I: IntoIterator,
+         I::Item: Borrow<Scalar>,
+         J: IntoIterator,
+         J::Item: Borrow<Scalar>,
+         K: IntoIterator<Item = Option<Self::Point>>,
+     {
++        fn extended_points<It>(mut points: It) -> Vec<Option<EdwardsPoint>>
++        where
++            It: Iterator<Item = Option<RistrettoPoint>>,
++        {
++            let mut out = Vec::new();
++            while let Some(P_opt) = points.next() {
++                out.push(P_opt.map(|P| P.0));
++            }
++            out
++        }
++
+         self.0
+             .optional_mixed_multiscalar_mul(
+                 static_scalars,
+                 dynamic_scalars,
+-                dynamic_points.into_iter().map(|P_opt| P_opt.map(|P| P.0)),
++                extended_points(dynamic_points.into_iter()),
+             )
+             .map(RistrettoPoint)
+     }
+ }

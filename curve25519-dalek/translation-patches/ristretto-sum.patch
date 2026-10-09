@@ -1,0 +1,36 @@
+Translation patch: <RistrettoPoint as Sum<T>>::sum (src/ristretto.rs)
+
+Change: `iter.fold(RistrettoPoint::identity(), |acc, item| acc + item.borrow())` becomes a `while let`
+loop accumulating `acc = acc + item.borrow()`.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+
+Behaviour: identical: `fold` is defined as exactly this loop over `next()`.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
+index 269662d..f95d62b 100644
+--- a/curve25519-dalek/src/ristretto.rs
++++ b/curve25519-dalek/src/ristretto.rs
+@@ -883,11 +883,15 @@ impl<T> Sum<T> for RistrettoPoint
+ where
+     T: Borrow<RistrettoPoint>,
+ {
+-    fn sum<I>(iter: I) -> Self
++    fn sum<I>(mut iter: I) -> Self
+     where
+         I: Iterator<Item = T>,
+     {
+-        iter.fold(RistrettoPoint::identity(), |acc, item| acc + item.borrow())
++        let mut acc = RistrettoPoint::identity();
++        while let Some(item) = iter.next() {
++            acc = acc + item.borrow();
++        }
++        acc
+     }
+ }
+ 

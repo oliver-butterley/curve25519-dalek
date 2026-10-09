@@ -1,0 +1,111 @@
+Translation patch: <Straus as VartimeMultiscalarMul>::optional_multiscalar_mul (src/backend/serial/scalar_mul/straus.rs)
+
+Change: The `nafs` and `lookup_tables` collections become nested helpers; the `nafs.iter().zip(..)`
+loop becomes an index loop.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+Aeneas also cannot extract a loop that calls `next()` directly on the
+`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
+from ExtractBase.Item"), so the consuming loop lives in a nested helper function
+generic over `It: Iterator`, called with `x.into_iter()`.
+
+Behaviour: identical: for `nafs`, the helper calls `next()` until `None` and pushes the mapped item for each
+element, in order, which is exactly what `.map(f).collect::<Vec<_>>()` does. For `lookup_tables`, the helper stops at the first `None` element and returns
+`None` (the caller returns `None` instead of using `?`), otherwise collects all
+mapped items in order, which is exactly what
+`.map(|o| o.map(f)).collect::<Option<Vec<_>>>()?` does. (`?` on `Option` is also
+not modelled by Aeneas.) Scalars are consumed before points, as before; the `zip` becomes an index loop over `0..min(len_a, len_b)`, visiting the
+same pairs in the same order (`zip` stops at the shorter side).
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/backend/serial/scalar_mul/straus.rs b/curve25519-dalek/src/backend/serial/scalar_mul/straus.rs
+index a20e393..473ed9b 100644
+--- a/curve25519-dalek/src/backend/serial/scalar_mul/straus.rs
++++ b/curve25519-dalek/src/backend/serial/scalar_mul/straus.rs
+@@ -150,46 +150,72 @@ impl VartimeMultiscalarMul for Straus {
+     /// Variable-time Straus using a non-adjacent form of width \\(5\\).
+     ///
+     /// This is completely similar to the constant-time code, but we
+     /// use a non-adjacent form for the scalar, and do not do table
+     /// lookups in constant time.
+     ///
+     /// The non-adjacent form has signed, odd digits.  Using only odd
+     /// digits halves the table size (since we only need odd
+     /// multiples), or gives fewer additions for the same table size.
+     fn optional_multiscalar_mul<I, J>(scalars: I, points: J) -> Option<EdwardsPoint>
+     where
+         I: IntoIterator,
+         I::Item: Borrow<Scalar>,
+         J: IntoIterator<Item = Option<EdwardsPoint>>,
+     {
+         use crate::backend::serial::curve_models::{
+             CompletedPoint, ProjectiveNielsPoint, ProjectivePoint,
+         };
+         use crate::traits::Identity;
+         use crate::window::NafLookupTable5;
+ 
+-        let nafs: Vec<_> = scalars
+-            .into_iter()
+-            .map(|c| c.borrow().non_adjacent_form(5))
+-            .collect();
++        fn nafs<It>(mut scalars: It) -> Vec<[i8; 256]>
++        where
++            It: Iterator,
++            It::Item: Borrow<Scalar>,
++        {
++            let mut out = Vec::new();
++            while let Some(c) = scalars.next() {
++                out.push(c.borrow().non_adjacent_form(5));
++            }
++            out
++        }
+ 
+-        let lookup_tables = points
+-            .into_iter()
+-            .map(|P_opt| P_opt.map(|P| NafLookupTable5::<ProjectiveNielsPoint>::from(&P)))
+-            .collect::<Option<Vec<_>>>()?;
++        fn lookup_tables<It>(mut points: It) -> Option<Vec<NafLookupTable5<ProjectiveNielsPoint>>>
++        where
++            It: Iterator<Item = Option<EdwardsPoint>>,
++        {
++            let mut out = Vec::new();
++            while let Some(P_opt) = points.next() {
++                match P_opt {
++                    Some(P) => out.push(NafLookupTable5::<ProjectiveNielsPoint>::from(&P)),
++                    None => return None,
++                }
++            }
++            Some(out)
++        }
++
++        let nafs = nafs(scalars.into_iter());
++
++        let lookup_tables = match lookup_tables(points.into_iter()) {
++            Some(lookup_tables) => lookup_tables,
++            None => return None,
++        };
+ 
+         let mut r = ProjectivePoint::identity();
+ 
+         for i in (0..256).rev() {
+             let mut t: CompletedPoint = r.double();
+ 
+-            for (naf, lookup_table) in nafs.iter().zip(lookup_tables.iter()) {
+-                add_naf_digit!(t.as_extended(), naf[i], lookup_table);
++            let n = core::cmp::min(nafs.len(), lookup_tables.len());
++            let mut k = 0;
++            while k < n {
++                add_naf_digit!(t.as_extended(), nafs[k][i], lookup_tables[k]);
++                k += 1;
+             }
+ 
+             r = t.as_projective();
+         }
+ 
+         Some(r.as_extended())
+     }
+ }

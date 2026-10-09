@@ -1,0 +1,69 @@
+Translation patch: <EdwardsPoint as MultiscalarMul>::multiscalar_mul (src/edwards.rs)
+
+Change: The length sanity check on `scalars.by_ref().size_hint()` / `points.by_ref().size_hint()`
+(three `assert_eq!`s on the lower and upper bounds) becomes: collect both inputs into `Vec`s
+(nested helper `collect`) and `assert_eq!(scalars.len(), points.len())`; the `Vec`s are passed
+on to `straus_multiscalar_mul`.
+
+Why: the Aeneas Lean library models only `Iterator::next`; the provided
+methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
+`size_hint` and `by_ref` are not modelled, and no rewrite can call them. Aeneas also cannot extract a loop that calls `next()` directly on the
+`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
+from ExtractBase.Item"), so the consuming loop lives in a nested helper function
+generic over `It: Iterator`, called with `x.into_iter()`.
+
+Behaviour: **not identical, same result for valid inputs.** The original panics unless
+both size hints are exact and equal; the patch panics iff the actual lengths differ. For
+exact-size iterators of equal length (the documented contract) both succeed with the same
+result. Inputs are now read eagerly, scalars before points.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+
+diff --git a/curve25519-dalek/src/edwards.rs b/curve25519-dalek/src/edwards.rs
+index 1120e8f..bdef91b 100644
+--- a/curve25519-dalek/src/edwards.rs
++++ b/curve25519-dalek/src/edwards.rs
+@@ -970,29 +970,27 @@ impl MultiscalarMul for EdwardsPoint {
+     fn multiscalar_mul<I, J>(scalars: I, points: J) -> EdwardsPoint
+     where
+         I: IntoIterator,
+         I::Item: Borrow<Scalar>,
+         J: IntoIterator,
+         J::Item: Borrow<EdwardsPoint>,
+     {
+-        // Sanity-check lengths of input iterators
+-        let mut scalars = scalars.into_iter();
+-        let mut points = points.into_iter();
+-
+-        // Lower and upper bounds on iterators
+-        let (s_lo, s_hi) = scalars.by_ref().size_hint();
+-        let (p_lo, p_hi) = points.by_ref().size_hint();
++        fn collect<It: Iterator>(mut it: It) -> Vec<It::Item> {
++            let mut out = Vec::new();
++            while let Some(x) = it.next() {
++                out.push(x);
++            }
++            out
++        }
+ 
+-        // They should all be equal
+-        assert_eq!(s_lo, p_lo);
+-        assert_eq!(s_hi, Some(s_lo));
+-        assert_eq!(p_hi, Some(p_lo));
++        // Sanity-check lengths of input iterators
++        let scalars = collect(scalars.into_iter());
++        let points = collect(points.into_iter());
+ 
+-        // Now we know there's a single size.  When we do
+-        // size-dependent algorithm dispatch, use this as the hint.
+-        let _size = s_lo;
++        // They should be equal
++        assert_eq!(scalars.len(), points.len());
+ 
+         crate::backend::straus_multiscalar_mul(scalars, points)
+     }
+ }
+ 
+ #[cfg(feature = "alloc")]
