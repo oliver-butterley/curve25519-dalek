@@ -1,14 +1,19 @@
 Translation patch: mul (src/backend/serial/scalar_mul/variable_base.rs)
 
-Change: The parameter `scalar` is renamed to `s` (the name the doc comments already use).
+Change: The parameter `scalar` is renamed to `s` (its only use, `scalar.as_radix_16()`,
+becomes `s.as_radix_16()`). The comment "Setting s = scalar" is left unchanged; it now
+reads as "s is the scalar argument".
 
-Why: a local variable or parameter named like a module (`scalar`) clashes with
-that module's name in the generated Lean (AeneasVerif/aeneas#1098).
+Why: a local variable or parameter named like a module (`scalar`) clashes with that
+module's name in the generated Lean (AeneasVerif/aeneas#1098).
 
-Behaviour: identical. Only a local name changes.
+Behaviour: identical. Only a parameter name changes; the whole function is shown and no other
+`s` exists in it, so nothing is shadowed.
+
+Facts relied on (not visible in the diff): none.
 
 Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh, and check it succeeds.
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
 
 diff --git a/curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs b/curve25519-dalek/src/backend/serial/scalar_mul/variable_base.rs
 index 1de84bc..d8ec333 100644

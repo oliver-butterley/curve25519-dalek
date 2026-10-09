@@ -1,17 +1,20 @@
 Translation patch: <VartimePrecomputedStraus as VartimePrecomputedMultiscalarMul>::new (src/backend/serial/scalar_mul/precomputed_straus.rs)
 
-Change: `static_points.into_iter().map(..).collect()` becomes a nested helper `static_lookup_tables`.
+Change: `static_points.into_iter().map(|P| NafLookupTable8::<AffineNielsPoint>::from(P.borrow())).collect()`
+becomes a nested helper `static_lookup_tables` (a `while let` over `next()` pushing into a `Vec`).
 
-Why: the Aeneas Lean library models only `Iterator::next`; the provided
-methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
 are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the
-`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
-from ExtractBase.Item"), so the consuming loop lives in a nested helper function
-generic over `It: Iterator`, called with `x.into_iter()`.
+Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
+generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
+so the consuming loop lives in a nested helper function generic over `It: Iterator`,
+called with `x.into_iter()`.
 
-Behaviour: identical: the helper calls `next()` until `None` and pushes the mapped item for each
-element, in order, which is exactly what `.map(f).collect::<Vec<_>>()` does.
+Behaviour: identical: the same `next()` calls ending with one `None`, with one `borrow` and one
+table built per item, in the same order. Only the `Vec` growth strategy differs.
+
+Facts relied on (not visible in the diff): `Self::Point` is `EdwardsPoint`, which justifies the helper's `Borrow<EdwardsPoint>` bound.
 
 Remove this patch when Aeneas translates the original code: delete the file,
 run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.

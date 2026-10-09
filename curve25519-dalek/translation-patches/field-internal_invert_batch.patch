@@ -1,24 +1,29 @@
 Translation patch: FieldElement::internal_invert_batch (src/field.rs)
 
-Change: Both passes of the batch inversion: `for (input, scratch) in inputs.iter().zip(scratch.iter_mut())` and
-`... inputs.iter_mut().rev().zip(scratch.iter_mut().rev())` become index `while` loops.
+Change: Both passes of the batch inversion become index loops:
+`for (input, scratch) in inputs.iter().zip(scratch.iter_mut())` becomes `while i < n` with
+`inputs[i]` / `scratch[i]`, and `inputs.iter_mut().rev().zip(scratch.iter_mut().rev())`
+becomes `k = n; while k > 0 { k -= 1; .. }` with `inputs[k]` / `scratch[k]`. In the second
+pass `&acc * scratch` is bound to `let prod` just before the `conditional_assign` that uses it.
 
-Why: Aeneas fails on borrows threaded through iterator adaptors over slices
-(`iter`/`iter_mut` combined with `zip`/`rev`/`map`/`collect`/`fold` closures):
-"Internal error" in InterpBorrowsCore.ml.
+Why: Aeneas fails on borrows threaded through iterator adaptors over mutable slices
+(`iter_mut().rev().zip(..)`): "Internal error" in InterpBorrowsCore.ml.
 
-Behaviour: identical. Each iterator pass becomes a `while` loop over an index
-`0..n` (forwards) or `n..0` (backwards, via `k -= 1` at the top of the loop)
-visiting the same elements in the same order and performing the same
-operations on them; `inputs[i]` / `scratch[i]` replace the zipped references.
-The indexing cannot panic and `zip` never truncates: the index stays below
-`n = inputs.len()` and the zipped slices always have length `n`. They are either
-built with length `n` in this function, or (for `internal_invert_batch` /
-`invert_batch_internal`, private functions) every caller passes a `scratch` of the
-same length as `inputs`, which is also `debug_assert`ed.
+Behaviour: identical, given `scratch.len() == inputs.len()` (see below). Under that invariant
+`zip` pairs index i with i, and the reversed `zip` pairs k with k for k = n-1 .. 0, which is
+what the loops visit; the statements run in the same order. Binding `prod` first is a no-op
+reordering (multiplication is pure). `k -= 1` runs only when `k > 0`, `i += 1` only when
+`i < n`. Loop bounds depend only on the public length, so constant-time behaviour is
+unchanged.
+
+Facts relied on (not visible in the diff): `internal_invert_batch` is private; its only callers are `FieldElement::invert_batch`
+(`inputs: &mut [FieldElement; N]`, `scratch = [FieldElement::ONE; N]`) and
+`FieldElement::invert_batch_alloc` (`scratch = vec![FieldElement::ONE; inputs.len()]`), so
+`scratch.len() == inputs.len()` always holds. (It is also `debug_assert`ed; the doc comment's
+"Panics when `scratch.len() != inputs.len()`" holds in debug builds only.)
 
 Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh, and check it succeeds.
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
 
 diff --git a/curve25519-dalek/src/field.rs b/curve25519-dalek/src/field.rs
 index 8924166..4c7263e 100644

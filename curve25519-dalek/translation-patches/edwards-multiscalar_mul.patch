@@ -2,21 +2,36 @@ Translation patch: <EdwardsPoint as MultiscalarMul>::multiscalar_mul (src/edward
 
 Change: The length sanity check on `scalars.by_ref().size_hint()` / `points.by_ref().size_hint()`
 (three `assert_eq!`s on the lower and upper bounds) becomes: collect both inputs into `Vec`s
-(nested helper `collect`) and `assert_eq!(scalars.len(), points.len())`; the `Vec`s are passed
-on to `straus_multiscalar_mul`.
+(nested helper `collect`, scalars first) and `assert_eq!(scalars.len(), points.len())`; the
+`Vec`s are passed on to `straus_multiscalar_mul`.
 
-Why: the Aeneas Lean library models only `Iterator::next`; the provided
-methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
 are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-`size_hint` and `by_ref` are not modelled, and no rewrite can call them. Aeneas also cannot extract a loop that calls `next()` directly on the
-`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
-from ExtractBase.Item"), so the consuming loop lives in a nested helper function
-generic over `It: Iterator`, called with `x.into_iter()`.
+`size_hint` and `by_ref` cannot be called at all, so no rewrite keeps the original
+checks. Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
+generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
+so the consuming loop lives in a nested helper function generic over `It: Iterator`,
+called with `x.into_iter()`.
 
-Behaviour: **not identical, same result for valid inputs.** The original panics unless
-both size hints are exact and equal; the patch panics iff the actual lengths differ. For
-exact-size iterators of equal length (the documented contract) both succeed with the same
-result. Inputs are now read eagerly, scalars before points.
+Behaviour: **not identical, same result for valid inputs.** For exact-size iterators of equal length
+(the documented contract) both versions return the same point. Differences:
+- Panics: the original panics unless both size hints are exact and equal, before consuming
+  anything; the patch consumes both inputs and then panics iff the actual lengths differ
+  (finite inputs with inexact hints, e.g. `filter`, are now accepted; the message shows
+  lengths instead of hints).
+- Termination: an unbounded input (e.g. `iter::repeat`), which the original rejected with a
+  panic, now makes the function run until allocation fails.
+- Order: all scalars are read, then all points; the original backend read all points, then
+  all scalars, and interleaved each `borrow()` with its `next()`.
+- Zeroization (non-functional): owned `Scalar` items are buffered in a `Vec` that is not
+  zeroized (irrelevant for `&Scalar` items and for the Lean model).
+No data-dependent control flow is added to this constant-time path.
+
+Facts relied on (not visible in the diff): `straus_multiscalar_mul` is generic over `IntoIterator` with the same `Borrow` bounds and
+only iterates its arguments, so passing `Vec<I::Item>` / `Vec<J::Item>` gives it the same
+item sequences. The original serial Straus read all points, then all scalars. The impl is
+`#[cfg(feature = "alloc")]` (outside the hunk), so `Vec` is available.
 
 Remove this patch when Aeneas translates the original code: delete the file,
 run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.

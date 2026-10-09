@@ -1,21 +1,36 @@
 Translation patch: <EdwardsPoint as VartimeMultiscalarMul>::optional_multiscalar_mul (src/edwards.rs)
 
 Change: As in edwards-multiscalar_mul.patch: the `size_hint` checks become `assert_eq!` on the
-lengths of the collected `Vec`s, and `size = scalars.len()` (instead of the size hint) picks
-Straus (`size < 190`) or Pippenger.
+lengths of the collected `Vec`s (scalars collected first), and `size = scalars.len()`
+(instead of the size hint) picks Straus (`size < 190`) or Pippenger.
 
-Why: the Aeneas Lean library models only `Iterator::next`; the provided
-methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
 are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-`size_hint` and `by_ref` are not modelled, and no rewrite can call them. Aeneas also cannot extract a loop that calls `next()` directly on the
-`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
-from ExtractBase.Item"), so the consuming loop lives in a nested helper function
-generic over `It: Iterator`, called with `x.into_iter()`.
+`size_hint` and `by_ref` cannot be called at all, so no rewrite keeps the original
+checks. Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
+generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
+so the consuming loop lives in a nested helper function generic over `It: Iterator`,
+called with `x.into_iter()`.
 
-Behaviour: **not identical, same result for valid inputs.** The original panics unless
-both size hints are exact and equal; the patch panics iff the actual lengths differ. The
-algorithm choice uses the actual length (equal to the hint for exact-size iterators); both
-algorithms compute the same point. Inputs are now read eagerly, scalars before points.
+Behaviour: **not identical, same result for valid inputs.** For exact-size iterators of equal length
+both versions take the same branch and return the same `Option` (`None` iff some point is
+`None`). Differences:
+- Panics: the original panics unless both size hints are exact and equal, before consuming
+  anything; the patch consumes both inputs and then panics iff the actual lengths differ.
+- Termination: an unbounded input, which the original rejected with a panic, now makes the
+  function run until allocation fails.
+- Short-circuit: the original stopped reading points at the first `None` (Straus's
+  `collect::<Option<Vec<_>>>()?`, Pippenger's interleaved `zip`); the patch reads every
+  scalar and every point first.
+- Order: all scalars, then all points (Pippenger interleaved them).
+- Zeroization (non-functional): owned `Scalar` items are buffered in a `Vec` that is not
+  zeroized.
+
+Facts relied on (not visible in the diff): Both backends are generic over `IntoIterator` and return `None` iff some point is `None`.
+Pippenger reads `size_hint().0` of its scalars argument to choose its window; for the `Vec`
+this is `len`, which equals the original hint for exact-size inputs (the window affects only
+performance). The impl is `#[cfg(feature = "alloc")]` (outside the hunk).
 
 Remove this patch when Aeneas translates the original code: delete the file,
 run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.

@@ -1,20 +1,32 @@
 Translation patch: <Straus as MultiscalarMul>::multiscalar_mul (src/backend/serial/scalar_mul/straus.rs)
 
 Change: `points.into_iter().map(..).collect()` and `scalars.into_iter().map(..).collect()` become
-calls to nested helpers `lookup_tables` / `scalar_digits`; the inner
-`scalar_digits.iter().zip(lookup_tables.iter())` loop becomes an index loop.
+calls to nested helpers `lookup_tables` / `scalar_digits` (a `while let` over `next()`
+pushing into a `Vec`); the inner `scalar_digits.iter().zip(lookup_tables.iter())` loop
+becomes an index loop over `0..min(scalar_digits.len(), lookup_tables.len())`.
 
-Why: the Aeneas Lean library models only `Iterator::next`; the provided
-methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
 are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the
-`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
-from ExtractBase.Item"), so the consuming loop lives in a nested helper function
-generic over `It: Iterator`, called with `x.into_iter()`.
+Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
+generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
+so the consuming loop lives in a nested helper function generic over `It: Iterator`,
+called with `x.into_iter()`.
 
-Behaviour: identical: the helper calls `next()` until `None` and pushes the mapped item for each
-element, in order, which is exactly what `.map(f).collect::<Vec<_>>()` does. Points are consumed before scalars, as before; the `zip` becomes an index loop over `0..min(len_a, len_b)`, visiting the
-same pairs in the same order (`zip` stops at the shorter side).
+Behaviour: identical functionally: points are consumed first (one `borrow` and one
+`LookupTable::from` per item), then scalars (one `borrow` and one `as_radix_16` per item),
+as in the original; the index loop visits the same pairs as the `zip` (which stops at the
+shorter side) in the same order and makes the same `select`, `mul_by_pow_2(4)` and `+`
+calls. Constant time: loop bounds and index checks depend only on the public lengths and
+loop indices; the secret digit still flows only into `select`.
+Non-functional difference (zeroization): the helper grows the digits `Vec` by `push`, so
+for more than 4 scalars intermediate buffers holding secret digits are freed without being
+zeroized; the original `collect` allocated once for exact-size inputs (the only caller
+asserts exact size hints) and the final `zeroize` erased that single copy. Irrelevant to the
+Lean model; matters only if the patched source were compiled for use.
+
+Facts relied on (not visible in the diff): `as_radix_16` returns `[i8; 64]`, so `scalar_digits[i][j]` with `j < 64` is in bounds;
+`LookupTable::select(i8)` is the constant-time table lookup, unchanged.
 
 Remove this patch when Aeneas translates the original code: delete the file,
 run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.

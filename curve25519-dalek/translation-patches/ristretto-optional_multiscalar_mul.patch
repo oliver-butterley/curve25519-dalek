@@ -3,18 +3,28 @@ Translation patch: <RistrettoPoint as VartimeMultiscalarMul>::optional_multiscal
 Change: The lazy `points.into_iter().map(|opt_P| opt_P.map(|P| P.0))` becomes a
 `Vec<Option<EdwardsPoint>>` built by a nested helper.
 
-Why: the Aeneas Lean library models only `Iterator::next`; the provided
-methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
 are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the
-`IntoIter` of a generic `IntoIterator` parameter ("Could not find: type_var_id ..
-from ExtractBase.Item"), so the consuming loop lives in a nested helper function
-generic over `It: Iterator`, called with `x.into_iter()`.
+Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
+generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
+so the consuming loop lives in a nested helper function generic over `It: Iterator`,
+called with `x.into_iter()`.
 
-Behaviour: same result: the callee receives the same `Option`s in the same order and
-returns `None` iff one of them is `None`. The points are read eagerly (all of them, even
-after a `None`) before the callee reads the scalars; this is only observable through an
-input iterator with side effects.
+Behaviour: **not identical on its own; same result for valid inputs.** The callee receives the same
+`Option`s in the same order, so for exact-size iterators of equal length it returns the same
+value (`None` iff some point is `None`). Judged without
+edwards-optional_multiscalar_mul.patch, the callee's `size_hint` asserts now see the exact
+`Vec` length: inputs with inexact hints (e.g. `filter`), which panicked before, now succeed;
+inaccurate hints may flip the panic; an infinite points iterator, which panicked before, now
+does not terminate. All points are read, past any `None`, before `scalars.into_iter()`. With
+edwards-optional_multiscalar_mul.patch also applied (as in the translation), the combined
+behaviour is the one declared there.
+
+Facts relied on (not visible in the diff): `EdwardsPoint::optional_multiscalar_mul` (unpatched) asserts both `size_hint`s are exact and
+equal, then dispatches to Straus (scalars first, then points with `collect::<Option<Vec>>`)
+for fewer than 190 inputs, or to Pippenger (`scalars.zip(points)`, short-circuit on `None`)
+otherwise.
 
 Remove this patch when Aeneas translates the original code: delete the file,
 run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.

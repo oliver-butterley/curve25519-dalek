@@ -3,15 +3,19 @@ Translation patch: read_le_u64_into (src/scalar.rs)
 Change: `for (bytes, val) in src.chunks(8).zip(dst.iter_mut())` becomes an index loop over
 `0..dst.len()` with `bytes = &src[8 * i..8 * i + 8]` and `dst[i] = ..`.
 
-Why: the Aeneas Lean library models only `Iterator::next`; the provided
-methods (`map`, `zip`, `fold`, `filter`, `collect`, `rev`/`skip` on adapters, ...)
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
 are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
 (`chunks` and `IterMut` are also not modelled.)
 
-Behaviour: identical: after the `assert!` (unchanged) `src.len() == 8 * dst.len()`, so
-`chunks(8)` yields exactly `dst.len()` chunks of 8 bytes, chunk `i` being
-`src[8 * i..8 * i + 8]`; the loop writes the same values to the same elements in the
-same order, and the slicing cannot panic.
+Behaviour: identical. After the unchanged `assert!`, `src.len() == 8 * dst.len()`, so `chunks(8)`
+yields exactly `dst.len()` full chunks, chunk `i` being `src[8 * i..8 * i + 8]`, zipped with
+`dst[i]`; the loop writes the same values to the same elements in the same order. The
+`try_into` targets `[u8; 8]` in both versions and its `.expect` is unreachable in both.
+
+Facts relied on (not visible in the diff): `8 * i + 8 <= 8 * dst.len() == src.len()` for `i < dst.len()`, and `8 * dst.len()` cannot
+overflow because `dst` is a slice of `u64`s (its byte size is at most `isize::MAX`), so
+neither the arithmetic nor the slicing can panic.
 
 Remove this patch when Aeneas translates the original code: delete the file,
 run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.

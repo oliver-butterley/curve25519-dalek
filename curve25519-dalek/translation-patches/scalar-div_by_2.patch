@@ -1,20 +1,23 @@
 Translation patch: Scalar::div_by_2 (src/scalar.rs)
 
-Change: The local `scalar` is renamed to `unpacked`.
+Change: The local `scalar` is renamed to `unpacked` (all four uses: the `let`,
+`conditional_add_l`, `shr1_assign`, `pack`).
 
-Why: a local variable or parameter named like a module (`scalar`) clashes with
-that module's name in the generated Lean (AeneasVerif/aeneas#1098).
+Why: a local variable or parameter named like a module (`scalar`) clashes with that
+module's name in the generated Lean (AeneasVerif/aeneas#1098).
 
-Behaviour: identical. Only a local name changes.
+Behaviour: identical. Only a local name changes; the whole function is shown and no other
+`unpacked` exists in it, so nothing is shadowed.
+
+Facts relied on (not visible in the diff): none.
 
 Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh, and check it succeeds.
-
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
 diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
-index 7fc7f3c..2165f78 100644
+index c417780..2d96dfe 100644
 --- a/curve25519-dalek/src/scalar.rs
 +++ b/curve25519-dalek/src/scalar.rs
-@@ -857,16 +857,16 @@ fn invert_batch_internal(inputs: &mut [Scalar], scratch: &mut [UnpackedScalar])
+@@ -859,16 +859,16 @@ fn invert_batch_internal(inputs: &mut [Scalar], scratch: &mut [UnpackedScalar])
      /// Compute `b` such that `b + b = a mod modulus`.
      pub fn div_by_2(&self) -> Self {
          // We are looking for such `b` that `b + b = a mod modulus`.

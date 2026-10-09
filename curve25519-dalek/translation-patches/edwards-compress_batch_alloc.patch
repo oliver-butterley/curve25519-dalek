@@ -1,24 +1,24 @@
 Translation patch: EdwardsPoint::compress_batch_alloc (src/edwards.rs)
 
-Change: `inputs.iter().map(..).collect()` and `inputs.iter().zip(&zs).map(..).collect()` become index
-`while` loops pushing into a `Vec::with_capacity(n)`.
+Change: `inputs.iter().map(|input| input.Z).collect()` and
+`inputs.iter().zip(&zs).map(|(input, recip)| { .. }).collect()` become two forward index
+loops pushing into `Vec`s; the second loop body computes the same
+`AffinePoint { x: &inputs[i].X * &zs[i], y: &inputs[i].Y * &zs[i] }.compress()`.
 
-Why: Aeneas fails on borrows threaded through iterator adaptors over slices
-(`iter`/`iter_mut` combined with `zip`/`rev`/`map`/`collect`/`fold` closures):
-"Internal error" in InterpBorrowsCore.ml.
+Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
+(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
+are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
 
-Behaviour: identical. Each iterator pass becomes a `while` loop over an index
-`0..n` (forwards) or `n..0` (backwards, via `k -= 1` at the top of the loop)
-visiting the same elements in the same order and performing the same
-operations on them; `inputs[i]` / `scratch[i]` replace the zipped references.
-The indexing cannot panic and `zip` never truncates: the index stays below
-`n = inputs.len()` and the zipped slices always have length `n`. They are either
-built with length `n` in this function, or (for `internal_invert_batch` /
-`invert_batch_internal`, private functions) every caller passes a `scratch` of the
-same length as `inputs`, which is also `debug_assert`ed.
+Behaviour: identical. Both loops visit `inputs[0..n]` in order and perform the same operations.
+`zs` is built with length `n` and keeps it through `invert_batch_alloc` (see below), so the
+`zip` never truncated and `zs[i]` is in bounds; `i += 1` with `i < n` cannot overflow. Loop
+bounds depend only on the public length.
+
+Facts relied on (not visible in the diff): `FieldElement::invert_batch_alloc` takes `&mut [FieldElement]` (the `Vec` derefs to a
+slice), so it cannot change the length of the vector it inverts.
 
 Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh, and check it succeeds.
+run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
 
 diff --git a/curve25519-dalek/src/edwards.rs b/curve25519-dalek/src/edwards.rs
 index 2a75012..e208c30 100644
