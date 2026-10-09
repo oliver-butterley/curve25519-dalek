@@ -1,26 +1,9 @@
-Translation patch: mul_base in the impl_basepoint_table! macro (src/edwards.rs), i.e.
-BasepointTable::mul_base for EdwardsBasepointTable and EdwardsBasepointTableRadix{32,64,128,256}
+Translation patch: impl_basepoint_table! mul_base (all EdwardsBasepointTable radixes)
 
-Change: `for i in (0..$adds).filter(|x| x % 2 == 1)` / `.. == 0` become `while` loops starting at
-1 / 0 with step 2; the loop bodies are unchanged. The parameter `scalar` is renamed to `s`.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-The rename avoids the `scalar` variable/module clash (AeneasVerif/aeneas#1098).
-
-Behaviour: identical. The loops visit the same odd (then even) indices below `$adds` in
-increasing order and run the unchanged bodies, so the same `tables[i / 2]` / `a[i]` are read
-in the same order. The rename only changes a parameter name (trait-impl parameter names need
-not match the trait; no other `s` is in scope). Loop bounds are compile-time constants, so
-constant-time behaviour is unchanged.
-
-Facts relied on (not visible in the diff): `$adds` is a literal at each of the five macro invocations (64 / 52 / 43 / 37 / 33 for
-radix 16 / 32 / 64 / 128 / 256), so `i` stays <= `$adds + 1` and `i += 2` cannot overflow;
-`$adds` is a single `expr` fragment, so `i < $adds` parses as intended.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: `(0..$adds).filter(odd/even)` becomes `while` loops with step 2; parameter `scalar` renamed to `s`.
+Why: Aeneas only models `Iterator::next` (aeneas#1057). The rename: a variable named `scalar` clashes with the `scalar` module in Lean (aeneas#1098).
+Behaviour: identical.
+Relies on: `$adds` is a literal (64/52/43/37/33), so `i += 2` cannot overflow.
 
 diff --git a/curve25519-dalek/src/edwards.rs b/curve25519-dalek/src/edwards.rs
 index 1120e8f..39aaeab 100644

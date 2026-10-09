@@ -1,32 +1,9 @@
-Translation patch: <VartimeRistrettoPrecomputation as VartimePrecomputedMultiscalarMul>::optional_mixed_multiscalar_mul (src/ristretto.rs)
+Translation patch: <VartimeRistrettoPrecomputation as VartimePrecomputedMultiscalarMul>::optional_mixed_multiscalar_mul
 
-Change: The lazy `dynamic_points.into_iter().map(|P_opt| P_opt.map(|P| P.0))` becomes a
-`Vec<Option<EdwardsPoint>>` built by a nested helper.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
-generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
-so the consuming loop lives in a nested helper function generic over `It: Iterator`,
-called with `x.into_iter()`.
-
-Behaviour: **not identical; same result for finite inputs.** The callee receives the same `Option`s
-in the same order, so it returns `None` at the same point (before its length asserts) and
-otherwise the same result. Differences: the dynamic points are read eagerly, before the
-callee reads any scalar; all of them are read, even after a `None` (so an element after a
-`None` that panics when read now panics, where the original returned `None`); a points
-iterator that is infinite after a `None` (e.g. `once(None).chain(repeat(Some(P)))`), for
-which the original returned `None`, no longer terminates. `size_hint` is no longer called on
-the caller's iterator.
-
-Facts relied on (not visible in the diff): The callee (`VartimePrecomputedStraus::optional_mixed_multiscalar_mul`, all backends)
-collects `static_scalars` and `dynamic_scalars` fully, then collects `dynamic_points` with
-`collect::<Option<Vec<_>>>()?` (short-circuiting at the first `None`, before its length
-asserts).
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: the lazy `dynamic_points.map(..)` becomes a `Vec` built by a helper.
+Why: Aeneas only models `Iterator::next` (aeneas#1057). Loops over a generic `IntoIterator` don't extract, hence the nested `It: Iterator` helper.
+Behaviour: same result for finite inputs, not identical: all dynamic points are read, even after a
+`None`, before the scalars (so input infinite after a `None` no longer terminates).
 
 diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
 index 269662d..174f38b 100644

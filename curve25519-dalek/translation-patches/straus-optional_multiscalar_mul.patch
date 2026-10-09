@@ -1,32 +1,9 @@
-Translation patch: <Straus as VartimeMultiscalarMul>::optional_multiscalar_mul (src/backend/serial/scalar_mul/straus.rs)
+Translation patch: <Straus as VartimeMultiscalarMul>::optional_multiscalar_mul
 
-Change: The `nafs` and `lookup_tables` collections become nested helpers (`while let` over `next()`;
-`lookup_tables` returns `None` at the first `None` point, and the caller returns `None`
-instead of using `?`); the `nafs.iter().zip(lookup_tables.iter())` loop becomes an index
-loop over `0..min(nafs.len(), lookup_tables.len())`.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
-generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
-so the consuming loop lives in a nested helper function generic over `It: Iterator`,
-called with `x.into_iter()`.
-`?` on `Option` is also not modelled.
-
-Behaviour: identical. Scalars are consumed fully first (one `borrow` and one
-`non_adjacent_form(5)` per item), then points, polling stopping right after the first
-`None`, exactly like `.map(|o| o.map(f)).collect::<Option<Vec<_>>>()?`. The index loop
-visits the same pairs as the `zip` in the same order.
-
-Facts relied on (not visible in the diff): `non_adjacent_form(5)` returns `[i8; 256]`, so `nafs[k][i]` with `i < 256` is in bounds.
-`add_naf_digit!(acc, naf, table)` (src/backend/util.rs) evaluates `naf`
-once and does `acc = &acc + &table.select(d)` / `- &table.select(-d)` / nothing according to
-the sign of `d`, so passing `lookup_tables[k]` instead of the reference `lookup_table` is
-the same `select` call.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: `map`/`collect` (incl. `collect::<Option<Vec<_>>>()?`) become helpers; the `zip` becomes an index loop to the shorter length.
+Why: Aeneas only models `Iterator::next` (aeneas#1057). Loops over a generic `IntoIterator` don't extract, hence the nested `It: Iterator` helper.
+Behaviour: identical (stops at the first `None` point, like the `?`).
+Relies on: `non_adjacent_form(5)` returns `[i8; 256]`.
 
 diff --git a/curve25519-dalek/src/backend/serial/scalar_mul/straus.rs b/curve25519-dalek/src/backend/serial/scalar_mul/straus.rs
 index a20e393..473ed9b 100644

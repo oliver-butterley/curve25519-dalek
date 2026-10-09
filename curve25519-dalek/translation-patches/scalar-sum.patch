@@ -1,26 +1,8 @@
-Translation patch: <Scalar as Sum<T>>::sum (src/scalar.rs)
+Translation patch: <Scalar as Sum<T>>::sum
 
-Change: `iter.fold(Scalar::ZERO, |acc, item| acc + item.borrow())` becomes
-`let mut acc = Scalar::ZERO; while let Some(item) = iter.next() { acc = acc + item.borrow(); } acc`.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-
-Behaviour: identical for every iterator whose `fold` is consistent with its `next`, i.e. every std
-iterator and every lawful iterator. The default `Iterator::fold` is exactly this loop
-(`let mut acc = init; while let Some(x) = self.next() { acc = f(acc, x) } acc`): same
-`next()` calls, one `borrow()` per item in the same order, each item dropped at the same
-point, same panics and termination. `I` may override `fold` (std adapters such as `Map`,
-`Chain`, `Rev`, `vec::IntoIter` do; their overrides visit the same items in the same order);
-the patched code calls only `next()`, so an iterator whose overridden `fold` disagrees
-with its own `next` would give a different result (a logic error in that iterator).
-Note: clippy reports `while_let_on_iterator` and `assign_op_pattern` on the new loop.
-
-Facts relied on (not visible in the diff): none.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: `iter.fold(..)` becomes a `while let Some(item) = iter.next()` loop.
+Why: Aeneas only models `Iterator::next` (aeneas#1057).
+Behaviour: identical for iterators whose `fold` agrees with `next` (all std/lawful iterators): the default `fold` is exactly this loop.
 
 diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
 index c417780..662f7ea 100644

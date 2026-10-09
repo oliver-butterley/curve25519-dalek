@@ -1,26 +1,10 @@
-Translation patch: Scalar::invert_batch_internal (src/scalar.rs)
+Translation patch: Scalar::invert_batch_internal
 
-Change: Both passes of the batch inversion become index loops:
-`for (input, scratch) in inputs.iter_mut().zip(scratch.iter_mut())` becomes `while i < n`
-with `inputs[i]` / `scratch[i]`, and `inputs.iter_mut().rev().zip(scratch.iter().rev())`
-becomes `k = n; while k > 0 { k -= 1; .. }` with `inputs[k]` / `scratch[k]`.
+Change: both `zip` passes (the second reversed) become index loops.
+Why: Aeneas fails on borrows through `iter_mut().rev().zip(..)` (InterpBorrowsCore).
+Behaviour: identical.
+Relies on: the only callers (`invert_batch`, `invert_batch_alloc`) pass `scratch.len() == inputs.len()`.
 
-Why: Aeneas fails on borrows threaded through iterator adaptors over mutable slices
-(`iter_mut().rev().zip(..)`): "Internal error" in InterpBorrowsCore.ml.
-
-Behaviour: identical, given `scratch.len() == inputs.len()` (see below). Under that invariant
-`zip` pairs index i with i, and the reversed `zip` pairs k with k for k = n-1 .. 0, which is
-what the loops visit; the statements run in the same order. `k -= 1` runs only when `k > 0`,
-`i += 1` only when `i < n`. Loop bounds depend only on the public length, so constant-time
-behaviour is unchanged.
-
-Facts relied on (not visible in the diff): `invert_batch_internal` is private; its only callers are `Scalar::invert_batch`
-(`inputs: &mut [Scalar; N]`, `scratch = [one; N]`) and `Scalar::invert_batch_alloc`
-(`scratch = vec![one; inputs.len()]`), so `scratch.len() == inputs.len()` always holds
-(there is no `debug_assert` of it in this function).
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
 diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
 index c417780..47d4398 100644
 --- a/curve25519-dalek/src/scalar.rs

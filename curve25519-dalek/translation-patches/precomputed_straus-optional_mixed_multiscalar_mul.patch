@@ -1,28 +1,8 @@
-Translation patch: <VartimePrecomputedStraus as VartimePrecomputedMultiscalarMul>::optional_mixed_multiscalar_mul (src/backend/serial/scalar_mul/precomputed_straus.rs)
+Translation patch: <VartimePrecomputedStraus as VartimePrecomputedMultiscalarMul>::optional_mixed_multiscalar_mul
 
-Change: The `static_nafs`, `dynamic_nafs` and `dynamic_lookup_tables` collections become nested
-helpers `nafs(.., w)` (called with w = 8 and w = 5, as before) and `lookup_tables` (returns
-`None` at the first `None` point; the caller returns `None` instead of using `?`).
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
-generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
-so the consuming loop lives in a nested helper function generic over `It: Iterator`,
-called with `x.into_iter()`.
-`?` on `Option` is also not modelled.
-
-Behaviour: identical. The three inputs are consumed in the same order as before: static scalars
-fully, dynamic scalars fully, then dynamic points with polling stopping right after the first
-`None` (exactly like `collect::<Option<Vec<_>>>()?`), and the early `None` return still
-happens before the length `assert!`s. Each helper makes the same `next()` / `borrow()` /
-conversion calls in the same order.
-
-Facts relied on (not visible in the diff): none: the rest of the function is unchanged context.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: the three `map`/`collect`s (incl. `collect::<Option<Vec<_>>>()?`) become helpers.
+Why: Aeneas only models `Iterator::next` (aeneas#1057). Loops over a generic `IntoIterator` don't extract, hence the nested `It: Iterator` helper.
+Behaviour: identical (same order, stops at the first `None` point).
 
 diff --git a/curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs b/curve25519-dalek/src/backend/serial/scalar_mul/precomputed_straus.rs
 index 1f6a7f6..10bd5e1 100644

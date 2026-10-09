@@ -1,49 +1,13 @@
-Translation patch: <Pippenger as VartimeMultiscalarMul>::optional_multiscalar_mul (src/backend/serial/scalar_mul/pippenger.rs)
+Translation patch: <Pippenger as VartimeMultiscalarMul>::optional_multiscalar_mul
 
-Change: 1. `size = scalars.by_ref().size_hint().0` becomes: collect the scalars into a `Vec` (nested
-   helper `collect`), then `size = scalars.len()`.
-2. The lazy `scalars.map(..).zip(points.map(..)).map(..).collect::<Option<Vec<_>>>()?` becomes a
-   nested helper `scalars_points` that walks the collected scalars, computing
-   `as_radix_2w(w)` and then calling `points.next()` for each (stopping when points end,
-   returning `None` at the first `None` point).
-3. The bucket initialisation, the lazy column iterator `(0..digits_count).rev().map(..)`
-   consumed by `.next()` then `.fold(hi_column, ..)`, and the inner loops become index
-   `while` loops accumulating `total` directly (the first, highest, column seeds `total`;
-   each later one computes `total.mul_by_pow_2(w) + column`, as `fold` did).
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
-generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
-so the consuming loop lives in a nested helper function generic over `It: Iterator`,
-called with `x.into_iter()`.
-
-Behaviour: **not identical, same result.**
-- The window width `w` is chosen from the exact number of scalars instead of
-  `size_hint().0` (equal for exact-size iterators); `w` only affects performance, since
-  `as_radix_2w(w)` is a correct decomposition for every `w` in {6, 7, 8} (see below).
-- The scalars are consumed fully before the points (the original interleaved them as `zip`
-  does), `size_hint` is no longer called on the caller's iterator, and scalar items are
-  dropped at function exit rather than after use.
-- Termination: an unbounded scalar iterator paired with a finite point iterator no longer
-  terminates (the original stopped after `len(points) + 1` scalars). Unreachable through
-  the crate API: the only caller, `EdwardsPoint::optional_multiscalar_mul`, requires equal
-  exact-size inputs.
-Otherwise identical: the pairing makes the same per-element `as_radix_2w` / `points.next()`
-calls and the same three stopping cases as the `zip` (scalars end, points end, a `None`
-point); the columns are computed and combined in the same order (most- to least-
-significant, each column before the previous total is doubled), so the same point
-operations run; the `expect` message is unchanged and unreachable (`digits_count >= 33`).
-
-Facts relied on (not visible in the diff): `as_radix_2w(w)` (w in 4..=8, only `debug_assert`ed) returns `[i8; 64]` signed digits in
-`[-2^(w-1), 2^(w-1)]` whose first `to_radix_2w_size_hint(w)` entries (43 / 37 / 33 for
-w = 6 / 7 / 8, all <= 64) represent any scalar < 2^255. `buckets_count = 2^(w-1) >= 32`, so
-`buckets_count - 1` cannot underflow and every bucket index `|digit| - 1` is in range
-(unchanged code). Every `-= 1` is guarded by `> 0` and every `+= 1` is bounded by a length.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: scalars are collected first and `size = scalars.len()` replaces `size_hint().0`; the
+scalar/point `zip` becomes a helper; the lazy column iterator + `fold` and the inner loops
+become index loops accumulating `total` (highest column first, as `fold` did).
+Why: Aeneas only models `Iterator::next` (aeneas#1057). Loops over a generic `IntoIterator` don't extract, hence the nested `It: Iterator` helper.
+Behaviour: same result, not identical: the window width uses the exact length (equal for exact-size
+inputs; any width gives the same result); scalars are read before points; an unbounded scalar
+iterator with finite points no longer terminates (unreachable: the only caller requires equal
+exact-size inputs).
 
 diff --git a/curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs b/curve25519-dalek/src/backend/serial/scalar_mul/pippenger.rs
 index a5469b8..5bdd137 100644

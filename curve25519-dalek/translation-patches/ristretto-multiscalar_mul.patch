@@ -1,34 +1,10 @@
-Translation patch: <RistrettoPoint as MultiscalarMul>::multiscalar_mul (src/ristretto.rs)
+Translation patch: <RistrettoPoint as MultiscalarMul>::multiscalar_mul
 
-Change: The lazy `points.into_iter().map(|P| P.borrow().0)` passed to `EdwardsPoint::multiscalar_mul`
-becomes a `Vec<EdwardsPoint>` built by a nested helper.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
-generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
-so the consuming loop lives in a nested helper function generic over `It: Iterator`,
-called with `x.into_iter()`.
-
-Behaviour: **not identical on its own; same result for valid inputs.** The callee receives the same
-points in the same order, so for exact-size iterators of equal length the result is the
-same. Judged without edwards-multiscalar_mul.patch, the callee's `size_hint` asserts (see
-below) now see the exact `Vec` length instead of the caller's hint: inputs with inexact hints
-(e.g. `filter`), which panicked before, now succeed; iterators with inaccurate hints may
-panic where they did not, or vice versa; an infinite points iterator, which panicked before,
-now does not terminate. The points are read (and the points iterator dropped) before
-`scalars.into_iter()` is called; the original read them after `scalars.into_iter()` and
-both `size_hint` calls, but still before any scalar. With edwards-multiscalar_mul.patch also
-applied (as in the translation), the combined behaviour is the one declared there.
-
-Facts relied on (not visible in the diff): `EdwardsPoint::multiscalar_mul` (unpatched) calls `size_hint()` on both iterators
-and `assert_eq!`s that they are exact and equal, then (`straus_multiscalar_mul`) collects
-all points before reading any scalar. With edwards-multiscalar_mul.patch also applied (as in
-the translation) those `size_hint` asserts are replaced by an exact length check.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: the lazy `points.map(|P| P.borrow().0)` becomes a `Vec` built by a helper.
+Why: Aeneas only models `Iterator::next` (aeneas#1057). Loops over a generic `IntoIterator` don't extract, hence the nested `It: Iterator` helper.
+Behaviour: same result for valid inputs. Alone, not identical: the callee's `size_hint` asserts see an
+exact `Vec` (so e.g. `filter` inputs no longer panic, infinite points no longer terminate).
+With edwards-multiscalar_mul.patch applied, the behaviour is as declared there.
 
 diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
 index 269662d..a3f6f18 100644

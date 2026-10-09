@@ -1,37 +1,9 @@
-Translation patch: RistrettoPoint::double_and_compress_batch (src/ristretto.rs)
+Translation patch: RistrettoPoint::double_and_compress_batch
 
-Change: In `pub fn double_and_compress_batch<'a, I>(points: I) -> Vec<CompressedRistretto>
-where I: IntoIterator<Item = &'a RistrettoPoint>` (signature not in the hunk):
-`points.into_iter().map(BatchCompressState::from).collect()` becomes a nested helper `states`
-(a `while let` over `next()`); `states.iter().map(|state| state.efgh()).collect()` and the
-final `states.iter().zip(invs.iter()).map(..).collect()` become forward index loops pushing
-into `Vec`s. The body of the final closure is unchanged apart from indentation (it is now the
-loop body, ending in `out.push(..)`; `state` / `inv` are bound to `&states[i]` / `&invs[i]`,
-the same types as the closure arguments). The Charon config separately excludes the derived
-`Debug` impl of the local `BatchCompressState`.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-Aeneas also cannot extract a loop that calls `next()` directly on the `IntoIter` of a
-generic `IntoIterator` parameter ("Could not find: type_var_id .. from ExtractBase.Item"),
-so the consuming loop lives in a nested helper function generic over `It: Iterator`,
-called with `x.into_iter()`.
-`.map(BatchCompressState::from).collect()` also hits "Unimplemented" in RegionsHierarchy.ml.
-
-Behaviour: identical. `states` makes the same `next()` and `From::from` calls in the same order as the
-`map`/`collect`; the `efgh` loop pushes the same values in the same order; the final loop
-visits the same (state, inv) pairs as the `zip` and runs the same body. The only difference
-is that the original `collect` may call `size_hint()` on the input iterator and the helper
-does not. Loop bounds depend only on the public length.
-
-Facts relied on (not visible in the diff): `efgh(&self)` is the pure `&self.eg * &self.fh`. `invs` gets exactly one push per state, and
-`FieldElement::invert_batch_alloc` takes `&mut [FieldElement]`, so it cannot change the
-length: `invs.len() == states.len()` and every `states[i]` / `invs[i]` is in bounds;
-`i += 1` with `i < states.len()` cannot overflow.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: `map(BatchCompressState::from).collect()` becomes a helper; the `efgh` map and the final `zip`/`map` become index loops (closure body unchanged).
+Why: Aeneas only models `Iterator::next` (aeneas#1057). Loops over a generic `IntoIterator` don't extract, hence the nested `It: Iterator` helper.
+Behaviour: identical.
+Relies on: `invs` has one entry per state and `invert_batch_alloc` takes `&mut [FieldElement]`, so it keeps the length `states.len()`.
 
 diff --git a/curve25519-dalek/src/ristretto.rs b/curve25519-dalek/src/ristretto.rs
 index 269662d..e54ed76 100644

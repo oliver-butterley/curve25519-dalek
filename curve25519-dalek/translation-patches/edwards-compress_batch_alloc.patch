@@ -1,24 +1,9 @@
-Translation patch: EdwardsPoint::compress_batch_alloc (src/edwards.rs)
+Translation patch: EdwardsPoint::compress_batch_alloc
 
-Change: `inputs.iter().map(|input| input.Z).collect()` and
-`inputs.iter().zip(&zs).map(|(input, recip)| { .. }).collect()` become two forward index
-loops pushing into `Vec`s; the second loop body computes the same
-`AffinePoint { x: &inputs[i].X * &zs[i], y: &inputs[i].Y * &zs[i] }.compress()`.
-
-Why: the Aeneas Lean library models only `Iterator::next`; the provided methods
-(`map`, `zip`, `fold`, `filter`, `collect`, `rev`, `skip`, `size_hint`, `by_ref`, ...)
-are missing (AeneasVerif/aeneas#1057), so the original does not build in Lean.
-
-Behaviour: identical. Both loops visit `inputs[0..n]` in order and perform the same operations.
-`zs` is built with length `n` and keeps it through `invert_batch_alloc` (see below), so the
-`zip` never truncated and `zs[i]` is in bounds; `i += 1` with `i < n` cannot overflow. Loop
-bounds depend only on the public length.
-
-Facts relied on (not visible in the diff): `FieldElement::invert_batch_alloc` takes `&mut [FieldElement]` (the `Vec` derefs to a
-slice), so it cannot change the length of the vector it inverts.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: `map`/`collect` and `zip`/`map`/`collect` become index loops.
+Why: Aeneas only models `Iterator::next` (aeneas#1057).
+Behaviour: identical.
+Relies on: `invert_batch_alloc` takes `&mut [FieldElement]`, so it keeps the length `n`.
 
 diff --git a/curve25519-dalek/src/edwards.rs b/curve25519-dalek/src/edwards.rs
 index 2a75012..e208c30 100644

@@ -1,29 +1,9 @@
-Translation patch: FieldElement::internal_invert_batch (src/field.rs)
+Translation patch: FieldElement::internal_invert_batch
 
-Change: Both passes of the batch inversion become index loops:
-`for (input, scratch) in inputs.iter().zip(scratch.iter_mut())` becomes `while i < n` with
-`inputs[i]` / `scratch[i]`, and `inputs.iter_mut().rev().zip(scratch.iter_mut().rev())`
-becomes `k = n; while k > 0 { k -= 1; .. }` with `inputs[k]` / `scratch[k]`. In the second
-pass `&acc * scratch` is bound to `let prod` just before the `conditional_assign` that uses it.
-
-Why: Aeneas fails on borrows threaded through iterator adaptors over mutable slices
-(`iter_mut().rev().zip(..)`): "Internal error" in InterpBorrowsCore.ml.
-
-Behaviour: identical, given `scratch.len() == inputs.len()` (see below). Under that invariant
-`zip` pairs index i with i, and the reversed `zip` pairs k with k for k = n-1 .. 0, which is
-what the loops visit; the statements run in the same order. Binding `prod` first is a no-op
-reordering (multiplication is pure). `k -= 1` runs only when `k > 0`, `i += 1` only when
-`i < n`. Loop bounds depend only on the public length, so constant-time behaviour is
-unchanged.
-
-Facts relied on (not visible in the diff): `internal_invert_batch` is private; its only callers are `FieldElement::invert_batch`
-(`inputs: &mut [FieldElement; N]`, `scratch = [FieldElement::ONE; N]`) and
-`FieldElement::invert_batch_alloc` (`scratch = vec![FieldElement::ONE; inputs.len()]`), so
-`scratch.len() == inputs.len()` always holds. (It is also `debug_assert`ed; the doc comment's
-"Panics when `scratch.len() != inputs.len()`" holds in debug builds only.)
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
+Change: both `zip` passes (the second reversed) become index loops; `&acc * scratch` is bound to `prod` first (pure).
+Why: Aeneas fails on borrows through `iter_mut().rev().zip(..)` (InterpBorrowsCore).
+Behaviour: identical.
+Relies on: the only callers (`invert_batch`, `invert_batch_alloc`) pass `scratch.len() == inputs.len()`.
 
 diff --git a/curve25519-dalek/src/field.rs b/curve25519-dalek/src/field.rs
 index 8924166..4c7263e 100644

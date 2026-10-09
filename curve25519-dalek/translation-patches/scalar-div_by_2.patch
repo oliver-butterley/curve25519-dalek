@@ -1,18 +1,9 @@
-Translation patch: Scalar::div_by_2 (src/scalar.rs)
+Translation patch: Scalar::div_by_2
 
-Change: The local `scalar` is renamed to `unpacked` (all four uses: the `let`,
-`conditional_add_l`, `shr1_assign`, `pack`).
+Change: rename local `scalar` to `unpacked`.
+Why: a variable named `scalar` clashes with the `scalar` module in Lean (aeneas#1098).
+Behaviour: identical.
 
-Why: a local variable or parameter named like a module (`scalar`) clashes with that
-module's name in the generated Lean (AeneasVerif/aeneas#1098).
-
-Behaviour: identical. Only a local name changes; the whole function is shown and no other
-`unpacked` exists in it, so nothing is shadowed.
-
-Facts relied on (not visible in the diff): none.
-
-Remove this patch when Aeneas translates the original code: delete the file,
-run ./scripts/aeneas-translate.sh and `lake build`, and check both succeed.
 diff --git a/curve25519-dalek/src/scalar.rs b/curve25519-dalek/src/scalar.rs
 index c417780..2d96dfe 100644
 --- a/curve25519-dalek/src/scalar.rs
