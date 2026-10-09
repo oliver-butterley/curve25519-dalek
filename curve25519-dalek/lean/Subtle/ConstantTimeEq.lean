@@ -3,6 +3,7 @@ public import Aeneas
 public import Subtle.Types
 public import Curve25519Dalek.Types
 @[expose] public section
+
 open Aeneas Aeneas.Std Result ControlFlow Error
 open Aeneas.Std.WP
 set_option linter.dupNamespace false
@@ -17,7 +18,7 @@ open curve25519_dalek
 
 /-- [subtle::{impl subtle::ConstantTimeEq for u8}::ct_eq]:
     Name pattern: [subtle::{subtle::ConstantTimeEq<u8>}::ct_eq] -/
-@[rust_fun "subtle::{subtle::ConstantTimeEq<u8>}::ct_eq"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConstantTimeEq<u8>}::ct_eq"]
 def U8.Insts.SubtleConstantTimeEq.ct_eq (a : Std.U8) (b : Std.U8) : Result subtle.Choice :=
   ok (if a = b then Choice.one else Choice.zero)
 
@@ -31,7 +32,7 @@ theorem U8.Insts.SubtleConstantTimeEq.ct_eq_spec (a b : Std.U8) :
 
 /-- [subtle::{impl subtle::ConstantTimeEq for u16}::ct_eq]:
     Name pattern: [subtle::{subtle::ConstantTimeEq<u16>}::ct_eq] -/
-@[rust_fun "subtle::{subtle::ConstantTimeEq<u16>}::ct_eq"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConstantTimeEq<u16>}::ct_eq"]
 def U16.Insts.SubtleConstantTimeEq.ct_eq (a : Std.U16) (b : Std.U16) : Result subtle.Choice :=
   ok (if a = b then Choice.one else Choice.zero)
 
@@ -48,7 +49,7 @@ open scoped Classical in
     Name pattern: [subtle::{subtle::ConstantTimeEq<[@T]>}::ct_eq]
 
     Constant-time equality for slices: equal lengths and element-wise equal. -/
-@[rust_fun "subtle::{subtle::ConstantTimeEq<[@T]>}::ct_eq"]
+@[nolint defsWithUnderscore unusedArguments, rust_fun "subtle::{subtle::ConstantTimeEq<[@T]>}::ct_eq"]
 noncomputable def Slice.Insts.SubtleConstantTimeEq.ct_eq
   {T : Type} (_ConstantTimeEqInst : subtle.ConstantTimeEq T) :
   Slice T → Slice T → Result subtle.Choice :=

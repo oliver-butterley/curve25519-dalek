@@ -1,0 +1,40 @@
+name: Lean build
+
+# Build all Lean libraries and run the linter.
+
+on:
+  push:
+    branches: [ '**' ]
+    paths: &paths
+      - 'curve25519-dalek/lean/**'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/lean-build.yml'
+  pull_request:
+    branches: [ '**' ]
+    paths: *paths
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          use-mathlib-cache: true
+          build: true
+          build-args: --wfail
+
+      - name: Lint hand-written libraries
+        run: lake exe runLinter Subtle Proofs

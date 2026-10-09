@@ -3,6 +3,7 @@ public import Aeneas
 public import Subtle.Types
 public import Curve25519Dalek.Types
 @[expose] public section
+
 open Aeneas Aeneas.Std Result ControlFlow Error
 open Aeneas.Std.WP
 set_option linter.dupNamespace false
@@ -19,7 +20,7 @@ open curve25519_dalek
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u8}::conditional_select]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u8>}::conditional_select] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u8>}::conditional_select"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u8>}::conditional_select"]
 def U8.Insts.SubtleConditionallySelectable.conditional_select
   (a : Std.U8) (b : Std.U8) (choice : subtle.Choice) : Result Std.U8 :=
   ok (if choice = 1#u8 then b else a)
@@ -38,7 +39,7 @@ theorem U8.Insts.SubtleConditionallySelectable.conditional_select_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u8}::conditional_assign]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u8>}::conditional_assign] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u8>}::conditional_assign"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u8>}::conditional_assign"]
 def U8.Insts.SubtleConditionallySelectable.conditional_assign
   (a : Std.U8) (b : Std.U8) (choice : subtle.Choice) : Result Std.U8 :=
   ok (if choice = 1#u8 then b else a)
@@ -58,7 +59,7 @@ theorem U8.Insts.SubtleConditionallySelectable.conditional_assign_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u8}::conditional_swap]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u8>}::conditional_swap] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u8>}::conditional_swap"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u8>}::conditional_swap"]
 def U8.Insts.SubtleConditionallySelectable.conditional_swap
   (a : Std.U8) (b : Std.U8) (choice : subtle.Choice) : Result (Std.U8 × Std.U8) :=
   ok (if choice = 1#u8 then (b, a) else (a, b))
@@ -80,7 +81,7 @@ theorem U8.Insts.SubtleConditionallySelectable.conditional_swap_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u64}::conditional_select]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u64>}::conditional_select] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u64>}::conditional_select"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u64>}::conditional_select"]
 def U64.Insts.SubtleConditionallySelectable.conditional_select
   (a : Std.U64) (b : Std.U64) (choice : subtle.Choice) : Result Std.U64 :=
   ok (if choice = 1#u8 then b else a)
@@ -99,7 +100,7 @@ theorem U64.Insts.SubtleConditionallySelectable.conditional_select_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u64}::conditional_assign]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u64>}::conditional_assign] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u64>}::conditional_assign"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u64>}::conditional_assign"]
 def U64.Insts.SubtleConditionallySelectable.conditional_assign
   (a : Std.U64) (b : Std.U64) (choice : subtle.Choice) : Result Std.U64 :=
   ok (if choice = 1#u8 then b else a)
@@ -119,7 +120,7 @@ theorem U64.Insts.SubtleConditionallySelectable.conditional_assign_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u64}::conditional_swap]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u64>}::conditional_swap] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u64>}::conditional_swap"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u64>}::conditional_swap"]
 def U64.Insts.SubtleConditionallySelectable.conditional_swap
   (a : Std.U64) (b : Std.U64) (choice : subtle.Choice) : Result (Std.U64 × Std.U64) :=
   ok (if choice = 1#u8 then (b, a) else (a, b))
@@ -141,7 +142,7 @@ theorem U64.Insts.SubtleConditionallySelectable.conditional_swap_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u32}::conditional_select]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u32>}::conditional_select] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_select"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_select"]
 def U32.Insts.SubtleConditionallySelectable.conditional_select
   (a : Std.U32) (b : Std.U32) (choice : subtle.Choice) : Result Std.U32 :=
   ok (if choice = 1#u8 then b else a)
@@ -160,7 +161,7 @@ theorem U32.Insts.SubtleConditionallySelectable.conditional_select_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u32}::conditional_assign]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u32>}::conditional_assign] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_assign"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_assign"]
 def U32.Insts.SubtleConditionallySelectable.conditional_assign
   (a : Std.U32) (b : Std.U32) (choice : subtle.Choice) : Result Std.U32 :=
   ok (if choice = 1#u8 then b else a)
@@ -180,7 +181,7 @@ theorem U32.Insts.SubtleConditionallySelectable.conditional_assign_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for u32}::conditional_swap]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<u32>}::conditional_swap] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_swap"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallySelectable<u32>}::conditional_swap"]
 def U32.Insts.SubtleConditionallySelectable.conditional_swap
   (a : Std.U32) (b : Std.U32) (choice : subtle.Choice) : Result (Std.U32 × Std.U32) :=
   ok (if choice = 1#u8 then (b, a) else (a, b))
@@ -202,7 +203,7 @@ theorem U32.Insts.SubtleConditionallySelectable.conditional_swap_spec
 
 /-- [subtle::{impl subtle::ConditionallySelectable for [T; N]}::conditional_select]:
     Name pattern: [subtle::{subtle::ConditionallySelectable<[@T; @N]>}::conditional_select] -/
-@[rust_fun "subtle::{subtle::ConditionallySelectable<[@T; @N]>}::conditional_select"]
+@[nolint defsWithUnderscore unusedArguments, rust_fun "subtle::{subtle::ConditionallySelectable<[@T; @N]>}::conditional_select"]
 def Array.Insts.SubtleConditionallySelectable.conditional_select
   {T : Type} {N : Std.Usize} (_ConditionallySelectableInst : subtle.ConditionallySelectable T)
   (a : Array T N) (b : Array T N) (choice : subtle.Choice) : Result (Array T N) :=
@@ -235,7 +236,7 @@ theorem Array.Insts.SubtleConditionallySelectable.conditional_select_spec
 
     Default: `conditional_assign(self, other, choice) = conditional_select(self,
     other, choice)`. Docs: subtle-2.6.1/src/lib.rs:441-443. -/
-@[trait_default, rust_fun "subtle::ConditionallySelectable::conditional_assign"]
+@[nolint defsWithUnderscore, trait_default, rust_fun "subtle::ConditionallySelectable::conditional_assign"]
 def subtle.ConditionallySelectable.conditional_assign.default
   {Self : Type} (ConditionallySelectableInst : subtle.ConditionallySelectable Self) :
   Self → Self → subtle.Choice → Result Self :=
@@ -247,7 +248,7 @@ def subtle.ConditionallySelectable.conditional_assign.default
     Default: reassign `a := select(a, b, choice)` and `b := select(b, a₀, choice)`
     (with `a₀` the original `a`), i.e. swap iff `choice == Choice(1)`.
     Docs: subtle-2.6.1/src/lib.rs:469-473. -/
-@[trait_default, rust_fun "subtle::ConditionallySelectable::conditional_swap"]
+@[nolint defsWithUnderscore, trait_default, rust_fun "subtle::ConditionallySelectable::conditional_swap"]
 def subtle.ConditionallySelectable.conditional_swap.default
   {Self : Type} (ConditionallySelectableInst : subtle.ConditionallySelectable Self) :
   Self → Self → subtle.Choice → Result (Self × Self) :=
@@ -264,7 +265,7 @@ def subtle.ConditionallySelectable.conditional_swap.default
     Negate `self` when `choice == Choice(1)`, otherwise leave it unchanged;
     implemented as `conditional_select(self, -self, choice)`.
     Docs: subtle-2.6.1/src/lib.rs:604-624. -/
-@[rust_fun "subtle::{subtle::ConditionallyNegatable<@T>}::conditional_negate"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::ConditionallyNegatable<@T>}::conditional_negate"]
 def subtle.ConditionallyNegatable.Blanket.conditional_negate
   {T : Type} (ConditionallySelectableInst : subtle.ConditionallySelectable T)
   (coreopsarithNegShared0TTInst : core.ops.arith.Neg T T) :

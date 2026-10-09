@@ -14,8 +14,10 @@
 ./scripts/aeneas-translate.sh   # apply curve25519-dalek/translation-patches/, run charon + aeneas, revert patches
 ```
 
-CI (`.github/workflows/lean-translation.yml`) reruns both and fails if the committed
-translation differs from the script's output.
+## CI 
+
+- `lean-translation.yml` check that the committed translation is faithful to the source code.
+- `lean-build.yml` checks the Lean project builds and runs the linter.
 
 - **External files are hand-written.** `FunsExternal.lean` and `TypesExternal.lean` are never
   overwritten; after each translation compare them against the (gitignored)

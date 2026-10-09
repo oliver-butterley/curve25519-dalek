@@ -26,8 +26,12 @@ def subtle.Choice : Type := Std.U8
 
     `struct CtOption<T> { value: T, is_some: Choice }`. -/
 structure subtle.CtOption (T : Type) where
+  /-- The wrapped value; meaningful only when `is_some` is `Choice(1)`. -/
   value : T
+  /-- Whether the option holds a value: `Choice(1)` if so, `Choice(0)` if not. -/
   is_some : subtle.Choice
+
+attribute [nolint defsWithUnderscore] subtle.CtOption.is_some
 
 /-- The canonical "false" `Choice`. -/
 def Choice.zero : subtle.Choice := 0#u8
@@ -44,11 +48,11 @@ def subtle.Choice.IsValid (c : subtle.Choice) : Prop := c = 0#u8 ∨ c = 1#u8
 @[simp] theorem Choice.zero_eq : Choice.zero = 0#u8 := rfl
 @[simp] theorem Choice.one_eq : Choice.one = 1#u8 := rfl
 
-@[simp] theorem Choice.isValid_zero : subtle.Choice.IsValid Choice.zero := Or.inl rfl
-@[simp] theorem Choice.isValid_one : subtle.Choice.IsValid Choice.one := Or.inr rfl
+theorem Choice.isValid_zero : subtle.Choice.IsValid Choice.zero := Or.inl rfl
+theorem Choice.isValid_one : subtle.Choice.IsValid Choice.one := Or.inr rfl
 
-@[simp] theorem Choice.one_ne_zero : Choice.one ≠ Choice.zero := by decide
-@[simp] theorem Choice.zero_ne_one : Choice.zero ≠ Choice.one := by decide
+theorem Choice.one_ne_zero : Choice.one ≠ Choice.zero := by decide
+theorem Choice.zero_ne_one : Choice.zero ≠ Choice.one := by decide
 
 /-- A valid `Choice` is either `Choice.zero` or `Choice.one`. -/
 theorem Choice.isValid_eq_zero_or_one {c : subtle.Choice} (h : subtle.Choice.IsValid c) :

@@ -3,6 +3,7 @@ public import Aeneas
 public import Subtle.Types
 public import Curve25519Dalek.Types
 @[expose] public section
+
 open Aeneas Aeneas.Std Result ControlFlow Error
 open Aeneas.Std.WP
 set_option linter.dupNamespace false
@@ -21,7 +22,7 @@ open curve25519_dalek
     Name pattern: [subtle::{subtle::Choice}::unwrap_u8]
 
     Since `Choice` is modeled as a `U8`, unwrapping is the identity. -/
-@[rust_fun "subtle::{subtle::Choice}::unwrap_u8"]
+@[nolint defsWithUnderscore, rust_fun "subtle::{subtle::Choice}::unwrap_u8"]
 def subtle.Choice.unwrap_u8 (c : subtle.Choice) : Result Std.U8 :=
   ok c
 
