@@ -10,6 +10,7 @@ public import Specs.Backend.Serial.U64.Scalar.Add
 public import Specs.Backend.Serial.U64.Constants.R
 public import Specs.Backend.Serial.U64.Constants.RR
 public import Specs.Lemmas.AsNat
+public import Specs.Backend.Serial.U64.Scalar.Lemmas
 public import Specs.Lemmas.StepSpecs
 public import Mathlib.Tactic.LinearCombination
 public section
@@ -175,8 +176,8 @@ private theorem from_bytes_wide.lo_eq (w0 w1 w2 w3 w4 : U64) :
       + 2 ^ 104 * ((w1.val >>> 40 ||| w2.val <<< 24 % U64.size) % 2 ^ 52)
       + 2 ^ 156 * ((w2.val >>> 28 ||| w3.val <<< 36 % U64.size) % 2 ^ 52)
       + 2 ^ 208 * ((w3.val >>> 16 ||| w4.val <<< 48 % U64.size) % 2 ^ 52)
-      = w0.val + 2 ^ 64 * w1.val + 2 ^ 128 * w2.val + 2 ^ 192 * w3.val
-        + 2 ^ 256 * (w4.val % 2 ^ 4) := by
+      = w0.val + 2 ^ 64 * (w1.val + 2 ^ 64 * (w2.val + 2 ^ 64 * (w3.val
+        + 2 ^ 64 * (w4.val % 2 ^ 4)))) := by
   have g1 := from_bytes_wide.limb_1 w0 w1
   have g2 := from_bytes_wide.limb_2 w1 w2
   have g3 := from_bytes_wide.limb_3 w2 w3
@@ -189,13 +190,15 @@ private theorem from_bytes_wide.lo_eq (w0 w1 w2 w3 w4 : U64) :
   linear_combination 2 ^ 52 * g1 + 2 ^ 104 * g2 + 2 ^ 156 * g3 + 2 ^ 208 * g4 + d0
     + 2 ^ 64 * d1 + 2 ^ 128 * d2 + 2 ^ 192 * d3
 
-/-- The high five limbs represent the eight words shifted right by 260 bits. -/
+/-- The high five limbs represent the eight words shifted right by 260 bits (times `2 ^ 4`, to
+stay in powers of `2 ^ 64`). -/
 private theorem from_bytes_wide.hi_eq (w4 w5 w6 w7 : U64) :
-    w4.val >>> 4 % 2 ^ 52 + 2 ^ 52 * ((w4.val >>> 56 ||| w5.val <<< 8 % U64.size) % 2 ^ 52)
+    2 ^ 4 * (w4.val >>> 4 % 2 ^ 52
+      + 2 ^ 52 * ((w4.val >>> 56 ||| w5.val <<< 8 % U64.size) % 2 ^ 52)
       + 2 ^ 104 * ((w5.val >>> 44 ||| w6.val <<< 20 % U64.size) % 2 ^ 52)
       + 2 ^ 156 * ((w6.val >>> 32 ||| w7.val <<< 32 % U64.size) % 2 ^ 52)
-      + 2 ^ 208 * (w7.val >>> 20)
-      = w4.val / 2 ^ 4 + 2 ^ 60 * w5.val + 2 ^ 124 * w6.val + 2 ^ 188 * w7.val := by
+      + 2 ^ 208 * (w7.val >>> 20))
+      = 2 ^ 4 * (w4.val / 2 ^ 4) + 2 ^ 64 * (w5.val + 2 ^ 64 * (w6.val + 2 ^ 64 * w7.val)) := by
   have g5 := from_bytes_wide.limb_5 w4
   have g6 := from_bytes_wide.limb_6 w4 w5
   have g7 := from_bytes_wide.limb_7 w5 w6
@@ -205,40 +208,33 @@ private theorem from_bytes_wide.hi_eq (w4 w5 w6 w7 : U64) :
   have d6 := Nat.div_add_mod w6.val (2 ^ 32)
   have d7 := Nat.div_add_mod w7.val (2 ^ 20)
   zify at g5 g6 g7 g8 g9 d5 d6 d7 ⊢
-  linear_combination g5 + 2 ^ 52 * g6 + 2 ^ 104 * g7 + 2 ^ 156 * g8 + 2 ^ 208 * g9
-    + 2 ^ 60 * d5 + 2 ^ 124 * d6 + 2 ^ 188 * d7
+  linear_combination 2 ^ 4 * (g5 + 2 ^ 52 * g6 + 2 ^ 104 * g7 + 2 ^ 156 * g8 + 2 ^ 208 * g9
+    + 2 ^ 60 * d5 + 2 ^ 124 * d6 + 2 ^ 188 * d7)
 
-
-set_option exponentiation.threshold 448 in
-/-- The ten limbs cut from eight words: the low five plus `2 ^ 260` times the high five. -/
+/-- The ten limbs cut from eight words: the low five plus `montgomeryRadix` times the high five. -/
 private theorem from_bytes_wide.limbs_eq (w0 w1 w2 w3 w4 w5 w6 w7 : U64) :
     (w4.val >>> 4 % 2 ^ 52 + 2 ^ 52 * ((w4.val >>> 56 ||| w5.val <<< 8 % U64.size) % 2 ^ 52)
       + 2 ^ 104 * ((w5.val >>> 44 ||| w6.val <<< 20 % U64.size) % 2 ^ 52)
       + 2 ^ 156 * ((w6.val >>> 32 ||| w7.val <<< 32 % U64.size) % 2 ^ 52)
-      + 2 ^ 208 * (w7.val >>> 20)) * 2 ^ 260
+      + 2 ^ 208 * (w7.val >>> 20)) * montgomeryRadix
     + (w0.val % 2 ^ 52 + 2 ^ 52 * ((w0.val >>> 52 ||| w1.val <<< 12 % U64.size) % 2 ^ 52)
       + 2 ^ 104 * ((w1.val >>> 40 ||| w2.val <<< 24 % U64.size) % 2 ^ 52)
       + 2 ^ 156 * ((w2.val >>> 28 ||| w3.val <<< 36 % U64.size) % 2 ^ 52)
       + 2 ^ 208 * ((w3.val >>> 16 ||| w4.val <<< 48 % U64.size) % 2 ^ 52))
       = w0.val + 2 ^ 64 * (w1.val + 2 ^ 64 * (w2.val + 2 ^ 64 * (w3.val + 2 ^ 64 * (w4.val
         + 2 ^ 64 * (w5.val + 2 ^ 64 * (w6.val + 2 ^ 64 * w7.val)))))) := by
-  rw [from_bytes_wide.lo_eq, from_bytes_wide.hi_eq]
+  have hhi := from_bytes_wide.hi_eq w4 w5 w6 w7
   have d4 := Nat.div_add_mod w4.val (2 ^ 4)
-  zify at d4 ⊢
-  linear_combination 2 ^ 256 * d4
+  have hR : montgomeryRadix = 2 ^ 64 * (2 ^ 64 * (2 ^ 64 * (2 ^ 64 * 2 ^ 4))) :=
+    montgomeryRadix_eq.trans (by rw [← Nat.pow_add, ← Nat.pow_add, ← Nat.pow_add, ← Nat.pow_add])
+  rw [from_bytes_wide.lo_eq, hR]
+  generalize (2 : ℕ) ^ 64 = B at hhi ⊢
+  generalize (2 : ℕ) ^ 4 = C at hhi d4 ⊢
+  zify at hhi d4 ⊢
+  linear_combination B ^ 4 * hhi + B ^ 4 * d4
 
-/-- `L` is odd, so powers of two are invertible modulo `L`. -/
-private theorem coprime_L_two_pow (k : ℕ) : Nat.Coprime L (2 ^ k) := by
-  have hodd : L % 2 = 1 := by
-    rw [← Nat.mod_mod_of_dvd L (show 2 ∣ 2 ^ 52 by norm_num), L_mod_two_pow_52]
-  exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr (Nat.odd_iff.mpr hodd))
-
-/-- Cancelling the Montgomery factor `2 ^ 260` modulo `L`. -/
-private theorem mod_L_cancel {x y : ℕ} (h : x * 2 ^ 260 % L = y * 2 ^ 260 % L) :
-    x % L = y % L :=
-  Nat.ModEq.cancel_right_of_coprime (coprime_L_two_pow 260) h
-
-/-- `montgomery_mul` by `R = 2 ^ 260 mod L` reduces modulo `L`. -/
+/-- `montgomery_mul` by `R = montgomeryRadix mod L` reduces modulo `L`. -/
+@[local step]
 private theorem montgomery_mul_R_spec (a : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52) :
     montgomery_mul a constants.R ⦃ (r : Scalar52) =>
       r.asNat % L = a.asNat % L ∧ r.asNat < L ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ := by
@@ -247,10 +243,12 @@ private theorem montgomery_mul_R_spec (a : Scalar52) (ha : ∀ i < 5, a[i]!.val 
   apply spec_mono (montgomery_mul_spec a _ ha hR_limbs
     (Nat.mul_lt_mul'' (Scalar52.asNat_lt a ha) hR_lt))
   rintro r ⟨hr, hr_lt, hr_limbs⟩
-  refine ⟨mod_L_cancel ?_, hr_lt, hr_limbs⟩
-  rw [hr, hR, Nat.mul_mod, Nat.mod_mod, ← Nat.mul_mod]
+  refine ⟨mod_L_of_mul_montgomeryRadix ?_, hr_lt, hr_limbs⟩
+  rw [hr, hR, Nat.mul_mod_mod]
 
-/-- `montgomery_mul` by `RR = 2 ^ 520 mod L` multiplies by `R = 2 ^ 260 mod L` modulo `L`. -/
+/-- `montgomery_mul` by `RR = montgomeryRadix ^ 2 mod L` multiplies by `R = montgomeryRadix mod L`
+modulo `L`. -/
+@[local step]
 private theorem montgomery_mul_RR_spec (a : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52) :
     montgomery_mul a constants.RR ⦃ (r : Scalar52) =>
       r.asNat % L = a.asNat * constants.R.asNat % L ∧ r.asNat < L ∧
@@ -260,26 +258,32 @@ private theorem montgomery_mul_RR_spec (a : Scalar52) (ha : ∀ i < 5, a[i]!.val
   apply spec_mono (montgomery_mul_spec a _ ha hRR_limbs
     (Nat.mul_lt_mul'' (Scalar52.asNat_lt a ha) hRR_lt))
   rintro r ⟨hr, hr_lt, hr_limbs⟩
-  refine ⟨mod_L_cancel ?_, hr_lt, hr_limbs⟩
-  have e1 : a.asNat * (2 ^ 520 % L) % L = a.asNat * 2 ^ 520 % L := (Nat.mod_modEq _ L).mul_left _
-  have e2 : a.asNat * (2 ^ 260 % L) * 2 ^ 260 % L = a.asNat * 2 ^ 260 * 2 ^ 260 % L :=
-    ((Nat.mod_modEq _ L).mul_left _).mul_right _
-  rw [hr, hRR, constants.R_spec.1, e1, e2, Nat.mul_assoc, ← Nat.pow_add,
-    show 260 + 260 = 520 from rfl]
+  refine ⟨?_, hr_lt, hr_limbs⟩
+  rw [hRR] at hr
+  rw [mod_L_of_mul_montgomeryRadix_eq_mul_RR hr, constants.R_spec.1, Nat.mul_mod_mod]
 
-set_option exponentiation.threshold 448 in
+/-- The result of `from_bytes_wide` modulo `L`: `hi · R + lo`, with the Montgomery factors of
+the two products cancelled. -/
+private theorem from_bytes_wide.mod_L_eq {r hi lo H Lo x : ℕ} (hr : r = (hi + lo) % L)
+    (hhi : hi % L = H * constants.R.asNat % L) (hlo : lo % L = Lo % L)
+    (hx : H * montgomeryRadix + Lo = x) : r = x % L := by
+  rw [hr, Nat.add_mod, hhi, hlo, constants.R_spec.1, Nat.mul_mod_mod, ← Nat.add_mod, hx]
+
 /-- The 64 bytes as eight little-endian words, in Horner form. -/
 private theorem from_bytes_wide.bytes_eq (bytes : Array U8 64#usize) (w : Array U64 8#usize)
     (hw : ∀ k < 8, w[k]!.val = ∑ j ∈ Finset.range 8, 2 ^ (8 * j) * bytes[8 * k + j]!.val) :
     bytes.asNat 8 = w[0]!.val + 2 ^ 64 * (w[1]!.val + 2 ^ 64 * (w[2]!.val + 2 ^ 64 * (w[3]!.val
       + 2 ^ 64 * (w[4]!.val + 2 ^ 64 * (w[5]!.val + 2 ^ 64 * (w[6]!.val
       + 2 ^ 64 * w[7]!.val)))))) := by
-  rw [Array.asNat_eq_sum_blocks 8 8 8 bytes rfl, Finset.sum_range_succ (n := 7),
-    Finset.sum_range_succ (n := 6), Finset.sum_range_succ (n := 5),
-    Finset.sum_range_succ (n := 4), Finset.sum_range_succ (n := 3),
-    Finset.sum_range_succ (n := 2), Finset.sum_range_succ (n := 1), Finset.sum_range_one,
+  rw [Array.asNat_eq_sum_blocks 8 8 8 bytes rfl]
+  simp only [show ∀ k : ℕ, (2 : ℕ) ^ (64 * k) = (2 ^ 64) ^ k from fun k => pow_mul 2 64 k]
+  rw [Finset.sum_range_succ (n := 7), Finset.sum_range_succ (n := 6),
+    Finset.sum_range_succ (n := 5), Finset.sum_range_succ (n := 4),
+    Finset.sum_range_succ (n := 3), Finset.sum_range_succ (n := 2),
+    Finset.sum_range_succ (n := 1), Finset.sum_range_one,
     ← hw 0 (by norm_num), ← hw 1 (by norm_num), ← hw 2 (by norm_num), ← hw 3 (by norm_num),
     ← hw 4 (by norm_num), ← hw 5 (by norm_num), ← hw 6 (by norm_num), ← hw 7 (by norm_num)]
+  generalize (2 : ℕ) ^ 64 = B
   ring
 
 /-- The value of five limbs written over a `Scalar52`. -/
@@ -310,8 +314,7 @@ theorem from_bytes_wide_spec (bytes : Array U8 64#usize) :
   step as ⟨two_pow_52, htwo_pow_52⟩
   step as ⟨mask, hmask⟩
   have hmask' : mask.val = 2 ^ 52 - 1 := by scalar_tac
-  step* 49
-  step with montgomery_mul_R_spec as ⟨lo, hlo, hlo_lt, hlo_limbs⟩
+  step*
   · clear hbytes
     rw [Nat.forall_lt_five]
     simp only [*]
@@ -319,8 +322,7 @@ theorem from_bytes_wide_spec (bytes : Array U8 64#usize) :
     simp only [*, UScalar.val_or]
     exact ⟨Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num),
       Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num)⟩
-  step with montgomery_mul_RR_spec as ⟨hi, hhi, hhi_lt, hhi_limbs⟩
-  · clear hlo hlo_lt hlo_limbs hbytes
+  · clear hbytes
     rw [Nat.forall_lt_five]
     simp only [*]
     simp_lists
@@ -329,15 +331,9 @@ theorem from_bytes_wide_spec (bytes : Array U8 64#usize) :
       Nat.mod_lt _ (by norm_num), ?_⟩
     rw [Nat.shiftRight_eq_div_pow]
     exact Nat.div_lt_of_lt_mul (hw7_lt.trans (by norm_num))
-  step as ⟨r, hr, hr_limbs⟩
-  refine ⟨?_, hr_limbs⟩
-  have e : ∀ x, x * constants.R.asNat % L = x * 2 ^ 260 % L := fun x => by
-    rw [constants.R_spec.1]
-    exact (Nat.mod_modEq _ L).mul_left _
-  rw [hr, Nat.add_mod, hhi, e, hlo, ← Nat.add_mod]
-  refine congrArg (· % L) ?_
+  refine ⟨from_bytes_wide.mod_L_eq (by assumption) (by assumption) (by assumption) ?_,
+    by assumption⟩
   rw [hbytes]
-  clear hr hhi hlo hbytes
   simp only [*]
   rw [asNat_set_five, asNat_set_five]
   simp only [*, UScalar.val_or]
