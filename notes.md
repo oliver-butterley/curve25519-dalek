@@ -7,17 +7,28 @@
 5. Additional specs and proofs (for new parts in updated Rust code)
 6. Shadow main repo to test workflow of updating proofs
 
-## Remaining translation issues:
+## Translation workflow
 
-See: https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify/issues/860
+```
+./scripts/aeneas-install.sh     # charon + aeneas for the release pinned in lakefile.toml
+./scripts/aeneas-translate.sh   # apply curve25519-dalek/translation-patches/, run charon + aeneas, revert patches
+```
+
+CI (`.github/workflows/lean-translation.yml`) reruns both and fails if the committed
+translation differs from the script's output.
+
+- **External files are hand-written.** `FunsExternal.lean` and `TypesExternal.lean` are never
+  overwritten; after each translation compare them against the (gitignored)
+  `*External_Template.lean` files Aeneas emits and update them by hand.
+- **Rust changes only as translation patches.** `curve25519-dalek/src/` stays upstream. A
+  construct Aeneas cannot translate is rewritten in a patch file
+  `curve25519-dalek/translation-patches/<file-stem>-<function>.patch`, one per function
+  (insert `-<Type>` before `<function>` when the name alone is ambiguous). Its free-text
+  header says what changes, why the original does not translate, why behaviour is identical.
+  Create using `git diff -W -- <file>`.
+- **Charon settings** (excluded and opaque items) live in `[package.metadata.charon]` in
+  `curve25519-dalek/Cargo.toml`.
 
 ## Std library models
 
-massive overlap with the other repos
-
-Once all translation issues are fixed, produce the definitive list of all std
-library functions we need (from `translated/FunsExternal_Template.lean`). The list
-is a moving target until then — each translation workaround changes it (e.g. the
-iterator→index-loop workarounds dropped the stdlib externals from ~100 to ~40).
-Only a clean, final translation gives the stable, authoritative set of models to
-implement upstream in Aeneas.
+Many more need to be added to Aeneas.

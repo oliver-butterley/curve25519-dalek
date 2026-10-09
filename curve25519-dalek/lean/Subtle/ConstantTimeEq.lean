@@ -1,6 +1,8 @@
-import Aeneas
-import Subtle.Types
-import Curve25519Dalek.Types
+module
+public import Aeneas
+public import Subtle.Types
+public import Curve25519Dalek.Types
+@[expose] public section
 open Aeneas Aeneas.Std Result ControlFlow Error
 open Aeneas.Std.WP
 set_option linter.dupNamespace false

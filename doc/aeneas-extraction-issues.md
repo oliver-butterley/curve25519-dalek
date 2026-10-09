@@ -1,5 +1,8 @@
 # Aeneas extraction issues for `curve25519-dalek`
 
+> **Historical snapshot** (Aeneas `678ffd3b`). The current set of Rust workarounds is in
+> `curve25519-dalek/translation-patches/`; each patch header explains the issue it works around.
+
 Status of the Charon → Aeneas pipeline on this crate (v5.0.0-rc.1, edition 2024):
 
 - **Charon**: extracts cleanly (exit 0) with the serial u64 backend forced

@@ -1,0 +1,62 @@
+Translation patch: EdwardsPoint::to_montgomery_batch (src/edwards.rs)
+
+Change: `eds.iter().map(..).collect()` and `eds.iter().zip(denominators.iter())` become index `while` loops
+pushing into a `Vec::with_capacity(n)`.
+
+Why: Aeneas fails on borrows threaded through iterator adaptors over slices
+(`iter`/`iter_mut` combined with `zip`/`rev`/`map`/`collect`/`fold` closures):
+"Internal error" in InterpBorrowsCore.ml.
+
+Behaviour: identical. Each iterator pass becomes a `while` loop over an index
+`0..n` (forwards) or `n..0` (backwards, via `k -= 1` at the top of the loop)
+visiting the same elements in the same order and performing the same
+operations on them; `inputs[i]` / `scratch[i]` replace the zipped references.
+The indexing cannot panic and `zip` never truncates: the index stays below
+`n = inputs.len()` and the zipped slices always have length `n`. They are either
+built with length `n` in this function, or (for `internal_invert_batch` /
+`invert_batch_internal`, private functions) every caller passes a `scratch` of the
+same length as `inputs`, which is also `debug_assert`ed.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh, and check it succeeds.
+
+diff --git a/curve25519-dalek/src/edwards.rs b/curve25519-dalek/src/edwards.rs
+index 2a75012..5b2a9ef 100644
+--- a/curve25519-dalek/src/edwards.rs
++++ b/curve25519-dalek/src/edwards.rs
+@@ -592,23 +592,31 @@ pub fn to_montgomery(&self) -> MontgomeryPoint {
+     /// Converts a large batch of points to Edwards at once. This has the same
+     /// behavior on identity elements as [`Self::to_montgomery`].
+     #[cfg(feature = "alloc")]
+     pub fn to_montgomery_batch(eds: &[Self]) -> Vec<MontgomeryPoint> {
+         // Do the same thing as the above function. u = (1+y)/(1-y) = (Z+Y)/(Z-Y).
+         // We will do this in a batch, ie compute (Z-Y) for all the input
+         // points, then invert them all at once
+ 
+         // Compute the denominators in a batch
+-        let mut denominators = eds.iter().map(|p| &p.Z - &p.Y).collect::<Vec<_>>();
++        let n = eds.len();
++        let mut denominators = Vec::with_capacity(n);
++        let mut i = 0;
++        while i < n {
++            denominators.push(&eds[i].Z - &eds[i].Y);
++            i += 1;
++        }
+         FieldElement::invert_batch_alloc(&mut denominators);
+ 
+         // Now compute the Montgomery u coordinate for every point
+-        let mut ret = Vec::with_capacity(eds.len());
+-        for (ed, d) in eds.iter().zip(denominators.iter()) {
+-            let u = &(&ed.Z + &ed.Y) * d;
++        let mut ret = Vec::with_capacity(n);
++        let mut i = 0;
++        while i < n {
++            let u = &(&eds[i].Z + &eds[i].Y) * &denominators[i];
+             ret.push(MontgomeryPoint(u.to_bytes()));
++            i += 1;
+         }
+ 
+         ret
+     }
+ 
+     /// Compress this point to `CompressedEdwardsY` format.

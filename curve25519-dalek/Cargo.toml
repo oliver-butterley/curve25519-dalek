@@ -66,11 +66,7 @@ cpufeatures = "0.3"
 fiat-crypto = { version = "0.3.0", default-features = false }
 
 [features]
-# TODO (Lean translation): `precomputed-tables` is intentionally dropped from `default`
-# so Aeneas translation is clean.
-# Reactivate by re-adding "precomputed-tables" here once
-# https://github.com/AeneasVerif/aeneas/issues/1098 is fixed.
-default = ["alloc", "zeroize"]
+default = ["alloc", "precomputed-tables", "zeroize"]
 alloc = ["zeroize?/alloc"]
 precomputed-tables = []
 legacy_compatibility = []
@@ -107,6 +103,7 @@ exclude = [
   "curve25519_dalek::ristretto::{impl core::fmt::Debug for _}",
   "curve25519_dalek::edwards::{impl core::fmt::Debug for _}",
   "curve25519_dalek::edwards::affine::{impl core::fmt::Debug for _}",
+  "curve25519_dalek::window::{impl core::fmt::Debug for _}",
   # Hash impls (use core::hash::Hasher; not translatable, not of interest)
   "curve25519_dalek::montgomery::{impl core::hash::Hash for _}",
   "curve25519_dalek::scalar::{impl core::hash::Hash for _}",

@@ -1,0 +1,62 @@
+name: Lean translation
+
+# Re-run the Charon + Aeneas translation and check that the committed Lean files are current.
+
+on:
+  push:
+    branches: [ '**' ]
+    paths: &paths
+      - 'curve25519-dalek/src/**'
+      - 'curve25519-dalek/Cargo.toml'
+      - 'curve25519-dalek/build.rs'
+      - 'curve25519-dalek/lean/**'
+      - 'Cargo.lock'
+      - 'curve25519-dalek/translation-patches/**'
+      - 'scripts/aeneas-*.sh'
+      - 'lakefile.toml'
+      - 'lean-toolchain'
+      - '.github/workflows/lean-translation.yml'
+  pull_request:
+    branches: [ '**' ]
+    paths: *paths
+
+jobs:
+  translation-is-current:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Aeneas release
+        id: aeneas
+        run: echo "tag=$(awk -F'"' '/^\[/{name=""} /^name = /{name=$2} /^rev = / && name=="aeneas"{print $2}' lakefile.toml)" >> "$GITHUB_OUTPUT"
+
+      # Binaries + the nightly (with rustc-dev) charon-driver needs; changes only with the pin.
+      - name: Cache Aeneas toolchain
+        uses: actions/cache@v4
+        with:
+          path: |
+            .aeneas
+            ~/.rustup/toolchains/nightly-*
+          key: aeneas-${{ runner.os }}-${{ runner.arch }}-${{ steps.aeneas.outputs.tag }}
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+          key: cargo-registry-${{ hashFiles('Cargo.lock') }}
+          restore-keys: cargo-registry-
+
+      - run: ./scripts/aeneas-install.sh
+      - run: ./scripts/aeneas-translate.sh
+
+      - name: Check committed translation is current
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git status --short
+            git diff --stat
+            echo "::error::Committed translation is stale: run ./scripts/aeneas-translate.sh and commit the result."
+            exit 1
+          fi

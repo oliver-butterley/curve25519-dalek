@@ -1,4 +1,6 @@
-import Aeneas
+module
+public import Aeneas
+@[expose] public section
 open Aeneas Aeneas.Std Result ControlFlow Error
 set_option linter.dupNamespace false
 set_option linter.hashCommand false

@@ -1,6 +1,8 @@
 -- [curve25519_dalek]: external types.
-import Aeneas
-import Subtle.Types
+module
+public import Aeneas
+public import Subtle.Types
+@[expose] public section
 open Aeneas Aeneas.Std Result ControlFlow Error
 set_option linter.dupNamespace false
 set_option linter.hashCommand false

@@ -1,0 +1,69 @@
+Translation patch: EdwardsPoint::compress_batch_alloc (src/edwards.rs)
+
+Change: `inputs.iter().map(..).collect()` and `inputs.iter().zip(&zs).map(..).collect()` become index
+`while` loops pushing into a `Vec::with_capacity(n)`.
+
+Why: Aeneas fails on borrows threaded through iterator adaptors over slices
+(`iter`/`iter_mut` combined with `zip`/`rev`/`map`/`collect`/`fold` closures):
+"Internal error" in InterpBorrowsCore.ml.
+
+Behaviour: identical. Each iterator pass becomes a `while` loop over an index
+`0..n` (forwards) or `n..0` (backwards, via `k -= 1` at the top of the loop)
+visiting the same elements in the same order and performing the same
+operations on them; `inputs[i]` / `scratch[i]` replace the zipped references.
+The indexing cannot panic and `zip` never truncates: the index stays below
+`n = inputs.len()` and the zipped slices always have length `n`. They are either
+built with length `n` in this function, or (for `internal_invert_batch` /
+`invert_batch_internal`, private functions) every caller passes a `scratch` of the
+same length as `inputs`, which is also `debug_assert`ed.
+
+Remove this patch when Aeneas translates the original code: delete the file,
+run ./scripts/aeneas-translate.sh, and check it succeeds.
+
+diff --git a/curve25519-dalek/src/edwards.rs b/curve25519-dalek/src/edwards.rs
+index 2a75012..e208c30 100644
+--- a/curve25519-dalek/src/edwards.rs
++++ b/curve25519-dalek/src/edwards.rs
+@@ -625,26 +625,32 @@ pub fn compress(&self) -> CompressedEdwardsY {
+         core::array::from_fn(|i| {
+             let x = &inputs[i].X * &zs[i];
+             let y = &inputs[i].Y * &zs[i];
+             AffinePoint { x, y }.compress()
+         })
+     }
+     /// Compress several `EdwardsPoint`s into `CompressedEdwardsY` format, using a batch inversion
+     /// for a significant speedup.
+     #[cfg(feature = "alloc")]
+     pub fn compress_batch_alloc(inputs: &[EdwardsPoint]) -> Vec<CompressedEdwardsY> {
+-        let mut zs = inputs.iter().map(|input| input.Z).collect::<Vec<_>>();
++        let n = inputs.len();
++        let mut zs = Vec::with_capacity(n);
++        let mut i = 0;
++        while i < n {
++            zs.push(inputs[i].Z);
++            i += 1;
++        }
+         FieldElement::invert_batch_alloc(&mut zs);
+ 
+-        inputs
+-            .iter()
+-            .zip(&zs)
+-            .map(|(input, recip)| {
+-                let x = &input.X * recip;
+-                let y = &input.Y * recip;
+-                AffinePoint { x, y }.compress()
+-            })
+-            .collect()
++        let mut out = Vec::with_capacity(n);
++        let mut i = 0;
++        while i < n {
++            let x = &inputs[i].X * &zs[i];
++            let y = &inputs[i].Y * &zs[i];
++            out.push(AffinePoint { x, y }.compress());
++            i += 1;
++        }
++        out
+     }
+ 
+     #[cfg(feature = "digest")]
+     // The function `map_to_curve` calculates an [EdwardsPoint] from a [FieldElement].

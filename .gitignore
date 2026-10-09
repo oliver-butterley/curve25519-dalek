@@ -13,9 +13,7 @@ build*.txt
 # Charon / Aeneas / Lean verification tooling.
 .aeneas/
 .lake/
-.logs/
-node_modules/
-*.llbc
+.llbc/
 FunsExternal_Template.lean
 TypesExternal_Template.lean
 

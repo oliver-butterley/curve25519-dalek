@@ -253,9 +253,7 @@ impl CompressedRistretto {
     /// Returns [`TryFromSliceError`] if the input `bytes` slice does not have
     /// a length of 32.
     pub fn from_slice(bytes: &[u8]) -> Result<CompressedRistretto, TryFromSliceError> {
-        // TODO: revert to `bytes.try_into().map(CompressedRistretto)` once
-        // https://github.com/AeneasVerif/aeneas/issues/767 is fixed.
-        bytes.try_into().map(|b| CompressedRistretto(b))
+        bytes.try_into().map(CompressedRistretto)
     }
 
     /// Attempt to decompress to an `RistrettoPoint`.
@@ -603,63 +601,49 @@ impl RistrettoPoint {
             }
         }
 
-        // Index `while` loops instead of `into_iter()/iter()/zip()/map()/collect()`:
-        // iterator combinators over slices trip an Aeneas borrow-core internal
-        // error. Semantically identical. See aeneas#464 and aeneas-issues/issue_16
-        // (issue_17 covers the `.map(BatchCompressState::from)` constructor form).
-        let mut states: Vec<BatchCompressState> = Vec::new();
-        for p in points {
-            states.push(BatchCompressState::from(p));
-        }
+        let states: Vec<BatchCompressState> =
+            points.into_iter().map(BatchCompressState::from).collect();
 
-        let mut invs: Vec<FieldElement> = Vec::with_capacity(states.len());
-        let mut i = 0;
-        while i < states.len() {
-            invs.push(states[i].efgh());
-            i += 1;
-        }
+        let mut invs: Vec<FieldElement> = states.iter().map(|state| state.efgh()).collect();
 
         FieldElement::invert_batch_alloc(&mut invs[..]);
 
-        let mut out = Vec::with_capacity(states.len());
-        let mut i = 0;
-        while i < states.len() {
-            let state = &states[i];
-            let inv = &invs[i];
+        states
+            .iter()
+            .zip(invs.iter())
+            .map(|(state, inv): (&BatchCompressState, &FieldElement)| {
+                let Zinv = &state.eg * inv;
+                let Tinv = &state.fh * inv;
 
-            let Zinv = &state.eg * inv;
-            let Tinv = &state.fh * inv;
+                let mut magic = constants::INVSQRT_A_MINUS_D;
 
-            let mut magic = constants::INVSQRT_A_MINUS_D;
+                let negcheck1 = (&state.eg * &Zinv).is_negative();
 
-            let negcheck1 = (&state.eg * &Zinv).is_negative();
+                let mut e = state.e;
+                let mut g = state.g;
+                let mut h = state.h;
 
-            let mut e = state.e;
-            let mut g = state.g;
-            let mut h = state.h;
+                let minus_e = -&e;
+                let f_times_sqrta = &state.f * &constants::SQRT_M1;
 
-            let minus_e = -&e;
-            let f_times_sqrta = &state.f * &constants::SQRT_M1;
+                e.conditional_assign(&state.g, negcheck1);
+                g.conditional_assign(&minus_e, negcheck1);
+                h.conditional_assign(&f_times_sqrta, negcheck1);
 
-            e.conditional_assign(&state.g, negcheck1);
-            g.conditional_assign(&minus_e, negcheck1);
-            h.conditional_assign(&f_times_sqrta, negcheck1);
+                magic.conditional_assign(&constants::SQRT_M1, negcheck1);
 
-            magic.conditional_assign(&constants::SQRT_M1, negcheck1);
+                let negcheck2 = (&(&h * &e) * &Zinv).is_negative();
 
-            let negcheck2 = (&(&h * &e) * &Zinv).is_negative();
+                g.conditional_negate(negcheck2);
 
-            g.conditional_negate(negcheck2);
+                let mut s = &(&h - &g) * &(&magic * &(&g * &Tinv));
 
-            let mut s = &(&h - &g) * &(&magic * &(&g * &Tinv));
+                let s_is_negative = s.is_negative();
+                s.conditional_negate(s_is_negative);
 
-            let s_is_negative = s.is_negative();
-            s.conditional_negate(s_is_negative);
-
-            out.push(CompressedRistretto(s.to_bytes()));
-            i += 1;
-        }
-        out
+                CompressedRistretto(s.to_bytes())
+            })
+            .collect()
     }
 
     /// Return the coset self + E\[4\], for debugging.
@@ -1005,10 +989,7 @@ impl VartimeMultiscalarMul for RistrettoPoint {
     {
         let extended_points = points.into_iter().map(|opt_P| opt_P.map(|P| P.0));
 
-        // TODO(aeneas): revert to `.map(RistrettoPoint)` once AeneasVerif/aeneas#767
-        // is fixed (PR #1284). The tuple-struct constructor as a fn pointer makes
-        // Aeneas emit a standalone constructor that name-clashes with the type.
-        EdwardsPoint::optional_multiscalar_mul(scalars, extended_points).map(|P| RistrettoPoint(P))
+        EdwardsPoint::optional_multiscalar_mul(scalars, extended_points).map(RistrettoPoint)
     }
 }
 
@@ -1063,10 +1044,7 @@ impl VartimePrecomputedMultiscalarMul for VartimeRistrettoPrecomputation {
                 dynamic_scalars,
                 dynamic_points.into_iter().map(|P_opt| P_opt.map(|P| P.0)),
             )
-            // TODO(aeneas): revert to `.map(RistrettoPoint)` once AeneasVerif/aeneas#767
-            // is fixed (PR #1284). The tuple-struct constructor as a fn pointer makes
-            // Aeneas emit a standalone constructor that name-clashes with the type.
-            .map(|P| RistrettoPoint(P))
+            .map(RistrettoPoint)
     }
 }
 

@@ -10,11 +10,13 @@ relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
 maxRecDepth = 10000
 
+# The pinned Aeneas version. Also read by `scripts/aeneas-install.sh` to download
+# the charon/aeneas binaries from the GitHub. The `rev` must be a GitHub release tag.
 [[require]]
 name = "aeneas"
 git = "https://github.com/AeneasVerif/aeneas.git"
 subDir = "backends/lean"
-rev = "60228043"
+rev = "nightly-2026.10.09-d119a47"
 
 # Hand-written models for the `subtle` crate.
 [[lean_lib]]

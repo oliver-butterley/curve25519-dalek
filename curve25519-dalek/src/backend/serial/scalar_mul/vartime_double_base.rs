@@ -28,20 +28,12 @@ pub fn mul(a: &Scalar, A: &EdwardsPoint, b: &Scalar) -> EdwardsPoint {
     #[cfg(not(feature = "precomputed-tables"))]
     let b_naf = b.non_adjacent_form(5);
 
-    // Find starting index.
-    //
-    // A `while` loop with a descending index + flag instead of
-    // `for j in (0..256).rev() { … break }`: a conditional `break` in a `for`
-    // loop trips an Aeneas loop-join error ("Could not match the contexts").
-    // Semantically identical. See aeneas#964 / aeneas#765 and aeneas-issues/issue_18.
+    // Find starting index
     let mut i: usize = 255;
-    let mut j: usize = 256;
-    let mut done = false;
-    while j > 0 && !done {
-        j -= 1;
+    for j in (0..256).rev() {
         i = j;
         if a_naf[i] != 0 || b_naf[i] != 0 {
-            done = true;
+            break;
         }
     }
 
