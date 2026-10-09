@@ -2,8 +2,8 @@
 module
 public import Aeneas
 public import Curve25519Dalek.Types
-public import Subtle
-public import Zeroize
+public import Subtle.Basic
+public import Zeroize.Basic
 @[expose] public section
 open Aeneas Aeneas.Std Result ControlFlow Error
 set_option linter.dupNamespace false

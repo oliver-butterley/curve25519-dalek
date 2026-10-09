@@ -1,7 +1,7 @@
 name = "curve25519-dalek"
 version = "0.1.0"
 keywords = ["formal verification"]
-defaultTargets = ["Curve25519Dalek", "Proofs"]
+defaultTargets = ["Curve25519Dalek", "Subtle", "Zeroize", "Proofs"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -18,12 +18,12 @@ git = "https://github.com/AeneasVerif/aeneas.git"
 subDir = "backends/lean"
 rev = "nightly-2026.10.09-d119a47"
 
-# Hand-written models for the `subtle` crate.
+# Hand-written library for the `subtle` crate.
 [[lean_lib]]
 name = "Subtle"
 srcDir = "curve25519-dalek/lean"
 
-# Hand-written models for the `zeroize` crate.
+# Hand-written library for the `zeroize` crate.
 [[lean_lib]]
 name = "Zeroize"
 srcDir = "curve25519-dalek/lean"

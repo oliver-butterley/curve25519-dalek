@@ -1,22 +1,23 @@
 module
 public import Aeneas
 @[expose] public section
-open Aeneas Aeneas.Std Result ControlFlow Error
-set_option linter.dupNamespace false
-set_option linter.hashCommand false
-set_option linter.unusedVariables false
+-- The style linter misreads `@[rust_fun "..."]`/`@[rust_type "..."]` attributes.
 set_option linter.style.whitespace false
-set_option linter.style.setOption false
-set_option linter.style.longLine false
+open Aeneas Aeneas.Std
+
+/-! # Types of the `subtle` crate (subtle-2.6.1) — TRUSTED
+
+Types only: this file is imported by `Curve25519Dalek/TypesExternal.lean`. They are what Aeneas
+emits when it translates the type definitions of `subtle`. Functions and their specs are in
+`Subtle/Basic.lean`. -/
 
 /-- [subtle::Choice]
     Source: 'subtle-2.6.1/src/lib.rs', lines 120:0-120:17
     Name pattern: [subtle::Choice]
 
-    `subtle::Choice` is a single-field tuple struct `struct Choice(u8)`. Aeneas
-    renders single-field tuple structs as a reducible alias to the inner type
-    (cf. `FieldElement51 := Array U64 5`), so we model it as a reducible alias to
-    `U8`. The 0/1 invariant is NOT baked into the type; see `Choice.IsValid`. -/
+    `pub struct Choice(u8);` Aeneas translates a single-field tuple struct to a reducible alias of
+    the field type (cf. `edwards.CompressedEdwardsY := Array Std.U8 32#usize`). The 0/1 invariant
+    is therefore not part of the type; see the module doc of `Subtle/Basic.lean`. -/
 @[reducible, rust_type "subtle::Choice"]
 def subtle.Choice : Type := Std.U8
 
@@ -24,7 +25,8 @@ def subtle.Choice : Type := Std.U8
     Source: 'subtle-2.6.1/src/lib.rs', lines 647:0-647:22
     Name pattern: [subtle::CtOption]
 
-    `struct CtOption<T> { value: T, is_some: Choice }`. -/
+    `pub struct CtOption<T> { value: T, is_some: Choice }` -/
+@[rust_type "subtle::CtOption"]
 structure subtle.CtOption (T : Type) where
   /-- The wrapped value; meaningful only when `is_some` is `Choice(1)`. -/
   value : T
@@ -32,28 +34,3 @@ structure subtle.CtOption (T : Type) where
   is_some : subtle.Choice
 
 attribute [nolint defsWithUnderscore] subtle.CtOption.is_some
-
-/-- The canonical "false" `Choice`. -/
-def Choice.zero : subtle.Choice := 0#u8
-
-/-- The canonical "true" `Choice`. -/
-def Choice.one : subtle.Choice := 1#u8
-
-/-- A `Choice` is valid when its underlying byte is `0` or `1`.
-
-    Since `subtle.Choice` is definitionally `U8`, this predicate is NOT always
-    true: producers must establish it and consumers may rely on it. -/
-def subtle.Choice.IsValid (c : subtle.Choice) : Prop := c = 0#u8 ∨ c = 1#u8
-
-@[simp] theorem Choice.zero_eq : Choice.zero = 0#u8 := rfl
-@[simp] theorem Choice.one_eq : Choice.one = 1#u8 := rfl
-
-theorem Choice.isValid_zero : subtle.Choice.IsValid Choice.zero := Or.inl rfl
-theorem Choice.isValid_one : subtle.Choice.IsValid Choice.one := Or.inr rfl
-
-theorem Choice.one_ne_zero : Choice.one ≠ Choice.zero := by decide
-theorem Choice.zero_ne_one : Choice.zero ≠ Choice.one := by decide
-
-/-- A valid `Choice` is either `Choice.zero` or `Choice.one`. -/
-theorem Choice.isValid_eq_zero_or_one {c : subtle.Choice} (h : subtle.Choice.IsValid c) :
-    c = Choice.zero ∨ c = Choice.one := h
