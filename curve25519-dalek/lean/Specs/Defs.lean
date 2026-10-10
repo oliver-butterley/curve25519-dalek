@@ -19,22 +19,19 @@ def Aeneas.Std.Array.asNat {ty : UScalarTy} {n : Usize} (bits : ℕ) (a : Array 
 def Aeneas.Std.Array.asInt {ty : IScalarTy} {n : Usize} (bits : ℕ) (a : Array (IScalar ty) n) : ℤ :=
   (a.val.map (·.val)).foldr (fun d acc => d + 2 ^ bits * acc) 0
 
-namespace curve25519_dalek
+namespace Curve25519Dalek
 
 /-- The natural number encoded little-endian by the 32 bytes of a `Scalar` (not necessarily
 reduced modulo `L`). -/
-@[nolint defsWithUnderscore]
 def scalar.Scalar.asNat (self : scalar.Scalar) : ℕ :=
   self.bytes.asNat 8
 
 /-- The natural number encoded by a `HalfWidthScalar` (a `Scalar` meant to be below `2^128`). -/
-@[nolint defsWithUnderscore]
 def scalar.HalfWidthScalar.asNat (self : scalar.HalfWidthScalar) : ℕ :=
   scalar.Scalar.asNat self
 
 /-- Needed for `a[i]!` on arrays of scalars; the default (the zero scalar) is never observed for
 in-range indices. -/
-@[nolint defsWithUnderscore]
 instance instInhabitedScalar : Inhabited scalar.Scalar := ⟨⟨Array.repeat 32#usize 0#u8⟩⟩
 
-end curve25519_dalek
+end Curve25519Dalek

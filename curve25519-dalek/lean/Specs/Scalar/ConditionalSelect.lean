@@ -8,10 +8,10 @@ public import Specs.Lemmas.StepSpecs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
+namespace Curve25519Dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
 
 /-- Byte arrays with the same entries are equal. -/
 private theorem bytes_ext {x y : Array U8 32#usize} (h : ∀ i < 32, x[i]! = y[i]!) : x = y := by
@@ -66,4 +66,4 @@ theorem conditional_select_spec (a b : Scalar) (choice : subtle.Choice)
   · rw [bytes_ext fun i hi => (hr i hi).1 h]
   · rw [bytes_ext fun i hi => (hr i hi).2 h]
 
-end curve25519_dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
+end Curve25519Dalek.scalar.Scalar.Insts.SubtleConditionallySelectable

@@ -7,9 +7,9 @@ public import Specs.Backend.Serial.U64.Field.SquareLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- The loop doubles the elements of `iter` from position `iter.i` on and hands the updated
 iterator to `back`. -/
@@ -91,4 +91,4 @@ theorem square2_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
   · rw [hdbl i hi]
     have := hsq_lt i hi
     scalar_tac
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

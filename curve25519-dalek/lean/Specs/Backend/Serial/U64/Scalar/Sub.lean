@@ -14,9 +14,9 @@ public import Specs.Backend.Serial.U64.Constants.L
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.MaskStep
 
@@ -149,4 +149,4 @@ theorem sub_spec (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   obtain ⟨hmod, hlt⟩ := key r (fun h => hr0 (hc0 h)) (fun h => hr1 (hc1 h))
   exact ⟨hmod, hlt, hr⟩
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

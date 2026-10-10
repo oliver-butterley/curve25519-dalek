@@ -66,39 +66,39 @@ Not translated: `from_bits`, `random`, `hash_from_bytes`, `from_hash`, `bits_le`
 and `serde` impls. -/
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `from_bytes_mod_order_wide`: the 512-bit little-endian value reduced modulo `L`.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem from_bytes_mod_order_wide.«x86_64-unknown-linux-gnu_spec'» (input : Array U8 64#usize) :
-    from_bytes_mod_order_wide.«x86_64-unknown-linux-gnu» input ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem from_bytes_mod_order_wide.«x86_64-tables_spec'» (input : Array U8 64#usize) :
+    from_bytes_mod_order_wide.«x86_64-tables» input ⦃ (r : Scalar) =>
       r.asNat = input.asNat 8 % L ⦄ :=
-  from_bytes_mod_order_wide.«x86_64-unknown-linux-gnu_spec» input
+  from_bytes_mod_order_wide.«x86_64-tables_spec» input
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms from_bytes_mod_order_wide.«x86_64-unknown-linux-gnu_spec'»
+#print axioms from_bytes_mod_order_wide.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `from_bytes_mod_order_wide`: the 512-bit little-endian value reduced modulo `L`.
 Target `x86_64-no-tables`. -/
@@ -111,23 +111,23 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
 #print axioms from_bytes_mod_order_wide.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
 
 /-- `PartialEq::eq`: equality of the byte encodings. -/
 theorem eq_spec' (self other : Scalar) :
@@ -139,9 +139,9 @@ theorem eq_spec' (self other : Scalar) :
   Slice.Insts.SubtleConstantTimeEq.ct_eq_spec, U8.Insts.SubtleConstantTimeEq.ct_eq_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms eq_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
+end Curve25519Dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
 
-namespace curve25519_dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
+namespace Curve25519Dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
 
 /-- `ConstantTimeEq::ct_eq`: `1` iff the byte encodings are equal. -/
 theorem ct_eq_spec' (self other : Scalar) :
@@ -153,9 +153,9 @@ theorem ct_eq_spec' (self other : Scalar) :
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ct_eq_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
+end Curve25519Dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
 
 /-- `Index::index`: byte `_index`. -/
 theorem index_spec' (self : Scalar) (_index : Usize) (hindex : _index.val < 32) :
@@ -166,34 +166,34 @@ theorem index_spec' (self : Scalar) (_index : Usize) (hindex : _index.val < 32) 
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms index_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
+end Curve25519Dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
 
-namespace curve25519_dalek.scalar.MulAssignScalarSharedAScalar
+namespace Curve25519Dalek.scalar.MulAssignScalarSharedAScalar
 
 /-- `MulAssign::mul_assign`: the product modulo `L`.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem mul_assign.«x86_64-unknown-linux-gnu_spec'» (self _rhs : Scalar) :
-    mul_assign.«x86_64-unknown-linux-gnu» self _rhs ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem mul_assign.«x86_64-tables_spec'» (self _rhs : Scalar) :
+    mul_assign.«x86_64-tables» self _rhs ⦃ (r : Scalar) =>
       r.asNat = self.asNat * _rhs.asNat % L ⦄ :=
-  mul_assign.«x86_64-unknown-linux-gnu_spec» self _rhs
+  mul_assign.«x86_64-tables_spec» self _rhs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms mul_assign.«x86_64-unknown-linux-gnu_spec'»
+#print axioms mul_assign.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.MulAssignScalarSharedAScalar
+end Curve25519Dalek.scalar.MulAssignScalarSharedAScalar
 
-namespace curve25519_dalek.scalar.MulAssignScalarSharedAScalar
+namespace Curve25519Dalek.scalar.MulAssignScalarSharedAScalar
 
 /-- `MulAssign::mul_assign`: the product modulo `L`.
 Target `x86_64-no-tables`. -/
@@ -206,44 +206,44 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
 #print axioms mul_assign.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.MulAssignScalarSharedAScalar
+end Curve25519Dalek.scalar.MulAssignScalarSharedAScalar
 
-namespace curve25519_dalek.scalar.MulShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.MulShared0ScalarSharedAScalarScalar
 
 /-- `Mul::mul`: the product modulo `L`.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem mul.«x86_64-unknown-linux-gnu_spec'» (self _rhs : Scalar) :
-    mul.«x86_64-unknown-linux-gnu» self _rhs ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem mul.«x86_64-tables_spec'» (self _rhs : Scalar) :
+    mul.«x86_64-tables» self _rhs ⦃ (r : Scalar) =>
       r.asNat = self.asNat * _rhs.asNat % L ⦄ :=
-  mul.«x86_64-unknown-linux-gnu_spec» self _rhs
+  mul.«x86_64-tables_spec» self _rhs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms mul.«x86_64-unknown-linux-gnu_spec'»
+#print axioms mul.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.MulShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.MulShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.MulShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.MulShared0ScalarSharedAScalarScalar
 
 /-- `Mul::mul`: the product modulo `L`.
 Target `x86_64-no-tables`. -/
@@ -256,44 +256,44 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms mul.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.MulShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.MulShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
 /-- `Add::add`: the sum modulo `L`, for reduced inputs.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem add.«x86_64-unknown-linux-gnu_spec'» (self _rhs : Scalar) (hself : self.asNat < L)
+Target `x86_64-tables`. -/
+theorem add.«x86_64-tables_spec'» (self _rhs : Scalar) (hself : self.asNat < L)
     (hrhs : _rhs.asNat < L) :
-    add.«x86_64-unknown-linux-gnu» self _rhs ⦃ (r : Scalar) =>
+    add.«x86_64-tables» self _rhs ⦃ (r : Scalar) =>
       r.asNat = (self.asNat + _rhs.asNat) % L ⦄ :=
-  add.«x86_64-unknown-linux-gnu_spec» self _rhs hself hrhs
+  add.«x86_64-tables_spec» self _rhs hself hrhs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms add.«x86_64-unknown-linux-gnu_spec'»
+#print axioms add.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
 /-- `Add::add`: the sum modulo `L`, for reduced inputs.
 Target `x86_64-no-tables`. -/
@@ -307,44 +307,44 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms add.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.SubShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.SubShared0ScalarSharedAScalarScalar
 
 /-- `Sub::sub`: the difference modulo `L`, reduced, for reduced inputs.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem sub.«x86_64-unknown-linux-gnu_spec'» (self rhs : Scalar) (hself : self.asNat < L)
+Target `x86_64-tables`. -/
+theorem sub.«x86_64-tables_spec'» (self rhs : Scalar) (hself : self.asNat < L)
     (hrhs : rhs.asNat < L) :
-    sub.«x86_64-unknown-linux-gnu» self rhs ⦃ (r : Scalar) =>
+    sub.«x86_64-tables» self rhs ⦃ (r : Scalar) =>
       (r.asNat + rhs.asNat) % L = self.asNat % L ∧ r.asNat < L ⦄ :=
-  sub.«x86_64-unknown-linux-gnu_spec» self rhs hself hrhs
+  sub.«x86_64-tables_spec» self rhs hself hrhs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms sub.«x86_64-unknown-linux-gnu_spec'»
+#print axioms sub.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.SubShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.SubShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.SubShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.SubShared0ScalarSharedAScalarScalar
 
 /-- `Sub::sub`: the difference modulo `L`, reduced, for reduced inputs.
 Target `x86_64-no-tables`. -/
@@ -358,43 +358,43 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms sub.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.SubShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.SubShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.NegShared0ScalarScalar
+namespace Curve25519Dalek.scalar.NegShared0ScalarScalar
 
 /-- `Neg::neg` (for `&Scalar`): the negation modulo `L`, reduced.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem neg.«x86_64-unknown-linux-gnu_spec'» (self : Scalar) :
-    neg.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem neg.«x86_64-tables_spec'» (self : Scalar) :
+    neg.«x86_64-tables» self ⦃ (r : Scalar) =>
       (r.asNat + self.asNat) % L = 0 ∧ r.asNat < L ⦄ :=
-  neg.«x86_64-unknown-linux-gnu_spec» self
+  neg.«x86_64-tables_spec» self
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms neg.«x86_64-unknown-linux-gnu_spec'»
+#print axioms neg.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.NegShared0ScalarScalar
+end Curve25519Dalek.scalar.NegShared0ScalarScalar
 
-namespace curve25519_dalek.scalar.NegShared0ScalarScalar
+namespace Curve25519Dalek.scalar.NegShared0ScalarScalar
 
 /-- `Neg::neg` (for `&Scalar`): the negation modulo `L`, reduced.
 Target `x86_64-no-tables`. -/
@@ -407,18 +407,18 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms neg.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.NegShared0ScalarScalar
+end Curve25519Dalek.scalar.NegShared0ScalarScalar
 
-namespace curve25519_dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
+namespace Curve25519Dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
 
 /-- `conditional_select`: `a` if `choice = 0`, `b` if `choice = 1`, for a valid `choice`. -/
 theorem conditional_select_spec' (a b : Scalar) (choice : subtle.Choice)
@@ -431,9 +431,9 @@ theorem conditional_select_spec' (a b : Scalar) (choice : subtle.Choice)
   U8.Insts.SubtleConditionallySelectable.conditional_select_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms conditional_select_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
+end Curve25519Dalek.scalar.Scalar.Insts.SubtleConditionallySelectable
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreDefaultDefault
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreDefaultDefault
 
 /-- `Default::default`: the scalar `0`. -/
 theorem default_spec' :
@@ -444,9 +444,9 @@ theorem default_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms default_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreDefaultDefault
+end Curve25519Dalek.scalar.Scalar.Insts.CoreDefaultDefault
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU8
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU8
 
 /-- `From<u8>`: the value of `x`. -/
 theorem from_spec' (x : U8) :
@@ -457,9 +457,9 @@ theorem from_spec' (x : U8) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU8
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU8
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU16
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU16
 
 /-- `From<u16>`: the value of `x`. -/
 theorem from_spec' (x : U16) :
@@ -470,9 +470,9 @@ theorem from_spec' (x : U16) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU16
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU16
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU32
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU32
 
 /-- `From<u32>`: the value of `x`. -/
 theorem from_spec' (x : U32) :
@@ -483,9 +483,9 @@ theorem from_spec' (x : U32) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU32
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU32
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU64
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU64
 
 /-- `From<u64>`: the value of `x`. -/
 theorem from_spec' (x : U64) :
@@ -496,9 +496,9 @@ theorem from_spec' (x : U64) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU64
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU64
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU128
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU128
 
 /-- `From<u128>`: the value of `x`. -/
 theorem from_spec' (x : U128) :
@@ -509,9 +509,9 @@ theorem from_spec' (x : U128) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU128
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU128
 
-namespace curve25519_dalek.scalar.Scalar.Insts.ZeroizeZeroize
+namespace Curve25519Dalek.scalar.Scalar.Insts.ZeroizeZeroize
 
 /-- `Zeroize::zeroize`: all bytes `0` (proved in `Zeroize/Instances.lean`). -/
 theorem zeroize_spec' (self : Scalar) :
@@ -523,9 +523,9 @@ theorem zeroize_spec' (self : Scalar) :
   zeroize.Zeroize.Blanket.zeroize_eq] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms zeroize_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.ZeroizeZeroize
+end Curve25519Dalek.scalar.Scalar.Insts.ZeroizeZeroize
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `ZERO`: the scalar `0`. -/
 theorem ZERO_spec' :
@@ -535,9 +535,9 @@ theorem ZERO_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ZERO_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `ONE`: the scalar `1`. -/
 theorem ONE_spec' :
@@ -547,9 +547,9 @@ theorem ONE_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ONE_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `to_bytes`: the byte encoding. -/
 theorem to_bytes_spec' (self : Scalar) :
@@ -560,9 +560,9 @@ theorem to_bytes_spec' (self : Scalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_bytes_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `as_bytes`: the byte encoding. -/
 theorem as_bytes_spec' (self : Scalar) :
@@ -573,35 +573,35 @@ theorem as_bytes_spec' (self : Scalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms as_bytes_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert`: the inverse modulo `L` (reduced), and `0` for `0`.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem invert.«x86_64-unknown-linux-gnu_spec'» (self : Scalar) :
-    invert.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem invert.«x86_64-tables_spec'» (self : Scalar) :
+    invert.«x86_64-tables» self ⦃ (r : Scalar) =>
       (self.asNat % L ≠ 0 → r.asNat * self.asNat % L = 1) ∧
       (self.asNat % L = 0 → r.asNat = 0) ∧ r.asNat < L ⦄ :=
-  invert.«x86_64-unknown-linux-gnu_spec» self
+  invert.«x86_64-tables_spec» self
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, L_prime,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms invert.«x86_64-unknown-linux-gnu_spec'»
+#print axioms invert.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert`: the inverse modulo `L` (reduced), and `0` for `0`.
 Target `x86_64-no-tables`. -/
@@ -615,28 +615,28 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, L_prime,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms invert.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert_batch`: inverts every (nonzero) input; returns the inverse of their product.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem invert_batch.«x86_64-unknown-linux-gnu_spec'» {N : Usize} (inputs : Array Scalar N)
+Target `x86_64-tables`. -/
+theorem invert_batch.«x86_64-tables_spec'» {N : Usize} (inputs : Array Scalar N)
     (hinputs : ∀ i < N.val, inputs[i]!.asNat % L ≠ 0) :
-    invert_batch.«x86_64-unknown-linux-gnu» inputs ⦃ (ret : Scalar) (r : Array Scalar N) =>
+    invert_batch.«x86_64-tables» inputs ⦃ (ret : Scalar) (r : Array Scalar N) =>
       (∀ i < N.val, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range N.val, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ :=
-  invert_batch.«x86_64-unknown-linux-gnu_spec» inputs hinputs
+  invert_batch.«x86_64-tables_spec» inputs hinputs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, L_prime, Array.Insts.ZeroizeZeroize.zeroize_spec,
@@ -645,19 +645,19 @@ set_option linter.style.longLine false in
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, zeroize.Zeroize.Blanket.zeroize_eq,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
   core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms invert_batch.«x86_64-unknown-linux-gnu_spec'»
+#print axioms invert_batch.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert_batch`: inverts every (nonzero) input; returns the inverse of their product.
 Target `x86_64-no-tables`. -/
@@ -676,30 +676,30 @@ set_option linter.style.longLine false in
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, zeroize.Zeroize.Blanket.zeroize_eq,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
   core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
 #print axioms invert_batch.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert_batch_alloc`: as `invert_batch`, on a slice.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem invert_batch_alloc.«x86_64-unknown-linux-gnu_spec'» (inputs : Slice Scalar)
+Target `x86_64-tables`. -/
+theorem invert_batch_alloc.«x86_64-tables_spec'» (inputs : Slice Scalar)
     (hinputs : ∀ i < inputs.length, inputs[i]!.asNat % L ≠ 0) :
-    invert_batch_alloc.«x86_64-unknown-linux-gnu» inputs ⦃ (ret : Scalar) (r : Slice Scalar) =>
+    invert_batch_alloc.«x86_64-tables» inputs ⦃ (ret : Scalar) (r : Slice Scalar) =>
       r.length = inputs.length ∧
       (∀ i < inputs.length, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range inputs.length, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ :=
-  invert_batch_alloc.«x86_64-unknown-linux-gnu_spec» inputs hinputs
+  invert_batch_alloc.«x86_64-tables_spec» inputs hinputs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, L_prime, Array.Insts.ZeroizeZeroize.zeroize_spec,
@@ -708,19 +708,19 @@ set_option linter.style.longLine false in
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, zeroize.Zeroize.Blanket.zeroize_eq,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
   core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms invert_batch_alloc.«x86_64-unknown-linux-gnu_spec'»
+#print axioms invert_batch_alloc.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert_batch_alloc`: as `invert_batch`, on a slice.
 Target `x86_64-no-tables`. -/
@@ -740,33 +740,33 @@ set_option linter.style.longLine false in
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, zeroize.Zeroize.Blanket.zeroize_eq,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
   core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
 #print axioms invert_batch_alloc.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert_batch_internal`: Montgomery's batch inversion; the scratch space is not specified.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem invert_batch_internal.«x86_64-unknown-linux-gnu_spec'» (inputs : Slice Scalar)
+Target `x86_64-tables`. -/
+theorem invert_batch_internal.«x86_64-tables_spec'» (inputs : Slice Scalar)
     (scratch : Slice backend.serial.u64.scalar.Scalar52) (hlen : scratch.length = inputs.length)
     (hinputs : ∀ i < inputs.length, inputs[i]!.asNat % L ≠ 0) :
-    invert_batch_internal.«x86_64-unknown-linux-gnu» inputs scratch
+    invert_batch_internal.«x86_64-tables» inputs scratch
       ⦃ (ret : Scalar) (r : Slice Scalar)
       (_scratch : Slice backend.serial.u64.scalar.Scalar52) =>
       r.length = inputs.length ∧
       (∀ i < inputs.length, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range inputs.length, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ :=
-  invert_batch_internal.«x86_64-unknown-linux-gnu_spec» inputs scratch hlen hinputs
+  invert_batch_internal.«x86_64-tables_spec» inputs scratch hlen hinputs
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, L_prime, Array.Insts.ZeroizeZeroize.zeroize_spec,
@@ -775,19 +775,19 @@ set_option linter.style.longLine false in
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, zeroize.Zeroize.Blanket.zeroize_eq,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
   core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms invert_batch_internal.«x86_64-unknown-linux-gnu_spec'»
+#print axioms invert_batch_internal.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `invert_batch_internal`: Montgomery's batch inversion; the scratch space is not specified.
 Target `x86_64-no-tables`. -/
@@ -810,44 +810,44 @@ set_option linter.style.longLine false in
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, zeroize.Zeroize.Blanket.zeroize_eq,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
   core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
 #print axioms invert_batch_internal.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `div_by_2`: `b` with `b + b = self` modulo `L`, reduced.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem div_by_2.«x86_64-unknown-linux-gnu_spec'» (self : Scalar) (hself : self.asNat < L) :
-    div_by_2.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem div_by_2.«x86_64-tables_spec'» (self : Scalar) (hself : self.asNat < L) :
+    div_by_2.«x86_64-tables» self ⦃ (r : Scalar) =>
       2 * r.asNat % L = self.asNat ∧ r.asNat < L ⦄ :=
-  div_by_2.«x86_64-unknown-linux-gnu_spec» self hself
+  div_by_2.«x86_64-tables_spec» self hself
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms div_by_2.«x86_64-unknown-linux-gnu_spec'»
+#print axioms div_by_2.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `div_by_2`: `b` with `b + b = self` modulo `L`, reduced.
 Target `x86_64-no-tables`. -/
@@ -860,19 +860,19 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
 #print axioms div_by_2.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `non_adjacent_form`: the width-`w` NAF: odd digits below `2^(w-1)` in absolute value, at most
 one nonzero digit in any `w` consecutive ones, for `self < 2^255`. -/
@@ -886,12 +886,12 @@ theorem non_adjacent_form_spec' (self : Scalar) (w : Usize) (hw : 2 ≤ w.val �
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, core.fmt.Formatter,
-  _private.Curve25519Dalek.Funs.0.curve25519_dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
+  _private.Curve25519Dalek.Funs.0.Curve25519Dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms non_adjacent_form_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar.as_radix_16
+namespace Curve25519Dalek.scalar.Scalar.as_radix_16
 
 /-- `as_radix_16::bot_half`: the low nibble. -/
 theorem bot_half_spec' (x : U8) :
@@ -902,9 +902,9 @@ theorem bot_half_spec' (x : U8) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms bot_half_spec'
 
-end curve25519_dalek.scalar.Scalar.as_radix_16
+end Curve25519Dalek.scalar.Scalar.as_radix_16
 
-namespace curve25519_dalek.scalar.Scalar.as_radix_16
+namespace Curve25519Dalek.scalar.Scalar.as_radix_16
 
 /-- `as_radix_16::top_half`: the high nibble. -/
 theorem top_half_spec' (x : U8) :
@@ -915,9 +915,9 @@ theorem top_half_spec' (x : U8) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms top_half_spec'
 
-end curve25519_dalek.scalar.Scalar.as_radix_16
+end Curve25519Dalek.scalar.Scalar.as_radix_16
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `as_radix_16`: signed radix-16 digits in `[-8, 8)` (the last in `[-8, 8]`), for
 `self < 2^255`. -/
@@ -930,9 +930,9 @@ theorem as_radix_16_spec' (self : Scalar) (hself : self.bytes[31]!.val ≤ 127) 
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms as_radix_16_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `to_radix_2w_size_hint`: `⌈256 / w⌉` digits, plus one for `w = 8`. -/
 theorem to_radix_2w_size_hint_spec' (w : Usize) (hw : 4 ≤ w.val ∧ w.val ≤ 8) :
@@ -944,9 +944,9 @@ theorem to_radix_2w_size_hint_spec' (w : Usize) (hw : 4 ≤ w.val ∧ w.val ≤ 
 /-- [propext, Classical.choice, Quot.sound, core.num.Usize.div_ceil_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_radix_2w_size_hint_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `as_radix_2w`: signed radix-`2^w` digits in `[-2^(w-1), 2^(w-1))` (the last in
 `[-2^(w-1), 2^(w-1)]`), the unused ones `0`, for `self < 2^255`. -/
@@ -961,32 +961,32 @@ theorem as_radix_2w_spec' (self : Scalar) (w : Usize) (hw : 4 ≤ w.val ∧ w.va
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, core.num.Usize.div_ceil_spec, core.fmt.Formatter,
-  _private.Curve25519Dalek.Funs.0.curve25519_dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
+  _private.Curve25519Dalek.Funs.0.Curve25519Dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms as_radix_2w_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `unpack`: the same value in 52-bit limbs.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem unpack.«x86_64-unknown-linux-gnu_spec'» (self : Scalar) :
-    unpack.«x86_64-unknown-linux-gnu» self ⦃ (r : backend.serial.u64.scalar.Scalar52) =>
+Target `x86_64-tables`. -/
+theorem unpack.«x86_64-tables_spec'» (self : Scalar) :
+    unpack.«x86_64-tables» self ⦃ (r : backend.serial.u64.scalar.Scalar52) =>
       r.asNat = self.asNat ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
-  unpack.«x86_64-unknown-linux-gnu_spec» self
+  unpack.«x86_64-tables_spec» self
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms unpack.«x86_64-unknown-linux-gnu_spec'»
+#print axioms unpack.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `unpack`: the same value in 52-bit limbs.
 Target `x86_64-no-tables`. -/
@@ -997,40 +997,40 @@ theorem unpack.«x86_64-no-tables_spec'» (self : Scalar) :
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms unpack.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `reduce`: the value modulo `L`.
-Target `x86_64-unknown-linux-gnu`. -/
-theorem reduce.«x86_64-unknown-linux-gnu_spec'» (self : Scalar) :
-    reduce.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+Target `x86_64-tables`. -/
+theorem reduce.«x86_64-tables_spec'» (self : Scalar) :
+    reduce.«x86_64-tables» self ⦃ (r : Scalar) =>
       r.asNat = self.asNat % L ⦄ :=
-  reduce.«x86_64-unknown-linux-gnu_spec» self
+  reduce.«x86_64-tables_spec» self
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in
-#print axioms reduce.«x86_64-unknown-linux-gnu_spec'»
+#print axioms reduce.«x86_64-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `reduce`: the value modulo `L`.
 Target `x86_64-no-tables`. -/
@@ -1043,18 +1043,18 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms reduce.«x86_64-no-tables_spec'»
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar52
+namespace Curve25519Dalek.scalar.Scalar52
 
 /-- `UnpackedScalar::pack`: the same value as 32 bytes. -/
 theorem pack_spec' (self : backend.serial.u64.scalar.Scalar52)
@@ -1065,14 +1065,14 @@ theorem pack_spec' (self : backend.serial.u64.scalar.Scalar52)
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms pack_spec'
 
-end curve25519_dalek.scalar.Scalar52
+end Curve25519Dalek.scalar.Scalar52
 
-namespace curve25519_dalek.scalar.Scalar52.montgomery_invert
+namespace Curve25519Dalek.scalar.Scalar52.montgomery_invert
 
 /-- `montgomery_invert::square_multiply`: `y^(2^squarings) x` in Montgomery form. -/
 theorem square_multiply_spec' (y : backend.serial.u64.scalar.Scalar52)
@@ -1089,9 +1089,9 @@ theorem square_multiply_spec' (y : backend.serial.u64.scalar.Scalar52)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms square_multiply_spec'
 
-end curve25519_dalek.scalar.Scalar52.montgomery_invert
+end Curve25519Dalek.scalar.Scalar52.montgomery_invert
 
-namespace curve25519_dalek.scalar.Scalar52
+namespace Curve25519Dalek.scalar.Scalar52
 
 /-- `UnpackedScalar::montgomery_invert`: the inverse in Montgomery form (`a R ↦ a⁻¹ R`). -/
 theorem montgomery_invert_spec' (self : backend.serial.u64.scalar.Scalar52)
@@ -1106,9 +1106,9 @@ theorem montgomery_invert_spec' (self : backend.serial.u64.scalar.Scalar52)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms montgomery_invert_spec'
 
-end curve25519_dalek.scalar.Scalar52
+end Curve25519Dalek.scalar.Scalar52
 
-namespace curve25519_dalek.scalar.Scalar52
+namespace Curve25519Dalek.scalar.Scalar52
 
 /-- `UnpackedScalar::invert`: the inverse modulo `L` (reduced), and `0` for `0`. -/
 theorem invert_spec' (self : backend.serial.u64.scalar.Scalar52)
@@ -1123,9 +1123,9 @@ theorem invert_spec' (self : backend.serial.u64.scalar.Scalar52)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms invert_spec'
 
-end curve25519_dalek.scalar.Scalar52
+end Curve25519Dalek.scalar.Scalar52
 
-namespace curve25519_dalek.scalar
+namespace Curve25519Dalek.scalar
 
 /-- `read_le_u64_into`: each word is read from 8 little-endian bytes. -/
 theorem read_le_u64_into_spec' (src : Slice U8) (dst : Slice U64)
@@ -1137,12 +1137,12 @@ theorem read_le_u64_into_spec' (src : Slice U8) (dst : Slice U64)
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, core.fmt.Formatter,
-  _private.Curve25519Dalek.Funs.0.curve25519_dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
+  _private.Curve25519Dalek.Funs.0.Curve25519Dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms read_le_u64_into_spec'
 
-end curve25519_dalek.scalar
+end Curve25519Dalek.scalar
 
-namespace curve25519_dalek.scalar
+namespace Curve25519Dalek.scalar
 
 /-- `clamp_integer`: clears the low 3 bits and bit 255, sets bit 254. -/
 theorem clamp_integer_spec' (bytes : Array U8 32#usize) :
@@ -1153,9 +1153,9 @@ theorem clamp_integer_spec' (bytes : Array U8 32#usize) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms clamp_integer_spec'
 
-end curve25519_dalek.scalar
+end Curve25519Dalek.scalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
 
 /-- `TryFrom<Scalar> for HalfWidthScalar`: succeeds iff the value is below `2^128`. -/
 theorem try_from_spec' (value : Scalar) :
@@ -1166,9 +1166,9 @@ theorem try_from_spec' (value : Scalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms try_from_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 /-- `HalfWidthScalar::ZERO`: `0`. -/
 theorem ZERO_spec' :
@@ -1178,9 +1178,9 @@ theorem ZERO_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ZERO_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 /-- `HalfWidthScalar::ONE`: `1`. -/
 theorem ONE_spec' :
@@ -1190,9 +1190,9 @@ theorem ONE_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ONE_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 /-- `HalfWidthScalar::from_bytes`: the 128-bit little-endian value. -/
 theorem from_bytes_spec' (bytes : Array U8 16#usize) :
@@ -1203,9 +1203,9 @@ theorem from_bytes_spec' (bytes : Array U8 16#usize) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_bytes_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 /-- `HalfWidthScalar::as_scalar`: the same value. -/
 theorem as_scalar_spec' (self : HalfWidthScalar) :
@@ -1216,9 +1216,9 @@ theorem as_scalar_spec' (self : HalfWidthScalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms as_scalar_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 /-- `HalfWidthScalar::to_bytes`: the low 16 bytes. -/
 theorem to_bytes_spec' (self : HalfWidthScalar) :
@@ -1229,9 +1229,9 @@ theorem to_bytes_spec' (self : HalfWidthScalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_bytes_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 /-- `HalfWidthScalar::non_adjacent_form`: as `Scalar::non_adjacent_form`. -/
 theorem non_adjacent_form_spec' (self : HalfWidthScalar) (w : Usize)
@@ -1244,12 +1244,12 @@ theorem non_adjacent_form_spec' (self : HalfWidthScalar) (w : Usize)
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, core.fmt.Formatter,
-  _private.Curve25519Dalek.Funs.0.curve25519_dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
+  _private.Curve25519Dalek.Funs.0.Curve25519Dalek.scalar.read_le_u64_into_loop.body._native.decide.ax_1] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms non_adjacent_form_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- `split_at_128`: `self = lo + 2^128 hi` with both halves below `2^128`. -/
 theorem split_at_128_spec' (self : Scalar) :
@@ -1260,9 +1260,9 @@ theorem split_at_128_spec' (self : Scalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms split_at_128_spec'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
 
 /-- `From<HalfWidthScalar> for Scalar`: the same value. -/
 theorem from_spec' (x : HalfWidthScalar) :
@@ -1273,9 +1273,9 @@ theorem from_spec' (x : HalfWidthScalar) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU8
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU8
 
 /-- `From<u8> for HalfWidthScalar`. -/
 theorem from_spec' (x : U8) :
@@ -1286,9 +1286,9 @@ theorem from_spec' (x : U8) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU8
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU8
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU16
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU16
 
 /-- `From<u16> for HalfWidthScalar`. -/
 theorem from_spec' (x : U16) :
@@ -1299,9 +1299,9 @@ theorem from_spec' (x : U16) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU16
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU16
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU32
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU32
 
 /-- `From<u32> for HalfWidthScalar`. -/
 theorem from_spec' (x : U32) :
@@ -1312,9 +1312,9 @@ theorem from_spec' (x : U32) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU32
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU32
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU64
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU64
 
 /-- `From<u64> for HalfWidthScalar`. -/
 theorem from_spec' (x : U64) :
@@ -1325,9 +1325,9 @@ theorem from_spec' (x : U64) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU64
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU64
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU128
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU128
 
 /-- `From<u128> for HalfWidthScalar`. -/
 theorem from_spec' (x : U128) :
@@ -1338,9 +1338,9 @@ theorem from_spec' (x : U128) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU128
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertFromU128
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize
 
 /-- `Zeroize::zeroize` for `HalfWidthScalar`: `0`. -/
 theorem zeroize_spec' (self : HalfWidthScalar) :
@@ -1352,4 +1352,4 @@ theorem zeroize_spec' (self : HalfWidthScalar) :
   zeroize.Zeroize.Blanket.zeroize_eq] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms zeroize_spec'
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize

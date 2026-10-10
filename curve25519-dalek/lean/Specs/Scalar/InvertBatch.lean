@@ -10,19 +10,19 @@ public import Specs.Scalar.InvertBatchInternal
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
-theorem invert_batch.«x86_64-unknown-linux-gnu_spec» {N : Usize} (inputs : Array Scalar N)
+theorem invert_batch.«x86_64-tables_spec» {N : Usize} (inputs : Array Scalar N)
     (hinputs : ∀ i < N.val, inputs[i]!.asNat % L ≠ 0) :
-    invert_batch.«x86_64-unknown-linux-gnu» inputs ⦃ (ret : Scalar) (r : Array Scalar N) =>
+    invert_batch.«x86_64-tables» inputs ⦃ (ret : Scalar) (r : Array Scalar N) =>
       (∀ i < N.val, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range N.val, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ := by
-  unfold invert_batch.«x86_64-unknown-linux-gnu»
+  unfold invert_batch.«x86_64-tables»
   step as ⟨one, hone, honeb⟩
   step as ⟨acc, hacc, haccb⟩
   step as ⟨s, back, hs, hback⟩
@@ -36,7 +36,7 @@ theorem invert_batch.«x86_64-unknown-linux-gnu_spec» {N : Usize} (inputs : Arr
   have hin : ∀ i : ℕ, inputs[i]! = s[i]! := by
     intro i
     rw [Array.getElem!_Nat_eq, Slice.getElem!_Nat_eq, hs]
-  step with invert_batch_internal.«x86_64-unknown-linux-gnu_spec» s s1 hs1N
+  step with invert_batch_internal.«x86_64-tables_spec» s s1 hs1N
     (fun i hi => hin i ▸ hinputs i (hsN ▸ hi)) as ⟨ret, r, sc, hrl, hr, hret, hretL⟩
   have hget : ∀ i : ℕ, (back r)[i]! = r[i]! := by
     intro i
@@ -48,9 +48,9 @@ theorem invert_batch.«x86_64-unknown-linux-gnu_spec» {N : Usize} (inputs : Arr
   · rw [← hsN, Finset.prod_congr rfl fun i _ => congrArg Scalar.asNat (hin i)]
     exact hret
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
 theorem invert_batch.«x86_64-no-tables_spec» {N : Usize} (inputs : Array Scalar N)
@@ -59,6 +59,6 @@ theorem invert_batch.«x86_64-no-tables_spec» {N : Usize} (inputs : Array Scala
       (∀ i < N.val, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range N.val, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ :=
-  invert_batch.«x86_64-unknown-linux-gnu_spec» inputs hinputs
+  invert_batch.«x86_64-tables_spec» inputs hinputs
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

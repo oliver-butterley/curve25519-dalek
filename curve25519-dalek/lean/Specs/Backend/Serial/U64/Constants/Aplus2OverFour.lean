@@ -6,11 +6,11 @@ public import Specs.Backend.Serial.U64.Field.FromLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
 
-namespace curve25519_dalek.backend.serial.u64.constants
+namespace Curve25519Dalek.backend.serial.u64.constants
 
 @[step]
 theorem APLUS2_OVER_FOUR_spec :
@@ -21,4 +21,4 @@ theorem APLUS2_OVER_FOUR_spec :
   subst_vars
   decide
 
-end curve25519_dalek.backend.serial.u64.constants
+end Curve25519Dalek.backend.serial.u64.constants

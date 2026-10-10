@@ -28,11 +28,11 @@ Not yet specified (they need the curve model): `ED25519_BASEPOINT_POINT`,
 Not translated (`digest` feature off): `ED25519_SQRTAM2`, `MONTGOMERY_A`, `MONTGOMERY_A_NEG`. -/
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52 montgomeryRadix)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52 montgomeryRadix)
 open curve25519 (p a d A sqrtM1)
 
-namespace curve25519_dalek.backend.serial.u64.constants
+namespace Curve25519Dalek.backend.serial.u64.constants
 
 /-- `MINUS_ONE`: the field element `-1`. -/
 theorem MINUS_ONE_spec' :
@@ -151,4 +151,4 @@ theorem RR_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms RR_spec'
 
-end curve25519_dalek.backend.serial.u64.constants
+end Curve25519Dalek.backend.serial.u64.constants

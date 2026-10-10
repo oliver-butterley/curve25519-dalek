@@ -7,9 +7,9 @@ public import Specs.Backend.Serial.U64.Field.FromLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 @[step]
 theorem ONE_spec :
     ONE ⦃ (r : FieldElement51) =>
@@ -18,4 +18,4 @@ theorem ONE_spec :
   step*
   subst_vars
   decide
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

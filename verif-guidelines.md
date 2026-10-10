@@ -15,12 +15,15 @@ How the Lean verification of curve25519-dalek is arranged. The plan and the open
   fails if they differ from the committed files.
 - **Configurations.** One translation covers four configurations, merged by Charon's
   multi-target mode: {64-bit, 32-bit} × {with, without `precomputed-tables`}. Items that differ
-  get a suffix `«x86_64-unknown-linux-gnu»`, `«x86_64-no-tables»`, `«i686-unknown-linux-gnu»` or
+  get a suffix `«x86_64-tables»`, `«x86_64-no-tables»`, `«i686-tables»` or
   `«i686-no-tables»`; a façade dispatches on `get_target`.
 - **Charon settings** live in `[package.metadata.charon]` in `curve25519-dalek/Cargo.toml`.
   - `exclude`: only items we will never verify (Debug, Hash, derived `Eq`).
   - `opaque`: only items we don't want to translate (currently none).
   - Everything else is translated; constructs Aeneas cannot handle are patched.
+- **Namespace:** the translation lives in namespace `Curve25519Dalek` (Aeneas `-namespace`), in
+  Lean style; the Rust crate path `curve25519_dalek::…` appears only in doc comments and
+  `rust_fun` strings.
 - **Rust changes only as translation patches.** `curve25519-dalek/src/` stays upstream.
   - **One file per function,** `curve25519-dalek/translation-patches/<file-stem>-<function>.patch`. Add `-<Type>` before `<function>` only when the name alone is ambiguous.
   - **Header:** a short free-text header (Change / Why / Behaviour, plus "Relies on" if needed) before the `git diff -W` body.
@@ -38,9 +41,9 @@ How the Lean verification of curve25519-dalek is arranged. The plan and the open
 | lean_lib | Namespace | Content | Audited |
 |---|---|---|---|
 | `Curve25519` | `curve25519` | Curve25519 in general (`p`, `L`, `a`, `d`, `A`, later the curve models), independent of dalek | yes |
-| `Curve25519Dalek` | `curve25519_dalek` | Generated translation + hand-written External files | External files |
+| `Curve25519Dalek` | `Curve25519Dalek` | Generated translation + hand-written External files | External files |
 | `Subtle`, `Zeroize` | as generated | Models of external crates | `Types.lean`, `Basic.lean` |
-| `Specs` | `curve25519_dalek` | Spec definitions, audit files (one per Rust file), proofs | `Defs.lean`, audit files |
+| `Specs` | `Curve25519Dalek` | Spec definitions, audit files (one per Rust file), proofs | `Defs.lean`, audit files |
 
 All hand-written files use the Lean module system: `module`, `public import`, and
 `@[expose] public section` for definitions that proofs must unfold.

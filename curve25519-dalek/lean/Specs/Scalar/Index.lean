@@ -8,10 +8,10 @@ public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
 
 @[step]
 theorem index_spec (self : Scalar) (_index : Usize) (hindex : _index.val < 32) :
@@ -21,4 +21,4 @@ theorem index_spec (self : Scalar) (_index : Usize) (hindex : _index.val < 32) :
   step with Array.index_usize_getElem!_spec as ⟨r, hr⟩
   exact hr
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8
+end Curve25519Dalek.scalar.Scalar.Insts.CoreOpsIndexIndexUsizeU8

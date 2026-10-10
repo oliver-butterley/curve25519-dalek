@@ -17,13 +17,17 @@
 The repository layout, translation rules, external-crate libraries and the spec/proof
 conventions are in `verif-guidelines.md`.
 
-## To do: shorter target names
+## Target names (done; unquoted names blocked)
 
-Rename the four translation targets to `x86_64`, `x86_64_no_tables`, `i686`, `i686_no_tables`
-(valid Lean identifiers, so no `«…»`): in `scripts/aeneas-translate.sh`, use JSON target specs
-(copied from `rustc --print target-spec-json`) for all four configurations, so that the spec file
-names become the target names. Then retranslate and rename the per-target spec statements
-(`….«x86_64-unknown-linux-gnu_spec»` → `….x86_64_spec`, etc.) and the docs.
+The four translation targets are named `x86_64-tables`, `x86_64-no-tables`, `i686-tables`,
+`i686-no-tables` (JSON target specs in `scripts/aeneas-translate.sh`). Names that are valid Lean
+identifiers (`x86_64`, `x86_64_no_tables`, …), which would avoid the `«…»` quoting, make the
+translation fail: Aeneas names a trait impl after the last path component of the implementing
+type, which for per-target types is the target name, so e.g. `Mul<&Scalar>` for
+`&EdwardsBasepointTable.x86_64` and for `&EdwardsBasepointTableRadix32.x86_64` both become
+`SharedAx86_64.Insts.CoreOpsArithMulSharedBScalarx86_64` (324 clashes). With a hyphenated target
+name Aeneas includes the type name, so the clash does not arise. Fix upstream: build impl names
+from the type name plus the target component.
 
 ## To do: primality of `p` and `L` (currently axioms)
 
@@ -39,7 +43,7 @@ Fallback that works today: Lucas/Pratt certificates with Mathlib's `lucas_primal
 ## To do: project-defined traits for external-crate libraries
 
 Aeneas generates every external trait used by the crate (`subtle::ConditionallySelectable`,
-`zeroize::Zeroize`, ...) into `Curve25519Dalek/Types.lean`, in namespace `curve25519_dalek`. Only
+`zeroize::Zeroize`, ...) into `Curve25519Dalek/Types.lean`, in namespace `Curve25519Dalek`. Only
 traits in Aeneas's built-in table are skipped, and that table is compiled into the `aeneas` binary
 from Aeneas's own Lean library (the `@[rust_trait "..."]` attribute); there is no option to add a
 project's own declarations. So `Subtle` (its 5 trait-generic functions) and `Zeroize` (all of it)

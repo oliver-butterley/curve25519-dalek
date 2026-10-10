@@ -12,7 +12,7 @@ types and Niels points zeroize to their all-zero value. With these, `step*` hand
 sites without having to supply the constant `z` of `Zeroize/Lemmas.lean`.
 -/
 
-namespace curve25519_dalek
+namespace Curve25519Dalek
 
 /-! ## Blanket impl for primitive types -/
 
@@ -101,16 +101,16 @@ namespace curve25519_dalek
 
 namespace backend.serial.curve_models
 
-namespace AffineNielsPoint.«x86_64-unknown-linux-gnu».Insts.ZeroizeZeroize
+namespace AffineNielsPoint.«x86_64-tables».Insts.ZeroizeZeroize
 
-@[step] theorem zeroize_spec (p : AffineNielsPoint.«x86_64-unknown-linux-gnu») :
+@[step] theorem zeroize_spec (p : AffineNielsPoint.«x86_64-tables») :
     zeroize p ⦃ r => r =
         { y_plus_x := Array.repeat 5#usize 0#u64, y_minus_x := Array.repeat 5#usize 0#u64,
           xy2d := Array.repeat 5#usize 0#u64 } ⦄ := by
   unfold zeroize
   step*
 
-end AffineNielsPoint.«x86_64-unknown-linux-gnu».Insts.ZeroizeZeroize
+end AffineNielsPoint.«x86_64-tables».Insts.ZeroizeZeroize
 
 namespace AffineNielsPoint.«x86_64-no-tables».Insts.ZeroizeZeroize
 
@@ -123,16 +123,16 @@ namespace AffineNielsPoint.«x86_64-no-tables».Insts.ZeroizeZeroize
 
 end AffineNielsPoint.«x86_64-no-tables».Insts.ZeroizeZeroize
 
-namespace AffineNielsPoint.«i686-unknown-linux-gnu».Insts.ZeroizeZeroize
+namespace AffineNielsPoint.«i686-tables».Insts.ZeroizeZeroize
 
-@[step] theorem zeroize_spec (p : AffineNielsPoint.«i686-unknown-linux-gnu») :
+@[step] theorem zeroize_spec (p : AffineNielsPoint.«i686-tables») :
     zeroize p ⦃ r => r =
         { y_plus_x := Array.repeat 10#usize 0#u32, y_minus_x := Array.repeat 10#usize 0#u32,
           xy2d := Array.repeat 10#usize 0#u32 } ⦄ := by
   unfold zeroize
   step*
 
-end AffineNielsPoint.«i686-unknown-linux-gnu».Insts.ZeroizeZeroize
+end AffineNielsPoint.«i686-tables».Insts.ZeroizeZeroize
 
 namespace AffineNielsPoint.«i686-no-tables».Insts.ZeroizeZeroize
 
@@ -145,16 +145,16 @@ namespace AffineNielsPoint.«i686-no-tables».Insts.ZeroizeZeroize
 
 end AffineNielsPoint.«i686-no-tables».Insts.ZeroizeZeroize
 
-namespace ProjectiveNielsPoint.«x86_64-unknown-linux-gnu».Insts.ZeroizeZeroize
+namespace ProjectiveNielsPoint.«x86_64-tables».Insts.ZeroizeZeroize
 
-@[step] theorem zeroize_spec (p : ProjectiveNielsPoint.«x86_64-unknown-linux-gnu») :
+@[step] theorem zeroize_spec (p : ProjectiveNielsPoint.«x86_64-tables») :
     zeroize p ⦃ r => r =
         { Y_plus_X := Array.repeat 5#usize 0#u64, Y_minus_X := Array.repeat 5#usize 0#u64,
           Z := Array.repeat 5#usize 0#u64, T2d := Array.repeat 5#usize 0#u64 } ⦄ := by
   unfold zeroize
   step*
 
-end ProjectiveNielsPoint.«x86_64-unknown-linux-gnu».Insts.ZeroizeZeroize
+end ProjectiveNielsPoint.«x86_64-tables».Insts.ZeroizeZeroize
 
 namespace ProjectiveNielsPoint.«x86_64-no-tables».Insts.ZeroizeZeroize
 
@@ -167,16 +167,16 @@ namespace ProjectiveNielsPoint.«x86_64-no-tables».Insts.ZeroizeZeroize
 
 end ProjectiveNielsPoint.«x86_64-no-tables».Insts.ZeroizeZeroize
 
-namespace ProjectiveNielsPoint.«i686-unknown-linux-gnu».Insts.ZeroizeZeroize
+namespace ProjectiveNielsPoint.«i686-tables».Insts.ZeroizeZeroize
 
-@[step] theorem zeroize_spec (p : ProjectiveNielsPoint.«i686-unknown-linux-gnu») :
+@[step] theorem zeroize_spec (p : ProjectiveNielsPoint.«i686-tables») :
     zeroize p ⦃ r => r =
         { Y_plus_X := Array.repeat 10#usize 0#u32, Y_minus_X := Array.repeat 10#usize 0#u32,
           Z := Array.repeat 10#usize 0#u32, T2d := Array.repeat 10#usize 0#u32 } ⦄ := by
   unfold zeroize
   step*
 
-end ProjectiveNielsPoint.«i686-unknown-linux-gnu».Insts.ZeroizeZeroize
+end ProjectiveNielsPoint.«i686-tables».Insts.ZeroizeZeroize
 
 namespace ProjectiveNielsPoint.«i686-no-tables».Insts.ZeroizeZeroize
 
@@ -210,4 +210,4 @@ end backend.serial.curve_models
       r = { bytes := Array.repeat 32#usize 0#u8 } ⦄ := by
   unfold scalar.Scalar.Insts.ZeroizeZeroize.zeroize; step*
 
-end curve25519_dalek
+end Curve25519Dalek

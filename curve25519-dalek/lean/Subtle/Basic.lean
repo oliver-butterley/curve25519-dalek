@@ -7,7 +7,7 @@ public import Curve25519Dalek.Types
 set_option linter.style.whitespace false
 -- Docstrings quote the Aeneas name patterns, which exceed 100 characters.
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek
+open Curve25519Dalek
 
 /-! # Functions of the `subtle` crate (subtle-2.6.1) — TRUSTED
 

@@ -12,7 +12,7 @@ specialised to the `u8` instances (used by `CompressedEdwardsY`, `CompressedRist
 `MontgomeryPoint` and `Scalar`), so `step*` fires on them.
 -/
 
-namespace curve25519_dalek
+namespace Curve25519Dalek
 
 /-- `ct_eq` on byte slices: `Choice(1)` iff the slices are equal. -/
 @[step] theorem Slice.Insts.SubtleConstantTimeEq.ct_eq_U8_spec (a b : Slice Std.U8) :
@@ -30,4 +30,4 @@ namespace curve25519_dalek
   _root_.Array.Insts.SubtleConditionallySelectable.conditional_select_spec _ a b c hc
     (fun x y => U8.Insts.SubtleConditionallySelectable.conditional_assign_spec x y c hc)
 
-end curve25519_dalek
+end Curve25519Dalek

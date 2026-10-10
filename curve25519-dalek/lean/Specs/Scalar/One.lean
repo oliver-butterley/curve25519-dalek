@@ -7,13 +7,13 @@ public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 theorem ONE_spec :
     Scalar.asNat ONE = 1 := by
   simp [Scalar.asNat, Array.asNat, ONE, Nat.ofDigits]
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

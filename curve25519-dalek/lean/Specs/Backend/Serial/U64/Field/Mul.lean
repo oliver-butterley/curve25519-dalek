@@ -8,9 +8,9 @@ public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 namespace MulShared0FieldElement51SharedAFieldElement51FieldElement51.mul
 @[step]
 theorem m_spec (x y : U64) :
@@ -24,9 +24,9 @@ private theorem LOW_51_BIT_MASK_spec : LOW_51_BIT_MASK ⦃ (r : U64) => r.val = 
   unfold LOW_51_BIT_MASK
   step*
 end MulShared0FieldElement51SharedAFieldElement51FieldElement51.mul
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts
+namespace Curve25519Dalek.Shared0FieldElement51.Insts
 namespace CoreOpsArithMulSharedAFieldElement51FieldElement51
 open backend.serial.u64.field
 open backend.serial.u64.field.MulShared0FieldElement51SharedAFieldElement51FieldElement51
@@ -36,7 +36,7 @@ set_option linter.hashCommand false in
   letRange 0 59 => mul.prod
   letRange 13 47 => mul.carry
 
-attribute [nolint docBlame defsWithUnderscore] mul.prod mul.carry
+attribute [nolint docBlame] mul.prod mul.carry
 
 @[local step]
 private theorem mul.carry_spec (c0 c1 c2 c3 c4 : U128) (out : Array U64 5#usize)
@@ -115,5 +115,5 @@ theorem mul_spec (self _rhs : FieldElement51)
   rw [FieldElement51.asNat_eq self, FieldElement51.asNat_eq _rhs]
   simp only [*]
   exact mul_coeffs_mod_p (by ring) (by ring) (by ring) (by ring) (by ring)
-end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51
+end Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51
 

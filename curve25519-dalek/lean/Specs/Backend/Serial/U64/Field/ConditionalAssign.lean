@@ -7,9 +7,9 @@ public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 @[step]
 theorem conditional_assign_spec (self other : FieldElement51) (choice : subtle.Choice)
@@ -23,4 +23,4 @@ theorem conditional_assign_spec (self other : FieldElement51) (choice : subtle.C
     simp [*, Array.set_getElem_five]
   · intro hc
     simp [*, Array.set_getElem_five]
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable

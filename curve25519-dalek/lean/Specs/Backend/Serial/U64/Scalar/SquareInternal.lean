@@ -12,9 +12,9 @@ public import Mathlib.Tactic.Linarith
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 attribute [local step_post_simps] List.getElem!_cons_succ List.getElem!_cons_zero
 
@@ -51,4 +51,4 @@ theorem square_internal_spec (a : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   · interval_cases k <;>
       simp only [Array.getElem!_make, List.getElem!_cons_succ, List.getElem!_cons_zero, *]
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

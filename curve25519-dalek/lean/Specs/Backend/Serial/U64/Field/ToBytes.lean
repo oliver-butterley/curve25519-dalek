@@ -9,9 +9,9 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 set_option linter.hashCommand false in
 #decompose to_bytes to_bytes_eq
@@ -242,4 +242,4 @@ theorem to_bytes_spec (self : FieldElement51) :
   · apply and_128_eq_zero (by assumption)
     simp only [*]
   · simp only [*, canonical_mod _ hfe_lt]
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

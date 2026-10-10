@@ -8,21 +8,18 @@ public import Curve25519
 
 open Aeneas.Std
 
-namespace curve25519_dalek.backend.serial.u64
+namespace Curve25519Dalek.backend.serial.u64
 
 /-- The natural number represented by the five radix-2^51 limbs. The limbs may exceed 51 bits. -/
-@[nolint defsWithUnderscore]
 def field.FieldElement51.asNat (self : field.FieldElement51) : ℕ :=
   Array.asNat 51 self
 
 /-- The natural number represented by the five radix-2^52 limbs. -/
-@[nolint defsWithUnderscore]
 def scalar.Scalar52.asNat (self : scalar.Scalar52) : ℕ :=
   Array.asNat 52 self
 
 /-- The Montgomery radix `2^260` of the scalar arithmetic; also the modulus at which the five
 52-bit limbs of a `Scalar52` wrap around. Irreducible: use `montgomeryRadix_eq` to unfold it. -/
-@[nolint defsWithUnderscore]
 def scalar.montgomeryRadix : ℕ := 2 ^ 260
 
 theorem scalar.montgomeryRadix_eq : scalar.montgomeryRadix = 2 ^ 260 := rfl
@@ -56,4 +53,4 @@ theorem scalar.montgomeryRadix_sq_mod_L :
 
 attribute [irreducible] scalar.montgomeryRadix
 
-end curve25519_dalek.backend.serial.u64
+end Curve25519Dalek.backend.serial.u64

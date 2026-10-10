@@ -12,9 +12,9 @@ public import Specs.Lemmas.StepSpecs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.MaskStep
 
@@ -123,4 +123,4 @@ theorem conditional_add_l_spec (self : Scalar52) (condition : subtle.Choice)
       Nat.mod_eq_of_lt hself_lt]
   · rw [eq_mod_of_add_mul_eq hr_lt hsum, h, if_pos rfl, one_mul]
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

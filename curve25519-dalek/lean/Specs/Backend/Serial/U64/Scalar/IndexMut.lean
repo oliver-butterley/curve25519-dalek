@@ -6,9 +6,9 @@ public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
 
 @[step]
 theorem index_mut_spec (self : Scalar52) (_index : Usize) (hindex : _index.val < 5) :
@@ -19,4 +19,4 @@ theorem index_mut_spec (self : Scalar52) (_index : Usize) (hindex : _index.val <
   subst_vars
   exact ⟨by simp_lists, fun _ => rfl⟩
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64

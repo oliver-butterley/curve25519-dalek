@@ -16,9 +16,9 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 
@@ -340,4 +340,4 @@ theorem from_bytes_wide_spec (bytes : Array U8 64#usize) :
   simp only [*, UScalar.val_or]
   exact from_bytes_wide.limbs_eq w0 w1 w2 w3 w4 w5 w6 w7
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

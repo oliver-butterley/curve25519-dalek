@@ -13,10 +13,10 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar52.montgomery_invert
+namespace Curve25519Dalek.scalar.Scalar52.montgomery_invert
 
 /-! ## `square_multiply`, in `ZMod L` -/
 
@@ -93,9 +93,9 @@ theorem square_multiply_spec (y : backend.serial.u64.scalar.Scalar52)
   push_cast
   exact mul_step _ montgomeryRadix_natCast_ne_zero hy1 hr'
 
-end curve25519_dalek.scalar.Scalar52.montgomery_invert
+end Curve25519Dalek.scalar.Scalar52.montgomery_invert
 
-namespace curve25519_dalek.scalar.Scalar52
+namespace Curve25519Dalek.scalar.Scalar52
 
 /-! ## The addition chain of `montgomery_invert`, in the Montgomery domain -/
 
@@ -257,4 +257,4 @@ theorem montgomery_invert_spec (self : backend.serial.u64.scalar.Scalar52)
   rw [hi, hi1, hi2, hi3, hi4, hi5, hi6, hi7, hi8, hi9, L_eq_limbs]
   norm_num
 
-end curve25519_dalek.scalar.Scalar52
+end Curve25519Dalek.scalar.Scalar52

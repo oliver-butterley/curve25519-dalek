@@ -8,9 +8,9 @@ public import Specs.Backend.Serial.U64.Field.One
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 @[step]
 theorem invert_batch_spec {N : Usize} (inputs : Array FieldElement51 N)
@@ -39,4 +39,4 @@ theorem invert_batch_spec {N : Usize} (inputs : Array FieldElement51 N)
   rw [hget, hin]
   exact hs2 i (hsN ▸ hi)
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

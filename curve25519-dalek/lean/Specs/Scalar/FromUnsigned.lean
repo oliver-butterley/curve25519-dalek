@@ -8,10 +8,10 @@ public import Specs.Lemmas.Bytes
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU8
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU8
 
 @[step]
 theorem from_spec (x : U8) :
@@ -21,9 +21,9 @@ theorem from_spec (x : U8) :
   step*
   simp [Scalar.asNat, Array.asNat, Nat.ofDigits, *]
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU8
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU8
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU16
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU16
 
 @[step]
 theorem from_spec (x : U16) :
@@ -35,9 +35,9 @@ theorem from_spec (x : U16) :
   apply Array.asNat_setSlice!_toLEBytes _ x.bv (by simp)
   simp_all
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU16
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU16
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU32
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU32
 
 @[step]
 theorem from_spec (x : U32) :
@@ -49,9 +49,9 @@ theorem from_spec (x : U32) :
   apply Array.asNat_setSlice!_toLEBytes _ x.bv (by simp)
   simp_all
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU32
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU32
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU64
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU64
 
 @[step]
 theorem from_spec (x : U64) :
@@ -63,9 +63,9 @@ theorem from_spec (x : U64) :
   apply Array.asNat_setSlice!_toLEBytes _ x.bv (by simp)
   simp_all
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU64
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU64
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU128
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU128
 
 @[step]
 theorem from_spec (x : U128) :
@@ -77,4 +77,4 @@ theorem from_spec (x : U128) :
   apply Array.asNat_setSlice!_toLEBytes _ x.bv (by simp)
   simp_all
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromU128
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromU128

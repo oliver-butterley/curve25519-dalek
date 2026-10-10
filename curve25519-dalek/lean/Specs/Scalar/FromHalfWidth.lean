@@ -7,10 +7,10 @@ public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
 
 @[step]
 theorem from_spec (x : HalfWidthScalar) :
@@ -19,4 +19,4 @@ theorem from_spec (x : HalfWidthScalar) :
   unfold «from»
   simp [HalfWidthScalar.asNat]
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar
+end Curve25519Dalek.scalar.Scalar.Insts.CoreConvertFromHalfWidthScalar

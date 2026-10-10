@@ -9,10 +9,10 @@ public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar
+namespace Curve25519Dalek.scalar
 
 /-- Clearing the low 3 bits of a byte. -/
 private theorem and_248_add : ∀ x < 2 ^ 8, (x &&& 248) + x % 8 = x := by
@@ -76,4 +76,4 @@ theorem clamp_integer_spec (bytes : Array U8 32#usize) :
   rw [hy31, h31'] at hd31
   exact clamp_arith (bytes[0]!).hBounds (bytes[31]!).hBounds hc0 hc31 hd31 hA hB hR hX0 hX hS
 
-end curve25519_dalek.scalar
+end Curve25519Dalek.scalar

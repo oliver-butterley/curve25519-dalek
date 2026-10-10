@@ -8,10 +8,10 @@ public import Specs.Scalar.CtEq
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
 
 @[step]
 theorem eq_spec (self other : Scalar) :
@@ -25,4 +25,4 @@ theorem eq_spec (self other : Scalar) :
   · simp [h, hc1 h]
   · simp [h, hc0 h]
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar
+end Curve25519Dalek.scalar.Scalar.Insts.CoreCmpPartialEqScalar

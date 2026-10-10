@@ -13,10 +13,10 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- An even window: the remaining value halves. -/
 private theorem naf_even_val {Y c w : ℕ} (hw : 1 ≤ w) (hc : c ≤ 1)
@@ -359,4 +359,4 @@ theorem non_adjacent_form_spec (self : Scalar) (w : Usize) (hw : 2 ≤ w.val ∧
   exact naf_loop_spec w (back s2) width mask self.asNat hXeq hself hw hwidth
     (by rw [hmask, hwidth])
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

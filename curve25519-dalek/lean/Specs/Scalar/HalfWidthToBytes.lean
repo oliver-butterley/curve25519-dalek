@@ -8,10 +8,10 @@ public import Specs.Lemmas.Bytes
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 @[step]
 theorem to_bytes_spec (self : HalfWidthScalar) :
@@ -27,4 +27,4 @@ theorem to_bytes_spec (self : HalfWidthScalar) :
   have hj16 : j < 16 := by simpa using hj
   simp [hback, hs2, hs1, Array.from_slice, List.getElem?_take_of_lt hj16]
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar

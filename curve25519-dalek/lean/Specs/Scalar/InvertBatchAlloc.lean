@@ -10,20 +10,20 @@ public import Specs.Scalar.InvertBatchInternal
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
-theorem invert_batch_alloc.«x86_64-unknown-linux-gnu_spec» (inputs : Slice Scalar)
+theorem invert_batch_alloc.«x86_64-tables_spec» (inputs : Slice Scalar)
     (hinputs : ∀ i < inputs.length, inputs[i]!.asNat % L ≠ 0) :
-    invert_batch_alloc.«x86_64-unknown-linux-gnu» inputs ⦃ (ret : Scalar) (r : Slice Scalar) =>
+    invert_batch_alloc.«x86_64-tables» inputs ⦃ (ret : Scalar) (r : Slice Scalar) =>
       r.length = inputs.length ∧
       (∀ i < inputs.length, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range inputs.length, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ := by
-  unfold invert_batch_alloc.«x86_64-unknown-linux-gnu»
+  unfold invert_batch_alloc.«x86_64-tables»
   step as ⟨one, hone, honeb⟩
   step as ⟨acc, hacc, haccb⟩
   step with alloc.vec.from_elem_spec
@@ -35,9 +35,9 @@ theorem invert_batch_alloc.«x86_64-unknown-linux-gnu_spec» (inputs : Slice Sca
   step as ⟨ret, r, scratch', hrlen, hr, hret, hretL⟩
   exact ⟨hrlen, hr, hret, hretL⟩
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
 theorem invert_batch_alloc.«x86_64-no-tables_spec» (inputs : Slice Scalar)
@@ -47,6 +47,6 @@ theorem invert_batch_alloc.«x86_64-no-tables_spec» (inputs : Slice Scalar)
       (∀ i < inputs.length, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range inputs.length, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ :=
-  invert_batch_alloc.«x86_64-unknown-linux-gnu_spec» inputs hinputs
+  invert_batch_alloc.«x86_64-tables_spec» inputs hinputs
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

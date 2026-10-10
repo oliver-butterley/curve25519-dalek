@@ -7,10 +7,10 @@ public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
 theorem to_radix_2w_size_hint_spec (w : Usize) (hw : 4 ≤ w.val ∧ w.val ≤ 8) :
@@ -38,4 +38,4 @@ theorem to_radix_2w_size_hint_spec (w : Usize) (hw : 4 ≤ w.val ∧ w.val ≤ 8
     step
     simp [hc, hd32]
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

@@ -8,9 +8,9 @@ public import Specs.Lemmas.AsNatInj
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 @[step]
 theorem is_zero_spec (self : FieldElement51) :
@@ -27,4 +27,4 @@ theorem is_zero_spec (self : FieldElement51) :
   · exact congrArg Array.to_slice (Array.eq_of_asNat_eq (hbytes.trans (h.trans hzero.symm)))
   · rw [← hbytes, Array.eq_of_to_slice_eq hss, hzero]
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

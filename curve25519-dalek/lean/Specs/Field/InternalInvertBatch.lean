@@ -13,9 +13,9 @@ public import Specs.Field.Lemmas
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 /-! ## Prefix products of the nonzero inputs, in `ZMod p` -/
 
@@ -250,4 +250,4 @@ theorem internal_invert_batch_spec (inputs scratch : Slice FieldElement51)
   push_cast
   exact h1
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

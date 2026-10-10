@@ -13,5 +13,5 @@ public import Subtle.Instances
   `Curve25519Dalek/Funs.lean`.
 
 The trait structures (`subtle.ConstantTimeEq`, …) are generated in `Curve25519Dalek/Types.lean`,
-so this library depends on, and is specific to, the `curve25519_dalek` translation.
+so this library depends on, and is specific to, the `Curve25519Dalek` translation.
 -/

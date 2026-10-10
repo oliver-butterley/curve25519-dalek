@@ -2,7 +2,7 @@ module
 public import Zeroize.Basic
 @[expose] public section
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek
+open Curve25519Dalek
 
 /-! # Consistency witness for the `zeroize` spec axioms (not trusted, no axioms)
 

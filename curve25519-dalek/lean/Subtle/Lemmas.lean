@@ -2,7 +2,7 @@ module
 public import Subtle.Basic
 @[expose] public section
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek
+open Curve25519Dalek
 
 /-! # Derived results for `subtle` (no axioms)
 

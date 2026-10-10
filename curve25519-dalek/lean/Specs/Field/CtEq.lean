@@ -8,9 +8,9 @@ public import Specs.Lemmas.AsNatInj
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConstantTimeEq
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConstantTimeEq
 
 @[step]
 theorem ct_eq_spec (self other : FieldElement51) :
@@ -28,4 +28,4 @@ theorem ct_eq_spec (self other : FieldElement51) :
   · exact congrArg Array.to_slice (Array.eq_of_asNat_eq (ha.trans (h.trans ha1.symm)))
   · rw [← ha, ← ha1, Array.eq_of_to_slice_eq hss]
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConstantTimeEq
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConstantTimeEq

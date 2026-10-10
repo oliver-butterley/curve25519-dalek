@@ -8,9 +8,9 @@ public import Specs.Backend.Serial.U64.Scalar.MontgomeryReduce
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 @[step]
 theorem montgomery_square_spec (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52)
@@ -24,4 +24,4 @@ theorem montgomery_square_spec (self : Scalar52) (hself : ∀ i < 5, self[i]!.va
     (haa_eq ▸ hself') as ⟨r, hr, hrL, hr_lt⟩
   exact ⟨haa_eq ▸ hr, hrL, hr_lt⟩
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

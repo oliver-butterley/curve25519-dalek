@@ -7,9 +7,9 @@ public import Specs.Backend.Serial.U64.Field.ToBytes
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 /-- The parity of a little-endian byte string's value is that of its first byte. -/
 private theorem ofDigits_mod_two (l : List U8) (h : 0 < l.length) :
@@ -38,4 +38,4 @@ theorem is_negative_spec (self : FieldElement51) :
   rw [Nat.and_one_is_mod, ← hbytes, hi]
   exact (ofDigits_mod_two bytes.val _).symm
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

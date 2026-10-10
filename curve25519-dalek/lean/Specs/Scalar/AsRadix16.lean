@@ -11,10 +11,10 @@ public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.as_radix_16
+namespace Curve25519Dalek.scalar.Scalar.as_radix_16
 
 @[step]
 theorem bot_half_spec (x : U8) :
@@ -25,9 +25,9 @@ theorem bot_half_spec (x : U8) :
   simp only [UScalar.val_and, hi]
   exact Nat.and_two_pow_sub_one_eq_mod _ 4
 
-end curve25519_dalek.scalar.Scalar.as_radix_16
+end Curve25519Dalek.scalar.Scalar.as_radix_16
 
-namespace curve25519_dalek.scalar.Scalar.as_radix_16
+namespace Curve25519Dalek.scalar.Scalar.as_radix_16
 
 @[step]
 theorem top_half_spec (x : U8) :
@@ -40,9 +40,9 @@ theorem top_half_spec (x : U8) :
     Nat.shiftRight_eq_div_pow]
   scalar_tac
 
-end curve25519_dalek.scalar.Scalar.as_radix_16
+end Curve25519Dalek.scalar.Scalar.as_radix_16
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- The first loop of `as_radix_16` splits each byte into its two nibbles. -/
 @[local step]
@@ -232,4 +232,4 @@ theorem as_radix_16_spec (self : Scalar) (hself : self.bytes[31]!.val ≤ 127) :
     rw [(hout i (by simpa using hi)).1, (hout i (by simpa using hi)).2]
     scalar_tac
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

@@ -14,7 +14,7 @@ five 128-bit coefficients back to limbs `< 2^52` (`carryChain`, `carryChain_spec
 
 open Aeneas Aeneas.Std Aeneas.Std.WP curve25519
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 
 /-- Masking with `2^51 - 1` keeps the low 51 bits. -/
 @[local step]
@@ -98,7 +98,7 @@ with the mask computation as a parameter; it is assembled from the repeated step
 `lowLimb`, `carryOut` and the final `carryFold`. -/
 
 /-- `y + ((x >> 51) as u64) as u128`: propagate the carry of `x` into `y`. -/
-@[expose, nolint defsWithUnderscore]
+@[expose]
 def carryAdd (y x : U128) : Result U128 := do
   let i ← x >>> 51#i32
   let i1 ← lift (UScalar.cast .U64 i)
@@ -106,19 +106,19 @@ def carryAdd (y x : U128) : Result U128 := do
   y + i2
 
 /-- `(x as u64) & mask`: the low limb of `x`. -/
-@[expose, nolint defsWithUnderscore]
+@[expose]
 def lowLimb (mask : U64) (x : U128) : Result U64 := do
   let i ← lift (UScalar.cast .U64 x)
   lift (i &&& mask)
 
 /-- `(x >> 51) as u64`: the carry out of `x`. -/
-@[expose, nolint defsWithUnderscore]
+@[expose]
 def carryOut (x : U128) : Result U64 := do
   let i ← x >>> 51#i32
   lift (UScalar.cast .U64 i)
 
 /-- Fold the top carry back into limb 0 with weight `19`, then carry limb 0 into limb 1. -/
-@[expose, nolint defsWithUnderscore]
+@[expose]
 def carryFold (mask carry : U64) (a : Array U64 5#usize) :
     Result (Array U64 5#usize) := do
   let i ← carry * 19#u64
@@ -136,7 +136,7 @@ def carryFold (mask carry : U64) (a : Array U64 5#usize) :
 
 /-- The carry chain of `mul` and `square_limbs`: reduce the coefficients `c_i` to limbs, written
 into `a`. -/
-@[expose, nolint defsWithUnderscore]
+@[expose]
 def carryChain (low_51_bit_mask : Result U64) (a : Array U64 5#usize)
     (c0 c1 c2 c3 c4 : U128) : Result (Array U64 5#usize) := do
   let c1' ← carryAdd c1 c0
@@ -229,4 +229,4 @@ theorem carryChain_spec (low_51_bit_mask : Result U64) (a : Array U64 5#usize)
     · scalar_tac
   · interval_cases i <;> (simp only [*]; simp_lists; simp only [*]; scalar_tac)
 
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field

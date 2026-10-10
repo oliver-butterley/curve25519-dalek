@@ -5,12 +5,12 @@ public import Specs.Backend.Serial.U64.Defs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
 open curve25519 (L_mod_two_pow_52)
 
-namespace curve25519_dalek.backend.serial.u64.constants
+namespace Curve25519Dalek.backend.serial.u64.constants
 
 theorem LFACTOR_spec :
     LFACTOR.val < 2 ^ 52 ∧ (LFACTOR.val * curve25519.L + 1) % 2 ^ 52 = 0 := by
@@ -18,4 +18,4 @@ theorem LFACTOR_spec :
   rw [Nat.add_mod, Nat.mul_mod, L_mod_two_pow_52]
   decide
 
-end curve25519_dalek.backend.serial.u64.constants
+end Curve25519Dalek.backend.serial.u64.constants

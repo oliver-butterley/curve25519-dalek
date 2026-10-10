@@ -10,9 +10,9 @@ public import Specs.Backend.Serial.U64.Field.Mul
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 /-- The exponent computed by `invert`, plus one, is `p - 1`. -/
 private theorem invert_exponent : (2 ^ 250 - 1) * 2 ^ 5 + 11 + 1 = p - 1 := by
@@ -55,4 +55,4 @@ theorem invert_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2
     have h0 := Nat.ModEq.trans h (Nat.ModEq.pow N hx0)
     rwa [zero_pow hN] at h0
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

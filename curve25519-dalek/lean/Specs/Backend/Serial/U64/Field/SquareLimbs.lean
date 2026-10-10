@@ -8,9 +8,9 @@ public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.square_limbs
+namespace Curve25519Dalek.backend.serial.u64.field.square_limbs
 @[step]
 theorem m_spec (x y : U64) :
     m x y ⦃ (r : U128) =>
@@ -22,9 +22,9 @@ theorem m_spec (x y : U64) :
 private theorem LOW_51_BIT_MASK_spec : LOW_51_BIT_MASK ⦃ (r : U64) => r.val = 2 ^ 51 - 1 ⦄ := by
   unfold LOW_51_BIT_MASK
   step*
-end curve25519_dalek.backend.serial.u64.field.square_limbs
+end Curve25519Dalek.backend.serial.u64.field.square_limbs
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 
 set_option linter.hashCommand false in
 #decompose square_limbs square_limbs_eq
@@ -111,4 +111,4 @@ theorem square_limbs_spec (a : Array U64 5#usize) (ha : ∀ i < 5, a[i]!.val < 2
   rw [FieldElement51.asNat_eq a]
   simp only [*]
   exact square_coeffs_mod_p rfl rfl rfl rfl rfl
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field

@@ -63,7 +63,7 @@ theorem asNat_nine {ty : UScalarTy} (bits : ℕ) (a : Array (UScalar ty) 9#usize
 
 end Aeneas.Std.Array
 
-namespace curve25519_dalek.backend.serial.u64
+namespace Curve25519Dalek.backend.serial.u64
 
 theorem field.FieldElement51.asNat_eq (a : field.FieldElement51) :
     a.asNat = a[0]!.val + 2 ^ 51 * a[1]!.val + 2 ^ 102 * a[2]!.val + 2 ^ 153 * a[3]!.val
@@ -75,7 +75,7 @@ theorem scalar.Scalar52.asNat_eq (a : scalar.Scalar52) :
       + 2 ^ 208 * a[4]!.val := by
   simp only [scalar.Scalar52.asNat, Array.asNat_five]
 
-end curve25519_dalek.backend.serial.u64
+end Curve25519Dalek.backend.serial.u64
 
 namespace Aeneas.Std.Array
 

@@ -16,5 +16,5 @@ public import Zeroize.Consistency
 
 The trait structures (`zeroize.Zeroize`, `zeroize.DefaultIsZeroes`) are generated in
 `Curve25519Dalek/Types.lean`, so this library depends on, and is specific to, the
-`curve25519_dalek` translation.
+`Curve25519Dalek` translation.
 -/

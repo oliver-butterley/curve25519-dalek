@@ -14,9 +14,9 @@ public import Specs.Lemmas.StepSpecs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.MaskStep
 
@@ -99,4 +99,4 @@ theorem add_spec (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   refine ⟨?_, hr⟩
   rw [← hs', ← hr_mod, hLc, Nat.add_mod_right, Nat.mod_eq_of_lt hr_lt]
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

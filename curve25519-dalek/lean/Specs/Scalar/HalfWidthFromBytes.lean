@@ -9,10 +9,10 @@ public import Specs.Lemmas.StepSpecs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 open scoped Specs.IndexStep Specs.UpdateStep in
 /-- The loop of `from_bytes` copies the 16 bytes to the front of the zero array. -/
@@ -56,4 +56,4 @@ theorem from_bytes_spec (bytes : Array U8 16#usize) :
     exact Array.asNat_eq_of_prefix 8 r bytes (by simp)
       (fun j hj => by rw [hlo j hj]) (fun j hj hj32 => by rw [hhi j hj hj32]; rfl)
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar

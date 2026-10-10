@@ -9,10 +9,10 @@ public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
 
 /-- The loop of `try_from` checks that the bytes from `i` to `31` are zero. -/
 @[local step]
@@ -57,4 +57,4 @@ theorem try_from_spec (value : Scalar) :
   refine ⟨fun hlt => hok (hiff.mp hlt), fun hge => herr fun hall => ?_⟩
   exact absurd (hiff.mpr hall) (Nat.not_lt.mpr hge)
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple

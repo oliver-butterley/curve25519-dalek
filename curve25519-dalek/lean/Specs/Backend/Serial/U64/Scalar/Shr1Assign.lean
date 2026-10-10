@@ -10,7 +10,7 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
 /-- Setting digit `i` of an array changes its value by the difference of the digits. -/
 private theorem Aeneas.Std.Array.asNat_set_add {ty : UScalarTy} {n : Usize} (bits : ℕ)
@@ -70,7 +70,7 @@ private theorem rev_next_none_spec (it : core.iter.adapters.rev.Rev (core.ops.ra
     Bool.false_eq_true, ↓reduceIte, bind_tc_ok, WP.spec_ok]
   exact rfl
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- The loop of `shr1_assign` shifts the limbs right by one bit, from the top limb down,
 moving each limb's low bit into the next limb below. -/
@@ -149,4 +149,4 @@ theorem shr1_assign_spec (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 
   unfold shr1_assign
   step*
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

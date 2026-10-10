@@ -9,10 +9,10 @@ public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar
+namespace Curve25519Dalek.scalar
 
 /-- The loop of `read_le_u64_into` reads each word of `dst` from 8 bytes of `src`. -/
 @[local step]
@@ -76,4 +76,4 @@ theorem read_le_u64_into_spec (src : Slice U8) (dst : Slice U64)
   unfold read_le_u64_into
   step*
 
-end curve25519_dalek.scalar
+end Curve25519Dalek.scalar

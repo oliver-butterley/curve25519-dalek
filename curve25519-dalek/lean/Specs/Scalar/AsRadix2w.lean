@@ -15,10 +15,10 @@ public import Mathlib.Tactic.IntervalCases
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 set_option linter.hashCommand false in
 #decompose as_radix_2w_loop.body as_radix_2w_loop.body_eq
@@ -492,4 +492,4 @@ theorem as_radix_2w_spec (self : Scalar) (w : Usize) (hw : 4 ≤ w.val ∧ w.val
     next _ hw8 =>
       exact radix_tail_spec w _ hself ⟨by scalar_tac, by scalar_tac⟩ dc hdc carry digits hinv
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

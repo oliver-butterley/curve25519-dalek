@@ -10,9 +10,9 @@ public import Specs.Backend.Serial.U64.Scalar.Lemmas
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- The loop of `from_montgomery` copies the five limbs of `self` into the low limbs. -/
 @[local step]
@@ -81,4 +81,4 @@ theorem from_montgomery_spec (self : Scalar52) (hself : ∀ i < 5, self[i]!.val 
   step with montgomery_reduce_spec limbs hbound hlt as ⟨r, hr, hrL, hr_lt⟩
   exact ⟨hval ▸ hr, hrL, hr_lt⟩
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

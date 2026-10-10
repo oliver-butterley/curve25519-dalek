@@ -7,9 +7,9 @@ public import Specs.Field.CtEq
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace CoreCmpPartialEqFieldElement51
 
 @[step]
@@ -25,4 +25,4 @@ theorem eq_spec (self other : FieldElement51) :
   · simp [h, hc0 h]
 
 end CoreCmpPartialEqFieldElement51
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts

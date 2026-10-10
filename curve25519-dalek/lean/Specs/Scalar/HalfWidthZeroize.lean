@@ -8,10 +8,10 @@ public import Zeroize.Instances
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize
+namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize
 
 @[step]
 theorem zeroize_spec (self : HalfWidthScalar) :
@@ -21,4 +21,4 @@ theorem zeroize_spec (self : HalfWidthScalar) :
   step*
   simp [HalfWidthScalar.asNat, Scalar.asNat, Array.asNat, Nat.ofDigits, *]
 
-end curve25519_dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize
+end Curve25519Dalek.scalar.HalfWidthScalar.Insts.ZeroizeZeroize

@@ -12,10 +12,10 @@ public import Specs.Lemmas.ZMod
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar52
+namespace Curve25519Dalek.scalar.Scalar52
 
 @[step]
 theorem invert_spec (self : backend.serial.u64.scalar.Scalar52)
@@ -52,4 +52,4 @@ theorem invert_spec (self : backend.serial.u64.scalar.Scalar52)
     have h0' := ZMod.natCast_eq_zero_iff_mod.mp h0
     rwa [Nat.mod_eq_of_lt hrL] at h0'
 
-end curve25519_dalek.scalar.Scalar52
+end Curve25519Dalek.scalar.Scalar52

@@ -20,10 +20,10 @@ public import Specs.Lemmas.ZMod
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 open backend.serial.u64.scalar (Scalar52)
 
@@ -79,14 +79,14 @@ private theorem mod_L_eq_one {a : ℕ} (h : (a : ZMod L) = 1) : a % L = 1 := by
 private theorem loop0_spec (inputs : Slice Scalar) (scratch : Slice Scalar52) (acc : Scalar52)
     (n : Usize) (hn : n.val = inputs.length) (hlen : scratch.length = inputs.length)
     (hacc : MontVal acc 1) :
-    invert_batch_internal.«x86_64-unknown-linux-gnu_loop0» inputs scratch acc n 0#usize
+    invert_batch_internal.«x86_64-tables_loop0» inputs scratch acc n 0#usize
       ⦃ (inputs1 : Slice Scalar) (scratch1 : Slice Scalar52) (acc1 : Scalar52) =>
       inputs1.length = inputs.length ∧ scratch1.length = inputs.length ∧
       MontVal acc1 (pre inputs inputs.length) ∧
       (∀ k < inputs.length, MontVal scratch1[k]! (pre inputs k)) ∧
       ∀ k < inputs.length,
         (inputs1[k]!.asNat : ZMod L) = inputs[k]!.asNat * montgomeryRadix ⦄ := by
-  unfold invert_batch_internal.«x86_64-unknown-linux-gnu_loop0»
+  unfold invert_batch_internal.«x86_64-tables_loop0»
   apply loop.spec_decr_nat (measure := fun x => n.val - x.2.2.2.val)
     (inv := fun x => x.2.2.2.val ≤ n.val ∧ x.1.length = inputs.length ∧
       x.2.1.length = inputs.length ∧ MontVal x.2.2.1 (pre inputs x.2.2.2.val) ∧
@@ -96,7 +96,7 @@ private theorem loop0_spec (inputs : Slice Scalar) (scratch : Slice Scalar52) (a
       ∀ k < inputs.length, x.2.2.2.val ≤ k → x.1[k]! = inputs[k]!)
   · rintro ⟨ins, sc, a, i⟩ ⟨hi, hinl, hscl, ha, hsc, hlow, hhigh⟩
     simp only at hi hinl hscl ha hsc hlow hhigh
-    unfold invert_batch_internal.«x86_64-unknown-linux-gnu_loop0».body
+    unfold invert_batch_internal.«x86_64-tables_loop0».body
     by_cases hlt : i < n
     · simp only [hlt, if_true]
       have hlt' : i.val < inputs.length := by scalar_tac
@@ -153,11 +153,11 @@ private theorem loop1_spec (inputs inputs1 : Slice Scalar) (scratch : Slice Scal
       (inputs1[k]!.asNat : ZMod L) = inputs[k]!.asNat * montgomeryRadix)
     (hacc : (acc.asNat : ZMod L) * pre inputs inputs.length = 1) (haccL : acc.asNat < L)
     (haccb : ∀ j < 5, acc[j]!.val < 2 ^ 52) :
-    invert_batch_internal.«x86_64-unknown-linux-gnu_loop1» inputs1 scratch acc n
+    invert_batch_internal.«x86_64-tables_loop1» inputs1 scratch acc n
       ⦃ (r : Slice Scalar) =>
       r.length = inputs.length ∧
       ∀ j < inputs.length, (r[j]!.asNat : ZMod L) * inputs[j]!.asNat = 1 ∧ r[j]!.asNat < L ⦄ := by
-  unfold invert_batch_internal.«x86_64-unknown-linux-gnu_loop1»
+  unfold invert_batch_internal.«x86_64-tables_loop1»
   apply loop.spec_decr_nat (measure := fun x => x.2.2.val)
     (inv := fun x => x.2.2.val ≤ inputs.length ∧ x.1.length = inputs.length ∧
       (x.2.1.asNat : ZMod L) * pre inputs x.2.2.val = 1 ∧ x.2.1.asNat < L ∧
@@ -166,7 +166,7 @@ private theorem loop1_spec (inputs inputs1 : Slice Scalar) (scratch : Slice Scal
         (x.1[j]!.asNat : ZMod L) * inputs[j]!.asNat = 1 ∧ x.1[j]!.asNat < L)
   · rintro ⟨ins, a, k⟩ ⟨hk, hinl, ha, haL, hab, hlow, hhigh⟩
     simp only at hk hinl ha haL hab hlow hhigh
-    unfold invert_batch_internal.«x86_64-unknown-linux-gnu_loop1».body
+    unfold invert_batch_internal.«x86_64-tables_loop1».body
     by_cases hpos : k > 0#usize
     · simp only [hpos, if_true]
       step as ⟨k1, hk1⟩
@@ -217,22 +217,22 @@ private theorem loop1_spec (inputs inputs1 : Slice Scalar) (scratch : Slice Scal
   · exact ⟨by scalar_tac, hlen, hn ▸ hacc, haccL, haccb, fun j _ => rfl,
       fun j hj hkj => absurd hj (by scalar_tac)⟩
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
-theorem invert_batch_internal.«x86_64-unknown-linux-gnu_spec» (inputs : Slice Scalar)
+theorem invert_batch_internal.«x86_64-tables_spec» (inputs : Slice Scalar)
     (scratch : Slice backend.serial.u64.scalar.Scalar52) (hlen : scratch.length = inputs.length)
     (hinputs : ∀ i < inputs.length, inputs[i]!.asNat % L ≠ 0) :
-    invert_batch_internal.«x86_64-unknown-linux-gnu» inputs scratch
+    invert_batch_internal.«x86_64-tables» inputs scratch
       ⦃ (ret : Scalar) (r : Slice Scalar)
       (_scratch : Slice backend.serial.u64.scalar.Scalar52) =>
       r.length = inputs.length ∧
       (∀ i < inputs.length, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range inputs.length, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ := by
-  unfold invert_batch_internal.«x86_64-unknown-linux-gnu»
+  unfold invert_batch_internal.«x86_64-tables»
   have hR := montgomeryRadix_natCast_ne_zero
   step as ⟨one, hone, honeb⟩
   step as ⟨acc, hacc, haccb⟩
@@ -278,9 +278,9 @@ theorem invert_batch_internal.«x86_64-unknown-linux-gnu_spec» (inputs : Slice 
     push_cast
     exact hacc2'
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
 theorem invert_batch_internal.«x86_64-no-tables_spec» (inputs : Slice Scalar)
@@ -293,6 +293,6 @@ theorem invert_batch_internal.«x86_64-no-tables_spec» (inputs : Slice Scalar)
       (∀ i < inputs.length, r[i]!.asNat * inputs[i]!.asNat % L = 1 ∧ r[i]!.asNat < L) ∧
       ret.asNat * (∏ i ∈ Finset.range inputs.length, inputs[i]!.asNat) % L = 1 ∧
       ret.asNat < L ⦄ :=
-  invert_batch_internal.«x86_64-unknown-linux-gnu_spec» inputs scratch hlen hinputs
+  invert_batch_internal.«x86_64-tables_spec» inputs scratch hlen hinputs
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

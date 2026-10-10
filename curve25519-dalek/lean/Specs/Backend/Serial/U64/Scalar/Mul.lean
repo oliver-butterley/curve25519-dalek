@@ -10,9 +10,9 @@ public import Specs.Backend.Serial.U64.Scalar.Lemmas
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 @[step]
 theorem mul_spec (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
@@ -37,4 +37,4 @@ theorem mul_spec (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   rw [Nat.mod_eq_of_lt hrL] at h
   rw [h, ht, hab_eq]
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

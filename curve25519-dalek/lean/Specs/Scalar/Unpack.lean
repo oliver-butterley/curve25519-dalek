@@ -8,22 +8,22 @@ public import Specs.Backend.Serial.U64.Scalar.FromBytes
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
-theorem unpack.«x86_64-unknown-linux-gnu_spec» (self : Scalar) :
-    unpack.«x86_64-unknown-linux-gnu» self ⦃ (r : backend.serial.u64.scalar.Scalar52) =>
+theorem unpack.«x86_64-tables_spec» (self : Scalar) :
+    unpack.«x86_64-tables» self ⦃ (r : backend.serial.u64.scalar.Scalar52) =>
       r.asNat = self.asNat ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ := by
-  unfold unpack.«x86_64-unknown-linux-gnu»
+  unfold unpack.«x86_64-tables»
   step as ⟨r, hr, hrb⟩
   exact ⟨hr, hrb⟩
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
 theorem unpack.«x86_64-no-tables_spec» (self : Scalar) :
@@ -33,4 +33,4 @@ theorem unpack.«x86_64-no-tables_spec» (self : Scalar) :
   step as ⟨r, hr, hrb⟩
   exact ⟨hr, hrb⟩
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

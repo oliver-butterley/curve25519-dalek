@@ -9,9 +9,9 @@ public import Specs.Backend.Serial.U64.Field.Mul
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 private theorem two_pow_sub_one_mul_four_add_one (a c : ℕ) (hc : a + 2 = c) :
     (2 ^ a - 1) * 2 ^ 2 + 1 = 2 ^ c - 3 := by
@@ -36,4 +36,4 @@ theorem pow_p58_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
     Nat.ModEq.trans hr (Nat.ModEq.mul_left _ (Nat.ModEq.trans h20 (Nat.ModEq.pow _ h19)))
   rwa [← pow_mul, ← pow_succ', two_pow_sub_one_mul_four_add_one 250 252 rfl] at h
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

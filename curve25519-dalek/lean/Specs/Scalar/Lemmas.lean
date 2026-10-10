@@ -12,10 +12,10 @@ can be packed (`lt_two_pow_256_of_lt_L`). The Montgomery radix `R` is a unit of 
 (`montgomeryRadix_natCast_ne_zero`). -/
 
 open Aeneas Aeneas.Std curve25519
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix montgomeryRadix_eq
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix montgomeryRadix_eq
   montgomeryRadix_coprime_L)
 
-namespace curve25519_dalek.scalar
+namespace Curve25519Dalek.scalar
 
 /-- The 32 bytes of a `Scalar` represent a number below `2 ^ 256`. -/
 theorem Scalar.asNat_lt (s : Scalar) : s.asNat < 2 ^ 256 :=
@@ -42,4 +42,4 @@ theorem montgomeryRadix_natCast_ne_zero : (montgomeryRadix : ZMod L) ≠ 0 := by
   exact absurd (montgomeryRadix_coprime_L.symm.eq_one_of_dvd h)
     (ne_of_gt ((Nat.one_lt_two_pow (by decide)).trans two_pow_252_lt_L))
 
-end curve25519_dalek.scalar
+end Curve25519Dalek.scalar

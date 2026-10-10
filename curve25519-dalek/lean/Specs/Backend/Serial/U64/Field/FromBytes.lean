@@ -8,7 +8,7 @@ public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
 /-- Or-ing in a value shifted above all bits of `a` is addition. -/
 private theorem Nat.or_shiftLeft_eq_add {a k : ℕ} (b : ℕ) (ha : a < 2 ^ k) :
@@ -81,7 +81,7 @@ private theorem Nat.limbs51_eq_mod (x : ℕ) :
     show 2 ^ 153 = 2 ^ 102 * 2 ^ 51 by norm_num, Nat.mod_mul,
     show 2 ^ 102 = 2 ^ 51 * 2 ^ 51 by norm_num, Nat.mod_mul]
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.from_bytes
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
 open scoped Specs.IndexStep Specs.UpdateStep
 
@@ -96,9 +96,9 @@ theorem load8_at_spec (input : Slice U8) (i : Usize) (hi : i.val + 8 ≤ input.l
   simp_scalar
   simp (disch := scalar_tac) only [Nat.or_shiftLeft_eq_add]
   ring
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.from_bytes
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 open scoped Specs.MaskStep
 
@@ -122,4 +122,4 @@ theorem from_bytes_spec (bytes : Array U8 32#usize) :
   simp only [Nat.reduceMul, Nat.reduceAdd, pow_zero, Nat.div_one]
   exact ⟨Nat.limbs51_eq_mod _, Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity),
     Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity)⟩
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

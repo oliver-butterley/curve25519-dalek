@@ -13,9 +13,9 @@ public import Mathlib.Tactic.Linarith
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 
@@ -269,4 +269,4 @@ theorem montgomery_reduce_spec (limbs : Array U128 9#usize)
   rw [hmake, constants.L_spec.1] at hr
   exact ⟨reduce_mod hT hr, hrL, hrlimbs⟩
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

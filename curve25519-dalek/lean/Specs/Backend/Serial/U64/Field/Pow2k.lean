@@ -7,9 +7,9 @@ public import Specs.Backend.Serial.U64.Field.SquareLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 @[local step]
 private theorem pow2k_loop_spec (k : U32) (a : Array U64 5#usize) (hk : 0 < k.val)
     (ha : ∀ i < 5, a[i]!.val < 2 ^ 54) :
@@ -45,4 +45,4 @@ theorem pow2k_spec (self : FieldElement51) (k : U32) (hk : 0 < k.val)
       r.asNat % p = self.asNat ^ 2 ^ k.val % p ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ := by
   unfold pow2k
   step*
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

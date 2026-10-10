@@ -6,9 +6,9 @@ public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar
+namespace Curve25519Dalek.backend.serial.u64.scalar
 
 @[step]
 theorem m_spec (x y : U64) :
@@ -23,9 +23,9 @@ theorem m_lt_spec (x y : U64) (hx : x.val < 2 ^ 53) (hy : y.val < 2 ^ 52) :
     m x y ⦃ (r : U128) => r.val = x.val * y.val ∧ r.val < 2 ^ 105 ⦄ := by
   step*
 
-end curve25519_dalek.backend.serial.u64.scalar
+end Curve25519Dalek.backend.serial.u64.scalar
 
 /- Registered once, here; activated with `open scoped Specs.MLtStep`. -/
 namespace Specs.MLtStep
-attribute [scoped step] curve25519_dalek.backend.serial.u64.scalar.m_lt_spec
+attribute [scoped step] Curve25519Dalek.backend.serial.u64.scalar.m_lt_spec
 end Specs.MLtStep

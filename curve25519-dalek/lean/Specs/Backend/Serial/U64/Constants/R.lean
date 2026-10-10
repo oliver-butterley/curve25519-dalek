@@ -5,11 +5,11 @@ public import Specs.Backend.Serial.U64.Defs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52 montgomeryRadix)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52 montgomeryRadix)
 open curve25519 (p a d A)
 
-namespace curve25519_dalek.backend.serial.u64.constants
+namespace Curve25519Dalek.backend.serial.u64.constants
 
 theorem R_spec :
     Scalar52.asNat R = montgomeryRadix % curve25519.L ∧ ∀ i < 5, R[i]!.val < 2 ^ 52 := by
@@ -17,4 +17,4 @@ theorem R_spec :
   rw [scalar.montgomeryRadix_mod_L]
   decide
 
-end curve25519_dalek.backend.serial.u64.constants
+end Curve25519Dalek.backend.serial.u64.constants

@@ -9,9 +9,9 @@ public import Specs.Backend.Serial.U64.Field.Pow2k
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 private theorem two_pow_sub_one_mul_add (a b : ℕ) :
     (2 ^ a - 1) * 2 ^ b + (2 ^ b - 1) = 2 ^ (a + b) - 1 := by
@@ -89,4 +89,4 @@ theorem pow22501_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val <
   have h17 := pow_step 100 100 200 rfl h15 ht16 h15 ht17
   exact ⟨pow_step 200 50 250 rfl h17 ht18 h13 ht19, h3, ht19b, ht3b⟩
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

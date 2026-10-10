@@ -11,9 +11,9 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 
@@ -182,4 +182,4 @@ theorem from_bytes_spec (bytes : Array U8 32#usize) :
     Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num),
     (Nat.mod_lt _ (by norm_num)).trans (by norm_num)⟩
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

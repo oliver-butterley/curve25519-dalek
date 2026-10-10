@@ -9,9 +9,9 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 attribute [local scalar_tac_simps] Nat.shiftRight_eq_div_pow
@@ -52,7 +52,7 @@ set_option linter.hashCommand false in
   letRange 10 15 => reduce.mask
   letRange 11 16 => reduce.carry
 
-attribute [nolint docBlame defsWithUnderscore] reduce.mask reduce.carry
+attribute [nolint docBlame] reduce.mask reduce.carry
 
 /-- First phase of `reduce`: every limb is masked to its low 51 bits. -/
 @[local step]
@@ -102,4 +102,4 @@ theorem reduce_spec (limbs : Array U64 5#usize) :
   rw [asNat_eq]
   apply asNat_lt_two_mul_p <;> grind
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

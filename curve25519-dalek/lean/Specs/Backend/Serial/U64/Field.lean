@@ -34,9 +34,9 @@ Definitions used: `FieldElement51.asNat` (`Specs/Backend/Serial/U64/Defs.lean`),
 `Array.asNat` (`Specs/Defs.lean`; radix `2^8` for bytes), `p` (`Curve25519/Basic.lean`). -/
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 
 /-- `SIXTEEN_P`: the limbs of `16 p`, each in `[2^55 - 304, 2^55)`. -/
 theorem SIXTEEN_P_spec' :
@@ -47,9 +47,9 @@ theorem SIXTEEN_P_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms SIXTEEN_P_spec'
 
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.ZeroizeZeroize
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.ZeroizeZeroize
 
 /-- `Zeroize::zeroize`: all limbs `0` (proved in `Zeroize/Instances.lean`). -/
 theorem zeroize_spec' (self : FieldElement51) :
@@ -61,9 +61,9 @@ theorem zeroize_spec' (self : FieldElement51) :
   zeroize.Zeroize.Blanket.zeroize_eq] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms zeroize_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.ZeroizeZeroize
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.ZeroizeZeroize
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace CoreOpsArithAddAssignSharedAFieldElement51
 
 /-- `AddAssign::add_assign`: limb-wise sum, for limbs `< 2^54`. -/
@@ -77,9 +77,9 @@ theorem add_assign_spec' (self _rhs : FieldElement51)
 #guard_msgs (whitespace := lax, substring := true) in #print axioms add_assign_spec'
 
 end CoreOpsArithAddAssignSharedAFieldElement51
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts
+namespace Curve25519Dalek.Shared0FieldElement51.Insts
 namespace CoreOpsArithAddSharedAFieldElement51FieldElement51
 
 /-- `Add::add`: limb-wise sum, for limbs `< 2^54`. -/
@@ -92,9 +92,9 @@ theorem add_spec' (self _rhs : FieldElement51)
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms add_spec'
 
-end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithAddSharedAFieldElement51FieldElement51
+end Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithAddSharedAFieldElement51FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace CoreOpsArithSubAssignSharedAFieldElement51
 
 /-- `SubAssign::sub_assign`: `r = self - _rhs` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
@@ -108,9 +108,9 @@ theorem sub_assign_spec' (self _rhs : FieldElement51)
 #guard_msgs (whitespace := lax, substring := true) in #print axioms sub_assign_spec'
 
 end CoreOpsArithSubAssignSharedAFieldElement51
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts
+namespace Curve25519Dalek.Shared0FieldElement51.Insts
 namespace CoreOpsArithSubSharedAFieldElement51FieldElement51
 
 /-- `Sub::sub`: `r = self - _rhs` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
@@ -123,9 +123,9 @@ theorem sub_spec' (self _rhs : FieldElement51)
 /-- [propext, Classical.choice, Quot.sound, core.array.from_fn_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms sub_spec'
 
-end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithSubSharedAFieldElement51FieldElement51
+end Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithSubSharedAFieldElement51FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace CoreOpsArithMulAssignSharedAFieldElement51
 
 /-- `MulAssign::mul_assign`: `r = self * _rhs` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
@@ -139,9 +139,9 @@ theorem mul_assign_spec' (self _rhs : FieldElement51)
 #guard_msgs (whitespace := lax, substring := true) in #print axioms mul_assign_spec'
 
 end CoreOpsArithMulAssignSharedAFieldElement51
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts
+namespace Curve25519Dalek.Shared0FieldElement51.Insts
 namespace CoreOpsArithMulSharedAFieldElement51FieldElement51
 
 /-- `Mul::mul`: `r = self * _rhs` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
@@ -154,9 +154,9 @@ theorem mul_spec' (self _rhs : FieldElement51)
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms mul_spec'
 
-end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51
+end Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithMulSharedAFieldElement51FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 namespace MulShared0FieldElement51SharedAFieldElement51FieldElement51.mul
 
 /-- `Mul::mul::m`: the full 128-bit product. -/
@@ -169,9 +169,9 @@ theorem m_spec' (x y : U64) :
 #guard_msgs (whitespace := lax, substring := true) in #print axioms m_spec'
 
 end MulShared0FieldElement51SharedAFieldElement51FieldElement51.mul
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithNegFieldElement51
+namespace Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithNegFieldElement51
 
 /-- `Neg::neg`: `r = -self` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
 theorem neg_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
@@ -182,9 +182,9 @@ theorem neg_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^
 /-- [propext, Classical.choice, Quot.sound, core.array.from_fn_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms neg_spec'
 
-end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithNegFieldElement51
+end Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithNegFieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 
 /-- `conditional_select`: `a` if `choice = 0`, `b` if `choice = 1`. -/
@@ -198,9 +198,9 @@ theorem conditional_select_spec' (a b : FieldElement51) (choice : subtle.Choice)
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms conditional_select_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 
 /-- `conditional_swap`: unchanged if `choice = 0`, swapped if `choice = 1`. -/
@@ -214,9 +214,9 @@ theorem conditional_swap_spec' (a b : FieldElement51) (choice : subtle.Choice)
   U64.Insts.SubtleConditionallySelectable.conditional_swap_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms conditional_swap_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 
 /-- `conditional_assign`: `self` if `choice = 0`, `other` if `choice = 1`. -/
@@ -230,9 +230,9 @@ theorem conditional_assign_spec' (self other : FieldElement51) (choice : subtle.
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms conditional_assign_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConditionallySelectable
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `from_limbs`: wraps the limbs unchanged. -/
 theorem from_limbs_spec' (limbs : Array U64 5#usize) :
@@ -243,9 +243,9 @@ theorem from_limbs_spec' (limbs : Array U64 5#usize) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_limbs_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `ZERO`: the field element `0`. -/
 theorem ZERO_spec' :
@@ -256,9 +256,9 @@ theorem ZERO_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ZERO_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `ONE`: the field element `1`. -/
 theorem ONE_spec' :
@@ -269,9 +269,9 @@ theorem ONE_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ONE_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `MINUS_ONE`: the field element `-1`, i.e. `p - 1`. -/
 theorem MINUS_ONE_spec' :
@@ -282,9 +282,9 @@ theorem MINUS_ONE_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms MINUS_ONE_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `negate`: `r = -self` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
 theorem negate_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
@@ -295,9 +295,9 @@ theorem negate_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
 /-- [propext, Classical.choice, Quot.sound, core.array.from_fn_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms negate_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `reduce`: same value mod `p`, limbs `< 2^52`, value `< 2 p`. -/
 theorem reduce_spec' (limbs : Array U64 5#usize) :
@@ -309,9 +309,9 @@ theorem reduce_spec' (limbs : Array U64 5#usize) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms reduce_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `from_bytes`: the low 255 bits of the little-endian bytes; limbs `< 2^51`. -/
 theorem from_bytes_spec' (bytes : Array U8 32#usize) :
@@ -322,9 +322,9 @@ theorem from_bytes_spec' (bytes : Array U8 32#usize) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_bytes_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.from_bytes
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
 /-- `from_bytes::load8_at`: the 8 bytes from `i`, little-endian. -/
 theorem load8_at_spec' (input : Slice U8) (i : Usize) (hi : i.val + 8 ≤ input.length) :
@@ -335,9 +335,9 @@ theorem load8_at_spec' (input : Slice U8) (i : Usize) (hi : i.val + 8 ≤ input.
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms load8_at_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.from_bytes
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `to_bytes`: the canonical little-endian encoding of `self mod p`. -/
 theorem to_bytes_spec' (self : FieldElement51) :
@@ -347,17 +347,17 @@ theorem to_bytes_spec' (self : FieldElement51) :
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.curve25519_dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.curve25519_dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.curve25519_dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.curve25519_dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.curve25519_dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.curve25519_dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_bytes_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `pow2k`: `r = self^(2^k)` mod `p` (`k > 0`); limbs `< 2^54` in, `< 2^52` out. -/
 theorem pow2k_spec' (self : FieldElement51) (k : U32) (hk : 0 < k.val)
@@ -369,9 +369,9 @@ theorem pow2k_spec' (self : FieldElement51) (k : U32) (hk : 0 < k.val)
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms pow2k_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `square`: `r = self²` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
 theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
@@ -382,9 +382,9 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms square_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- `square2`: `r = 2 self²` mod `p`; limbs `< 2^54` in, `< 2^53` out. -/
 theorem square2_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
@@ -396,9 +396,9 @@ theorem square2_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val <
   MutAArray.Insts.CoreIterTraitsCollectIntoIteratorMutATIterMut.into_iter_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms square2_spec'
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 
 /-- `square_limbs`: `r = a²` mod `p`; limbs `< 2^54` in, `< 2^52` out. -/
 theorem square_limbs_spec' (a : Array U64 5#usize) (ha : ∀ i < 5, a[i]!.val < 2 ^ 54) :
@@ -410,9 +410,9 @@ theorem square_limbs_spec' (a : Array U64 5#usize) (ha : ∀ i < 5, a[i]!.val < 
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms square_limbs_spec'
 
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field
 
-namespace curve25519_dalek.backend.serial.u64.field.square_limbs
+namespace Curve25519Dalek.backend.serial.u64.field.square_limbs
 
 /-- `square_limbs::m`: the full 128-bit product. -/
 theorem m_spec' (x y : U64) :
@@ -423,4 +423,4 @@ theorem m_spec' (x y : U64) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms m_spec'
 
-end curve25519_dalek.backend.serial.u64.field.square_limbs
+end Curve25519Dalek.backend.serial.u64.field.square_limbs

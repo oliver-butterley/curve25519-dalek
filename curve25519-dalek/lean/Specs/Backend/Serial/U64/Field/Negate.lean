@@ -9,9 +9,9 @@ public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- The closure of `negate`: limb `i` of `16 p - self`. -/
 @[local step]
@@ -45,4 +45,4 @@ theorem negate_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2
     exact negate.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spec c i hi
       (hself i.val hi)
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51

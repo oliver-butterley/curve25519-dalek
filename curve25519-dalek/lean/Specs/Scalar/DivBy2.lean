@@ -13,10 +13,10 @@ public import Specs.Scalar.Lemmas
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 /-- The parity of a little-endian byte string's value is that of its first byte. -/
 private theorem ofDigits_mod_two (l : List U8) (h : 0 < l.length) :
@@ -42,15 +42,15 @@ private theorem half_mod_L {s u1 u2 c : ℕ} (hs : s < L)
     rw [show 2 * u2 = s + L by omega, Nat.add_mod_right]
     exact Nat.mod_eq_of_lt hs
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
-theorem div_by_2.«x86_64-unknown-linux-gnu_spec» (self : Scalar) (hself : self.asNat < L) :
-    div_by_2.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+theorem div_by_2.«x86_64-tables_spec» (self : Scalar) (hself : self.asNat < L) :
+    div_by_2.«x86_64-tables» self ⦃ (r : Scalar) =>
       2 * r.asNat % L = self.asNat ∧ r.asNat < L ⦄ := by
-  unfold div_by_2.«x86_64-unknown-linux-gnu»
+  unfold div_by_2.«x86_64-tables»
   step as ⟨a, ha⟩
   step as ⟨i, hi⟩
   step as ⟨i1, hi1, hi1bv⟩
@@ -79,14 +79,14 @@ theorem div_by_2.«x86_64-unknown-linux-gnu_spec» (self : Scalar) (hself : self
   rw [hr]
   exact ⟨hr2, hrL⟩
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar
 
-namespace curve25519_dalek.scalar.Scalar
+namespace Curve25519Dalek.scalar.Scalar
 
 @[step]
 theorem div_by_2.«x86_64-no-tables_spec» (self : Scalar) (hself : self.asNat < L) :
     div_by_2.«x86_64-no-tables» self ⦃ (r : Scalar) =>
       2 * r.asNat % L = self.asNat ∧ r.asNat < L ⦄ :=
-  div_by_2.«x86_64-unknown-linux-gnu_spec» self hself
+  div_by_2.«x86_64-tables_spec» self hself
 
-end curve25519_dalek.scalar.Scalar
+end Curve25519Dalek.scalar.Scalar

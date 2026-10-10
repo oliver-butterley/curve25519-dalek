@@ -12,7 +12,7 @@ Modulo `L`, `R` can be cancelled (`mod_L_of_mul_montgomeryRadix`), and a Montgom
 
 open Aeneas Aeneas.Std curve25519
 
-namespace curve25519_dalek.backend.serial.u64.scalar
+namespace Curve25519Dalek.backend.serial.u64.scalar
 
 /-- Five limbs below `2 ^ 52` represent a number below the Montgomery radix. -/
 theorem Scalar52.asNat_lt (a : Scalar52) (h : ∀ i < 5, a[i]!.val < 2 ^ 52) :
@@ -33,4 +33,4 @@ theorem mod_L_of_mul_montgomeryRadix_eq_mul_RR {r x : ℕ}
   apply mod_L_of_mul_montgomeryRadix
   rw [h, Nat.mul_mod_mod, Nat.mod_mul_mod, Nat.mul_assoc, ← Nat.pow_two]
 
-end curve25519_dalek.backend.serial.u64.scalar
+end Curve25519Dalek.backend.serial.u64.scalar

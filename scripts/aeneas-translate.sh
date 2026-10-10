@@ -30,18 +30,21 @@ mkdir -p .llbc
 unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS
 rustc="$(.aeneas/charon toolchain-path)/bin/rustc"
 serial='--cfg curve25519_dalek_backend="serial"'
+# Every configuration is a JSON target spec copied from the Linux triple; the spec file name is the
+# target name that suffixes the Lean items (`«x86_64-tables»`, `«x86_64-no-tables»`, …).
 targets=()
 for arch in x86_64 i686; do
     triple=$arch-unknown-linux-gnu
-    spec=$arch-no-tables
-    "$rustc" -Z unstable-options --print target-spec-json --target "$triple" > ".llbc/$spec.json"
-    targets+=(--targets "$triple" --targets "$PWD/.llbc/$spec.json")
-    export "CARGO_TARGET_$(tr 'a-z-' 'A-Z_' <<< "$triple")_RUSTFLAGS=$serial --cfg feature=\"precomputed-tables\""
-    export "CARGO_TARGET_$(tr 'a-z-' 'A-Z_' <<< "$spec")_RUSTFLAGS=$serial"
+    for spec in "$arch-tables" "$arch-no-tables"; do
+        "$rustc" -Z unstable-options --print target-spec-json --target "$triple" > ".llbc/$spec.json"
+        targets+=(--targets "$PWD/.llbc/$spec.json")
+    done
+    export "CARGO_TARGET_$(tr 'a-z-' 'A-Z_' <<< "$arch-tables")_RUSTFLAGS=$serial --cfg feature=\"precomputed-tables\""
+    export "CARGO_TARGET_$(tr 'a-z-' 'A-Z_' <<< "$arch-no-tables")_RUSTFLAGS=$serial"
 done
 (cd curve25519-dalek && ../.aeneas/charon cargo --preset=aeneas "${targets[@]}" \
     --dest-file ../.llbc/curve25519_dalek.llbc \
     -- --locked --no-default-features --features alloc,zeroize \
     -Zjson-target-spec -Zbuild-std=core,alloc)
-.aeneas/aeneas -backend lean -split-files -emit-json \
+.aeneas/aeneas -backend lean -split-files -emit-json -namespace Curve25519Dalek \
     -dest curve25519-dalek/lean -subdir Curve25519Dalek .llbc/curve25519_dalek.llbc

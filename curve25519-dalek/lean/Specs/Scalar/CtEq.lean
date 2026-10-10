@@ -8,10 +8,10 @@ public import Specs.Lemmas.AsNatInj
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
+namespace Curve25519Dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
 
 @[step]
 theorem ct_eq_spec (self other : Scalar) :
@@ -25,4 +25,4 @@ theorem ct_eq_spec (self other : Scalar) :
   refine ⟨hcv, fun h => hc1 (by rw [h]), fun h => hc0 fun hss => h ?_⟩
   exact congrArg Scalar.mk (Array.eq_of_to_slice_eq hss)
 
-end curve25519_dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
+end Curve25519Dalek.scalar.Scalar.Insts.SubtleConstantTimeEq

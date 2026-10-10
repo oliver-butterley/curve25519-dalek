@@ -7,9 +7,9 @@ public import Specs.Backend.Serial.U64.Field.Sub
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace CoreOpsArithSubAssignSharedAFieldElement51
 @[step]
 theorem sub_assign_spec (self _rhs : FieldElement51)
@@ -19,4 +19,4 @@ theorem sub_assign_spec (self _rhs : FieldElement51)
   unfold sub_assign
   step*
 end CoreOpsArithSubAssignSharedAFieldElement51
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts

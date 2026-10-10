@@ -8,10 +8,10 @@ public import Specs.Backend.Serial.U64.Scalar.ToBytes
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar52
+namespace Curve25519Dalek.scalar.Scalar52
 
 @[step]
 theorem pack_spec (self : backend.serial.u64.scalar.Scalar52)
@@ -22,4 +22,4 @@ theorem pack_spec (self : backend.serial.u64.scalar.Scalar52)
   step as ⟨r, hr⟩
   exact hr
 
-end curve25519_dalek.scalar.Scalar52
+end Curve25519Dalek.scalar.Scalar52

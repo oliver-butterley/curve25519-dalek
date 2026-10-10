@@ -11,9 +11,9 @@ public import Mathlib.Tactic.IntervalCases
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 open scoped Specs.IndexStep Specs.UpdateStep
 
@@ -50,4 +50,4 @@ theorem mul_internal_spec (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
     ring
   · interval_cases k <;> simp (disch := decide) only [*]
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

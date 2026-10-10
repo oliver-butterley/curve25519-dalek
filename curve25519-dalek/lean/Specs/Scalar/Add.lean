@@ -11,17 +11,17 @@ public import Specs.Scalar.Lemmas
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
 @[step]
-theorem add.«x86_64-unknown-linux-gnu_spec» (self _rhs : Scalar) (hself : self.asNat < L)
+theorem add.«x86_64-tables_spec» (self _rhs : Scalar) (hself : self.asNat < L)
     (hrhs : _rhs.asNat < L) :
-    add.«x86_64-unknown-linux-gnu» self _rhs ⦃ (r : Scalar) =>
+    add.«x86_64-tables» self _rhs ⦃ (r : Scalar) =>
       r.asNat = (self.asNat + _rhs.asNat) % L ⦄ := by
-  unfold add.«x86_64-unknown-linux-gnu»
+  unfold add.«x86_64-tables»
   step as ⟨a, ha, hab⟩
   step as ⟨b, hb, hbb⟩
   step with backend.serial.u64.scalar.Scalar52.add_spec a b hab hbb (ha ▸ hself) (hb ▸ hrhs)
@@ -30,15 +30,15 @@ theorem add.«x86_64-unknown-linux-gnu_spec» (self _rhs : Scalar) (hself : self
     as ⟨r, hr⟩
   rw [hr, hc, ha, hb]
 
-end curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
-namespace curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+namespace Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar
 
 @[step]
 theorem add.«x86_64-no-tables_spec» (self _rhs : Scalar) (hself : self.asNat < L)
     (hrhs : _rhs.asNat < L) :
     add.«x86_64-no-tables» self _rhs ⦃ (r : Scalar) =>
       r.asNat = (self.asNat + _rhs.asNat) % L ⦄ :=
-  add.«x86_64-unknown-linux-gnu_spec» self _rhs hself hrhs
+  add.«x86_64-tables_spec» self _rhs hself hrhs
 
-end curve25519_dalek.scalar.AddShared0ScalarSharedAScalarScalar
+end Curve25519Dalek.scalar.AddShared0ScalarSharedAScalarScalar

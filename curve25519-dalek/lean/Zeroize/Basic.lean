@@ -6,7 +6,7 @@ public import Curve25519Dalek.Types
 set_option linter.style.whitespace false
 -- Docstrings quote the Aeneas name patterns, which exceed 100 characters.
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek
+open Curve25519Dalek
 
 /-! # Functions of the `zeroize` crate (zeroize-1.8.2) — TRUSTED
 
@@ -23,7 +23,7 @@ This file is the trusted base for `zeroize`. Nothing here is derived.
 Volatile writes, `atomic_fence` and the "best effort" caveats (e.g. earlier `Vec` reallocations)
 are not observable in the functional semantics. Zeroizing replaces the value by its zeroized
 value. The trait structures `zeroize.Zeroize` / `zeroize.DefaultIsZeroes` are generated in
-`Curve25519Dalek/Types.lean` (namespace `curve25519_dalek`), so this library is specific to this
+`Curve25519Dalek/Types.lean` (namespace `Curve25519Dalek`), so this library is specific to this
 crate's translation. Derived results are in `Zeroize/Lemmas.lean` and `Zeroize/Instances.lean`.
 -/
 

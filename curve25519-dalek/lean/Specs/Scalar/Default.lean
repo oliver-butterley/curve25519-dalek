@@ -8,10 +8,10 @@ public import Specs.Scalar.Zero
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.Scalar.Insts.CoreDefaultDefault
+namespace Curve25519Dalek.scalar.Scalar.Insts.CoreDefaultDefault
 
 @[step]
 theorem default_spec :
@@ -20,4 +20,4 @@ theorem default_spec :
   unfold default
   simp [ZERO_spec]
 
-end curve25519_dalek.scalar.Scalar.Insts.CoreDefaultDefault
+end Curve25519Dalek.scalar.Scalar.Insts.CoreDefaultDefault

@@ -16,9 +16,9 @@ public import Mathlib.FieldTheory.Finite.Basic
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.field.FieldElement51
+namespace Curve25519Dalek.field.FieldElement51
 
 /-- The exponent `(p - 5) / 8` of `pow_p58`, kept irreducible. -/
 private def e58 : ℕ := 2 ^ 252 - 3
@@ -348,4 +348,4 @@ theorem sqrt_ratio_i_spec (u v : FieldElement51) (hu : ∀ i < 5, u[i]!.val < 2 
       · exact sqrtM1_ne_neg_one (mul_left_cancel₀ hU0 (by linear_combination -h'))
       · exact sqrtM1_ne_one (mul_left_cancel₀ hU0 (by linear_combination -h'))
 
-end curve25519_dalek.field.FieldElement51
+end Curve25519Dalek.field.FieldElement51

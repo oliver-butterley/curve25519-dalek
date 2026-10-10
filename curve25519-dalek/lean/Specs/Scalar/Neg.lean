@@ -16,16 +16,16 @@ public import Specs.Backend.Serial.U64.Scalar.Zero
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.NegShared0ScalarScalar
+namespace Curve25519Dalek.scalar.NegShared0ScalarScalar
 
 @[step]
-theorem neg.«x86_64-unknown-linux-gnu_spec» (self : Scalar) :
-    neg.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+theorem neg.«x86_64-tables_spec» (self : Scalar) :
+    neg.«x86_64-tables» self ⦃ (r : Scalar) =>
       (r.asNat + self.asNat) % L = 0 ∧ r.asNat < L ⦄ := by
-  unfold neg.«x86_64-unknown-linux-gnu»
+  unfold neg.«x86_64-tables»
   obtain ⟨hR, hRb⟩ := backend.serial.u64.constants.R_spec
   step as ⟨x, hx, hxb⟩
   step with backend.serial.u64.scalar.Scalar52.mul_internal_spec x _ hxb hRb as ⟨xR, hxR, hxRb⟩
@@ -46,14 +46,14 @@ theorem neg.«x86_64-unknown-linux-gnu_spec» (self : Scalar) :
   rw [hm', Nat.add_mod_mod, hZ, Nat.zero_mod] at hc
   exact hr ▸ ⟨hc, hcL⟩
 
-end curve25519_dalek.scalar.NegShared0ScalarScalar
+end Curve25519Dalek.scalar.NegShared0ScalarScalar
 
-namespace curve25519_dalek.scalar.NegShared0ScalarScalar
+namespace Curve25519Dalek.scalar.NegShared0ScalarScalar
 
 @[step]
 theorem neg.«x86_64-no-tables_spec» (self : Scalar) :
     neg.«x86_64-no-tables» self ⦃ (r : Scalar) =>
       (r.asNat + self.asNat) % L = 0 ∧ r.asNat < L ⦄ :=
-  neg.«x86_64-unknown-linux-gnu_spec» self
+  neg.«x86_64-tables_spec» self
 
-end curve25519_dalek.scalar.NegShared0ScalarScalar
+end Curve25519Dalek.scalar.NegShared0ScalarScalar

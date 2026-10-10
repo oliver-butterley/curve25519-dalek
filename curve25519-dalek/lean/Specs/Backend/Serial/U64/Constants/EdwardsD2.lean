@@ -7,12 +7,12 @@ public import Specs.Lemmas.ZMod
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
 open curve25519 (lt_p_iff mod_p_fold mod_p_of_lt d_eq)
 
-namespace curve25519_dalek.backend.serial.u64.constants
+namespace Curve25519Dalek.backend.serial.u64.constants
 
 @[step]
 theorem EDWARDS_D2_spec :
@@ -27,4 +27,4 @@ theorem EDWARDS_D2_spec :
   apply ZMod.natCast_eq_natCast_of_mod_eq
   rw [mod_p_fold, mod_p_of_lt] <;> decide
 
-end curve25519_dalek.backend.serial.u64.constants
+end Curve25519Dalek.backend.serial.u64.constants

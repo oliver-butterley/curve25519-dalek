@@ -33,9 +33,9 @@ Definitions used: `Scalar52.asNat` (`Specs/Backend/Serial/U64/Defs.lean`), `Arra
 `Constants.lean`). The Montgomery radix is written `montgomeryRadix`. -/
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.ZeroizeZeroize
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.ZeroizeZeroize
 
 /-- `Zeroize::zeroize`: all limbs `0` (proved in `Zeroize/Instances.lean`). -/
 theorem zeroize_spec' (self : Scalar52) :
@@ -47,9 +47,9 @@ theorem zeroize_spec' (self : Scalar52) :
   zeroize.Zeroize.Blanket.zeroize_eq] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms zeroize_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.ZeroizeZeroize
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.ZeroizeZeroize
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexUsizeU64
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexUsizeU64
 
 /-- `Index::index`: limb `_index`. -/
 theorem index_spec' (self : Scalar52) (_index : Usize) (hindex : _index.val < 5) :
@@ -60,9 +60,9 @@ theorem index_spec' (self : Scalar52) (_index : Usize) (hindex : _index.val < 5)
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms index_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexUsizeU64
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexUsizeU64
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
 
 /-- `IndexMut::index_mut`: limb `_index`, and writing back sets that limb. -/
 theorem index_mut_spec' (self : Scalar52) (_index : Usize) (hindex : _index.val < 5) :
@@ -73,9 +73,9 @@ theorem index_mut_spec' (self : Scalar52) (_index : Usize) (hindex : _index.val 
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms index_mut_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52.Insts.CoreOpsIndexIndexMutUsizeU64
 
-namespace curve25519_dalek.backend.serial.u64.scalar
+namespace Curve25519Dalek.backend.serial.u64.scalar
 
 /-- `m`: the full 128-bit product. -/
 theorem m_spec' (x y : U64) :
@@ -86,9 +86,9 @@ theorem m_spec' (x y : U64) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms m_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar
+end Curve25519Dalek.backend.serial.u64.scalar
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `ZERO`: the scalar `0`. -/
 theorem ZERO_spec' :
@@ -98,9 +98,9 @@ theorem ZERO_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ZERO_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `from_bytes`: the 256-bit little-endian value, in 52-bit limbs (not reduced). -/
 theorem from_bytes_spec' (bytes : Array U8 32#usize) :
@@ -110,15 +110,15 @@ theorem from_bytes_spec' (bytes : Array U8 32#usize) :
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_bytes_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `from_bytes_wide`: the 512-bit little-endian value reduced modulo `L`. -/
 theorem from_bytes_wide_spec' (bytes : Array U8 64#usize) :
@@ -130,19 +130,19 @@ set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
   subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_bytes_wide_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `to_bytes`: the value as 32 little-endian bytes; limbs `< 2^52`, value `< 2^256`. -/
 theorem to_bytes_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52)
@@ -153,14 +153,14 @@ theorem to_bytes_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 
 
 set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.curve25519_dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
+  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_bytes_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `add`: `(a + b) mod L` for canonical `a`, `b`. -/
 theorem add_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
@@ -174,9 +174,9 @@ theorem add_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms add_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `sub`: `(a - b) mod L`, canonical, for `a < b + L` and `b ≤ L`. -/
 theorem sub_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
@@ -190,9 +190,9 @@ theorem sub_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms sub_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `conditional_add_l`: for a valid `condition` (`0` or `1`), adds `L` (modulo `2^260`) if
 `condition = 1`; the returned carry is not specified. -/
@@ -208,9 +208,9 @@ theorem conditional_add_l_spec' (self : Scalar52) (condition : subtle.Choice)
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms conditional_add_l_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `shr1_assign`: halves the value; `c` is the bit shifted out. -/
 theorem shr1_assign_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) :
@@ -221,9 +221,9 @@ theorem shr1_assign_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms shr1_assign_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `mul_internal`: the product `a b` in nine 128-bit radix-`2^52` limbs. -/
 theorem mul_internal_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
@@ -235,9 +235,9 @@ theorem mul_internal_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms mul_internal_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `square_internal`: `a²` in nine 128-bit radix-`2^52` limbs. -/
 theorem square_internal_spec' (a : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52) :
@@ -248,9 +248,9 @@ theorem square_internal_spec' (a : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms square_internal_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `montgomery_reduce`: `limbs / 2^260 mod L`, canonical, for `limbs < 2^260 L`. -/
 theorem montgomery_reduce_spec' (limbs : Array U128 9#usize)
@@ -265,9 +265,9 @@ theorem montgomery_reduce_spec' (limbs : Array U128 9#usize)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms montgomery_reduce_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
 
 /-- `montgomery_reduce::part1`: the Montgomery factor `p` making `sum + p L[0]` divisible by
 `2^52`, and the quotient `c`. -/
@@ -280,9 +280,9 @@ theorem part1_spec' (sum : U128) (hsum : sum.val + 2 ^ 104 ≤ 2 ^ 128) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms part1_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
 
 /-- `montgomery_reduce::part2`: splits off the low 52 bits. -/
 theorem part2_spec' (sum : U128) :
@@ -293,9 +293,9 @@ theorem part2_spec' (sum : U128) :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms part2_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52.montgomery_reduce
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `mul`: `a b mod L`, for `a b < 2^260 L` (e.g. `a, b < 2^256`). -/
 theorem mul_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
@@ -309,9 +309,9 @@ theorem mul_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms mul_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `square`: `self² mod L`, for `self² < 2^260 L`. -/
 theorem square_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52)
@@ -325,9 +325,9 @@ theorem square_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms square_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `montgomery_mul`: `a b / 2^260 mod L`, canonical, for `a b < 2^260 L`. -/
 theorem montgomery_mul_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
@@ -342,9 +342,9 @@ theorem montgomery_mul_spec' (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 5
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms montgomery_mul_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `montgomery_square`: `self² / 2^260 mod L`, canonical, for `self² < 2^260 L`. -/
 theorem montgomery_square_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52)
@@ -359,9 +359,9 @@ theorem montgomery_square_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.v
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms montgomery_square_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `as_montgomery`: `self 2^260 mod L`. -/
 theorem as_montgomery_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) :
@@ -374,9 +374,9 @@ theorem as_montgomery_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val <
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms as_montgomery_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- `from_montgomery`: `self / 2^260 mod L`, canonical. -/
 theorem from_montgomery_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) :
@@ -390,4 +390,4 @@ theorem from_montgomery_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val
   subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_montgomery_spec'
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

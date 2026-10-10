@@ -6,12 +6,12 @@ public import Specs.Backend.Serial.U64.Field.FromLimbs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 open curve25519 (p a d A)
 open curve25519 (mod_p_of_lt d_eq)
 
-namespace curve25519_dalek.backend.serial.u64.constants
+namespace Curve25519Dalek.backend.serial.u64.constants
 
 @[step]
 theorem EDWARDS_D_spec :
@@ -23,4 +23,4 @@ theorem EDWARDS_D_spec :
   refine ⟨?_, by decide⟩
   rw [d_eq, ZMod.val_natCast, mod_p_of_lt] <;> decide
 
-end curve25519_dalek.backend.serial.u64.constants
+end Curve25519Dalek.backend.serial.u64.constants

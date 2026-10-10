@@ -7,9 +7,9 @@ public import Specs.Backend.Serial.U64.Field.Zero
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.CoreDefaultDefault
+namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.CoreDefaultDefault
 
 @[step]
 theorem default_spec :
@@ -18,4 +18,4 @@ theorem default_spec :
   unfold default
   step*
 
-end curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts.CoreDefaultDefault
+end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.CoreDefaultDefault

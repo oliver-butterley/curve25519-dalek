@@ -9,9 +9,9 @@ public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.field (FieldElement51)
+open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-namespace curve25519_dalek.backend.serial.u64.field
+namespace Curve25519Dalek.backend.serial.u64.field
 namespace SubShared0FieldElement51SharedAFieldElement51FieldElement51
 
 /-- The closure of `sub`: limb `i` of `self + 16 p - _rhs`. -/
@@ -30,9 +30,9 @@ private theorem sub.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spe
   step*
 
 end SubShared0FieldElement51SharedAFieldElement51FieldElement51
-end curve25519_dalek.backend.serial.u64.field
+end Curve25519Dalek.backend.serial.u64.field
 
-namespace curve25519_dalek.Shared0FieldElement51.Insts
+namespace Curve25519Dalek.Shared0FieldElement51.Insts
 namespace CoreOpsArithSubSharedAFieldElement51FieldElement51
 
 open backend.serial.u64.field (SIXTEEN_P SIXTEEN_P_spec)
@@ -61,4 +61,4 @@ theorem sub_spec (self _rhs : FieldElement51)
     exact sub.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spec
       self _rhs i hi (hself i.val hi) (hrhs i.val hi)
 
-end curve25519_dalek.Shared0FieldElement51.Insts.CoreOpsArithSubSharedAFieldElement51FieldElement51
+end Curve25519Dalek.Shared0FieldElement51.Insts.CoreOpsArithSubSharedAFieldElement51FieldElement51

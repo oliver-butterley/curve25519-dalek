@@ -9,9 +9,9 @@ public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
+open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
+namespace Curve25519Dalek.backend.serial.u64.scalar.Scalar52
 
 /-- Bytes 0–6 (and 13–19): a limb and the low 4 bits of the next one. -/
 private theorem to_bytes.bytes_low (l0 l1 : U64) (h0 : l0.val < 2 ^ 52) :
@@ -100,4 +100,4 @@ theorem to_bytes_spec (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 5
   simp only [*, UScalar.cast_val_eq, UScalar.val_or, UScalarTy.U8_numBits_eq]
   exact to_bytes.bytes_eq _ _ _ _ _ h0 h1 h2 h3 h4
 
-end curve25519_dalek.backend.serial.u64.scalar.Scalar52
+end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

@@ -8,10 +8,10 @@ public import Specs.Scalar.NonAdjacentForm
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
-open curve25519_dalek.scalar (Scalar HalfWidthScalar)
-open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
+open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
-namespace curve25519_dalek.scalar.HalfWidthScalar
+namespace Curve25519Dalek.scalar.HalfWidthScalar
 
 @[step]
 theorem non_adjacent_form_spec (self : HalfWidthScalar) (w : Usize)
@@ -23,4 +23,4 @@ theorem non_adjacent_form_spec (self : HalfWidthScalar) (w : Usize)
   unfold non_adjacent_form
   exact Scalar.non_adjacent_form_spec self w hw hself
 
-end curve25519_dalek.scalar.HalfWidthScalar
+end Curve25519Dalek.scalar.HalfWidthScalar
