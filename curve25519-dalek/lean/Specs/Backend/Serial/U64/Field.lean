@@ -345,14 +345,7 @@ theorem to_bytes_spec' (self : FieldElement51) :
       r.asNat 8 = self.asNat % p ⦄ :=
   to_bytes_spec self
 
-set_option linter.style.longLine false in
-/-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+/-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_bytes_spec'
 
 end Curve25519Dalek.backend.serial.u64.field.FieldElement51

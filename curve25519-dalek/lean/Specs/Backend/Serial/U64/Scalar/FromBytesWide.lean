@@ -12,6 +12,8 @@ public import Specs.Backend.Serial.U64.Constants.RR
 public import Specs.Lemmas.AsNat
 public import Specs.Backend.Serial.U64.Scalar.Lemmas
 public import Specs.Lemmas.StepSpecs
+public import Specs.Lemmas.BitWindow
+public import Specs.Lemmas.Bytes
 public import Mathlib.Tactic.LinearCombination
 public section
 
@@ -52,22 +54,22 @@ private theorem from_bytes_wide_loop0_loop0_spec (bytes : Array U8 64#usize)
       step as ⟨w', hw'i, hw'rest⟩
       have hbyte : b64.val = bytes[8 * i.val + iter.start.val]!.val := by
         rw [hb64, UScalar.cast_val_eq, hb, hi2, hi1, Nat.mul_comm]
-        exact Nat.mod_eq_of_lt (by scalar_tac)
-      have hb_lt : b64.val < 2 ^ 8 := by rw [hbyte]; scalar_tac
+        exact Nat.mod_eq_of_lt ((UScalar.hBounds _).trans (by decide))
+      have hb_lt : b64.val < 2 ^ 8 := hbyte ▸ UScalar.hBounds _
       have hshift : shifted.val = b64.val <<< (8 * iter.start.val) := by
         rw [hshifted, hsh, Nat.mul_comm, Nat.mod_eq_of_lt]
         rw [Nat.shiftLeft_eq, show U64.size = 2 ^ 64 by simp [U64.size, U64.numBits]]
         exact Nat.byte_mul_two_pow_lt hb_lt hlt
       have hacc_lt : acc.val < 2 ^ (8 * iter.start.val) := by
         rw [hacc, hwi]
-        exact Array.sum_pow_mul_lt 8 _ _ fun j _ => by scalar_tac
-      refine ⟨by rw [hend1, hend], by scalar_tac, ?_, fun k hk => (hw'rest k hk).trans (hrest k hk),
-        by scalar_tac⟩
+        exact Array.sum_pow_mul_lt 8 _ _ fun j _ => UScalar.hBounds _
+      refine ⟨by rw [hend1, hend], hstart1 ▸ hlt, ?_, fun k hk => (hw'rest k hk).trans (hrest k hk),
+        hstart1 ▸ Nat.sub_succ_lt_self _ _ hlt⟩
       rw [hw'i, hacc', UScalar.val_or, hshift, Nat.or_shiftLeft_eq_add_pow_mul _ hacc_lt, hacc, hwi,
         hstart1, Finset.sum_range_succ, hbyte]
     · step with core.iter.range.IteratorRange.next_Usize_none_spec as ⟨o, iter1, ho, hiter1⟩
       subst ho
-      have hk : iter.start.val = 8 := by scalar_tac
+      have hk : iter.start.val = 8 := Nat.le_antisymm hstart (Nat.not_lt.mp hlt)
       rw [hk] at hwi
       simp only [WP.spec_ok]
       exact ⟨hwi, hrest⟩
@@ -91,16 +93,20 @@ private theorem from_bytes_wide_loop0_spec (bytes : Array U8 64#usize) :
     · step with core.iter.range.IteratorRange.next_Usize_some_spec as ⟨o, iter1, ho, hstart1, hend1⟩
       subst ho
       step with from_bytes_wide_loop0_loop0_spec as ⟨w', hw'i, hw'rest⟩
-      refine ⟨by rw [hend1, hend], by scalar_tac, fun k hk => ?_, fun k hk hsk => ?_, by scalar_tac⟩
+      refine ⟨by rw [hend1, hend], hstart1 ▸ hlt, fun k hk => ?_, fun k hk hsk => ?_,
+        hstart1 ▸ Nat.sub_succ_lt_self _ _ hlt⟩
       · by_cases hki : k = iter.start.val
         · rw [hki, hw'i]
         · rw [hw'rest k hki]
-          exact hdone k (by scalar_tac)
-      · rw [hw'rest k (by scalar_tac)]
-        exact hzero k hk (by scalar_tac)
+          rw [hstart1] at hk
+          exact hdone k (Nat.lt_of_le_of_ne (Nat.le_of_lt_succ hk) hki)
+      · rw [hstart1] at hsk
+        have hsk' : iter.start.val < k := hsk
+        rw [hw'rest k (Nat.ne_of_gt hsk')]
+        exact hzero k hk (Nat.le_of_lt hsk')
     · step with core.iter.range.IteratorRange.next_Usize_none_spec as ⟨o, iter1, ho, hiter1⟩
       subst ho
-      have hk : iter.start.val = 8 := by scalar_tac
+      have hk : iter.start.val = 8 := Nat.le_antisymm hstart (Nat.not_lt.mp hlt)
       rw [hk] at hdone
       simp only [WP.spec_ok]
       exact hdone
@@ -112,64 +118,49 @@ private theorem from_bytes_wide_loop0_spec (bytes : Array U8 64#usize) :
 /-- Limb 1: word 0 without its low 52 bits, and the low 40 bits of word 1. -/
 private theorem from_bytes_wide.limb_1 (w0 w1 : U64) :
     (w0.val >>> 52 ||| w1.val <<< 12 % U64.size) % 2 ^ 52
-      = w0.val / 2 ^ 52 + 2 ^ 12 * (w1.val % 2 ^ 40) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w0.val / 2 ^ 52 + 2 ^ 12 * (w1.val % 2 ^ 40) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Limb 2: word 1 without its low 40 bits, and the low 28 bits of word 2. -/
 private theorem from_bytes_wide.limb_2 (w1 w2 : U64) :
     (w1.val >>> 40 ||| w2.val <<< 24 % U64.size) % 2 ^ 52
-      = w1.val / 2 ^ 40 + 2 ^ 24 * (w2.val % 2 ^ 28) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w1.val / 2 ^ 40 + 2 ^ 24 * (w2.val % 2 ^ 28) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Limb 3: word 2 without its low 28 bits, and the low 16 bits of word 3. -/
 private theorem from_bytes_wide.limb_3 (w2 w3 : U64) :
     (w2.val >>> 28 ||| w3.val <<< 36 % U64.size) % 2 ^ 52
-      = w2.val / 2 ^ 28 + 2 ^ 36 * (w3.val % 2 ^ 16) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w2.val / 2 ^ 28 + 2 ^ 36 * (w3.val % 2 ^ 16) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Limb 4: word 3 without its low 16 bits, and the low 4 bits of word 4. -/
 private theorem from_bytes_wide.limb_4 (w3 w4 : U64) :
     (w3.val >>> 16 ||| w4.val <<< 48 % U64.size) % 2 ^ 52
-      = w3.val / 2 ^ 16 + 2 ^ 48 * (w4.val % 2 ^ 4) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w3.val / 2 ^ 16 + 2 ^ 48 * (w4.val % 2 ^ 4) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Limb 5: bits 4 to 55 of word 4. -/
 private theorem from_bytes_wide.limb_5 (w4 : U64) :
-    w4.val >>> 4 % 2 ^ 52 + 2 ^ 52 * (w4.val / 2 ^ 56) = w4.val / 2 ^ 4 := by
-  bvify 64
-  bv_decide
+    w4.val >>> 4 % 2 ^ 52 + 2 ^ 52 * (w4.val / 2 ^ 56) = w4.val / 2 ^ 4 :=
+  Nat.shiftRight_mod_add_mul_div _ 4 52
 
 /-- Limb 6: word 4 without its low 56 bits, and the low 44 bits of word 5. -/
 private theorem from_bytes_wide.limb_6 (w4 w5 : U64) :
     (w4.val >>> 56 ||| w5.val <<< 8 % U64.size) % 2 ^ 52
-      = w4.val / 2 ^ 56 + 2 ^ 8 * (w5.val % 2 ^ 44) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w4.val / 2 ^ 56 + 2 ^ 8 * (w5.val % 2 ^ 44) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Limb 7: word 5 without its low 44 bits, and the low 32 bits of word 6. -/
 private theorem from_bytes_wide.limb_7 (w5 w6 : U64) :
     (w5.val >>> 44 ||| w6.val <<< 20 % U64.size) % 2 ^ 52
-      = w5.val / 2 ^ 44 + 2 ^ 20 * (w6.val % 2 ^ 32) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w5.val / 2 ^ 44 + 2 ^ 20 * (w6.val % 2 ^ 32) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Limb 8: word 6 without its low 32 bits, and the low 20 bits of word 7. -/
 private theorem from_bytes_wide.limb_8 (w6 w7 : U64) :
     (w6.val >>> 32 ||| w7.val <<< 32 % U64.size) % 2 ^ 52
-      = w6.val / 2 ^ 32 + 2 ^ 32 * (w7.val % 2 ^ 20) := by
-  bvify 64
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+      = w6.val / 2 ^ 32 + 2 ^ 32 * (w7.val % 2 ^ 20) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- The low five limbs represent the low 260 bits of the eight words. -/
 private theorem from_bytes_wide.lo_eq (w0 w1 w2 w3 w4 : U64) :
@@ -287,14 +278,6 @@ private theorem from_bytes_wide.bytes_eq (bytes : Array U8 64#usize) (w : Array 
   generalize (2 : ℕ) ^ 64 = B
   ring
 
-/-- The value of five limbs written over a `Scalar52`. -/
-private theorem asNat_set_five (a : Scalar52) (x0 x1 x2 x3 x4 : U64) :
-    Scalar52.asNat ((((((a.set 0#usize x0).set 1#usize x1).set 2#usize x2).set 3#usize x3).set
-      4#usize x4))
-      = x0.val + 2 ^ 52 * x1.val + 2 ^ 104 * x2.val + 2 ^ 156 * x3.val + 2 ^ 208 * x4.val := by
-  rw [Scalar52.asNat_eq]
-  simp_lists
-
 @[step]
 theorem from_bytes_wide_spec (bytes : Array U8 64#usize) :
     from_bytes_wide bytes ⦃ (r : Scalar52) =>
@@ -311,32 +294,22 @@ theorem from_bytes_wide_spec (bytes : Array U8 64#usize) :
   generalize hw5 : w[5]! = w5 at hbytes
   generalize hw6 : w[6]! = w6 at hbytes
   generalize hw7 : w[7]! = w7 at hbytes
-  have hw7_lt : w7.val < 2 ^ 64 := by scalar_tac
+  have hw7_lt : w7.val < 2 ^ 64 := w7.hBounds
   step as ⟨two_pow_52, htwo_pow_52⟩
   step as ⟨mask, hmask⟩
   have hmask' : mask.val = 2 ^ 52 - 1 := by scalar_tac
   step*
-  · clear hbytes
-    rw [Nat.forall_lt_five]
-    simp only [*]
-    simp_lists
-    simp only [*, UScalar.val_or]
-    exact ⟨Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num),
-      Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num)⟩
-  · clear hbytes
-    rw [Nat.forall_lt_five]
-    simp only [*]
-    simp_lists
-    simp only [*, UScalar.val_or]
-    refine ⟨Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num),
-      Nat.mod_lt _ (by norm_num), ?_⟩
+  · refine Scalar52.getElem!_set_five_lt _ _ _ _ _ _ (by simp only [*]; rfl) ?_ ?_ ?_ ?_ ?_ <;>
+      simp only [*] <;> exact Nat.mod_lt _ (by norm_num)
+  · refine Scalar52.getElem!_set_five_lt _ _ _ _ _ _ (by simp only [*]; rfl) ?_ ?_ ?_ ?_ ?_ <;>
+      simp only [*]
+    iterate 4 exact Nat.mod_lt _ (by norm_num)
     rw [Nat.shiftRight_eq_div_pow]
     exact Nat.div_lt_of_lt_mul (hw7_lt.trans (by norm_num))
   refine ⟨from_bytes_wide.mod_L_eq (by assumption) (by assumption) (by assumption) ?_,
     by assumption⟩
-  rw [hbytes]
-  simp only [*]
-  rw [asNat_set_five, asNat_set_five]
+  rw [hbytes, Scalar52.asNat_set_five _ _ _ _ _ _ (by simp only [*]; rfl),
+    Scalar52.asNat_set_five _ _ _ _ _ _ (by simp only [*]; rfl)]
   simp only [*, UScalar.val_or]
   exact from_bytes_wide.limbs_eq w0 w1 w2 w3 w4 w5 w6 w7
 

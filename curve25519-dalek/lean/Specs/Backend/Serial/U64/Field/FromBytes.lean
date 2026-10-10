@@ -10,26 +10,7 @@ public section
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
-/-- Or-ing in a value shifted above all bits of `a` is addition. -/
-private theorem Nat.or_shiftLeft_eq_add {a k : ℕ} (b : ℕ) (ha : a < 2 ^ k) :
-    a ||| b <<< k = a + 2 ^ k * b := by
-  rw [Nat.or_comm, ← Nat.shiftLeft_add_eq_or_of_lt ha, Nat.shiftLeft_eq, Nat.mul_comm,
-    Nat.add_comm]
-
 namespace Aeneas.Std.Array
-
-/-- A little-endian number with `m` digits below `2 ^ b` is below `2 ^ (b * m)`. -/
-private theorem sum_digits_lt (b m : ℕ) (x : ℕ → ℕ) (hx : ∀ k < m, x k < 2 ^ b) :
-    ∑ k ∈ Finset.range m, 2 ^ (b * k) * x k < 2 ^ (b * m) := by
-  induction m with
-  | zero => simp
-  | succ m ih =>
-    rw [Finset.sum_range_succ, Nat.mul_succ, Nat.pow_add]
-    calc ∑ k ∈ Finset.range m, 2 ^ (b * k) * x k + 2 ^ (b * m) * x m
-        < 2 ^ (b * m) + 2 ^ (b * m) * x m :=
-          Nat.add_lt_add_right (ih fun k hk => hx k (by agrind)) _
-      _ = 2 ^ (b * m) * (x m + 1) := by ring
-      _ ≤ 2 ^ (b * m) * 2 ^ b := Nat.mul_le_mul_left _ (hx m (by agrind))
 
 /-- The `w` bytes of `a` from offset `o` form bytes `o, …, o + w - 1` of `a.asNat 8`. -/
 private theorem sum_window_eq {n : Usize} (a : Array U8 n) (o w : ℕ) (h : o + w ≤ n.val) :
@@ -38,8 +19,8 @@ private theorem sum_window_eq {n : Usize} (a : Array U8 n) (o w : ℕ) (h : o + 
   have hbyte : ∀ k : ℕ, a[k]!.val < 2 ^ 8 := fun k => by scalar_tac
   set M := ∑ j ∈ Finset.range w, 2 ^ (8 * j) * a[o + j]!.val
   set U := ∑ j ∈ Finset.range (n.val - (o + w)), 2 ^ (8 * j) * a[o + w + j]!.val
-  have hL := sum_digits_lt 8 o (fun k => a[k]!.val) fun k _ => hbyte k
-  have hM : M < 2 ^ (8 * w) := sum_digits_lt 8 w (fun j => a[o + j]!.val) fun j _ => hbyte _
+  have hL := Array.sum_pow_mul_lt 8 o (fun k => a[k]!.val) fun k _ => hbyte k
+  have hM : M < 2 ^ (8 * w) := Array.sum_pow_mul_lt 8 w (fun j => a[o + j]!.val) fun j _ => hbyte _
   have hsplit : a.asNat 8 = ∑ k ∈ Finset.range o, 2 ^ (8 * k) * a[k]!.val
       + 2 ^ (8 * o) * (M + 2 ^ (8 * w) * U) := by
     rw [Array.asNat_eq_sum, show n.val = o + w + (n.val - (o + w)) by agrind,
@@ -81,6 +62,35 @@ private theorem Nat.limbs51_eq_mod (x : ℕ) :
     show 2 ^ 153 = 2 ^ 102 * 2 ^ 51 by norm_num, Nat.mod_mul,
     show 2 ^ 102 = 2 ^ 51 * 2 ^ 51 by norm_num, Nat.mod_mul]
 
+/-- Or-ing a byte shifted to bit `s` of a 64-bit word above an accumulator below `2 ^ s` adds
+it. -/
+private theorem Nat.or_byte_shiftLeft_eq_add {acc b s : ℕ} (hacc : acc < 2 ^ s) (hb : b < 2 ^ 8)
+    (hs : s + 8 ≤ 64) : acc ||| (b % 2 ^ 64) <<< s % U64.size = acc + 2 ^ s * b := by
+  have hb' : b * 2 ^ s < 2 ^ 64 :=
+    calc b * 2 ^ s < 2 ^ 8 * 2 ^ s := Nat.mul_lt_mul_of_pos_right hb (by positivity)
+      _ = 2 ^ (s + 8) := by rw [← Nat.pow_add, Nat.add_comm]
+      _ ≤ 2 ^ 64 := Nat.pow_le_pow_right (by norm_num) hs
+  rw [Nat.mod_eq_of_lt (hb.trans (by norm_num)), U64.size_eq, Nat.mod_eq_of_lt (by
+    rw [Nat.shiftLeft_eq]; exact hb'), Nat.or_shiftLeft_eq_add_pow_mul _ hacc]
+
+/-- Eight bytes or-ed into a 64-bit word at bits `0, 8, …, 56`. -/
+private theorem Nat.or_bytes_eq {b0 b1 b2 b3 b4 b5 b6 b7 : ℕ} (h0 : b0 < 2 ^ 8) (h1 : b1 < 2 ^ 8)
+    (h2 : b2 < 2 ^ 8) (h3 : b3 < 2 ^ 8) (h4 : b4 < 2 ^ 8) (h5 : b5 < 2 ^ 8) (h6 : b6 < 2 ^ 8)
+    (h7 : b7 < 2 ^ 8) :
+    b0 % 2 ^ 64 ||| (b1 % 2 ^ 64) <<< 8 % U64.size ||| (b2 % 2 ^ 64) <<< 16 % U64.size |||
+      (b3 % 2 ^ 64) <<< 24 % U64.size ||| (b4 % 2 ^ 64) <<< 32 % U64.size |||
+      (b5 % 2 ^ 64) <<< 40 % U64.size ||| (b6 % 2 ^ 64) <<< 48 % U64.size |||
+      (b7 % 2 ^ 64) <<< 56 % U64.size
+      = b0 + 2 ^ 8 * b1 + 2 ^ 16 * b2 + 2 ^ 24 * b3 + 2 ^ 32 * b4 + 2 ^ 40 * b5 + 2 ^ 48 * b6
+        + 2 ^ 56 * b7 := by
+  rw [Nat.mod_eq_of_lt (h0.trans (by norm_num)), Nat.or_byte_shiftLeft_eq_add h0 h1 (by norm_num),
+    Nat.or_byte_shiftLeft_eq_add (by omega) h2 (by norm_num),
+    Nat.or_byte_shiftLeft_eq_add (by omega) h3 (by norm_num),
+    Nat.or_byte_shiftLeft_eq_add (by omega) h4 (by norm_num),
+    Nat.or_byte_shiftLeft_eq_add (by omega) h5 (by norm_num),
+    Nat.or_byte_shiftLeft_eq_add (by omega) h6 (by norm_num),
+    Nat.or_byte_shiftLeft_eq_add (by omega) h7 (by norm_num)]
+
 namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
 open scoped Specs.IndexStep Specs.UpdateStep
@@ -91,10 +101,11 @@ theorem load8_at_spec (input : Slice U8) (i : Usize) (hi : i.val + 8 ≤ input.l
       r.val = ∑ j ∈ Finset.range 8, 2 ^ (8 * j) * input[i.val + j]!.val ⦄ := by
   unfold load8_at
   step*
-  simp only [*, UScalar.val_or, UScalar.cast_val_eq, Finset.sum_range_succ, Finset.sum_range_zero]
-  clear * -
-  simp_scalar
-  simp (disch := scalar_tac) only [Nat.or_shiftLeft_eq_add]
+  simp only [*, UScalar.val_or, UScalar.cast_val_eq, UScalarTy.U64_numBits_eq,
+    Finset.sum_range_succ, Finset.sum_range_zero, Nat.add_zero]
+  rw [Nat.or_bytes_eq (UScalar.hBounds _) (UScalar.hBounds _) (UScalar.hBounds _)
+    (UScalar.hBounds _) (UScalar.hBounds _) (UScalar.hBounds _) (UScalar.hBounds _)
+    (UScalar.hBounds _)]
   ring
 end Curve25519Dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
@@ -112,13 +123,14 @@ theorem from_bytes_spec (bytes : Array U8 32#usize) :
   have h_mask' : mask.val = 2 ^ 51 - 1 := by scalar_tac
   step*
   rw [FieldElement51.asNat_eq, Nat.forall_lt_five]
-  simp_lists
+  simp only [Array.getElem!_Nat_eq, Array.make_val, List.getElem!_cons_zero,
+    List.getElem!_cons_succ]
   simp only [*, Nat.shiftRight_eq_div_pow, Array.getElem!_to_slice]
-  rw [Array.limb_of_window_zero bytes 0 (by scalar_tac),
-    Array.limb_of_window bytes 6 3 (by scalar_tac) (by agrind),
-    Array.limb_of_window bytes 12 6 (by scalar_tac) (by agrind),
-    Array.limb_of_window bytes 19 1 (by scalar_tac) (by agrind),
-    Array.limb_of_window bytes 24 12 (by scalar_tac) (by agrind)]
+  rw [Array.limb_of_window_zero bytes 0 (by simp),
+    Array.limb_of_window bytes 6 3 (by simp) (by norm_num),
+    Array.limb_of_window bytes 12 6 (by simp) (by norm_num),
+    Array.limb_of_window bytes 19 1 (by simp) (by norm_num),
+    Array.limb_of_window bytes 24 12 (by simp) (by norm_num)]
   simp only [Nat.reduceMul, Nat.reduceAdd, pow_zero, Nat.div_one]
   exact ⟨Nat.limbs51_eq_mod _, Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity),
     Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity)⟩

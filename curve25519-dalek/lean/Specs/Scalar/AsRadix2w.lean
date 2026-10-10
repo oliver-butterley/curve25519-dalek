@@ -26,6 +26,10 @@ set_option linter.hashCommand false in
 
 attribute [nolint docBlame defsWithUnderscore] as_radix_2w_loop.body.digit
 
+/-- A window of `w` bits at offset `b < 64 - w` lies within one limb. -/
+private theorem window_fits {b t w : ℕ} (hbt : b < t) (ht : t = 64 - w) : b + w ≤ 64 := by
+  omega
+
 /-- The bit buffer of `as_radix_2w`: its low `w` bits are the bits `64 u + b …` of `X`. -/
 private theorem radix_bit_buf_spec (x : Array U64 4#usize) (X : ℕ) (hX : x.asNat 64 = X)
     (w u b t : Usize) (hw : w.val ≤ 8) (hu : u.val ≤ 3) (hb : b.val < 64)
@@ -65,7 +69,7 @@ private theorem radix_bit_buf_spec (x : Array U64 4#usize) (X : ℕ) (hX : x.asN
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     rw [hr, Nat.shiftRight_eq_div_pow, hl, ← hlimb]
-    exact Nat.window_in_limb X u.val b.val w.val (by scalar_tac)
+    exact Nat.window_in_limb X u.val b.val w.val (window_fits hbt ht)
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     rw [hr, Nat.shiftRight_eq_div_pow, hl, ← hlimb]
@@ -82,7 +86,7 @@ private theorem radix_bit_buf_spec (x : Array U64 4#usize) (X : ℕ) (hX : x.asN
     step as ⟨r1, hr1, hr1bv⟩
     rw [UScalar.val_or, hr, hr1, Nat.shiftRight_eq_div_pow, Nat.shiftLeft_eq, hl, hl1, hu1, hk,
       ← hlimb, ← hlimb]
-    have := Nat.window_across X u.val b.val w.val hb (by scalar_tac)
+    have := Nat.window_across X u.val b.val w.val hb (hw.trans (by norm_num))
     rw [Nat.add_comm 1 u.val]
     simpa [U64.size, U64.numBits] using this
 /-- The recentred digit of a window `coef ≤ 2 P` (`2 ^ w = 2 P`) and its carry. -/
@@ -151,6 +155,41 @@ private theorem radix_inv_step {X w : ℕ} {digits : Array I8 64#usize} {k c c' 
   · rw [Array.getElem!_Nat_set_ne _ _ _ _ (by rw [hp]; exact Nat.ne_of_lt hj)]
     exact hzero j (Nat.le_of_succ_le hj) hj64
 
+/-- The half width `P = 2 ^ (w - 1)` of a window of `4 ≤ w ≤ 8` bits. -/
+private theorem radix_half {w : ℕ} (hw : 4 ≤ w ∧ w ≤ 8) :
+    2 ^ w = 2 * 2 ^ (w - 1) ∧ 8 ≤ 2 ^ (w - 1) ∧ 2 ^ (w - 1) ≤ 128 := by
+  obtain ⟨h1, h2⟩ := hw
+  interval_cases w <;> norm_num
+
+/-- The arithmetic of `digit`, with `P = 2 ^ (w - 1)` and `coef = carry + window ≤ 2 P`: the
+carry `(coef + P) / 2 P` is `0` or `1`, and the digit `coef - 2 P carry` is in `[-P, P)`. -/
+private theorem digit_arith {coef P : ℕ} (hP : 8 ≤ P ∧ P ≤ 128) (hcoef : coef ≤ 2 * P) :
+    (coef + P) / (2 * P) ≤ 1 ∧ (coef + P) / (2 * P) * (2 * P) ≤ 256 ∧
+    (-(P : ℤ) ≤ coef - ((coef + P) / (2 * P) * (2 * P) : ℕ) ∧
+      (coef : ℤ) - ((coef + P) / (2 * P) * (2 * P) : ℕ) < P) ∧
+    (coef < P → (coef + P) / (2 * P) = 0) := by
+  rcases radix_digit (by omega) hcoef with ⟨h, h'⟩ | ⟨h, h'⟩ <;> rw [h] <;> omega
+
+/-- A window plus a carry is at most `2 ^ w`. -/
+private theorem coef_le {c m W : ℕ} (hc : c ≤ 1) (hm : m < W) : c + m ≤ W := by
+  omega
+
+/-- A value at most `256` fits in an `i64`. -/
+private theorem le_i64_max {n : ℕ} (h : n ≤ 256) : (n : ℤ) ≤ IScalar.max .I64 := by
+  rw [IScalar.max_IScalarTy_I64_eq, I64.max_eq]
+  omega
+
+/-- A digit in `[-P, P)` with `P ≤ 128` fits in an `i8`. -/
+private theorem i8_bounds {v : ℤ} {P : ℕ} (h : -(P : ℤ) ≤ v ∧ v < P) (hP : P ≤ 128) :
+    IScalar.min .I8 ≤ v ∧ v ≤ IScalar.max .I8 := by
+  rw [IScalar.min_IScalarTy_I8_eq, I8.min_eq, IScalar.max_IScalarTy_I8_eq, I8.max_eq]
+  omega
+
+/-- Doubling the bounds `[-P, P)`. -/
+private theorem two_mul_bounds {v : ℤ} {P : ℕ} (h : -(P : ℤ) ≤ v ∧ v < P) :
+    -(2 * (P : ℤ)) ≤ 2 * v ∧ 2 * v < 2 * P := by
+  omega
+
 /-- The digit of the window `m` with incoming carry `carry`: in `[-2 ^ (w - 1), 2 ^ (w - 1))`, with
 outgoing carry `c1 ≤ 1`, which is `0` for a window below `2 ^ (w - 1)`. -/
 @[local step]
@@ -162,18 +201,11 @@ private theorem digit_spec (w : Usize) (radix carry m : U64) (hw : 4 ≤ w.val �
       (carry.val + m.val < 2 ^ (w.val - 1) → c1.val = 0) ⦄ := by
   unfold as_radix_2w_loop.body.digit
   obtain ⟨P, hPdef⟩ : ∃ P, 2 ^ (w.val - 1) = P := ⟨_, rfl⟩
-  have hP : 2 ^ w.val = 2 * P := by
-    rw [← hPdef, ← pow_succ']
-    congr 1
-    scalar_tac
-  have hP8 : 8 ≤ P ∧ P ≤ 128 := by
-    rw [← hPdef]
-    exact ⟨(by norm_num : 8 ≤ 2 ^ 3).trans (Nat.pow_le_pow_right (by norm_num) (by scalar_tac)),
-      (Nat.pow_le_pow_right (by norm_num) (by scalar_tac : w.val - 1 ≤ 7)).trans (by norm_num)⟩
+  obtain ⟨hP, hP8⟩ := radix_half hw
+  rw [hPdef] at hP hP8
+  have hcm : carry.val + m.val ≤ 2 * P := hP ▸ coef_le hc hm
   step as ⟨coef, hcoef⟩
-  have hcoef2 : coef.val ≤ 2 * P := by
-    rw [← hP]
-    scalar_tac
+  have hcoef2 : coef.val ≤ 2 * P := hcoef ▸ hcm
   step as ⟨h2, hh2⟩
   have hh2v : h2.val = P := by
     rw [hh2, hradix, hP]
@@ -182,42 +214,45 @@ private theorem digit_spec (w : Usize) (radix carry m : U64) (hw : 4 ≤ w.val �
   step as ⟨i4, hi4⟩
   step as ⟨c1, hc1, hc1bv⟩
   rw [Nat.shiftRight_eq_div_pow, hi4, hh2v, hP] at hc1
-  have hdig := radix_digit (by scalar_tac) hcoef2
-  rw [← hc1] at hdig
-  have hc1le : c1.val ≤ 1 := by rcases hdig with h | h <;> scalar_tac
-  have hi6le : c1.val * (2 * P) ≤ 256 :=
-    (Nat.mul_le_mul_right _ hc1le).trans (by scalar_tac)
-  step with UScalar.hcast_inBounds_spec .I64 coef (by scalar_tac) as ⟨i5, hi5⟩
+  obtain ⟨hc1le, hi6le, hi8b, hc10⟩ := digit_arith hP8 hcoef2
+  rw [← hc1] at hc1le hi6le hi8b hc10
+  step with UScalar.hcast_inBounds_spec .I64 coef
+    (le_i64_max (hcoef2.trans (Nat.mul_le_mul_left 2 hP8.2))) as ⟨i5, hi5⟩
   step as ⟨i6, hi6, hi6bv⟩
   have hi6v : i6.val = c1.val * (2 * P) := by
     rw [hi6, Nat.shiftLeft_eq, hP]
-    exact Nat.mod_eq_of_lt (by
-      simp only [U64.size, U64.numBits, UScalarTy.U64_numBits_eq, Nat.reducePow]
-      scalar_tac)
-  step with UScalar.hcast_inBounds_spec .I64 i6 (by scalar_tac) as ⟨i7, hi7⟩
+    exact Nat.mod_eq_of_lt (lt_of_le_of_lt hi6le (by simp [U64.size, U64.numBits]))
+  step with UScalar.hcast_inBounds_spec .I64 i6 (hi6v ▸ le_i64_max hi6le) as ⟨i7, hi7⟩
   step as ⟨i8, hi8⟩
-  have hi8v : i8.val = (coef.val : ℤ) - c1.val * (2 * P) := by
+  have hi8v : i8.val = (coef.val : ℤ) - ((c1.val * (2 * P) : ℕ) : ℤ) := by
     rw [hi8, hi5, hi7, hi6v]
-    push_cast
-    ring
-  have hi8b : -(P : ℤ) ≤ i8.val ∧ i8.val < P := by
-    rw [hi8v]
-    rcases hdig with ⟨h0, hlt⟩ | ⟨h1, hge⟩
-    · rw [h0]; constructor <;> push_cast <;> scalar_tac
-    · rw [h1]; constructor <;> push_cast <;> scalar_tac
-  step with IScalar.cast_inBounds_spec .I8 i8 (by scalar_tac) as ⟨i9, hi9⟩
+  rw [← hi8v] at hi8b
+  step with IScalar.cast_inBounds_spec .I8 i8 (i8_bounds hi8b hP8.2) as ⟨i9, hi9⟩
   have hPz : (2 : ℤ) ^ w.val = 2 * (P : ℤ) := by exact_mod_cast hP
-  refine ⟨hc1le, ?_, ?_, ?_, fun hlt => ?_⟩
-  · rw [hi9, hi8v, hPz, ← hcoef]
-    ring
-  · rw [hi9, hPz]
-    scalar_tac
-  · rw [hi9, hPz]
-    scalar_tac
-  · rw [hPdef, ← hcoef] at hlt
-    rcases hdig with ⟨h0, -⟩ | ⟨-, hge⟩
-    · exact h0
-    · exact absurd hge (Nat.not_le.mpr hlt)
+  have hb := two_mul_bounds hi8b
+  rw [← hi9] at hb
+  refine ⟨hc1le, ?_, hPz ▸ hb.1, hPz ▸ hb.2, fun hlt => hc10 (hcoef ▸ hPdef ▸ hlt)⟩
+  rw [hi9, hi8v, hPz, ← hcoef]
+  push_cast
+  ring
+
+/-- A digit of width `w ≥ 4` starting below bit `256` has index below `64`. -/
+private theorem lt_64_of_mul_lt {k w : ℕ} (hw : 4 ≤ w) (h : k * w < 256) : k < 64 :=
+  Nat.lt_of_mul_lt_mul_right (lt_of_le_of_lt (Nat.mul_le_mul_left k hw) h : k * 4 < 64 * 4)
+
+/-- The limb index and bit offset of a bit position below `256`. -/
+private theorem pos_split {pos : ℕ} (h : pos < 256) : pos / 64 ≤ 3 ∧ pos % 64 < 64 := by
+  omega
+
+/-- Once the window starts at bit `252` (`5 ≤ w`), it is below `2 ^ (w - 1)`: no carry out. -/
+private theorem radix_no_carry {X w k c : ℕ} (hX : X < 2 ^ 255) (hw : 5 ≤ w ∧ w ≤ 8)
+    (h252 : 252 + w ≤ w * (k + 1)) (hc : c ≤ 1) :
+    c + X / 2 ^ (w * k) % 2 ^ w < 2 ^ (w - 1) := by
+  rw [Nat.mul_succ] at h252
+  have htop := radix_top_window (w := w) (pos := w * k) hX (by omega) hc
+  have hP16 : 16 ≤ 2 ^ (w - 1) :=
+    (by norm_num : 16 ≤ 2 ^ 4).trans (Nat.pow_le_pow_right (by norm_num) (by omega))
+  omega
 
 /-- One step of the loop of `as_radix_2w`: digit `k` from the window at bit `w k`. -/
 private theorem radix_body_spec (w : Usize) (x : Array U64 4#usize) (radix mask : U64) (X : ℕ)
@@ -231,17 +266,18 @@ private theorem radix_body_spec (w : Usize) (x : Array U64 4#usize) (radix mask 
         iter'.start.val = iter.start.val + 1 ∧ iter'.end = iter.end ∧
         RadixInv X w.val digits' iter'.start.val carry'.val ⦄ := by
   have hc := hinv.1
-  have hk64 : iter.start.val < 64 := by
-    have := Nat.mul_le_mul_left iter.start.val hw.1
-    scalar_tac
+  have hk64 : iter.start.val < 64 := lt_64_of_mul_lt hw.1 hk
+  have hsplit := pos_split hk
   rw [as_radix_2w_loop.body_eq]
   step with core.iter.range.IteratorRange.next_Usize_some_spec as ⟨o, iter1, ho, hstart1, hend1⟩
   subst ho
   step as ⟨bo, hbo⟩
+  rw [← hbo] at hsplit
   step as ⟨u, hu⟩
   step as ⟨b, hb⟩
+  rw [← hu, ← hb] at hsplit
   step as ⟨t, ht⟩
-  step with radix_bit_buf_spec x X hX w u b t (by scalar_tac) (by scalar_tac) (by scalar_tac) ht
+  step with radix_bit_buf_spec x X hX w u b t hw.2 hsplit.1 hsplit.2 ht
     iter1 as ⟨iter2, bb, hiter2, hbb⟩
   have hub : 64 * u.val + b.val = w.val * iter.start.val := by
     rw [hu, hb, Nat.div_add_mod, hbo, Nat.mul_comm]
@@ -258,14 +294,8 @@ private theorem radix_body_spec (w : Usize) (x : Array U64 4#usize) (radix mask 
   rw [hdigits1, hiter2, hstart1]
   refine radix_inv_step hk64 hinv hc1 (fun h5 h252 => hc10 ?_) (by rw [hd, hm]) ⟨hdl, hdu⟩
     iter.start rfl
-  have h252' : 252 ≤ w.val * iter.start.val := by
-    rw [Nat.mul_succ] at h252
-    scalar_tac
-  have htop := radix_top_window (w := w.val) (pos := w.val * iter.start.val) hX255 h252' hc
-  have hP16 : 16 ≤ 2 ^ (w.val - 1) :=
-    (by norm_num : 16 ≤ 2 ^ 4).trans (Nat.pow_le_pow_right (by norm_num) (by scalar_tac))
   rw [hm]
-  scalar_tac
+  exact radix_no_carry hX255 ⟨h5, hw.2⟩ h252 hc
 
 /-- The invariant holds initially. -/
 private theorem radix_inv_init (X w : ℕ) : RadixInv X w (Array.repeat 64#usize 0#i8) 0 0 := by
@@ -313,6 +343,25 @@ private theorem digits_count_facts {w : ℕ} (hw : 4 ≤ w ∧ w ≤ 8) :
   obtain ⟨h1, h2⟩ := hw
   interval_cases w <;> decide
 
+/-- A carry `≤ 1` fits in an `i8`. -/
+private theorem small_le_i8_max {c : ℕ} (hc : c ≤ 1) : (c : ℤ) ≤ IScalar.max .I8 := by
+  rw [IScalar.max_IScalarTy_I8_eq, I8.max_eq]
+  omega
+
+/-- A digit of width `8` below bit `256` is below digit `32`. -/
+private theorem tail8_low {j : ℕ} (h : (j + 1) * 8 < 256) : j ≠ 32 ∧ j < 32 := by
+  omega
+
+/-- A digit of width `8` beyond bit `256` is above digit `32`. -/
+private theorem tail8_high {j : ℕ} (h : 256 < j * 8) : j ≠ 32 ∧ 32 ≤ j := by
+  omega
+
+/-- The bounds of a carry `≤ 1` as digit of width `8`. -/
+private theorem carry_two_mul_bounds {c : ℕ} (hc : c ≤ 1) :
+    -2 ^ 8 ≤ 2 * (c : ℤ) ∧ 2 * (c : ℤ) ≤ 2 ^ 8 := by
+  norm_num
+  omega
+
 /-- The final carry for `w = 8` goes into digit `32`. -/
 private theorem radix_tail8_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255) (hw8 : w.val = 8)
     (dc : Usize) (hdc : dc.val = 32) (carry : U64) (digits : Array I8 64#usize)
@@ -330,7 +379,7 @@ private theorem radix_tail8_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255) (hw
   obtain ⟨hc, -, hval, hlow, hzero⟩ := hinv
   rw [hw8] at hval hlow ⊢
   rw [hdc] at hval hlow hzero
-  step with UScalar.hcast_inBounds_spec .I8 carry (by scalar_tac) as ⟨i, hi⟩
+  step with UScalar.hcast_inBounds_spec .I8 carry (small_le_i8_max hc) as ⟨i, hi⟩
   step with Array.index_usize_getElem!_spec as ⟨i1, hi1⟩
   have hi1z : i1.val = 0 := by rw [hi1, hdc]; exact hzero 32 le_rfl (by norm_num)
   step as ⟨i2, hi2⟩
@@ -342,24 +391,25 @@ private theorem radix_tail8_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255) (hw
   have hrj (j : ℕ) (hj : j ≠ 32) : r[j]! = digits[j]! := by
     rw [hr, Array.getElem!_Nat_set_ne _ _ _ _ (by rw [hdc]; exact Ne.symm hj)]
   refine ⟨?_, fun j hj h => ?_, fun j hj => ?_, fun j hj h => ?_⟩
-  · rw [hr, Array.asInt_set 8 digits dc i2 (by scalar_tac), hdc, hi2, ← hval, hq]
+  · rw [hr, Array.asInt_set 8 digits dc i2 (by simp [hdc]), hdc, hi2, ← hval, hq]
     rw [hdc] at hi1
     rw [← hi1, hi1z, hi]
     push_cast
     ring
-  · rw [hrj j (by scalar_tac)]
-    exact hlow j (by scalar_tac)
+  · obtain ⟨hj32, hjlt⟩ := tail8_low h
+    rw [hrj j hj32]
+    exact hlow j hjlt
   · by_cases hj32 : j = 32
     · rw [hj32, hr32]
-      scalar_tac
+      exact carry_two_mul_bounds hc
     · rw [hrj j hj32]
       by_cases hjlt : j < 32
-      · have := hlow j hjlt
-        scalar_tac
-      · rw [hzero j (by scalar_tac) hj]
+      · exact ⟨(hlow j hjlt).1, (hlow j hjlt).2.le⟩
+      · rw [hzero j (Nat.le_of_not_lt hjlt) hj]
         norm_num
-  · rw [hrj j (by scalar_tac)]
-    exact hzero j (by scalar_tac) hj
+  · obtain ⟨hj32, hjge⟩ := tail8_high h
+    rw [hrj j hj32]
+    exact hzero j hjge hj
 
 /-- For `w < 8` the final carry is zero: the last digit is unchanged. -/
 private theorem radix_tail_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255)
@@ -377,8 +427,9 @@ private theorem radix_tail_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255)
         -2 ^ w.val ≤ 2 * r[i]!.val ∧ 2 * r[i]!.val < 2 ^ w.val) ∧
       (∀ i < 64, -2 ^ w.val ≤ 2 * r[i]!.val ∧ 2 * r[i]!.val ≤ 2 ^ w.val) ∧
       ∀ i < 64, 256 < i * w.val → r[i]!.val = 0 ⦄ := by
+  have hw1 : 1 ≤ w.val := le_trans (by norm_num) hw.1
   obtain ⟨h256, h64, -, h252⟩ :=
-    digits_count_facts (w := w.val) ⟨by scalar_tac, by scalar_tac⟩
+    digits_count_facts (w := w.val) ⟨Nat.le_of_succ_le hw.1, Nat.le_of_lt hw.2⟩
   rw [← hdc] at h256 h64 h252
   obtain ⟨-, hc0, hval, hlow, hzero⟩ := hinv
   have hc : carry.val = 0 := hc0 hw.1 (h252 hw.1 hw.2)
@@ -387,16 +438,16 @@ private theorem radix_tail_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255)
   rw [hc, hq, Nat.add_zero, Nat.cast_zero, mul_zero, add_zero] at hval
   have hlt (j : ℕ) : j < dc.val ↔ j * w.val < 256 := by
     rw [hdc]
-    exact lt_digits_count (by scalar_tac)
+    exact lt_digits_count hw1
   clear hdc
-  have hdc1 : 1 ≤ dc.val := by
-    rcases Nat.eq_zero_or_pos dc.val with h | h
-    · rw [h] at h256; scalar_tac
-    · exact h
+  have hdc1 : 1 ≤ dc.val := Nat.pos_of_ne_zero fun h => by
+    rw [h, Nat.mul_zero] at h256
+    exact absurd h256 (by norm_num)
   step as ⟨i, hi, hibv⟩
   have hi0 : i.val = 0 := by rw [hi, hc]; simp
   clear hi hibv hq
-  step with UScalar.hcast_inBounds_spec .I8 i (by rw [hi0]; scalar_tac) as ⟨i1, hi1⟩
+  step with UScalar.hcast_inBounds_spec .I8 i (hi0 ▸ small_le_i8_max (Nat.zero_le 1)) as
+    ⟨i1, hi1⟩
   rw [hi0] at hi1
   step as ⟨k, hk⟩
   step with Array.index_usize_getElem!_spec as ⟨i3, hi3⟩
@@ -404,7 +455,7 @@ private theorem radix_tail_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255)
   step as ⟨r, hr⟩
   have hi4v : i4.val = digits[k.val]!.val := by rw [hi4, hi1, hi3]; simp
   clear hi4 hi3 hi1
-  have hk64 : k.val < 64 := by scalar_tac
+  have hk64 : k.val < 64 := hk ▸ lt_of_lt_of_le (Nat.sub_lt hdc1 Nat.one_pos) h64
   have hrj (j : ℕ) : r[j]!.val = digits[j]!.val := by
     rw [hr]
     by_cases hjk : j = k.val
@@ -414,15 +465,44 @@ private theorem radix_tail_spec (w : Usize) (X : ℕ) (hX255 : X < 2 ^ 255)
   · rw [hr, Array.asInt_set w.val digits k i4 (by simp [hk64]), hi4v, sub_self, mul_zero,
       add_zero, hval]
   · rw [hrj]
-    exact hlow j ((hlt j).mpr (by rw [Nat.succ_mul] at h; scalar_tac))
+    exact hlow j ((hlt j).mpr (lt_of_le_of_lt (Nat.mul_le_mul_right _ (Nat.le_succ j)) h))
   · rw [hrj]
     by_cases hj' : j < dc.val
-    · have := hlow j hj'
-      scalar_tac
-    · rw [hzero j (by scalar_tac) hj, mul_zero]
+    · exact ⟨(hlow j hj').1, (hlow j hj').2.le⟩
+    · rw [hzero j (Nat.le_of_not_lt hj') hj, mul_zero]
       exact ⟨neg_nonpos.mpr (by positivity), by positivity⟩
   · rw [hrj]
-    exact hzero j (by have := (hlt j).not.mpr (by scalar_tac); scalar_tac) hj
+    exact hzero j (Nat.le_of_not_lt ((hlt j).not.mpr (Nat.not_lt.mpr h.le))) hj
+
+/-- The top byte of a number below `2 ^ 255` is at most `127`. -/
+private theorem top_byte_le {S b : ℕ} (h : S + 2 ^ (8 * 31) * b < 2 ^ 255) : b ≤ 127 := by
+  have h' : 2 ^ (8 * 31) * b < 2 ^ (8 * 31) * 128 :=
+    lt_of_le_of_lt (Nat.le_add_left _ _) (h.trans_eq (by norm_num))
+  exact Nat.le_of_lt_succ (Nat.lt_of_mul_lt_mul_left h')
+
+/-- A digit of width `4` below bit `256` is below digit `63`. -/
+private theorem radix16_lt_63 {i : ℕ} (h : (i + 1) * 4 < 256) : i < 63 := by
+  omega
+
+/-- No digit of width `4` below `64` starts beyond bit `256`. -/
+private theorem radix16_not_gt {i : ℕ} (h : i < 64) : ¬ 256 < i * 4 := by
+  omega
+
+/-- A radix-`16` digit in `[-8, 8)`. -/
+private theorem radix16_bounds {v : ℤ} (h : -8 ≤ v ∧ v < 8) : -2 ^ 4 ≤ 2 * v ∧ 2 * v < 2 ^ 4 := by
+  norm_num
+  omega
+
+/-- The last radix-`16` digit, in `[-8, 8]`. -/
+private theorem radix16_last_bounds {v : ℤ} (h : -8 ≤ v ∧ v ≤ 8) :
+    -2 ^ 4 ≤ 2 * v ∧ 2 * v ≤ 2 ^ 4 := by
+  norm_num
+  omega
+
+/-- The widths handled by `radix_tail_spec`. -/
+private theorem width_mid {w : ℕ} (hw : 4 ≤ w ∧ w ≤ 8) (h4 : w ≠ 4) (h8 : ¬ w = 8) :
+    5 ≤ w ∧ w < 8 := by
+  omega
 
 @[step]
 theorem as_radix_2w_spec (self : Scalar) (w : Usize) (hw : 4 ≤ w.val ∧ w.val ≤ 8)
@@ -443,19 +523,16 @@ theorem as_radix_2w_spec (self : Scalar) (w : Usize) (hw : 4 ≤ w.val ∧ w.val
         rw [Scalar.asNat, Array.asNat_eq_sum, show (32#usize).val = 31 + 1 from rfl,
           Finset.sum_range_succ]
       rw [hsplit] at hself
-      scalar_tac
+      exact top_byte_le hself
     step with as_radix_16_spec self hb31 as ⟨r, hval, hlow, h63l, h63u⟩
     rw [hw4v]
     refine ⟨hval, fun i hi h => ?_, fun i hi => ?_, fun i hi h => ?_⟩
-    · have := hlow i (by scalar_tac)
-      scalar_tac
+    · exact radix16_bounds (hlow i (radix16_lt_63 h))
     · by_cases hi63 : i < 63
-      · have := hlow i hi63
-        scalar_tac
-      · have hi63' : i = 63 := by scalar_tac
-        rw [hi63']
-        scalar_tac
-    · scalar_tac
+      · exact (radix16_bounds (hlow i hi63)).imp_right le_of_lt
+      · rw [show i = 63 from Nat.le_antisymm (Nat.le_of_lt_succ hi) (Nat.le_of_not_lt hi63)]
+        exact radix16_last_bounds ⟨h63l, h63u⟩
+    · exact absurd h (radix16_not_gt hi)
   · step as ⟨s, hs⟩
     step as ⟨s1, back, hs1, hs1len, hback⟩
     step as ⟨s2, hs2len, hs2⟩
@@ -490,6 +567,7 @@ theorem as_radix_2w_spec (self : Scalar) (w : Usize) (hw : 4 ≤ w.val ∧ w.val
     split
     next _ hw8 => exact radix_tail8_spec w _ hself hw8 dc (hdc8 hw8) carry digits hinv
     next _ hw8 =>
-      exact radix_tail_spec w _ hself ⟨by scalar_tac, by scalar_tac⟩ dc hdc carry digits hinv
+      exact radix_tail_spec w _ hself (width_mid hw (fun h => hw4 (UScalar.eq_of_val_eq h)) hw8)
+        dc hdc carry digits hinv
 
 end Curve25519Dalek.scalar.Scalar

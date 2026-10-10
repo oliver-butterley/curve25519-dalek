@@ -34,6 +34,19 @@ co-authors of this work.
 - `semaraugusto`
 - `ChristianoBraga`
 
+## Performance findings (2026-10-10)
+
+- Slowest proof files: long straight-line functions (`to_bytes`, `mul`, `montgomery_reduce`),
+  8–13 s each. The remaining cost is Aeneas's `step*` itself: before every step it tries all
+  hypotheses as specs (quadratic in the context size), it ends with a failing `grind` attempt
+  (0.5–1 s), and it repeatedly searches for `Lean.Grind.NoNatZeroDivisors (BitVec n)`. Worth
+  reporting upstream to Aeneas.
+- Interpreted vs native tactics: `step`, `step*`, `scalar_tac` (library `Aeneas`) and Mathlib's
+  tactic code run interpreted; `AeneasMeta` ships a native plugin, loaded by `lake build`.
+  Making everything native (hand-linked shared library, since `precompileModules` fails on a
+  `Batteries` ↔ `BatteriesRecycling` import cycle) saved only 2–5% wall time on the slowest
+  files. Not worth pursuing; the lever is `step*`'s algorithm.
+
 ## Conventions
 
 The repository layout, translation rules, external-crate libraries and the spec/proof

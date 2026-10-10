@@ -5,6 +5,7 @@ public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Backend.Serial.U64.Field.Lemmas.Mul
 public import Specs.Lemmas.AsNat
+public import Specs.Lemmas.StepSpecs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
@@ -69,6 +70,7 @@ private theorem mul_coeffs_lt {a0 a1 a2 a3 a4 b0 b1 b2 b3 b4 : ℕ} (ha0 : a0 < 
   simp only [← Nat.mul_assoc]
   refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;> scalar_tac +nonLin
 
+open scoped Specs.IndexStep in
 @[local step]
 private theorem mul.prod_spec (self _rhs : FieldElement51)
     (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) (hrhs : ∀ i < 5, _rhs[i]!.val < 2 ^ 54) :
@@ -90,16 +92,9 @@ private theorem mul.prod_spec (self _rhs : FieldElement51)
       c0.val < 77 * 2 ^ 108 ∧ c1.val < 77 * 2 ^ 108 ∧ c2.val < 77 * 2 ^ 108 ∧
       c3.val < 77 * 2 ^ 108 ∧ c4.val < 5 * 2 ^ 108 ⦄ := by
   unfold mul.prod
-  have ha0 : self.val[0].val < 2 ^ 54 := by simpa [getElem!_pos] using hself 0
-  have ha1 : self.val[1].val < 2 ^ 54 := by simpa [getElem!_pos] using hself 1
-  have ha2 : self.val[2].val < 2 ^ 54 := by simpa [getElem!_pos] using hself 2
-  have ha3 : self.val[3].val < 2 ^ 54 := by simpa [getElem!_pos] using hself 3
-  have ha4 : self.val[4].val < 2 ^ 54 := by simpa [getElem!_pos] using hself 4
-  have hb0 : _rhs.val[0].val < 2 ^ 54 := by simpa [getElem!_pos] using hrhs 0
-  have hb1 : _rhs.val[1].val < 2 ^ 54 := by simpa [getElem!_pos] using hrhs 1
-  have hb2 : _rhs.val[2].val < 2 ^ 54 := by simpa [getElem!_pos] using hrhs 2
-  have hb3 : _rhs.val[3].val < 2 ^ 54 := by simpa [getElem!_pos] using hrhs 3
-  have hb4 : _rhs.val[4].val < 2 ^ 54 := by simpa [getElem!_pos] using hrhs 4
+  rw [Nat.forall_lt_five] at hself hrhs
+  obtain ⟨ha0, ha1, ha2, ha3, ha4⟩ := hself
+  obtain ⟨hb0, hb1, hb2, hb3, hb4⟩ := hrhs
   have hc := mul_coeffs_lt ha0 ha1 ha2 ha3 ha4 hb0 hb1 hb2 hb3 hb4
   step*
   simpa [*] using hc

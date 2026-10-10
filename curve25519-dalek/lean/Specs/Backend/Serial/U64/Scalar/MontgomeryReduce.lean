@@ -256,16 +256,14 @@ theorem montgomery_reduce_spec (limbs : Array U128 9#usize)
       r0.val + 2 ^ 52 * r1.val + 2 ^ 104 * r2.val + 2 ^ 156 * r3.val + 2 ^ 208 * c8.val := by
     rw [Scalar52.asNat_eq]
     simp only [Array.getElem!_make, List.getElem!_cons_succ, List.getElem!_cons_zero, hr4']
-  step with sub_spec as ⟨r, hr, hrL, hrlimbs⟩
-  case ha =>
+  have ha : ∀ i < 5, (Array.make 5#usize [r0, r1, r2, r3, r4])[i]!.val < 2 ^ 52 := by
     rw [Nat.forall_lt_five]
     simp only [Array.getElem!_make, List.getElem!_cons_succ, List.getElem!_cons_zero, hr4']
     exact ⟨hr0, hr1, hr2, hr3, hc8⟩
-  case hb => exact constants.L_spec.2
-  case ha' =>
+  have ha' : Scalar52.asNat (Array.make 5#usize [r0, r1, r2, r3, r4]) < constants.L.asNat + L := by
     rw [hmake, constants.L_spec.1]
     scalar_tac
-  case hb' => exact constants.L_spec.1.le
+  step with sub_spec _ _ ha constants.L_spec.2 ha' constants.L_spec.1.le as ⟨r, hr, hrL, hrlimbs⟩
   rw [hmake, constants.L_spec.1] at hr
   exact ⟨reduce_mod hT hr, hrL, hrlimbs⟩
 

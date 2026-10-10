@@ -4,6 +4,7 @@ public import Aeneas
 public import Mathlib.Tactic.LinearCombination
 public import Mathlib.Tactic.IntervalCases
 public import Specs.Lemmas.AsNat
+public import Specs.Lemmas.StepSpecs
 public section
 
 /-! # Lemmas for the multiplication and squaring of `FieldElement51`
@@ -180,6 +181,13 @@ private theorem carry_out_spec (x : U128) (hx : x.val < 2 ^ 115) :
   simp only [Nat.shiftRight_eq_div_pow] at *
   scalar_tac
 
+/-- Limb 1 after folding a carry `c` into limb 0 stays below `2^52`. -/
+private theorem fold_lt {a0 a1 c : ℕ} (ha0 : a0 < 2 ^ 51) (ha1 : a1 < 2 ^ 51)
+    (hc : c < 3 * 2 ^ 58) :
+    a1 + (a0 + c * 19) / 2 ^ 51 < 2 ^ 52 := by
+  omega
+
+open scoped Specs.IndexStep Specs.UpdateStep in
 @[local step]
 private theorem carry_fold_spec (mask carry : U64) (a : Array U64 5#usize)
     (hmask : mask.val = 2 ^ 51 - 1) (hcarry : carry.val < 3 * 2 ^ 58)
@@ -189,14 +197,23 @@ private theorem carry_fold_spec (mask carry : U64) (a : Array U64 5#usize)
       r[1]!.val = a[1]!.val + (a[0]!.val + carry.val * 19) / 2 ^ 51 ∧
       r[2]! = a[2]! ∧ r[3]! = a[3]! ∧ r[4]! = a[4]! ⦄ := by
   unfold carryFold
-  have h0 : a.val[0].val < 2 ^ 51 := by simpa [getElem!_pos] using ha0
-  have h1 : a.val[1].val < 2 ^ 51 := by simpa [getElem!_pos] using ha1
   step*
-  · simp_lists [*]
-    simp only [Nat.shiftRight_eq_div_pow]
-    scalar_tac
-  · simp_lists [*]
-    simp only [Nat.shiftRight_eq_div_pow]
+  · simp (disch := simp) only [*, Nat.shiftRight_eq_div_pow]
+    exact Nat.le_of_lt ((fold_lt ha0 ha1 hcarry).trans (by rw [U64.max_eq]; norm_num))
+  · simp (disch := simp) only [*, Nat.shiftRight_eq_div_pow, and_self]
+
+/-- Folding the top carry `q` into limb 0 and carrying limb 0 into limb 1. -/
+private theorem fold_eq (x y q : ℕ) :
+    (x % 2 ^ 64 % 2 ^ 51 + q * 19) % 2 ^ 51 + 2 ^ 51 * (y % 2 ^ 51 + (x % 2 ^ 64 % 2 ^ 51 + q * 19)
+      / 2 ^ 51) = x % 2 ^ 51 + 2 ^ 51 * (y % 2 ^ 51) + 19 * q := by
+  rw [Nat.mod_mod_of_dvd _ (by norm_num : 2 ^ 51 ∣ 2 ^ 64)]
+  omega
+
+/-- The top carry of the carry chain. -/
+private theorem carry_lt {c0 c1 c2 c3 c4 : ℕ} (hc0 : c0 < 77 * 2 ^ 108) (hc1 : c1 < 77 * 2 ^ 108)
+    (hc2 : c2 < 77 * 2 ^ 108) (hc3 : c3 < 77 * 2 ^ 108) (hc4 : c4 < 5 * 2 ^ 108) :
+    (c4 + (c3 + (c2 + (c1 + c0 / 2 ^ 51) / 2 ^ 51) / 2 ^ 51) / 2 ^ 51) / 2 ^ 51 < 3 * 2 ^ 58 := by
+  omega
 
 /-- The carry chain keeps the value modulo `p` and gives limbs `< 2^52`, provided the
 coefficients are small enough for the carries to fit in `u64`. -/
@@ -213,20 +230,19 @@ theorem carryChain_spec (low_51_bit_mask : Result U64) (a : Array U64 5#usize)
   step
   step with hmask
   step*
-  · simp_lists [*]
-    scalar_tac
-  · simp_lists [*]
-    scalar_tac
-  refine ⟨?_, fun i hi => ?_⟩
+  · simp (disch := simp) only [*, Array.getElem!_Nat_set_ne, Array.getElem!_Nat_set_eq]
+    exact Nat.mod_lt _ (by norm_num)
+  · simp (disch := simp) only [*, Array.getElem!_Nat_set_ne, Array.getElem!_Nat_set_eq]
+    exact Nat.mod_lt _ (by norm_num)
+  refine ⟨?_, ?_⟩
   · rw [Array.asNat_five]
-    simp only [*]
-    simp_lists
-    simp only [*]
-    apply carryChain_mod_p
-    · scalar_tac
-    · scalar_tac
-    · scalar_tac
-    · scalar_tac
-  · interval_cases i <;> (simp only [*]; simp_lists; simp only [*]; scalar_tac)
+    simp (disch := simp) only [*, Array.getElem!_Nat_set_ne, Array.getElem!_Nat_set_eq]
+    exact carryChain_mod_p _ _ _ _ _ rfl rfl rfl (fold_eq _ _ _)
+  · rw [Nat.forall_lt_five]
+    simp (disch := simp) only [*, Array.getElem!_Nat_set_ne, Array.getElem!_Nat_set_eq]
+    have hlt : ∀ x : ℕ, x % 2 ^ 51 < 2 ^ 52 := fun x => (Nat.mod_lt _ (by norm_num)).trans
+      (by norm_num)
+    exact ⟨hlt _, fold_lt (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))
+      (carry_lt hc0 hc1 hc2 hc3 hc4), hlt _, hlt _, hlt _⟩
 
 end Curve25519Dalek.backend.serial.u64.field

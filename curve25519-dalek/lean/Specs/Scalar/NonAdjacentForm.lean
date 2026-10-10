@@ -135,6 +135,10 @@ private theorem naf_inv_odd {X w : ℕ} {naf : Array I8 256#usize} {pos c c' : �
       rw [Array.getElem!_Nat_set_ne _ _ _ _ (by rw [hp]; exact Nat.ne_of_gt (by omega))]
       exact hz j hj hjw hj256
 
+/-- A window of `w` bits at offset `b < 64 - w` lies within one limb. -/
+private theorem window_fits {b t w : ℕ} (hbt : b < t) (ht : t = 64 - w) : b + w ≤ 64 := by
+  omega
+
 /-- The bit buffer of `non_adjacent_form`: its low `w` bits are the bits `64 u + b …` of `X`. -/
 private theorem naf_bit_buf_spec (x : Array U64 5#usize) (X : ℕ) (hX : x.asNat 64 = X)
     (w u b t : Usize) (hw : w.val ≤ 8) (hu : u.val ≤ 3) (hb : b.val < 64)
@@ -160,7 +164,7 @@ private theorem naf_bit_buf_spec (x : Array U64 5#usize) (X : ℕ) (hX : x.asNat
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     rw [hr, Nat.shiftRight_eq_div_pow, hl, ← hlimb]
-    exact Nat.window_in_limb X u.val b.val w.val (by scalar_tac)
+    exact Nat.window_in_limb X u.val b.val w.val (window_fits hbt ht)
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     step as ⟨u1, hu1⟩
@@ -169,9 +173,32 @@ private theorem naf_bit_buf_spec (x : Array U64 5#usize) (X : ℕ) (hX : x.asNat
     step as ⟨r1, hr1, hr1bv⟩
     rw [UScalar.val_or, hr, hr1, Nat.shiftRight_eq_div_pow, Nat.shiftLeft_eq, hl, hl1, hu1, hk,
       ← hlimb, ← hlimb]
-    have := Nat.window_across X u.val b.val w.val hb (by scalar_tac)
+    have := Nat.window_across X u.val b.val w.val hb (hw.trans (by norm_num))
     rw [Nat.add_comm 1 u.val]
     simpa [U64.size, U64.numBits] using this
+
+/-- The limb index and bit offset of a bit position below `256`. -/
+private theorem naf_pos_split {pos : ℕ} (h : pos < 256) : pos / 64 ≤ 3 ∧ pos % 64 < 64 := by
+  omega
+
+/-- The half width `P = 2 ^ (w - 1)` of a window of `2 ≤ w ≤ 8` bits. -/
+private theorem naf_half {w : ℕ} (hw : 2 ≤ w ∧ w ≤ 8) :
+    2 ^ w = 2 * 2 ^ (w - 1) ∧ 2 ^ (w - 1) % 2 = 0 ∧ 2 ^ (w - 1) ≤ 128 := by
+  obtain ⟨k, rfl⟩ : ∃ k, w = k + 2 := ⟨w - 2, by omega⟩
+  refine ⟨by rw [show k + 2 - 1 = k + 1 by omega, pow_succ, mul_comm], ?_, ?_⟩
+  · rw [show k + 2 - 1 = k + 1 by omega, pow_succ, Nat.mul_mod_left]
+  · rw [show k + 2 - 1 = k + 1 by omega]
+    exact (Nat.pow_le_pow_right (by norm_num) (by omega : k + 1 ≤ 7)).trans (by norm_num)
+
+/-- A window plus a carry is at most `2 ^ w`. -/
+private theorem naf_win_le {c Y W : ℕ} (hc : c ≤ 1) (hW : 0 < W) : c + Y % W ≤ W := by
+  have := Nat.mod_lt Y hW
+  omega
+
+/-- The negative digit `v - 2 P` of a window `P ≤ v ≤ 2 P` fits in an `i8`. -/
+private theorem naf_neg_digit_bound {v P : ℕ} (h1 : P ≤ v) (h2 : v ≤ 2 * P) (h3 : P ≤ 128) :
+    -128 ≤ (v : ℤ) - 2 * P ∧ (v : ℤ) - 2 * P < 128 := by
+  omega
 
 /-- One step of the loop of `non_adjacent_form` keeps the invariant and advances `pos`. -/
 private theorem naf_body_spec (w : Usize) (x : Array U64 5#usize) (width mask : U64) (X : ℕ)
@@ -183,13 +210,16 @@ private theorem naf_body_spec (w : Usize) (x : Array U64 5#usize) (width mask : 
       ∃ naf' pos' carry', r = .cont (naf', pos', carry') ∧ pos.val < pos'.val ∧
         NafInv X w.val naf' pos'.val carry'.val ⦄ := by
   have hc := hinv.1
+  have hw1 : 1 ≤ w.val := Nat.le_of_succ_le hw.1
+  have hposw : pos.val < pos.val + w.val := Nat.lt_add_of_pos_right hw1
   unfold non_adjacent_form_loop.body
   simp only [show pos < 256#usize by scalar_tac, if_true]
   step as ⟨u, hu⟩
   step as ⟨b, hb⟩
   step as ⟨t, ht⟩
-  step with naf_bit_buf_spec x X hX w u b t (by scalar_tac) (by scalar_tac) (by scalar_tac) ht
-    as ⟨bb, hbb⟩
+  have hub' := naf_pos_split hpos
+  rw [← hu, ← hb] at hub'
+  step with naf_bit_buf_spec x X hX w u b t hw.2 hub'.1 hub'.2 ht as ⟨bb, hbb⟩
   have hub : 64 * u.val + b.val = pos.val := by
     rw [hu, hb]
     exact Nat.div_add_mod _ _
@@ -206,10 +236,10 @@ private theorem naf_body_spec (w : Usize) (x : Array U64 5#usize) (width mask : 
   · have hp0 : par = 0#u64 := UScalar.eq_of_val_eq (by rw [hpar]; simpa using hev)
     simp only [hp0, if_true]
     step as ⟨pos1, hpos1⟩
-    refine ⟨naf, pos1, carry, rfl, by scalar_tac, ?_⟩
+    refine ⟨naf, pos1, carry, rfl, by rw [hpos1]; exact Nat.lt_succ_self _, ?_⟩
     rw [hpos1]
     exact naf_inv_even hX255 hw.1 hinv (by rw [← hwinv]; exact hev)
-  · have hodd : win.val % 2 = 1 := by scalar_tac
+  · have hodd : win.val % 2 = 1 := Nat.mod_two_ne_zero.mp hev
     have hp0 : par ≠ 0#u64 := fun h => hev (by
       have := congrArg UScalar.val h
       rw [hpar] at this
@@ -217,45 +247,39 @@ private theorem naf_body_spec (w : Usize) (x : Array U64 5#usize) (width mask : 
     simp only [hp0, if_false]
     step as ⟨h2, hh2⟩
     obtain ⟨P, hPdef⟩ : ∃ P, 2 ^ (w.val - 1) = P := ⟨_, rfl⟩
-    have hP : 2 ^ w.val = 2 * P := by
-      rw [← hPdef, ← pow_succ']
-      congr 1
-      scalar_tac
-    have hPe : P % 2 = 0 := by
-      rw [← hPdef, show w.val - 1 = (w.val - 2) + 1 by scalar_tac, pow_succ]
-      exact Nat.mul_mod_left _ _
+    obtain ⟨hP, hPe, hP128⟩ := naf_half hw
+    rw [hPdef] at hP hPe hP128
     have hh2v : h2.val = P := by
       rw [hh2, hwidth, hP]
       exact Nat.mul_div_cancel_left P (by norm_num)
     clear hh2
-    have hP128 : P ≤ 128 := by
-      rw [← hPdef]
-      exact (Nat.pow_le_pow_right (by norm_num) (by scalar_tac : w.val - 1 ≤ 7)).trans
-        (by norm_num)
     have hwin2 : win.val ≤ 2 * P := by
-      rw [← hP]
-      scalar_tac
+      rw [← hP, hwinv]
+      exact naf_win_le hc (by positivity)
     have hdig := naf_digit hPe hwin2 hodd
     have hPz : (2 : ℤ) ^ w.val = 2 * (P : ℤ) := by exact_mod_cast hP
     by_cases hlt : win.val < P
-    · simp only [show win < h2 by scalar_tac, if_true]
-      step with UScalar.hcast_inBounds_spec .I8 win (by scalar_tac) as ⟨d, hd⟩
+    · simp only [show win < h2 by rw [UScalar.lt_equiv, hh2v]; exact hlt, if_true]
+      have hwin127 : (win.val : ℤ) ≤ IScalar.max .I8 := by
+        rw [IScalar.max_IScalarTy_I8_eq, I8.max_eq]
+        exact_mod_cast Nat.le_of_lt_succ (lt_of_lt_of_le hlt hP128)
+      step with UScalar.hcast_inBounds_spec .I8 win hwin127 as ⟨d, hd⟩
       step as ⟨naf1, hnaf1⟩
       step as ⟨pos1, hpos1⟩
-      refine ⟨naf1, pos1, 0#u64, rfl, by scalar_tac, ?_⟩
+      refine ⟨naf1, pos1, 0#u64, rfl, by rw [hpos1]; exact hposw, ?_⟩
       rw [hpos1, hnaf1]
-      refine naf_inv_odd (by scalar_tac) hpos hinv (by simp) (fun _ => rfl) ?_ ?_ pos rfl
+      refine naf_inv_odd hw1 hpos hinv (by simp) (fun _ => rfl) ?_ ?_ pos rfl
       · rw [hd, ← hwinv]
         simp
       · rw [hd, hPz]
         exact hdig.1 hlt
-    · simp only [show ¬ win < h2 by scalar_tac, if_false]
+    · simp only [show ¬ win < h2 by rw [UScalar.lt_equiv, hh2v]; exact hlt, if_false]
       step as ⟨d0, hd0⟩
       step as ⟨q0, hq0⟩
       step as ⟨d, hd⟩
       step as ⟨naf1, hnaf1⟩
       step as ⟨pos1, hpos1⟩
-      refine ⟨naf1, pos1, 1#u64, rfl, by scalar_tac, ?_⟩
+      refine ⟨naf1, pos1, 1#u64, rfl, by rw [hpos1]; exact hposw, ?_⟩
       rw [hpos1, hnaf1]
       have hge : P ≤ win.val := Nat.le_of_not_lt hlt
       have hdv : d.val = (win.val : ℤ) - 2 * P := by
@@ -263,8 +287,8 @@ private theorem naf_body_spec (w : Usize) (x : Array U64 5#usize) (width mask : 
           UScalar.hcast_val_eq, hwidth]
         have h2w : ((2 ^ w.val : ℕ) : ℤ) = 2 * P := by exact_mod_cast hP
         rw [h2w]
-        exact bmod_sub_bmod (by scalar_tac)
-      refine naf_inv_odd (by scalar_tac) hpos hinv (by simp) (fun h => ?_) ?_ ?_ pos rfl
+        exact bmod_sub_bmod (naf_neg_digit_bound hge hwin2 hP128)
+      refine naf_inv_odd hw1 hpos hinv (by simp) (fun h => ?_) ?_ ?_ pos rfl
       · have := naf_odd_carry hX255 h hw.1 hc (by rw [← hwinv]; exact hodd)
         rw [← hwinv, hPdef] at this
         exact absurd hge (Nat.not_le.mpr this)

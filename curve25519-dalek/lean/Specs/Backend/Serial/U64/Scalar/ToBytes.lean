@@ -5,6 +5,8 @@ public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.StepSpecs
+public import Specs.Lemmas.BitWindow
+public import Specs.Lemmas.Bytes
 public import Mathlib.Tactic.LinearCombination
 public section
 
@@ -20,9 +22,14 @@ private theorem to_bytes.bytes_low (l0 l1 : U64) (h0 : l0.val < 2 ^ 52) :
       + 2 ^ 40 * (l0.val >>> 40 % 2 ^ 8)
       + 2 ^ 48 * ((l0.val >>> 48 ||| l1.val <<< 4 % U64.size) % 2 ^ 8)
       = l0.val + 2 ^ 52 * (l1.val % 2 ^ 4) := by
-  bvify 64 at *
-  simp only [U64.ofNat_shiftLeft_mod_size_eq]
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l0.val 0 8 6
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.pow_zero,
+    Nat.one_mul, Nat.zero_add] at hs
+  rw [hs, Nat.shiftRight_or_shiftLeft_mod _ ?_ (U64.two_pow_dvd_size ?_), Nat.shiftRight_zero,
+    Nat.mul_add, ← Nat.add_assoc, Nat.mod_add_div]
+  · ring
+  · exact h0
+  · norm_num
 
 /-- Bytes 7–12 (and 20–25): a limb without its low 4 bits. -/
 private theorem to_bytes.bytes_high (l1 : U64) (h1 : l1.val < 2 ^ 52) :
@@ -30,8 +37,11 @@ private theorem to_bytes.bytes_high (l1 : U64) (h1 : l1.val < 2 ^ 52) :
       + 2 ^ 24 * (l1.val >>> 28 % 2 ^ 8) + 2 ^ 32 * (l1.val >>> 36 % 2 ^ 8)
       + 2 ^ 40 * (l1.val >>> 44 % 2 ^ 8)
       = l1.val / 2 ^ 4 := by
-  bvify 64 at *
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l1.val 4 8 6
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.reduceAdd,
+    Nat.pow_zero, Nat.one_mul, Nat.zero_add] at hs
+  rw [hs]
+  exact Nat.shiftRight_mod_eq_of_lt h1
 
 /-- Bytes 26–31: the top limb, which has at most 48 bits. -/
 private theorem to_bytes.bytes_top (l4 : U64) (h4 : l4.val < 2 ^ 48) :
@@ -39,8 +49,10 @@ private theorem to_bytes.bytes_top (l4 : U64) (h4 : l4.val < 2 ^ 48) :
       + 2 ^ 24 * (l4.val >>> 24 % 2 ^ 8) + 2 ^ 32 * (l4.val >>> 32 % 2 ^ 8)
       + 2 ^ 40 * (l4.val >>> 40 % 2 ^ 8)
       = l4.val := by
-  bvify 64 at *
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l4.val 0 8 6
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.pow_zero,
+    Nat.one_mul, Nat.zero_add] at hs
+  rw [hs, Nat.shiftRight_zero, Nat.mod_eq_of_lt h4]
 
 /-- A top limb of weight `2 ^ 208` in a number below `2 ^ 256` has at most 48 bits. -/
 private theorem top_limb_lt {r x : ℕ} (h : r + 2 ^ 208 * x < 2 ^ 256) : x < 2 ^ 48 := by

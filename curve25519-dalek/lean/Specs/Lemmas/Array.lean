@@ -60,4 +60,29 @@ theorem _root_.Nat.forall_lt_five {P : ℕ → Prop} :
     | 3, _ => exact h3
     | 4, _ => exact h4
 
+/-- Setting entry `i` extends a property of the entries below `i` to the entries below `i + 1`. -/
+theorem _root_.Aeneas.Std.Slice.forall_lt_succ_set {α : Type} [Inhabited α] {P : ℕ → α → Prop}
+    {s : Slice α} {i : Usize} {x : α} (hs : ∀ k < i.val, P k s[k]!) (hx : P i.val x)
+    (hi : i.val < s.length) :
+    ∀ k < i.val + 1, P k (s.set i x)[k]! := by
+  intro k hk
+  rcases Nat.lt_succ_iff_lt_or_eq.mp hk with h | rfl
+  · rw [Slice.getElem!_Nat_set_ne _ _ _ _ (Nat.ne_of_gt h)]
+    exact hs k h
+  · rw [Slice.getElem!_Nat_set_eq _ _ _ _ ⟨rfl, hi⟩]
+    exact hx
+
+/-- Setting entry `k1 = k - 1` keeps the entries below `k1` and extends a property of the entries
+from `k` on to the entries from `k1` on. -/
+theorem _root_.Aeneas.Std.Slice.forall_ge_pred_set {α : Type} [Inhabited α] {P : ℕ → α → Prop}
+    {s : Slice α} {k1 : Usize} {x : α} {k m : ℕ} (hkk : k1.val + 1 = k) (hk1 : k1.val < s.length)
+    (hh : ∀ j < m, k ≤ j → P j s[j]!) (hx : P k1.val x) :
+    (∀ j < k1.val, (s.set k1 x)[j]! = s[j]!) ∧ ∀ j < m, k1.val ≤ j → P j (s.set k1 x)[j]! := by
+  refine ⟨fun j hj => Slice.getElem!_Nat_set_ne _ _ _ _ (Nat.ne_of_gt hj), fun j hj hkj => ?_⟩
+  rcases Nat.eq_or_lt_of_le hkj with rfl | hlt
+  · rw [Slice.getElem!_Nat_set_eq _ _ _ _ ⟨rfl, hk1⟩]
+    exact hx
+  · rw [Slice.getElem!_Nat_set_ne _ _ _ _ (Nat.ne_of_lt hlt)]
+    exact hh j hj (hkk ▸ hlt)
+
 end Aeneas.Std.Array

@@ -5,6 +5,8 @@ public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Backend.Serial.U64.Field.Reduce
 public import Specs.Lemmas.StepSpecs
+public import Specs.Lemmas.BitWindow
+public import Specs.Lemmas.Bytes
 public import Mathlib.Tactic.LinearCombination
 public section
 
@@ -22,13 +24,6 @@ set_option linter.hashCommand false in
 attribute [nolint docBlame defsWithUnderscore] to_bytes.quotient to_bytes.carry to_bytes.pack
 
 
-open Aeneas.Std in
-/-- The value of a left shift with wrap-around, as a bit vector (for `bvify` goals). -/
-private theorem U64.ofNat_shiftLeft_mod_size (x : U64) (k : ℕ) :
-    BitVec.ofNat 64 (x.val <<< k % U64.size) = x.bv <<< k := by
-  apply BitVec.eq_of_toNat_eq
-  simp [BitVec.toNat_shiftLeft, U64.size, U64.numBits]
-
 /-! ## Byte packing -/
 
 /-- Bytes 0–6: limb 0 and the low 5 bits of limb 1. -/
@@ -38,9 +33,14 @@ private theorem to_bytes.bytes_0_6 (l0 l1 : U64) (h0 : l0.val < 2 ^ 51) :
       + 2 ^ 40 * (l0.val >>> 40 % 2 ^ 8)
       + 2 ^ 48 * ((l0.val >>> 48 ||| l1.val <<< 3 % U64.size) % 2 ^ 8)
       = l0.val + 2 ^ 51 * (l1.val % 2 ^ 5) := by
-  bvify 64 at *
-  simp only [U64.ofNat_shiftLeft_mod_size]
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l0.val 0 8 6
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.pow_zero,
+    Nat.one_mul, Nat.zero_add, Nat.shiftRight_zero] at hs
+  rw [hs, Nat.shiftRight_or_shiftLeft_mod _ ?_ (U64.two_pow_dvd_size ?_), Nat.mul_add,
+    ← Nat.add_assoc, Nat.mod_add_div]
+  · ring
+  · exact h0
+  · norm_num
 
 /-- Bytes 7–12: limb 1 without its low 5 bits, and the low 2 bits of limb 2. -/
 private theorem to_bytes.bytes_7_12 (l1 l2 : U64) (h1 : l1.val < 2 ^ 51) :
@@ -48,9 +48,14 @@ private theorem to_bytes.bytes_7_12 (l1 l2 : U64) (h1 : l1.val < 2 ^ 51) :
       + 2 ^ 24 * (l1.val >>> 29 % 2 ^ 8) + 2 ^ 32 * (l1.val >>> 37 % 2 ^ 8)
       + 2 ^ 40 * ((l1.val >>> 45 ||| l2.val <<< 6 % U64.size) % 2 ^ 8)
       = l1.val / 2 ^ 5 + 2 ^ 46 * (l2.val % 2 ^ 2) := by
-  bvify 64 at *
-  simp only [U64.ofNat_shiftLeft_mod_size]
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l1.val 5 8 5
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.reduceAdd,
+    Nat.pow_zero, Nat.one_mul, Nat.zero_add] at hs
+  rw [hs, Nat.shiftRight_or_shiftLeft_mod _ ?_ (U64.two_pow_dvd_size ?_), Nat.mul_add,
+    ← Nat.add_assoc, Nat.shiftRight_mod_add_mul_div]
+  · ring
+  · exact h1
+  · norm_num
 
 /-- Bytes 13–19: limb 2 without its low 2 bits, and the low 7 bits of limb 3. -/
 private theorem to_bytes.bytes_13_19 (l2 l3 : U64) (h2 : l2.val < 2 ^ 51) :
@@ -59,9 +64,14 @@ private theorem to_bytes.bytes_13_19 (l2 l3 : U64) (h2 : l2.val < 2 ^ 51) :
       + 2 ^ 40 * (l2.val >>> 42 % 2 ^ 8)
       + 2 ^ 48 * ((l2.val >>> 50 ||| l3.val <<< 1 % U64.size) % 2 ^ 8)
       = l2.val / 2 ^ 2 + 2 ^ 49 * (l3.val % 2 ^ 7) := by
-  bvify 64 at *
-  simp only [U64.ofNat_shiftLeft_mod_size]
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l2.val 2 8 6
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.reduceAdd,
+    Nat.pow_zero, Nat.one_mul, Nat.zero_add] at hs
+  rw [hs, Nat.shiftRight_or_shiftLeft_mod _ ?_ (U64.two_pow_dvd_size ?_), Nat.mul_add,
+    ← Nat.add_assoc, Nat.shiftRight_mod_add_mul_div]
+  · ring
+  · exact h2
+  · norm_num
 
 /-- Bytes 20–25: limb 3 without its low 7 bits, and the low 4 bits of limb 4. -/
 private theorem to_bytes.bytes_20_25 (l3 l4 : U64) (h3 : l3.val < 2 ^ 51) :
@@ -69,9 +79,14 @@ private theorem to_bytes.bytes_20_25 (l3 l4 : U64) (h3 : l3.val < 2 ^ 51) :
       + 2 ^ 24 * (l3.val >>> 31 % 2 ^ 8) + 2 ^ 32 * (l3.val >>> 39 % 2 ^ 8)
       + 2 ^ 40 * ((l3.val >>> 47 ||| l4.val <<< 4 % U64.size) % 2 ^ 8)
       = l3.val / 2 ^ 7 + 2 ^ 44 * (l4.val % 2 ^ 4) := by
-  bvify 64 at *
-  simp only [U64.ofNat_shiftLeft_mod_size]
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l3.val 7 8 5
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.reduceAdd,
+    Nat.pow_zero, Nat.one_mul, Nat.zero_add] at hs
+  rw [hs, Nat.shiftRight_or_shiftLeft_mod _ ?_ (U64.two_pow_dvd_size ?_), Nat.mul_add,
+    ← Nat.add_assoc, Nat.shiftRight_mod_add_mul_div]
+  · ring
+  · exact h3
+  · norm_num
 
 /-- Bytes 26–31: limb 4 without its low 4 bits. -/
 private theorem to_bytes.bytes_26_31 (l4 : U64) (h4 : l4.val < 2 ^ 51) :
@@ -79,8 +94,11 @@ private theorem to_bytes.bytes_26_31 (l4 : U64) (h4 : l4.val < 2 ^ 51) :
       + 2 ^ 24 * (l4.val >>> 28 % 2 ^ 8) + 2 ^ 32 * (l4.val >>> 36 % 2 ^ 8)
       + 2 ^ 40 * (l4.val >>> 44 % 2 ^ 8)
       = l4.val / 2 ^ 4 := by
-  bvify 64 at *
-  bv_decide
+  have hs := Nat.sum_shiftRight_mod l4.val 4 8 6
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, Nat.reduceMul, Nat.reduceAdd,
+    Nat.pow_zero, Nat.one_mul, Nat.zero_add] at hs
+  rw [hs]
+  exact Nat.shiftRight_mod_eq_of_lt (h4.trans (by norm_num))
 
 /-- The 32 bytes written by `to_bytes` spell out the five 51-bit limbs. -/
 private theorem to_bytes.bytes_eq (l0 l1 l2 l3 l4 : U64) (h0 : l0.val < 2 ^ 51)
@@ -134,8 +152,8 @@ private theorem to_bytes.pack_spec (limbs : Array U64 5#usize)
     simp only [*, UScalar.cast_val_eq, UScalar.val_or, UScalarTy.U8_numBits_eq]
     exact to_bytes.bytes_eq _ _ _ _ _ h0 h1 h2 h3 h4
   · rw [Array.getElem!_Nat_set_eq _ _ _ _ ⟨by simp, by simp⟩]
-    simp only [*, UScalar.cast_val_eq, UScalarTy.U8_numBits_eq]
-    scalar_tac
+    simp only [*, UScalar.cast_val_eq, UScalarTy.U8_numBits_eq, Nat.shiftRight_eq_div_pow]
+    exact (Nat.mod_le _ _).trans_lt (Nat.div_lt_of_lt_mul (h4.trans_eq (by norm_num)))
 
 /-! ## Quotient and carry phases -/
 
@@ -183,6 +201,14 @@ private theorem carry_chain_mod (f₀ f₁ f₂ f₃ f₄ t : ℕ) :
     linear_combination e₀ + 2 ^ 51 * e₁ + 2 ^ 102 * e₂ + 2 ^ 153 * e₃ + 2 ^ 204 * e₄
   rw [← h, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hlt]
 
+/-- The last two carries of the carry phase stay within `U64`. -/
+private theorem carry_le_max {f₀ f₁ f₂ f₃ f₄ q : ℕ} (h₀ : f₀ < 2 ^ 52) (h₁ : f₁ < 2 ^ 52)
+    (h₂ : f₂ < 2 ^ 52) (h₃ : f₃ < 2 ^ 52) (h₄ : f₄ < 2 ^ 52) (hq : q ≤ 1) :
+    f₃ + (f₂ + (f₁ + (f₀ + 19 * q) >>> 51) >>> 51) >>> 51 ≤ U64.max ∧
+      f₄ + (f₃ + (f₂ + (f₁ + (f₀ + 19 * q) >>> 51) >>> 51) >>> 51) >>> 51 ≤ U64.max := by
+  simp only [Nat.shiftRight_eq_div_pow, U64.max_eq]
+  omega
+
 open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep in
 /-- The carry phase of `to_bytes`: `fe + 19 q` reduced modulo `2^255`, in canonical limbs. -/
 @[local step]
@@ -198,8 +224,10 @@ private theorem to_bytes.carry_spec (fe : FieldElement51) (i q : U64) (hi : i.va
   step; step; step; step as ⟨two_pow_51, h_two_pow_51⟩; step as ⟨mask, h_mask⟩
   have h_mask' : mask.val = 2 ^ 51 - 1 := by scalar_tac
   step*
-  · simp (disch := simp) only [*]; scalar_tac
-  · simp (disch := simp) only [*]; scalar_tac
+  · simp (disch := simp) only [*]
+    exact (carry_le_max h0 h1 h2 h3 h4 hq).1
+  · simp (disch := simp) only [*]
+    exact (carry_le_max h0 h1 h2 h3 h4 hq).2
   · simp (disch := simp) only [*, Nat.shiftRight_eq_div_pow]
     exact ⟨carry_chain_mod _ _ _ _ _ _, Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity),
       Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity), Nat.mod_lt _ (by positivity)⟩
@@ -223,7 +251,9 @@ private theorem canonical_mod (x : ℕ) (hx : x < 2 * p) :
 /-- The final check of `to_bytes`: the top bit of the last byte is clear. -/
 private theorem and_128_eq_zero {x y : U8} (hy : y.val = (x &&& 128#u8).val)
     (hx : x.val < 2 ^ 7) : y = 0#u8 := by
-  bv_tac 8
+  apply UScalar.eq_of_val_eq
+  rw [hy, UScalar.val_and]
+  exact Nat.and_two_pow_eq_zero_of_lt hx
 
 open scoped Specs.IndexStep Specs.UpdateStep in
 @[step]

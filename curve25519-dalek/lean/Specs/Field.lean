@@ -35,15 +35,8 @@ theorem eq_spec' (self other : FieldElement51) :
       (b = true ↔ self.asNat % p = other.asNat % p) ⦄ :=
   eq_spec self other
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, Bool.Insts.CoreConvertFromChoice.from_spec,
-  Slice.Insts.SubtleConstantTimeEq.ct_eq_spec, U8.Insts.SubtleConstantTimeEq.ct_eq_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  Slice.Insts.SubtleConstantTimeEq.ct_eq_spec, U8.Insts.SubtleConstantTimeEq.ct_eq_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms eq_spec'
 
 end CoreCmpPartialEqFieldElement51
@@ -58,15 +51,8 @@ theorem ct_eq_spec' (self other : FieldElement51) :
       (self.asNat % p ≠ other.asNat % p → c = 0#u8) ⦄ :=
   ct_eq_spec self other
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
-  U8.Insts.SubtleConstantTimeEq.ct_eq_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  U8.Insts.SubtleConstantTimeEq.ct_eq_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms ct_eq_spec'
 
 end Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts.SubtleConstantTimeEq
@@ -92,14 +78,7 @@ theorem is_negative_spec' (self : FieldElement51) :
       c.IsValid ∧ c.val = self.asNat % p % 2 ⦄ :=
   is_negative_spec self
 
-set_option linter.style.longLine false in
-/-- [propext, Classical.choice, Quot.sound, subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+/-- [propext, Classical.choice, Quot.sound, subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms is_negative_spec'
 
 end Curve25519Dalek.field.FieldElement51
@@ -112,15 +91,8 @@ theorem is_zero_spec' (self : FieldElement51) :
       c.IsValid ∧ (self.asNat % p = 0 → c = 1#u8) ∧ (self.asNat % p ≠ 0 → c = 0#u8) ⦄ :=
   is_zero_spec self
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
-  U8.Insts.SubtleConstantTimeEq.ct_eq_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  U8.Insts.SubtleConstantTimeEq.ct_eq_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms is_zero_spec'
 
 end Curve25519Dalek.field.FieldElement51
@@ -151,17 +123,10 @@ theorem invert_batch_spec' {N : Usize} (inputs : Array FieldElement51 N)
           ∀ j < 5, (r[i]!)[j]!.val < 2 ^ 52) ⦄ :=
   invert_batch_spec inputs hinputs
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, p_prime, Bool.Insts.CoreConvertFromChoice.from_spec,
   Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec,
-  U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms invert_batch_spec'
 
 end Curve25519Dalek.field.FieldElement51
@@ -179,17 +144,10 @@ theorem invert_batch_alloc_spec' (inputs : Slice FieldElement51)
           ∀ j < 5, (r[i]!)[j]!.val < 2 ^ 52) ⦄ :=
   invert_batch_alloc_spec inputs hinputs
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, p_prime, Bool.Insts.CoreConvertFromChoice.from_spec,
   Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec,
-  U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms invert_batch_alloc_spec'
 
 end Curve25519Dalek.field.FieldElement51
@@ -209,17 +167,10 @@ theorem internal_invert_batch_spec' (inputs scratch : Slice FieldElement51)
           ∀ j < 5, (r[i]!)[j]!.val < 2 ^ 52) ⦄ :=
   internal_invert_batch_spec inputs scratch hlen hinputs
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, p_prime, Bool.Insts.CoreConvertFromChoice.from_spec,
   Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec,
-  U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms internal_invert_batch_spec'
 
 end Curve25519Dalek.field.FieldElement51
@@ -267,18 +218,11 @@ theorem sqrt_ratio_i_spec' (u v : FieldElement51) (hu : ∀ i < 5, u[i]!.val < 2
       r.asNat % p % 2 = 0 ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
   sqrt_ratio_i_spec u v hu hv
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, p_prime, core.array.from_fn_spec,
   Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec,
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms sqrt_ratio_i_spec'
 
 end Curve25519Dalek.field.FieldElement51
@@ -297,18 +241,11 @@ theorem invsqrt_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val <
       r.asNat % p % 2 = 0 ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
   invsqrt_spec self hself
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound, p_prime, core.array.from_fn_spec,
   Slice.Insts.SubtleConstantTimeEq.ct_eq_spec,
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec,
   U8.Insts.SubtleConstantTimeEq.ct_eq_spec, subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor_spec,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.and_128_eq_zero._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_0_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_13_19._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_20_25._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_26_31._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Field.ToBytes.0.Curve25519Dalek.backend.serial.u64.field.FieldElement51.to_bytes.bytes_7_12._native.bv_decide.ax_1_5] -/
+  subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms invsqrt_spec'
 
 end Curve25519Dalek.field.FieldElement51

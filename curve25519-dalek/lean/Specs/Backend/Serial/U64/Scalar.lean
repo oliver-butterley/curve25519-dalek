@@ -108,12 +108,7 @@ theorem from_bytes_spec' (bytes : Array U8 32#usize) :
       r.asNat = bytes.asNat 8 ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
   from_bytes_spec bytes
 
-set_option linter.style.longLine false in
-/-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes.limb_4._native.bv_decide.ax_1_5] -/
+/-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_bytes_spec'
 
 end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
@@ -126,18 +121,9 @@ theorem from_bytes_wide_spec' (bytes : Array U8 64#usize) :
       r.asNat = bytes.asNat 8 % L ∧ ∀ i < 5, r[i]!.val < 2 ^ 52 ⦄ :=
   from_bytes_wide_spec bytes
 
-set_option linter.style.longLine false in
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec,
-  subtle.Choice.Insts.CoreConvertFromU8.from_spec,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_1._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_2._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_3._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_4._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_5._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_6._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_7._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.FromBytesWide.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.from_bytes_wide.limb_8._native.bv_decide.ax_1_5] -/
+  subtle.Choice.Insts.CoreConvertFromU8.from_spec] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms from_bytes_wide_spec'
 
 end Curve25519Dalek.backend.serial.u64.scalar.Scalar52
@@ -151,11 +137,7 @@ theorem to_bytes_spec' (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 
       r.asNat 8 = self.asNat ⦄ :=
   to_bytes_spec self hself hself'
 
-set_option linter.style.longLine false in
-/-- [propext, Classical.choice, Quot.sound,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_high._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_low._native.bv_decide.ax_1_5,
-  _private.Specs.Backend.Serial.U64.Scalar.ToBytes.0.Curve25519Dalek.backend.serial.u64.scalar.Scalar52.to_bytes.bytes_top._native.bv_decide.ax_1_5] -/
+/-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms to_bytes_spec'
 
 end Curve25519Dalek.backend.serial.u64.scalar.Scalar52

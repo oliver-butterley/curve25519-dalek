@@ -17,6 +17,7 @@ public import Specs.Scalar.Eq
 public import Specs.Scalar.Lemmas
 public import Specs.Backend.Serial.U64.Scalar.Lemmas
 public import Specs.Lemmas.ZMod
+public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
@@ -73,7 +74,44 @@ private theorem mod_L_eq_one {a : ℕ} (h : (a : ZMod L) = 1) : a % L = 1 := by
   rw [← Nat.mod_eq_of_lt ((Nat.one_lt_two_pow (by decide)).trans two_pow_252_lt_L)]
   exact (ZMod.natCast_eq_natCast_iff' _ _ _).mp (by exact_mod_cast h)
 
+/-! ## Slice updates in the loops -/
+
 /-! ## First loop: Montgomery forms of the inputs and of their prefix products -/
+
+/-- One step of the first loop: store `acc` at `i`, replace input `i` by its Montgomery form `y`
+and multiply `acc` by it. -/
+private theorem loop0_body_spec (inputs ins : Slice Scalar) (sc : Slice Scalar52) (a : Scalar52)
+    (n i : Usize) (hlt : i < n) (hn : n.val = inputs.length) (hinl : ins.length = inputs.length)
+    (hscl : sc.length = inputs.length) (ha : MontVal a (pre inputs i.val))
+    (hx : ins[i.val]! = inputs[i.val]!) :
+    invert_batch_internal.«x86_64-tables_loop0».body n ins sc a i ⦃ r =>
+      ∃ y a1 i1, r = .cont (ins.set i y, sc.set i a, a1, i1) ∧ i1.val = i.val + 1 ∧
+        (y.asNat : ZMod L) = inputs[i.val]!.asNat * montgomeryRadix ∧
+        MontVal a1 (pre inputs (i.val + 1)) ⦄ := by
+  unfold invert_batch_internal.«x86_64-tables_loop0».body
+  have hil : i.val < ins.length := hinl ▸ hn ▸ hlt
+  have hab := ha.2.2
+  simp only [hlt, if_true]
+  step as ⟨sc1, hsc1⟩
+  step as ⟨x, hx'⟩
+  have hx'' : x = inputs[i.val]! := by
+    rw [hx', ← hx, Slice.getElem!_Nat_eq, getElem!_pos]
+  step as ⟨u, hu, hub⟩
+  step as ⟨t, ht, htb⟩
+  have htL : t.asNat < L := ht ▸ Nat.mod_lt _ L_pos
+  step with Scalar52.pack_spec t htb (lt_two_pow_256_of_lt_L htL) as ⟨y, hy⟩
+  step as ⟨ins1, hins1⟩
+  step with backend.serial.u64.scalar.Scalar52.montgomery_mul_spec a t hab htb
+    (Nat.mul_lt_mul'' (ha.2.1.trans backend.serial.u64.scalar.L_lt_montgomeryRadix) htL) as
+    ⟨a1, ha1, ha1L, ha1b⟩
+  step as ⟨i1, hi1⟩
+  have ht' : (t.asNat : ZMod L) = inputs[i.val]!.asNat * montgomeryRadix := by
+    rw [← hx'', ← hu]
+    exact_mod_cast (ZMod.natCast_eq_natCast_of_mod_eq ht.symm).symm
+  refine ⟨y, a1, i1, by rw [hins1, hsc1], hi1, by rw [← ht']; exact congrArg Nat.cast hy,
+    ⟨?_, ha1L, ha1b⟩⟩
+  rw [pre_succ]
+  exact montVal_mul ha ht' ha1
 
 @[local step]
 private theorem loop0_spec (inputs : Slice Scalar) (scratch : Slice Scalar52) (acc : Scalar52)
@@ -95,54 +133,80 @@ private theorem loop0_spec (inputs : Slice Scalar) (scratch : Slice Scalar52) (a
         (x.1[k]!.asNat : ZMod L) = inputs[k]!.asNat * montgomeryRadix) ∧
       ∀ k < inputs.length, x.2.2.2.val ≤ k → x.1[k]! = inputs[k]!)
   · rintro ⟨ins, sc, a, i⟩ ⟨hi, hinl, hscl, ha, hsc, hlow, hhigh⟩
-    simp only at hi hinl hscl ha hsc hlow hhigh
-    unfold invert_batch_internal.«x86_64-tables_loop0».body
     by_cases hlt : i < n
-    · simp only [hlt, if_true]
-      have hlt' : i.val < inputs.length := by scalar_tac
-      step as ⟨sc1, hsc1⟩
-      step as ⟨x, hx⟩
-      have hx' : x = inputs[i.val]! := by
-        rw [hx, ← hhigh i.val hlt' le_rfl, Slice.getElem!_Nat_eq, getElem!_pos]
-      step as ⟨u, hu, hub⟩
-      step as ⟨t, ht, htb⟩
-      have htL : t.asNat < L := ht ▸ Nat.mod_lt _ L_pos
-      step with Scalar52.pack_spec t htb (lt_two_pow_256_of_lt_L htL) as ⟨y, hy⟩
-      step as ⟨ins1, hins1⟩
-      step with backend.serial.u64.scalar.Scalar52.montgomery_mul_spec a t ha.2.2 htb
-        (Nat.mul_lt_mul'' (ha.2.1.trans backend.serial.u64.scalar.L_lt_montgomeryRadix) htL) as
-        ⟨a1, ha1, ha1L, ha1b⟩
-      step as ⟨i1, hi1⟩
-      have ht' : (t.asNat : ZMod L) = inputs[i.val]!.asNat * montgomeryRadix := by
-        rw [← hx', ← hu]
-        exact_mod_cast (ZMod.natCast_eq_natCast_of_mod_eq ht.symm).symm
-      refine ⟨by scalar_tac, by rw [hins1, Slice.set_length, hinl],
-        by rw [hsc1, Slice.set_length, hscl], ⟨?_, ha1L, ha1b⟩, fun k hk => ?_, fun k hk => ?_,
-        fun k hk hik => ?_, by scalar_tac⟩
-      · rw [hi1, pre_succ]
-        exact montVal_mul ha ht' ha1
-      · rw [hsc1]
-        by_cases hki : k = i.val
-        · rw [Slice.getElem!_Nat_set_eq _ _ _ _ ⟨hki.symm, by scalar_tac⟩, hki]
-          exact ha
-        · rw [Slice.getElem!_Nat_set_ne _ _ _ _ (Ne.symm hki)]
-          exact hsc k (by scalar_tac)
-      · rw [hins1]
-        by_cases hki : k = i.val
-        · rw [Slice.getElem!_Nat_set_eq _ _ _ _ ⟨hki.symm, by scalar_tac⟩, hki, ← ht']
-          exact congrArg Nat.cast hy
-        · rw [Slice.getElem!_Nat_set_ne _ _ _ _ (Ne.symm hki)]
-          exact hlow k (by scalar_tac)
-      · rw [hins1, Slice.getElem!_Nat_set_ne _ _ _ _ (by scalar_tac)]
-        exact hhigh k hk (by scalar_tac)
-    · simp only [hlt, if_false, WP.spec_ok]
-      have hin : i.val = inputs.length := by scalar_tac
+    · have hil : i.val < inputs.length := hn ▸ hlt
+      apply spec_mono (loop0_body_spec inputs ins sc a n i hlt hn hinl hscl ha
+        (hhigh i.val hil le_rfl))
+      rintro r ⟨y, a1, i1, rfl, hi1, hy, ha1⟩
+      refine ⟨⟨hi1 ▸ hlt, by rw [Slice.set_length, hinl], by rw [Slice.set_length, hscl],
+        hi1 ▸ ha1,
+        hi1 ▸ Slice.forall_lt_succ_set (P := fun k x => MontVal x (pre inputs k)) hsc ha
+          (hscl ▸ hil),
+        hi1 ▸ Slice.forall_lt_succ_set
+          (P := fun k x => (x.asNat : ZMod L) = inputs[k]!.asNat * montgomeryRadix) hlow hy
+          (hinl ▸ hil), fun k hk hik => ?_⟩, ?_⟩
+      · rw [hi1] at hik
+        rw [Slice.getElem!_Nat_set_ne _ _ _ _ (Nat.ne_of_lt hik)]
+        exact hhigh k hk (Nat.le_of_succ_le hik)
+      · dsimp only
+        rw [hi1]
+        exact Nat.sub_lt_sub_left hlt (Nat.lt_succ_self _)
+    · unfold invert_batch_internal.«x86_64-tables_loop0».body
+      simp only [hlt, if_false, WP.spec_ok]
+      have hin : i.val = inputs.length := hn ▸ Nat.le_antisymm hi (Nat.le_of_not_lt hlt)
       rw [hin] at ha hsc hlow
       exact ⟨hinl, hscl, ha, hsc, hlow⟩
   · refine ⟨by simp, rfl, hlen, by simpa [pre] using hacc, fun k hk => absurd hk (by simp),
       fun k hk => absurd hk (by simp), fun k _ _ => rfl⟩
 
 /-! ## Second loop: the inverses, from the back -/
+
+/-- One step of the second loop: input `k - 1` is replaced by its inverse and `acc` becomes the
+inverse of the product before `k - 1`. -/
+private theorem loop1_body_spec (inputs inputs1 ins : Slice Scalar) (scratch : Slice Scalar52)
+    (a : Scalar52) (k : Usize) (hpos : k > 0#usize) (hk : k.val ≤ inputs.length)
+    (hscratch : ∀ k < inputs.length, MontVal scratch[k]! (pre inputs k))
+    (hinputs1 : ∀ k < inputs.length,
+      (inputs1[k]!.asNat : ZMod L) = inputs[k]!.asNat * montgomeryRadix)
+    (hinl : ins.length = inputs.length) (hslen : scratch.length = inputs.length)
+    (ha : (a.asNat : ZMod L) * pre inputs k.val = 1) (haL : a.asNat < L)
+    (hab : ∀ j < 5, a[j]!.val < 2 ^ 52) (hlow : ∀ j < k.val, ins[j]! = inputs1[j]!) :
+    invert_batch_internal.«x86_64-tables_loop1».body scratch ins a k ⦃ r =>
+      ∃ y t k1, r = .cont (ins.set k1 y, t, k1) ∧ k1.val + 1 = k.val ∧
+        (t.asNat : ZMod L) * pre inputs k1.val = 1 ∧ t.asNat < L ∧
+        (∀ j < 5, t[j]!.val < 2 ^ 52) ∧
+        (y.asNat : ZMod L) * inputs[k1.val]!.asNat = 1 ∧ y.asNat < L ⦄ := by
+  unfold invert_batch_internal.«x86_64-tables_loop1».body
+  simp only [hpos, if_true]
+  step as ⟨k1, hk1⟩
+  have hkk : k1.val + 1 = k.val := by scalar_tac
+  have hk1' : k1.val < inputs.length := lt_of_lt_of_le (hkk ▸ Nat.lt_succ_self k1.val) hk
+  have hk1i : k1.val < ins.length := hinl ▸ hk1'
+  have hk1s : k1.val < scratch.length := hslen ▸ hk1'
+  step as ⟨x, hx⟩
+  have hx' : x = inputs1[k1.val]! := by
+    rw [hx, ← hlow k1.val (hkk ▸ Nat.lt_succ_self _), Slice.getElem!_Nat_eq, getElem!_pos]
+  step as ⟨u, hu, hub⟩
+  step with backend.serial.u64.scalar.Scalar52.montgomery_mul_spec a u hab hub
+    (by
+      rw [Nat.mul_comm]
+      exact Nat.mul_lt_mul'' (backend.serial.u64.scalar.Scalar52.asNat_lt u hub) haL) as
+    ⟨t, ht, htL, htb⟩
+  step as ⟨z, hz⟩
+  have hz' : z = scratch[k1.val]! := by
+    rw [hz, Slice.getElem!_Nat_eq, getElem!_pos]
+  have hzm : MontVal z (pre inputs k1.val) := hz' ▸ hscratch k1.val hk1'
+  step with backend.serial.u64.scalar.Scalar52.montgomery_mul_spec a z hab hzm.2.2
+    (Nat.mul_lt_mul'' (haL.trans backend.serial.u64.scalar.L_lt_montgomeryRadix)
+      hzm.2.1) as ⟨w, hw, hwL, hwb⟩
+  step with Scalar52.pack_spec w hwb (lt_two_pow_256_of_lt_L hwL) as ⟨y, hy⟩
+  step as ⟨ins1, hins1⟩
+  rw [← hkk, pre_succ] at ha
+  have hu' : (u.asNat : ZMod L) = inputs[k1.val]!.asNat * montgomeryRadix := by
+    rw [hu, hx']
+    exact hinputs1 k1.val hk1'
+  refine ⟨y, t, k1, by rw [hins1], hkk, by rw [plain_mul hu' ht, ← ha]; ring, htL, htb,
+    by rw [hy, plain_mul hzm.1 hw, ← ha]; ring, hy ▸ hwL⟩
 
 @[local step]
 private theorem loop1_spec (inputs inputs1 : Slice Scalar) (scratch : Slice Scalar52)
@@ -165,52 +229,18 @@ private theorem loop1_spec (inputs inputs1 : Slice Scalar) (scratch : Slice Scal
       ∀ j < inputs.length, x.2.2.val ≤ j →
         (x.1[j]!.asNat : ZMod L) * inputs[j]!.asNat = 1 ∧ x.1[j]!.asNat < L)
   · rintro ⟨ins, a, k⟩ ⟨hk, hinl, ha, haL, hab, hlow, hhigh⟩
-    simp only at hk hinl ha haL hab hlow hhigh
-    unfold invert_batch_internal.«x86_64-tables_loop1».body
     by_cases hpos : k > 0#usize
-    · simp only [hpos, if_true]
-      step as ⟨k1, hk1⟩
-      have hk1' : k1.val < inputs.length := by scalar_tac
-      step as ⟨x, hx⟩
-      have hx' : x = inputs1[k1.val]! := by
-        rw [hx, ← hlow k1.val (by scalar_tac), Slice.getElem!_Nat_eq, getElem!_pos]
-      step as ⟨u, hu, hub⟩
-      step with backend.serial.u64.scalar.Scalar52.montgomery_mul_spec a u hab hub
-        (by
-          rw [Nat.mul_comm]
-          exact Nat.mul_lt_mul'' (backend.serial.u64.scalar.Scalar52.asNat_lt u hub) haL) as
-        ⟨t, ht, htL, htb⟩
-      step as ⟨z, hz⟩
-      have hz' : z = scratch[k1.val]! := by
-        rw [hz, Slice.getElem!_Nat_eq, getElem!_pos]
-      have hzm : MontVal z (pre inputs k1.val) := hz' ▸ hscratch k1.val hk1'
-      step with backend.serial.u64.scalar.Scalar52.montgomery_mul_spec a z hab hzm.2.2
-        (Nat.mul_lt_mul'' (haL.trans backend.serial.u64.scalar.L_lt_montgomeryRadix)
-          hzm.2.1) as ⟨w, hw, hwL, hwb⟩
-      step with Scalar52.pack_spec w hwb (lt_two_pow_256_of_lt_L hwL) as ⟨y, hy⟩
-      step as ⟨ins1, hins1⟩
-      have hpk : pre inputs k.val = pre inputs k1.val * inputs[k1.val]!.asNat := by
-        rw [show k.val = k1.val + 1 by scalar_tac, pre_succ]
-      have hu' : (u.asNat : ZMod L) = inputs[k1.val]!.asNat * montgomeryRadix := by
-        rw [hu, hx']
-        exact hinputs1 k1.val hk1'
-      have ht' := plain_mul hu' ht
-      have hw' := plain_mul hzm.1 hw
-      refine ⟨by scalar_tac, by rw [hins1, Slice.set_length, hinl], ?_, htL, htb,
-        fun j hj => ?_, fun j hj hkj => ?_, by scalar_tac⟩
-      · rw [ht', ← ha, hpk]
-        ring
-      · rw [hins1, Slice.getElem!_Nat_set_ne _ _ _ _ (by scalar_tac)]
-        exact hlow j (by scalar_tac)
-      · rw [hins1]
-        by_cases hjk : j = k1.val
-        · rw [Slice.getElem!_Nat_set_eq _ _ _ _ ⟨hjk.symm, by scalar_tac⟩, hjk, hy]
-          refine ⟨?_, hwL⟩
-          rw [hw', ← ha, hpk]
-          ring
-        · rw [Slice.getElem!_Nat_set_ne _ _ _ _ (Ne.symm hjk)]
-          exact hhigh j hj (by scalar_tac)
-    · simp only [hpos, if_false, WP.spec_ok]
+    · apply spec_mono (loop1_body_spec inputs inputs1 ins scratch a k hpos hk hscratch hinputs1
+        hinl hslen ha haL hab hlow)
+      rintro r ⟨y, t, k1, rfl, hkk, ht, htL, htb, hy, hyL⟩
+      have hk1k : k1.val < k.val := hkk ▸ Nat.lt_succ_self _
+      obtain ⟨hl1, hh1⟩ := Slice.forall_ge_pred_set
+        (P := fun j x => (x.asNat : ZMod L) * inputs[j]!.asNat = 1 ∧ x.asNat < L) hkk
+        (hinl ▸ lt_of_lt_of_le hk1k hk) hhigh ⟨hy, hyL⟩
+      exact ⟨⟨Nat.le_of_lt (Nat.lt_of_lt_of_le hk1k hk), by rw [Slice.set_length, hinl], ht, htL,
+        htb, fun j hj => (hl1 j hj).trans (hlow j (Nat.lt_trans hj hk1k)), hh1⟩, hk1k⟩
+    · unfold invert_batch_internal.«x86_64-tables_loop1».body
+      simp only [hpos, if_false, WP.spec_ok]
       have hk0 : k.val = 0 := by scalar_tac
       rw [hk0] at hhigh
       exact ⟨hinl, fun j hj => hhigh j hj (Nat.zero_le j)⟩

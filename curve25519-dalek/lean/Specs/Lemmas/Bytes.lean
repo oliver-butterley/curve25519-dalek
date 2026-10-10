@@ -7,6 +7,11 @@ public section
 
 open Aeneas Aeneas.Std
 
+/-- A power of two up to `2 ^ 64` divides the size of `U64`. -/
+theorem Aeneas.Std.U64.two_pow_dvd_size {n : ℕ} (hn : n ≤ 64) : 2 ^ n ∣ U64.size := by
+  rw [show U64.size = 2 ^ 64 by simp [U64.size, U64.numBits]]
+  exact Nat.pow_dvd_pow 2 hn
+
 /-- The little-endian bytes of a bit vector, read in radix `256`, give back its value. -/
 theorem BitVec.ofDigits_toLEBytes {w : ℕ} (v : BitVec w) :
     Nat.ofDigits 256 (v.toLEBytes.map BitVec.toNat) = v.toNat := by
