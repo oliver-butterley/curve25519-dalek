@@ -12,6 +12,28 @@
 3. Make it so Aeneas supports project-defined traits for external-crate (see below)
 4. Incorporate the new formalisation of elliptic curve models
 
+## Contributors to the earlier project (future co-authors)
+
+Many proofs here are adapted from https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify. Its contributors, to be credited as
+co-authors of this work. 
+
+- `oliver-butterley`
+- `MarkusFerdinandDablander`
+- `truonghoangle`
+- `Zhang-Liao`
+- `a-dangelo`
+- `astefano`
+- `TheodoreEhrenborg`
+- `mpenciak`
+- `jinxinglim`
+- `alok`
+- `faenuccio`
+- `ChrisEPhifer`
+- `Kukovec`
+- `rozbb`
+- `semaraugusto`
+- `ChristianoBraga`
+
 ## Conventions
 
 The repository layout, translation rules, external-crate libraries and the spec/proof
