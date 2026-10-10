@@ -14,8 +14,8 @@ open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
 
 /-- The closure of `negate`: limb `i` of `16 p - self`. -/
-@[step]
-theorem negate.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spec
+@[local step]
+private theorem negate.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spec
     (c : negate.closure) (i : Usize) (hi : i.val < 5) (hc : c[i.val]!.val < 2 ^ 54) :
     negate.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut c i
       ⦃ (r : U64) (c' : negate.closure) =>

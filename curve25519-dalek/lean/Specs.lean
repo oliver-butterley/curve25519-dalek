@@ -2,6 +2,8 @@ module
 public import Specs.Backend.Serial.U64.Constants
 public import Specs.Backend.Serial.U64.Field
 public import Specs.Backend.Serial.U64.Scalar
+public import Specs.Field
+public import Specs.Scalar
 
 /-! # Specs of curve25519-dalek
 

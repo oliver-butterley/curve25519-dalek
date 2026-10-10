@@ -114,8 +114,9 @@ private theorem to_bytes.bytes_eq (l0 l1 l2 l3 l4 : U64) (h0 : l0.val < 2 ^ 51)
     + 2 ^ 51 * d1 + 2 ^ 102 * d2 + 2 ^ 153 * d3 + 2 ^ 204 * d4
 
 /-- The byte-packing phase of `to_bytes`: canonical limbs are written out as 32 bytes. -/
-@[step]
-theorem to_bytes.pack_spec (limbs : Array U64 5#usize) (hlimbs : ∀ i < 5, limbs[i]!.val < 2 ^ 51) :
+@[local step]
+private theorem to_bytes.pack_spec (limbs : Array U64 5#usize)
+    (hlimbs : ∀ i < 5, limbs[i]!.val < 2 ^ 51) :
     to_bytes.pack limbs ⦃ (s : Array U8 32#usize) =>
       s.asNat 8 = FieldElement51.asNat limbs ∧ s[31]!.val < 2 ^ 7 ⦄ := by
   rw [Nat.forall_lt_five] at hlimbs
@@ -141,8 +142,8 @@ theorem to_bytes.pack_spec (limbs : Array U64 5#usize) (hlimbs : ∀ i < 5, limb
 attribute [local scalar_tac_simps] Nat.shiftRight_eq_div_pow
 
 /-- The quotient phase of `to_bytes`: `q = ⌊(fe + 19) / 2^255⌋`. -/
-@[step]
-theorem to_bytes.quotient_spec (fe : FieldElement51) (i : U64) (hi : i.val = fe[0]!.val)
+@[local step]
+private theorem to_bytes.quotient_spec (fe : FieldElement51) (i : U64) (hi : i.val = fe[0]!.val)
     (hfe : ∀ j < 5, fe[j]!.val < 2 ^ 52) :
     to_bytes.quotient fe i ⦃ (q : U64) => q.val = (fe.asNat + 19) / 2 ^ 255 ⦄ := by
   rw [Nat.forall_lt_five] at hfe
@@ -182,10 +183,10 @@ private theorem carry_chain_mod (f₀ f₁ f₂ f₃ f₄ t : ℕ) :
     linear_combination e₀ + 2 ^ 51 * e₁ + 2 ^ 102 * e₂ + 2 ^ 153 * e₃ + 2 ^ 204 * e₄
   rw [← h, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hlt]
 
-open scoped Specs.GetElemSteps Specs.MaskStep in
+open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep in
 /-- The carry phase of `to_bytes`: `fe + 19 q` reduced modulo `2^255`, in canonical limbs. -/
-@[step]
-theorem to_bytes.carry_spec (fe : FieldElement51) (i q : U64) (hi : i.val = fe[0]!.val)
+@[local step]
+private theorem to_bytes.carry_spec (fe : FieldElement51) (i q : U64) (hi : i.val = fe[0]!.val)
     (hfe : ∀ j < 5, fe[j]!.val < 2 ^ 52) (hq : q.val ≤ 1) :
     to_bytes.carry fe i q ⦃ (r : Array U64 5#usize) =>
       FieldElement51.asNat r = (fe.asNat + 19 * q.val) % 2 ^ 255 ∧
@@ -224,7 +225,7 @@ private theorem and_128_eq_zero {x y : U8} (hy : y.val = (x &&& 128#u8).val)
     (hx : x.val < 2 ^ 7) : y = 0#u8 := by
   bv_tac 8
 
-open scoped Specs.GetElemSteps in
+open scoped Specs.IndexStep Specs.UpdateStep in
 @[step]
 theorem to_bytes_spec (self : FieldElement51) :
     to_bytes self ⦃ (r : Array U8 32#usize) =>

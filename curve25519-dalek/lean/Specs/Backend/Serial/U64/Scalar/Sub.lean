@@ -36,8 +36,8 @@ private theorem sub_sum_step {Sd Sb Sa P beta dk bk ak beta' : ℕ} (hIH : Sd + 
 
 /-- The loop of `sub` subtracts limb by limb with a borrow; the last borrow's top bit tells
 whether `a < b`. -/
-@[step]
-theorem sub_loop_spec (a b : Scalar52) (mask : U64) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
+@[local step]
+private theorem sub_loop_spec (a b : Scalar52) (mask : U64) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
     (hb : ∀ i < 5, b[i]!.val < 2 ^ 52) (hmask : mask.val = 2 ^ 52 - 1) :
     sub_loop { start := 0#usize, «end» := 5#usize } a b ZERO mask 0#u64
     ⦃ (d : Scalar52) (borrow : U64) =>
@@ -143,7 +143,7 @@ theorem sub_spec (a b : Scalar52) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
     · exact Or.inr (by scalar_tac)
   have hc0 : borrow.val / 2 ^ 63 = 0 → c8 = 0#u8 := fun h => by scalar_tac
   have hc1 : borrow.val / 2 ^ 63 = 1 → c8 = 1#u8 := fun h => by scalar_tac
-  step as ⟨c, hc⟩
+  step as ⟨c, _, hc⟩
   subst hc
   step with conditional_add_l_spec as ⟨carry, r, hr0, hr1, hr⟩
   obtain ⟨hmod, hlt⟩ := key r (fun h => hr0 (hc0 h)) (fun h => hr1 (hc1 h))

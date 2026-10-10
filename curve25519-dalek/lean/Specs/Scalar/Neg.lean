@@ -1,0 +1,59 @@
+module
+public import Curve25519
+public import Curve25519Dalek.Funs
+public import Specs.Defs
+public import Specs.Backend.Serial.U64.Defs
+public import Subtle
+public import Specs.Backend.Serial.U64.Scalar.MulInternal
+public import Specs.Backend.Serial.U64.Scalar.MontgomeryReduce
+public import Specs.Backend.Serial.U64.Scalar.Lemmas
+public import Specs.Backend.Serial.U64.Constants.R
+public import Specs.Scalar.Unpack
+public import Specs.Scalar.Scalar52Pack
+public import Specs.Scalar.Lemmas
+public import Specs.Backend.Serial.U64.Scalar.Sub
+public import Specs.Backend.Serial.U64.Scalar.Zero
+public section
+
+open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
+open curve25519_dalek.scalar (Scalar HalfWidthScalar)
+open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+namespace curve25519_dalek.scalar.NegShared0ScalarScalar
+
+@[step]
+theorem neg.«x86_64-unknown-linux-gnu_spec» (self : Scalar) :
+    neg.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+      (r.asNat + self.asNat) % L = 0 ∧ r.asNat < L ⦄ := by
+  unfold neg.«x86_64-unknown-linux-gnu»
+  obtain ⟨hR, hRb⟩ := backend.serial.u64.constants.R_spec
+  step as ⟨x, hx, hxb⟩
+  step with backend.serial.u64.scalar.Scalar52.mul_internal_spec x _ hxb hRb as ⟨xR, hxR, hxRb⟩
+  have hlt : xR.asNat 52 < montgomeryRadix * L := by
+    rw [hxR, hR]
+    exact Nat.mul_lt_mul'' (backend.serial.u64.scalar.Scalar52.asNat_lt x hxb)
+      (Nat.mod_lt _ L_pos)
+  step with backend.serial.u64.scalar.Scalar52.montgomery_reduce_spec xR
+    (fun i hi => (hxRb i hi).trans (by decide)) hlt as ⟨m, hm, hmL, hmb⟩
+  have hm' : m.asNat = self.asNat % L := by
+    rw [← hx, ← Nat.mod_eq_of_lt hmL]
+    apply backend.serial.u64.scalar.mod_L_of_mul_montgomeryRadix
+    rw [hm, hxR, hR, Nat.mul_mod_mod]
+  obtain ⟨hZ, hZb⟩ := backend.serial.u64.scalar.Scalar52.ZERO_spec
+  step with backend.serial.u64.scalar.Scalar52.sub_spec _ m hZb hmb
+    (hZ ▸ Nat.add_pos_right _ L_pos) hmL.le as ⟨c, hc, hcL, hcb⟩
+  step with Scalar52.pack_spec c hcb (lt_two_pow_256_of_lt_L hcL) as ⟨r, hr⟩
+  rw [hm', Nat.add_mod_mod, hZ, Nat.zero_mod] at hc
+  exact hr ▸ ⟨hc, hcL⟩
+
+end curve25519_dalek.scalar.NegShared0ScalarScalar
+
+namespace curve25519_dalek.scalar.NegShared0ScalarScalar
+
+@[step]
+theorem neg.«x86_64-no-tables_spec» (self : Scalar) :
+    neg.«x86_64-no-tables» self ⦃ (r : Scalar) =>
+      (r.asNat + self.asNat) % L = 0 ∧ r.asNat < L ⦄ :=
+  neg.«x86_64-unknown-linux-gnu_spec» self
+
+end curve25519_dalek.scalar.NegShared0ScalarScalar

@@ -15,8 +15,8 @@ namespace curve25519_dalek.backend.serial.u64.field
 namespace SubShared0FieldElement51SharedAFieldElement51FieldElement51
 
 /-- The closure of `sub`: limb `i` of `self + 16 p - _rhs`. -/
-@[step]
-theorem sub.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spec
+@[local step]
+private theorem sub.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut_spec
     (self _rhs : FieldElement51) (i : Usize) (hi : i.val < 5)
     (hself : self[i.val]!.val < 2 ^ 54) (hrhs : _rhs[i.val]!.val < 2 ^ 54) :
     sub.closure.Insts.CoreOpsFunctionFnMutTupleUsizeU64.call_mut (self, _rhs) i

@@ -15,8 +15,8 @@ open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 
 /-- The loop of `from_montgomery` copies the five limbs of `self` into the low limbs. -/
-@[step]
-theorem from_montgomery_loop_spec (self : Scalar52) :
+@[local step]
+private theorem from_montgomery_loop_spec (self : Scalar52) :
     from_montgomery_loop { start := 0#usize, «end» := 5#usize } self
       (Array.repeat 9#usize 0#u128) ⦃ (limbs : Array U128 9#usize) =>
       (∀ i < 5, limbs[i]!.val = self[i]!.val) ∧ ∀ i < 9, 5 ≤ i → limbs[i]!.val = 0 ⦄ := by

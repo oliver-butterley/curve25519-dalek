@@ -19,7 +19,8 @@ public section
 Audit file: every constant of `constants.rs` with its spec statement, proved by the theorem of the
 same name (without the prime) in `Constants/`, and the axioms that proof depends on.
 Definitions used: `FieldElement51.asNat`, `Scalar52.asNat` (`Specs/Backend/Serial/U64/Defs.lean`),
-`p`, `a`, `d`, `A`, `curve25519.L` (`Curve25519/Basic.lean`).
+`montgomeryRadix` (same file), `p`, `a`, `d`, `A`, `sqrtM1`, `curve25519.L`
+(`Curve25519/Basic.lean`).
 
 Not yet specified (they need the curve model): `ED25519_BASEPOINT_POINT`,
 `ED25519_BASEPOINT_128_POINT`, `EIGHT_TORSION`, `AFFINE_ODD_MULTIPLES_OF_BASEPOINT`,
@@ -29,7 +30,7 @@ Not translated (`digest` feature off): `ED25519_SQRTAM2`, `MONTGOMERY_A`, `MONTG
 open Aeneas Aeneas.Std Result Aeneas.Std.WP
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 open curve25519_dalek.backend.serial.u64.scalar (Scalar52 montgomeryRadix)
-open curve25519 (p a d A)
+open curve25519 (p a d A sqrtM1)
 
 namespace curve25519_dalek.backend.serial.u64.constants
 
@@ -100,10 +101,10 @@ theorem INVSQRT_A_MINUS_D_spec' :
 /-- [propext, Classical.choice, Quot.sound] -/
 #guard_msgs (whitespace := lax, substring := true) in #print axioms INVSQRT_A_MINUS_D_spec'
 
-/-- `SQRT_M1`: a square root of `-1`. -/
+/-- `SQRT_M1`: the square root `sqrtM1` of `-1`. -/
 theorem SQRT_M1_spec' :
     SQRT_M1 ⦃ (r : FieldElement51) =>
-      r.asNat < p ∧ (r.asNat ^ 2 + 1) % p = 0 ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ :=
+      r.asNat = sqrtM1 ∧ ∀ i < 5, r[i]!.val < 2 ^ 51 ⦄ :=
   SQRT_M1_spec
 
 /-- [propext, Classical.choice, Quot.sound] -/

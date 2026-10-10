@@ -133,6 +133,10 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
   whole file. A long `namespace X.Y` is split into two consecutive `namespace` commands (closed by
   two `end`s); long strings use string gaps (`\` at the end of the line). Only a single token over
   100 characters justifies `set_option linter.style.longLine false in` on that one command.
+- **`Choice` validity:** the `subtle` crate maintains the invariant that a `Choice` is `0` or `1`
+  (`subtle.Choice.IsValid`, defined in `Subtle/Basic.lean`). Every spec (and `Subtle` spec
+  axiom) with a `Choice` argument `c` assumes `(hc : c.IsValid)`, and every spec returning a
+  `Choice` `c` states `c.IsValid` as its first conjunct.
 - **Docstrings:** short. The function name (with its trait or type only when needed), then the
   content in a phrase (`limbs < 2^54 in, < 2^52 out`). No full Rust paths.
 - **No explanatory comments** on linter options or `nolint` attributes.
@@ -158,6 +162,11 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
   irreducible: name them like `p` and `L` (e.g. `montgomeryRadix` for `2^260`), with an
   unfolding lemma that is exactly the definition (`montgomeryRadix_eq`) and characterisation
   lemmas proved before `attribute [irreducible]`; state specs with the name.
+- **Export only the key specs.** A step lemma needed only inside its own file (loop specs,
+  `#decompose` parts, closure `call_mut` specs, inner constants, variants with extra
+  postconditions) is `@[local step] private theorem`. It is then neither visible nor registered
+  for `step` outside the file (and does not leak a public `mvcgen_spec`). Public `@[step]`
+  theorems are the audited specs and the few helper specs other files genuinely use.
 - **No auto-generated names.** Never refer to names a tactic invented (`h_1`, `x✝`, `a_post1`,
   `i1`). Name what you use (`step as ⟨r, hr⟩`, `obtain ⟨…⟩`, `intro`).
 - **`p` and `L` stay irreducible.** Use their characterisation lemmas in `Curve25519/Basic.lean`
@@ -179,6 +188,14 @@ theorem square_spec' (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 
 4. **Proofs:** fill in the proofs following "Proof quality" (and the Aeneas `aeneas-lean-core`
    workflow), and update the `#guard_msgs` lines as they land.
 5. **Done:** no `sorryAx` left in the audit file. Add the audit module to the strict CI build.
+
+## Building locally (memory)
+
+The machine has 31 GB and 20 cores; `lake build` runs one Lean process per module in parallel, each
+using 1–5 GB. When several agents or builds run at once: check single files with
+`lake env lean <file>`, build one module target per `lake build` command, run at most one Lean
+process per agent, and avoid language-server tools in agents. Do full builds only when nothing else
+is running.
 
 ## CI
 

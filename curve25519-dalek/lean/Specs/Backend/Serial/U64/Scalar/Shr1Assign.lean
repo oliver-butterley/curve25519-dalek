@@ -74,8 +74,8 @@ namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 
 /-- The loop of `shr1_assign` shifts the limbs right by one bit, from the top limb down,
 moving each limb's low bit into the next limb below. -/
-@[step]
-theorem shr1_assign_loop_spec (self : Scalar52)
+@[local step]
+private theorem shr1_assign_loop_spec (self : Scalar52)
     (iter : core.iter.adapters.rev.Rev (core.ops.range.Range Usize))
     (hiter : iter.iter = { start := 0#usize, «end» := 5#usize })
     (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) :

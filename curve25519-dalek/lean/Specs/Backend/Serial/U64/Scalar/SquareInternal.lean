@@ -6,7 +6,7 @@ public import Subtle
 public import Specs.Backend.Serial.U64.Scalar.Index
 public import Specs.Backend.Serial.U64.Scalar.M
 public import Specs.Lemmas.AsNat
-public import Specs.Lemmas.Array
+public import Specs.Lemmas.StepSpecs
 public import Mathlib.Tactic.IntervalCases
 public import Mathlib.Tactic.Linarith
 public section
@@ -18,9 +18,9 @@ namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 
 attribute [local step_post_simps] List.getElem!_cons_succ List.getElem!_cons_zero
 
-attribute [local step] Array.index_usize_make_spec
+open scoped Specs.MakeStep
 
-attribute [local step] m_lt_spec
+open scoped Specs.MLtStep
 
 private theorem square_coeffs_lt {a0 a1 a2 a3 a4 : ℕ} (ha0 : a0 < 2 ^ 52) (ha1 : a1 < 2 ^ 52)
     (ha2 : a2 < 2 ^ 52) (ha3 : a3 < 2 ^ 52) (ha4 : a4 < 2 ^ 52) :

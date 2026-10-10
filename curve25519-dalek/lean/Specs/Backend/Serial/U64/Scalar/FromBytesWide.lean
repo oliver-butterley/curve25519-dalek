@@ -20,11 +20,12 @@ open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 
 namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 
-open scoped Specs.GetElemSteps Specs.MaskStep
+open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 
 /-- The inner loop of `from_bytes_wide` packs the 8 bytes of word `i` little-endian. -/
-@[step]
-theorem from_bytes_wide_loop0_loop0_spec (bytes : Array U8 64#usize) (words : Array U64 8#usize)
+@[local step]
+private theorem from_bytes_wide_loop0_loop0_spec (bytes : Array U8 64#usize)
+    (words : Array U64 8#usize)
     (i : Usize) (hi : i.val < 8) (hw : words[i.val]!.val = 0) :
     from_bytes_wide_loop0_loop0 { start := 0#usize, «end» := 8#usize } bytes words i
     ⦃ (r : Array U64 8#usize) =>
@@ -73,8 +74,8 @@ theorem from_bytes_wide_loop0_loop0_spec (bytes : Array U8 64#usize) (words : Ar
   · exact ⟨rfl, by simp, by simpa using hw, fun _ _ => rfl⟩
 
 /-- The outer loop of `from_bytes_wide` packs the 64 bytes into eight little-endian words. -/
-@[step]
-theorem from_bytes_wide_loop0_spec (bytes : Array U8 64#usize) :
+@[local step]
+private theorem from_bytes_wide_loop0_spec (bytes : Array U8 64#usize) :
     from_bytes_wide_loop0 { start := 0#usize, «end» := 8#usize } bytes (Array.repeat 8#usize 0#u64)
     ⦃ (w : Array U64 8#usize) =>
       ∀ k < 8, w[k]!.val = ∑ j ∈ Finset.range 8, 2 ^ (8 * j) * bytes[8 * k + j]!.val ⦄ := by

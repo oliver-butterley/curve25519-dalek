@@ -2,7 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
-public import Specs.Lemmas.Array
+public import Specs.Lemmas.StepSpecs
 public import Subtle
 public section
 
@@ -12,10 +12,10 @@ open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace CoreOpsArithAddAssignSharedAFieldElement51
 
-attribute [local step] Array.index_usize_getElem!_spec in
+open scoped Specs.IndexStep in
 /-- The loop of `add_assign` adds the limbs one by one. -/
-@[step]
-theorem add_assign_loop_spec (self _rhs : FieldElement51)
+@[local step]
+private theorem add_assign_loop_spec (self _rhs : FieldElement51)
     (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) (hrhs : ∀ i < 5, _rhs[i]!.val < 2 ^ 54) :
     add_assign_loop { start := 0#usize, «end» := 5#usize } self _rhs ⦃ (r : FieldElement51) =>
       ∀ i < 5, r[i]!.val = self[i]!.val + _rhs[i]!.val ⦄ := by

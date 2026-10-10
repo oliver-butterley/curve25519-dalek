@@ -6,18 +6,14 @@ open curve25519_dalek
 
 /-! # Derived results for `subtle` (no axioms)
 
-* `subtle.Choice.IsValid`, the 0/1 invariant, and its closure lemmas. `IsValid` is reducible, so it
-  matches the `c = 0#u8 ∨ c = 1#u8` preconditions of the spec axioms in `Subtle/Basic.lean` and is
-  decidable.
+* Closure lemmas for `subtle.Choice.IsValid`, the 0/1 invariant defined in `Subtle/Basic.lean`.
+  `IsValid` is reducible, so it unfolds to `c = 0#u8 ∨ c = 1#u8` and is decidable.
 * The Boolean view `subtle.Choice.toBool`.
 * Specs of the faithful bodies in `Subtle/Basic.lean`: the two `ConditionallySelectable` defaults
   and `ConditionallyNegatable::conditional_negate`.
 -/
 
 /-! ## Validity -/
-
-/-- A `Choice` is valid when its byte is `0` or `1` (the documented `Choice` invariant). -/
-abbrev subtle.Choice.IsValid (c : subtle.Choice) : Prop := c = 0#u8 ∨ c = 1#u8
 
 namespace subtle.Choice
 

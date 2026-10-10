@@ -12,7 +12,8 @@ open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 @[step]
-theorem conditional_assign_spec (self other : FieldElement51) (choice : subtle.Choice) :
+theorem conditional_assign_spec (self other : FieldElement51) (choice : subtle.Choice)
+    (hchoice : choice.IsValid) :
     conditional_assign self other choice ⦃ (r : FieldElement51) =>
       (choice = 0#u8 → r = self) ∧ (choice = 1#u8 → r = other) ⦄ := by
   unfold conditional_assign

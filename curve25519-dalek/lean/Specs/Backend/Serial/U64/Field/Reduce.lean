@@ -13,11 +13,11 @@ open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
 
-open scoped Specs.GetElemSteps Specs.MaskStep
+open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 attribute [local scalar_tac_simps] Nat.shiftRight_eq_div_pow
 
-@[step]
-theorem reduce.LOW_51_BIT_MASK_spec :
+@[local step]
+private theorem reduce.LOW_51_BIT_MASK_spec :
     reduce.LOW_51_BIT_MASK ⦃ (r : U64) => r.val = 2 ^ 51 - 1 ⦄ := by
   unfold reduce.LOW_51_BIT_MASK
   step*
@@ -55,8 +55,8 @@ set_option linter.hashCommand false in
 attribute [nolint docBlame defsWithUnderscore] reduce.mask reduce.carry
 
 /-- First phase of `reduce`: every limb is masked to its low 51 bits. -/
-@[step]
-theorem reduce.mask_spec (limbs : Array U64 5#usize) (i : U64) (hi : i = limbs[0]!) :
+@[local step]
+private theorem reduce.mask_spec (limbs : Array U64 5#usize) (i : U64) (hi : i = limbs[0]!) :
     reduce.mask limbs i ⦃ (r : Array U64 5#usize) =>
       r[0]!.val = limbs[0]!.val % 2 ^ 51 ∧ r[1]!.val = limbs[1]!.val % 2 ^ 51 ∧
       r[2]!.val = limbs[2]!.val % 2 ^ 51 ∧ r[3]!.val = limbs[3]!.val % 2 ^ 51 ∧
@@ -66,8 +66,8 @@ theorem reduce.mask_spec (limbs : Array U64 5#usize) (i : U64) (hi : i = limbs[0
   simp_lists [*]
 
 /-- Second phase of `reduce`: each carry is added to the next limb, the top one times 19. -/
-@[step]
-theorem reduce.carry_spec (c0 c1 c2 c3 c4 : U64) (limbs5 : Array U64 5#usize)
+@[local step]
+private theorem reduce.carry_spec (c0 c1 c2 c3 c4 : U64) (limbs5 : Array U64 5#usize)
     (h0 : limbs5[0]!.val < 2 ^ 51) (h1 : limbs5[1]!.val < 2 ^ 51) (h2 : limbs5[2]!.val < 2 ^ 51)
     (h3 : limbs5[3]!.val < 2 ^ 51) (h4 : limbs5[4]!.val < 2 ^ 51) (hc0 : c0.val < 2 ^ 13)
     (hc1 : c1.val < 2 ^ 13) (hc2 : c2.val < 2 ^ 13) (hc3 : c3.val < 2 ^ 13)

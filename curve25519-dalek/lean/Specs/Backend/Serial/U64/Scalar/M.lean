@@ -24,3 +24,8 @@ theorem m_lt_spec (x y : U64) (hx : x.val < 2 ^ 53) (hy : y.val < 2 ^ 52) :
   step*
 
 end curve25519_dalek.backend.serial.u64.scalar
+
+/- Registered once, here; activated with `open scoped Specs.MLtStep`. -/
+namespace Specs.MLtStep
+attribute [scoped step] curve25519_dalek.backend.serial.u64.scalar.m_lt_spec
+end Specs.MLtStep

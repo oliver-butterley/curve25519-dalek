@@ -188,10 +188,11 @@ namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 
 /-- `conditional_select`: `a` if `choice = 0`, `b` if `choice = 1`. -/
-theorem conditional_select_spec' (a b : FieldElement51) (choice : subtle.Choice) :
+theorem conditional_select_spec' (a b : FieldElement51) (choice : subtle.Choice)
+    (hchoice : choice.IsValid) :
     conditional_select a b choice ⦃ (r : FieldElement51) =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄ :=
-  conditional_select_spec a b choice
+  conditional_select_spec a b choice hchoice
 
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_select_spec] -/
@@ -203,10 +204,11 @@ namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 
 /-- `conditional_swap`: unchanged if `choice = 0`, swapped if `choice = 1`. -/
-theorem conditional_swap_spec' (a b : FieldElement51) (choice : subtle.Choice) :
+theorem conditional_swap_spec' (a b : FieldElement51) (choice : subtle.Choice)
+    (hchoice : choice.IsValid) :
     conditional_swap a b choice ⦃ (a' : FieldElement51) (b' : FieldElement51) =>
       (choice = 0#u8 → a' = a ∧ b' = b) ∧ (choice = 1#u8 → a' = b ∧ b' = a) ⦄ :=
-  conditional_swap_spec a b choice
+  conditional_swap_spec a b choice hchoice
 
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_swap_spec] -/
@@ -218,10 +220,11 @@ namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 
 /-- `conditional_assign`: `self` if `choice = 0`, `other` if `choice = 1`. -/
-theorem conditional_assign_spec' (self other : FieldElement51) (choice : subtle.Choice) :
+theorem conditional_assign_spec' (self other : FieldElement51) (choice : subtle.Choice)
+    (hchoice : choice.IsValid) :
     conditional_assign self other choice ⦃ (r : FieldElement51) =>
       (choice = 0#u8 → r = self) ∧ (choice = 1#u8 → r = other) ⦄ :=
-  conditional_assign_spec self other choice
+  conditional_assign_spec self other choice hchoice
 
 /-- [propext, Classical.choice, Quot.sound,
   U64.Insts.SubtleConditionallySelectable.conditional_assign_spec] -/

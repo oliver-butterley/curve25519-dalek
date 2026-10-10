@@ -1,0 +1,42 @@
+module
+public import Curve25519
+public import Curve25519Dalek.Funs
+public import Specs.Defs
+public import Specs.Backend.Serial.U64.Defs
+public import Subtle
+public import Specs.Scalar.Unpack
+public import Specs.Scalar.Scalar52Pack
+public import Specs.Scalar.Scalar52Invert
+public import Specs.Scalar.Lemmas
+public section
+
+open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
+open curve25519_dalek.scalar (Scalar HalfWidthScalar)
+open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+namespace curve25519_dalek.scalar.Scalar
+
+@[step]
+theorem invert.«x86_64-unknown-linux-gnu_spec» (self : Scalar) :
+    invert.«x86_64-unknown-linux-gnu» self ⦃ (r : Scalar) =>
+      (self.asNat % L ≠ 0 → r.asNat * self.asNat % L = 1) ∧
+      (self.asNat % L = 0 → r.asNat = 0) ∧ r.asNat < L ⦄ := by
+  unfold invert.«x86_64-unknown-linux-gnu»
+  step as ⟨u, hu, hub⟩
+  step as ⟨v, hv1, hv0, hvL, hvb⟩
+  step with Scalar52.pack_spec v hvb (lt_two_pow_256_of_lt_L hvL) as ⟨r, hr⟩
+  rw [hr, ← hu]
+  exact ⟨hv1, hv0, hvL⟩
+
+end curve25519_dalek.scalar.Scalar
+
+namespace curve25519_dalek.scalar.Scalar
+
+@[step]
+theorem invert.«x86_64-no-tables_spec» (self : Scalar) :
+    invert.«x86_64-no-tables» self ⦃ (r : Scalar) =>
+      (self.asNat % L ≠ 0 → r.asNat * self.asNat % L = 1) ∧
+      (self.asNat % L = 0 → r.asNat = 0) ∧ r.asNat < L ⦄ :=
+  invert.«x86_64-unknown-linux-gnu_spec» self
+
+end curve25519_dalek.scalar.Scalar

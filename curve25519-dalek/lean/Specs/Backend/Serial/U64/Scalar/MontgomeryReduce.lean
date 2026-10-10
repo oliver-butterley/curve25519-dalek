@@ -17,7 +17,7 @@ open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 
 namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 
-open scoped Specs.GetElemSteps Specs.MaskStep
+open scoped Specs.IndexStep Specs.UpdateStep Specs.MaskStep
 
 namespace montgomery_reduce
 
@@ -34,7 +34,7 @@ private theorem L_mod_two_pow_52_eq : curve25519.L % 2 ^ 52 = constants.L[0]!.va
   unfold constants.L
   decide
 
-attribute [local step] m_lt_spec
+open scoped Specs.MLtStep
 
 /-- `part1` under the weaker bound on `sum` met inside `montgomery_reduce`, with the bounds on
 its outputs. -/

@@ -1,5 +1,6 @@
 module
 public import Curve25519.Basic
+public import Curve25519.Prime
 
 /-! # Curve25519
 

@@ -18,8 +18,8 @@ theorem m_spec (x y : U64) :
   unfold m
   step*
 
-@[step]
-theorem LOW_51_BIT_MASK_spec : LOW_51_BIT_MASK ⦃ (r : U64) => r.val = 2 ^ 51 - 1 ⦄ := by
+@[local step]
+private theorem LOW_51_BIT_MASK_spec : LOW_51_BIT_MASK ⦃ (r : U64) => r.val = 2 ^ 51 - 1 ⦄ := by
   unfold LOW_51_BIT_MASK
   step*
 end curve25519_dalek.backend.serial.u64.field.square_limbs

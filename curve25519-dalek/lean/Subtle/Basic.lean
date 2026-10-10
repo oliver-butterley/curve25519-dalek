@@ -24,23 +24,27 @@ This file and `Subtle/Types.lean` are the trusted base for `subtle`. Nothing her
   the two `@[trait_default]` methods of `ConditionallySelectable` (`impl_def` in `Funs.lean` must
   unfold them) and the generic `ConditionallyNegatable::conditional_negate`.
 
-**`Choice` validity: debug semantics.** The crate is translated with debug assertions
-(`debug_assert!` becomes `massert`), and these specs do the same. `Choice` is a plain `u8`
-(`Subtle/Types.lean`). The 0/1 invariant is a precondition wherever Rust checks it:
+**`Choice` validity.** `Choice` is a plain `u8` (`Subtle/Types.lean`). The crate maintains the
+invariant that it is `0` or `1` (`subtle.Choice.IsValid` below). Every spec axiom with a `Choice`
+argument `c` assumes `c.IsValid`, and every spec axiom returning a `Choice` states that the result
+is valid. The crate is translated with debug assertions (`debug_assert!` becomes `massert`), and
+these specs do the same:
 * `From<u8> for Choice` and `From<Choice> for bool` have `debug_assert!((x == 0) | (x == 1))`.
-* `BitAnd` and `BitOr` go through `.into()`. Their specs require both inputs to be valid, which
-  makes the result valid too.
-* `Not` computes `1 & !x`, which is always 0 or 1, so its spec has no precondition.
+* `BitAnd` and `BitOr` go through `.into()`, which asserts validity.
+* `Not` computes `1 & !x`, which is always 0 or 1.
 * `ConditionallySelectable for u8` computes `-(choice as i8)`. That overflows (a debug panic) for
-  `choice = 128`, so the `u8` select/assign/swap specs require a valid choice. The `u32`/`u64`
-  versions cannot overflow and have no precondition. All integer specs say nothing about the
-  result for an invalid choice; Rust returns a bit-mix there.
+  `choice = 128`. All integer specs say nothing about the result for an invalid choice; Rust
+  returns a bit-mix there.
 
-So every `Choice` built through `From<u8>` is valid by proof, not by assumption. Derived facts
-(`subtle.Choice.IsValid`, closure lemmas, specs of the faithful bodies) are in `Subtle/Lemmas.lean`.
+Derived facts (closure lemmas for `IsValid`, specs of the faithful bodies) are in
+`Subtle/Lemmas.lean`.
 -/
 
 /-! ## `Choice` -/
+
+/-- A `Choice` is valid when its byte is `0` or `1`: "It is a wrapper around a `u8`, which should
+    have the value either `1` (true) or `0` (false)." (lib.rs:104-105) -/
+abbrev subtle.Choice.IsValid (c : subtle.Choice) : Prop := c = 0#u8 ∨ c = 1#u8
 
 /-- [subtle::{subtle::Choice}::unwrap_u8]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 133:4-133:33
@@ -50,7 +54,7 @@ opaque subtle.Choice.unwrap_u8 : subtle.Choice → Result Std.U8
 
 /-- "Unwrap the `Choice` wrapper to reveal the underlying `u8`." (lib.rs:123) -/
 @[step]
-axiom subtle.Choice.unwrap_u8_spec (c : subtle.Choice) :
+axiom subtle.Choice.unwrap_u8_spec (c : subtle.Choice) (hc : c.IsValid) :
     subtle.Choice.unwrap_u8 c ⦃ r => r = c ⦄
 
 /-- [subtle::{impl core::convert::From<subtle::Choice> for bool}::from]:
@@ -64,7 +68,7 @@ opaque Bool.Insts.CoreConvertFromChoice.from : subtle.Choice → Result Bool
     source.0 != 0`. -/
 @[step]
 axiom Bool.Insts.CoreConvertFromChoice.from_spec (c : subtle.Choice)
-    (h : c = 0#u8 ∨ c = 1#u8) :
+    (hc : c.IsValid) :
     Bool.Insts.CoreConvertFromChoice.from c ⦃ b => b = (c != 0#u8) ⦄
 
 /-- [subtle::{impl core::ops::bit::BitAnd<subtle::Choice, subtle::Choice>
@@ -82,8 +86,9 @@ opaque subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand :
     `(self.0 & rhs.0).into()`; the `.into()` asserts validity (debug semantics). -/
 @[step]
 axiom subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand_spec (a b : subtle.Choice)
-    (ha : a = 0#u8 ∨ a = 1#u8) (hb : b = 0#u8 ∨ b = 1#u8) :
-    subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand a b ⦃ c => c = a &&& b ⦄
+    (ha : a.IsValid) (hb : b.IsValid) :
+    subtle.Choice.Insts.CoreOpsBitBitAndChoiceChoice.bitand a b ⦃ c =>
+      c.IsValid ∧ c = a &&& b ⦄
 
 /-- [subtle::{impl core::ops::bit::BitOr<subtle::Choice, subtle::Choice>
     for subtle::Choice}::bitor]:
@@ -100,8 +105,9 @@ opaque subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor :
     `(self.0 | rhs.0).into()`; the `.into()` asserts validity (debug semantics). -/
 @[step]
 axiom subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor_spec (a b : subtle.Choice)
-    (ha : a = 0#u8 ∨ a = 1#u8) (hb : b = 0#u8 ∨ b = 1#u8) :
-    subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor a b ⦃ c => c = a ||| b ⦄
+    (ha : a.IsValid) (hb : b.IsValid) :
+    subtle.Choice.Insts.CoreOpsBitBitOrChoiceChoice.bitor a b ⦃ c =>
+      c.IsValid ∧ c = a ||| b ⦄
 
 /-- [subtle::{impl core::ops::bit::Not<subtle::Choice> for subtle::Choice}::not]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 207:4-207:26
@@ -114,8 +120,8 @@ opaque subtle.Choice.Insts.CoreOpsBitNotChoice.not : subtle.Choice → Result su
     values." (lib.rs:114-115). Body: `(1u8 & (!self.0)).into()`; `1 & !x` is always 0 or 1, so the
     `.into()` assertion always holds. -/
 @[step]
-axiom subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec (c : subtle.Choice) :
-    subtle.Choice.Insts.CoreOpsBitNotChoice.not c ⦃ r => r = 1#u8 &&& ~~~c ⦄
+axiom subtle.Choice.Insts.CoreOpsBitNotChoice.not_spec (c : subtle.Choice) (hc : c.IsValid) :
+    subtle.Choice.Insts.CoreOpsBitNotChoice.not c ⦃ r => r.IsValid ∧ r = 1#u8 &&& ~~~c ⦄
 
 /-- [subtle::{impl core::convert::From<u8> for subtle::Choice}::from]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 238:4-238:32
@@ -129,7 +135,7 @@ opaque subtle.Choice.Insts.CoreConvertFromU8.from : Std.U8 → Result subtle.Cho
 @[step]
 axiom subtle.Choice.Insts.CoreConvertFromU8.from_spec (input : Std.U8)
     (h : input = 0#u8 ∨ input = 1#u8) :
-    subtle.Choice.Insts.CoreConvertFromU8.from input ⦃ c => c = input ⦄
+    subtle.Choice.Insts.CoreConvertFromU8.from input ⦃ c => c.IsValid ∧ c = input ⦄
 
 /-! ## `ConstantTimeEq` -/
 
@@ -152,7 +158,7 @@ axiom Slice.Insts.SubtleConstantTimeEq.ct_eq_spec {T : Type}
     (hinst : ∀ x y, inst.ct_eq x y ⦃ c => (x = y → c = 1#u8) ∧ (x ≠ y → c = 0#u8) ⦄)
     (a b : Slice T) :
     Slice.Insts.SubtleConstantTimeEq.ct_eq inst a b ⦃ c =>
-      (a = b → c = 1#u8) ∧ (a ≠ b → c = 0#u8) ⦄
+      c.IsValid ∧ (a = b → c = 1#u8) ∧ (a ≠ b → c = 0#u8) ⦄
 
 /-- [subtle::{impl subtle::ConstantTimeEq for u8}::ct_eq]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 348:12-348:51
@@ -164,7 +170,8 @@ opaque U8.Insts.SubtleConstantTimeEq.ct_eq : Std.U8 → Std.U8 → Result subtle
     `Choice(0u8)` if `self != other`." (lib.rs:263-270) -/
 @[step]
 axiom U8.Insts.SubtleConstantTimeEq.ct_eq_spec (a b : Std.U8) :
-    U8.Insts.SubtleConstantTimeEq.ct_eq a b ⦃ c => c = if a = b then 1#u8 else 0#u8 ⦄
+    U8.Insts.SubtleConstantTimeEq.ct_eq a b ⦃ c =>
+      c.IsValid ∧ c = if a = b then 1#u8 else 0#u8 ⦄
 
 /-- [subtle::{impl subtle::ConstantTimeEq for u16}::ct_eq]:
     Source: 'subtle-2.6.1/src/lib.rs', lines 348:12-348:51
@@ -176,7 +183,8 @@ opaque U16.Insts.SubtleConstantTimeEq.ct_eq : Std.U16 → Std.U16 → Result sub
     `Choice(0u8)` if `self != other`." (lib.rs:263-270) -/
 @[step]
 axiom U16.Insts.SubtleConstantTimeEq.ct_eq_spec (a b : Std.U16) :
-    U16.Insts.SubtleConstantTimeEq.ct_eq a b ⦃ c => c = if a = b then 1#u8 else 0#u8 ⦄
+    U16.Insts.SubtleConstantTimeEq.ct_eq a b ⦃ c =>
+      c.IsValid ∧ c = if a = b then 1#u8 else 0#u8 ⦄
 
 /-! ## `ConditionallySelectable`: provided methods (faithful bodies) -/
 
@@ -223,7 +231,7 @@ opaque U8.Insts.SubtleConditionallySelectable.conditional_select :
     the spec requires a valid choice. -/
 @[step]
 axiom U8.Insts.SubtleConditionallySelectable.conditional_select_spec
-    (a b : Std.U8) (choice : subtle.Choice) (hc : choice = 0#u8 ∨ choice = 1#u8) :
+    (a b : Std.U8) (choice : subtle.Choice) (hc : choice.IsValid) :
     U8.Insts.SubtleConditionallySelectable.conditional_select a b choice ⦃ r =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄
 
@@ -238,7 +246,7 @@ opaque U8.Insts.SubtleConditionallySelectable.conditional_assign :
     `-(choice as i8)` overflows for `choice = 128`, so the spec requires a valid choice. -/
 @[step]
 axiom U8.Insts.SubtleConditionallySelectable.conditional_assign_spec
-    (a b : Std.U8) (choice : subtle.Choice) (hc : choice = 0#u8 ∨ choice = 1#u8) :
+    (a b : Std.U8) (choice : subtle.Choice) (hc : choice.IsValid) :
     U8.Insts.SubtleConditionallySelectable.conditional_assign a b choice ⦃ r =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄
 
@@ -254,7 +262,7 @@ opaque U8.Insts.SubtleConditionallySelectable.conditional_swap :
     requires a valid choice. -/
 @[step]
 axiom U8.Insts.SubtleConditionallySelectable.conditional_swap_spec
-    (a b : Std.U8) (choice : subtle.Choice) (hc : choice = 0#u8 ∨ choice = 1#u8) :
+    (a b : Std.U8) (choice : subtle.Choice) (hc : choice.IsValid) :
     U8.Insts.SubtleConditionallySelectable.conditional_swap a b choice ⦃ r =>
       (choice = 0#u8 → r = (a, b)) ∧ (choice = 1#u8 → r = (b, a)) ⦄
 
@@ -270,7 +278,7 @@ opaque U32.Insts.SubtleConditionallySelectable.conditional_select :
     `choice == Choice(1)`." (lib.rs:394-399) -/
 @[step]
 axiom U32.Insts.SubtleConditionallySelectable.conditional_select_spec
-    (a b : Std.U32) (choice : subtle.Choice) :
+    (a b : Std.U32) (choice : subtle.Choice) (hc : choice.IsValid) :
     U32.Insts.SubtleConditionallySelectable.conditional_select a b choice ⦃ r =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄
 
@@ -285,7 +293,7 @@ opaque U32.Insts.SubtleConditionallySelectable.conditional_assign :
 /-- "Conditionally assign `other` to `self`, according to `choice`." (lib.rs:422) -/
 @[step]
 axiom U32.Insts.SubtleConditionallySelectable.conditional_assign_spec
-    (a b : Std.U32) (choice : subtle.Choice) :
+    (a b : Std.U32) (choice : subtle.Choice) (hc : choice.IsValid) :
     U32.Insts.SubtleConditionallySelectable.conditional_assign a b choice ⦃ r =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄
 
@@ -300,7 +308,7 @@ opaque U32.Insts.SubtleConditionallySelectable.conditional_swap :
     themselves." (lib.rs:446-447) -/
 @[step]
 axiom U32.Insts.SubtleConditionallySelectable.conditional_swap_spec
-    (a b : Std.U32) (choice : subtle.Choice) :
+    (a b : Std.U32) (choice : subtle.Choice) (hc : choice.IsValid) :
     U32.Insts.SubtleConditionallySelectable.conditional_swap a b choice ⦃ r =>
       (choice = 0#u8 → r = (a, b)) ∧ (choice = 1#u8 → r = (b, a)) ⦄
 
@@ -316,7 +324,7 @@ opaque U64.Insts.SubtleConditionallySelectable.conditional_select :
     `choice == Choice(1)`." (lib.rs:394-399) -/
 @[step]
 axiom U64.Insts.SubtleConditionallySelectable.conditional_select_spec
-    (a b : Std.U64) (choice : subtle.Choice) :
+    (a b : Std.U64) (choice : subtle.Choice) (hc : choice.IsValid) :
     U64.Insts.SubtleConditionallySelectable.conditional_select a b choice ⦃ r =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄
 
@@ -331,7 +339,7 @@ opaque U64.Insts.SubtleConditionallySelectable.conditional_assign :
 /-- "Conditionally assign `other` to `self`, according to `choice`." (lib.rs:422) -/
 @[step]
 axiom U64.Insts.SubtleConditionallySelectable.conditional_assign_spec
-    (a b : Std.U64) (choice : subtle.Choice) :
+    (a b : Std.U64) (choice : subtle.Choice) (hc : choice.IsValid) :
     U64.Insts.SubtleConditionallySelectable.conditional_assign a b choice ⦃ r =>
       (choice = 0#u8 → r = a) ∧ (choice = 1#u8 → r = b) ⦄
 
@@ -346,7 +354,7 @@ opaque U64.Insts.SubtleConditionallySelectable.conditional_swap :
     themselves." (lib.rs:446-447) -/
 @[step]
 axiom U64.Insts.SubtleConditionallySelectable.conditional_swap_spec
-    (a b : Std.U64) (choice : subtle.Choice) :
+    (a b : Std.U64) (choice : subtle.Choice) (hc : choice.IsValid) :
     U64.Insts.SubtleConditionallySelectable.conditional_swap a b choice ⦃ r =>
       (choice = 0#u8 → r = (a, b)) ∧ (choice = 1#u8 → r = (b, a)) ⦄
 
@@ -369,7 +377,7 @@ opaque Array.Insts.SubtleConditionallySelectable.conditional_select
 @[step]
 axiom Array.Insts.SubtleConditionallySelectable.conditional_select_spec
     {T : Type} {N : Std.Usize} (inst : subtle.ConditionallySelectable T)
-    (a b : Array T N) (choice : subtle.Choice) (hc : choice = 0#u8 ∨ choice = 1#u8)
+    (a b : Array T N) (choice : subtle.Choice) (hc : choice.IsValid)
     (hinst : ∀ x y, inst.conditional_assign x y choice ⦃ r =>
       (choice = 0#u8 → r = x) ∧ (choice = 1#u8 → r = y) ⦄) :
     Array.Insts.SubtleConditionallySelectable.conditional_select inst a b choice ⦃ r =>
@@ -406,5 +414,6 @@ opaque subtle.CtOption.new {T : Type} : T → subtle.Choice → Result (subtle.C
     `Choice` that determines whether the optional value should be `Some` or not. If `is_some` is
     false, the value will still be stored but its value is never exposed." (lib.rs:672-676) -/
 @[step]
-axiom subtle.CtOption.new_spec {T : Type} (value : T) (is_some : subtle.Choice) :
+axiom subtle.CtOption.new_spec {T : Type} (value : T) (is_some : subtle.Choice)
+    (his_some : is_some.IsValid) :
     subtle.CtOption.new value is_some ⦃ opt => opt = { value, is_some } ⦄

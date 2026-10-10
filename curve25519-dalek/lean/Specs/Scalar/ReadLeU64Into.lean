@@ -1,0 +1,79 @@
+module
+public import Curve25519
+public import Curve25519Dalek.Funs
+public import Specs.Defs
+public import Specs.Backend.Serial.U64.Defs
+public import Subtle
+public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.Array
+public section
+
+open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
+open curve25519_dalek.scalar (Scalar HalfWidthScalar)
+open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+namespace curve25519_dalek.scalar
+
+/-- The loop of `read_le_u64_into` reads each word of `dst` from 8 bytes of `src`. -/
+@[local step]
+private theorem read_le_u64_into_loop_spec (src : Slice U8) (dst : Slice U64)
+    (hsrc : src.length = 8 * dst.length) :
+    read_le_u64_into_loop src dst 0#usize ⦃ (r : Slice U64) =>
+      r.length = dst.length ∧
+      ∀ i < dst.length, ∀ j < 8, r[i]!.val / 2 ^ (8 * j) % 2 ^ 8 = src[8 * i + j]!.val ⦄ := by
+  unfold read_le_u64_into_loop
+  apply loop.spec_decr_nat (measure := fun (d, i) => d.length - i.val)
+    (inv := fun (d, k) => d.length = dst.length ∧ k.val ≤ dst.length ∧
+      ∀ i < k.val, ∀ j < 8, d[i]!.val / 2 ^ (8 * j) % 2 ^ 8 = src[8 * i + j]!.val)
+  · rintro ⟨d, k⟩ ⟨hd, hk, hdone⟩
+    unfold read_le_u64_into_loop.body
+    by_cases hlt : k.val < d.length
+    · simp only [show k < d.len by scalar_tac, if_true]
+      step as ⟨i2, hi2⟩
+      step as ⟨i3, hi3⟩
+      step as ⟨bytes, hbytes, hblen⟩
+      step as ⟨r, hr⟩
+      cases r with
+      | Err e =>
+        exact absurd hblen (by scalar_tac)
+      | Ok a =>
+        obtain ⟨ha, -⟩ := hr
+        simp only [core.result.Result.expect]
+        step as ⟨x, hx⟩
+        step as ⟨d1, hd1⟩
+        step as ⟨k1, hk1⟩
+        have hword (j : ℕ) (hj : j < 8) :
+            x.val / 2 ^ (8 * j) % 2 ^ 8 = src[8 * k.val + j]!.val := by
+          have hL : ∀ c ∈ a.val.map (·.val), c < 256 := by
+            intro c hc
+            obtain ⟨y, -, rfl⟩ := List.mem_map.mp hc
+            exact y.hBounds
+          have hxv : x.val = Nat.ofDigits 256 (a.val.map (·.val)) := by
+            have h1 := congrArg BitVec.toNat hx
+            rw [BitVec.toNat_cast, BitVec.toNat_fromLEBytes, List.map_map] at h1
+            exact h1
+          rw [hxv, pow_mul, show (2 : ℕ) ^ 8 = 256 by norm_num,
+            Nat.ofDigits_div_pow_mod 256 _ hL j,
+            List.getElem!_map_eq _ _ _ (by simp only [ha, hblen]; scalar_tac), ha, hbytes,
+            List.getElem!_slice _ _ _ _ (by scalar_tac), hi2, Slice.getElem!_Nat_eq]
+        refine ⟨by simp [hd1, hd], by scalar_tac, fun i hi j hj => ?_,
+          by simp only [Slice.length, hd1, Slice.set_val_eq, List.length_set]; scalar_tac⟩
+        by_cases hik : i = k.val
+        · rw [hd1, Slice.getElem!_Nat_set_eq _ _ _ _ ⟨hik.symm, by scalar_tac⟩, hik]
+          exact hword j hj
+        · rw [hd1, Slice.getElem!_Nat_set_ne _ _ _ _ (Ne.symm hik)]
+          exact hdone i (by scalar_tac) j hj
+    · simp only [show ¬ k < d.len by scalar_tac, if_false, WP.spec_ok]
+      exact ⟨hd, fun i hi j hj => hdone i (by scalar_tac) j hj⟩
+  · simp
+
+@[step]
+theorem read_le_u64_into_spec (src : Slice U8) (dst : Slice U64)
+    (hsrc : src.length = 8 * dst.length) :
+    read_le_u64_into src dst ⦃ (r : Slice U64) =>
+      r.length = dst.length ∧
+      ∀ i < dst.length, ∀ j < 8, r[i]!.val / 2 ^ (8 * j) % 2 ^ 8 = src[8 * i + j]!.val ⦄ := by
+  unfold read_le_u64_into
+  step*
+
+end curve25519_dalek.scalar

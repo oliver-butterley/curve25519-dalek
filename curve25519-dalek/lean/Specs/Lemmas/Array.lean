@@ -9,7 +9,7 @@ open Aeneas Aeneas.Std
 namespace Aeneas.Std.Array
 
 /-- `index_usize` with the result as `getElem!`, which `simp_lists` and `agrind` handle well on
-chains of `set`. Activated with `open scoped Specs.GetElemSteps`. -/
+chains of `set`. Activated with `open scoped Specs.IndexStep Specs.UpdateStep`. -/
 theorem index_usize_getElem!_spec {α : Type} [Inhabited α] {n : Usize} (v : Array α n) (i : Usize)
     (hi : i.val < n.val) :
     v.index_usize i ⦃ (x : α) => x = v[i.val]! ⦄ := by
@@ -17,7 +17,7 @@ theorem index_usize_getElem!_spec {α : Type} [Inhabited α] {n : Usize} (v : Ar
   simp_lists [*]
 
 /-- `Slice.index_usize` with the result as `getElem!`. Activated with
-`open scoped Specs.GetElemSteps`. -/
+`open scoped Specs.IndexStep Specs.UpdateStep`. -/
 theorem _root_.Aeneas.Std.Slice.index_usize_getElem!_spec {α : Type} [Inhabited α] (s : Slice α)
     (i : Usize) (hi : i.val < s.length) :
     s.index_usize i ⦃ (x : α) => x = s[i.val]! ⦄ := by
@@ -25,7 +25,7 @@ theorem _root_.Aeneas.Std.Slice.index_usize_getElem!_spec {α : Type} [Inhabited
   simp_lists [*]
 
 /-- `update` described elementwise with `getElem!`, which `agrind` can chain through several
-updates. Activated with `open scoped Specs.GetElemSteps`. -/
+updates. Activated with `open scoped Specs.IndexStep Specs.UpdateStep`. -/
 theorem update_getElem!_spec {α : Type} [Inhabited α] {n : Usize} (v : Array α n) (i : Usize)
     (x : α) (hi : i.val < n.val) :
     v.update i x ⦃ (nv : Array α n) => nv[i.val]! = x ∧ ∀ j ≠ i.val, nv[j]! = v[j]! ⦄ := by

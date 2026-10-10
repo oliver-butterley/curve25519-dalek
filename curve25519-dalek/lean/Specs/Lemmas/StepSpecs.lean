@@ -11,11 +11,20 @@ theorem in a file that imports another registration triggers a warning. -/
 
 open Aeneas Aeneas.Std
 
-/- Array and slice reads and updates described with `getElem!`. -/
-namespace Specs.GetElemSteps
+/- Array and slice reads described with `getElem!`. -/
+namespace Specs.IndexStep
 attribute [scoped step] Array.index_usize_getElem!_spec Slice.index_usize_getElem!_spec
-  Array.update_getElem!_spec
-end Specs.GetElemSteps
+end Specs.IndexStep
+
+/- Array updates described with `getElem!`. -/
+namespace Specs.UpdateStep
+attribute [scoped step] Array.update_getElem!_spec
+end Specs.UpdateStep
+
+/- `index_usize` on array literals, with the result as a list element. -/
+namespace Specs.MakeStep
+attribute [scoped step] Array.index_usize_make_spec
+end Specs.MakeStep
 
 /- Masking with `2 ^ n - 1` as reduction modulo `2 ^ n` (`n` is inferred from a local
 hypothesis `m.val = 2 ^ n - 1`). -/

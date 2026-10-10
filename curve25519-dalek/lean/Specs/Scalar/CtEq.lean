@@ -1,0 +1,28 @@
+module
+public import Curve25519
+public import Curve25519Dalek.Funs
+public import Specs.Defs
+public import Specs.Backend.Serial.U64.Defs
+public import Subtle
+public import Specs.Lemmas.AsNatInj
+public section
+
+open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
+open curve25519_dalek.scalar (Scalar HalfWidthScalar)
+open curve25519_dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+namespace curve25519_dalek.scalar.Scalar.Insts.SubtleConstantTimeEq
+
+@[step]
+theorem ct_eq_spec (self other : Scalar) :
+    ct_eq self other ⦃ (c : subtle.Choice) =>
+      c.IsValid ∧ (self = other → c = 1#u8) ∧ (self ≠ other → c = 0#u8) ⦄ := by
+  unfold ct_eq
+  step as ⟨s, hs⟩
+  step as ⟨s1, hs1⟩
+  step as ⟨c, hcv, hc1, hc0⟩
+  subst hs hs1
+  refine ⟨hcv, fun h => hc1 (by rw [h]), fun h => hc0 fun hss => h ?_⟩
+  exact congrArg Scalar.mk (Array.eq_of_to_slice_eq hss)
+
+end curve25519_dalek.scalar.Scalar.Insts.SubtleConstantTimeEq

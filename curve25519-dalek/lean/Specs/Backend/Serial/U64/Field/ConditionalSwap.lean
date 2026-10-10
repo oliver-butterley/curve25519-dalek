@@ -12,7 +12,8 @@ open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable
 @[step]
-theorem conditional_swap_spec (a b : FieldElement51) (choice : subtle.Choice) :
+theorem conditional_swap_spec (a b : FieldElement51) (choice : subtle.Choice)
+    (hchoice : choice.IsValid) :
     conditional_swap a b choice ⦃ (a' : FieldElement51) (b' : FieldElement51) =>
       (choice = 0#u8 → a' = a ∧ b' = b) ∧ (choice = 1#u8 → a' = b ∧ b' = a) ⦄ := by
   unfold conditional_swap

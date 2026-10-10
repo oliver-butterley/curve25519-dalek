@@ -92,6 +92,13 @@ axiom core.array.from_fn_spec {T F : Type} (N : Std.Usize)
     core.array.from_fn N inst f ⦃ (a : Array T N) =>
       ∀ (i : ℕ) (hi : i < a.val.length), post i a.val[i] ⦄
 
+/-- `usize::div_ceil` (core/src/num/uint_macros.rs): "Calculates the quotient of `self` and `rhs`,
+rounding the result towards positive infinity. Panics if `rhs` is zero." -/
+@[step]
+axiom core.num.Usize.div_ceil_spec (self rhs : Std.Usize) (hrhs : rhs.val ≠ 0) :
+    core.num.Usize.div_ceil self rhs ⦃ (r : Std.Usize) =>
+      r.val = (self.val + rhs.val - 1) / rhs.val ⦄
+
 /-- `<&mut [T; N] as IntoIterator>::into_iter`: a mutable iterator over the whole array, starting
 at index `0`; the backward function writes the iterator's slice back into the array. -/
 @[step]

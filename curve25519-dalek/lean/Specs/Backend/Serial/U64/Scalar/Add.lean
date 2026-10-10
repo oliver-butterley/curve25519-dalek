@@ -29,8 +29,8 @@ private theorem add_carry_step {Ss Sa Sb P cin x y carry1 : ℕ} (hIH : Ss + P *
     _ = _ := by rw [hIH]; ring
 
 /-- The loop of `add` adds limb by limb with a carry; the last carry is dropped. -/
-@[step]
-theorem add_loop_spec (a b : Scalar52) (mask : U64) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
+@[local step]
+private theorem add_loop_spec (a b : Scalar52) (mask : U64) (ha : ∀ i < 5, a[i]!.val < 2 ^ 52)
     (hb : ∀ i < 5, b[i]!.val < 2 ^ 52) (hmask : mask.val = 2 ^ 52 - 1) :
     add_loop { start := 0#usize, «end» := 5#usize } a b ZERO mask 0#u64
     ⦃ (r : Scalar52) =>

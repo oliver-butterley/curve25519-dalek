@@ -83,7 +83,7 @@ private theorem Nat.limbs51_eq_mod (x : ℕ) :
 
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51.from_bytes
 
-open scoped Specs.GetElemSteps
+open scoped Specs.IndexStep Specs.UpdateStep
 
 @[step]
 theorem load8_at_spec (input : Slice U8) (i : Usize) (hi : i.val + 8 ≤ input.length) :

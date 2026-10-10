@@ -197,7 +197,7 @@ namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 /-- `conditional_add_l`: for a valid `condition` (`0` or `1`), adds `L` (modulo `2^260`) if
 `condition = 1`; the returned carry is not specified. -/
 theorem conditional_add_l_spec' (self : Scalar52) (condition : subtle.Choice)
-    (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) (hcondition : condition = 0#u8 ∨ condition = 1#u8) :
+    (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) (hcondition : condition.IsValid) :
     conditional_add_l self condition ⦃ (c : U64) (r : Scalar52) =>
       (condition = 0#u8 → r.asNat = self.asNat) ∧
       (condition = 1#u8 → r.asNat = (self.asNat + L) % montgomeryRadix) ∧

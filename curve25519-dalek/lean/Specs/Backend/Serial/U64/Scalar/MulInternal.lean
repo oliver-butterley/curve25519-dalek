@@ -15,9 +15,9 @@ open curve25519_dalek.backend.serial.u64.scalar (Scalar52)
 
 namespace curve25519_dalek.backend.serial.u64.scalar.Scalar52
 
-open scoped Specs.GetElemSteps
+open scoped Specs.IndexStep Specs.UpdateStep
 
-attribute [local step] m_lt_spec
+open scoped Specs.MLtStep
 
 private theorem mul_coeffs_lt {a0 a1 a2 a3 a4 b0 b1 b2 b3 b4 : ℕ} (ha0 : a0 < 2 ^ 52)
     (ha1 : a1 < 2 ^ 52) (ha2 : a2 < 2 ^ 52) (ha3 : a3 < 2 ^ 52) (ha4 : a4 < 2 ^ 52)

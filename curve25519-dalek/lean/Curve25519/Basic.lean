@@ -1,5 +1,6 @@
 module
 public import Mathlib.Data.ZMod.Basic
+public import Mathlib.Tactic.ReduceModChar
 @[expose] public section
 
 /-! # Curve25519 parameters
@@ -24,6 +25,10 @@ def d : ZMod p := -121665 * (121666 : ZMod p)⁻¹
 
 /-- The Montgomery coefficient `A = 486662`. -/
 def A : ℕ := 486662
+
+/-- The square root of `-1` used by RFC 8032 (§5.1.3), `2^((p-1)/4) mod p`, as a natural number
+below `p`. -/
+def sqrtM1 : ℕ := 19681161376707505956807079304988542015446066515923890162744021073123829784752
 
 /-! ## Characterisation of `p` and `L` -/
 
@@ -107,6 +112,25 @@ theorem two_pow_520_mod_L :
       4185850391763183796333492317919282507600454137915443218209456916606550724923 := by
   decide +kernel
 
-attribute [irreducible] p L
+/-! ## Characterisation of `sqrtM1` -/
+
+theorem sqrtM1_lt : sqrtM1 < p := by decide
+
+theorem sqrtM1_sq_add_one : (sqrtM1 ^ 2 + 1) % p = 0 := by decide
+
+/-- `sqrtM1` in radix `2^51`, the representation of dalek's `FieldElement51`. -/
+theorem sqrtM1_eq_limbs :
+    sqrtM1 = 1718705420411056 + 2 ^ 51 * 234908883556509 + 2 ^ 102 * 2233514472574048
+      + 2 ^ 153 * 2117202627021982 + 2 ^ 204 * 765476049583133 := by
+  decide
+
+/-- `sqrtM1` is the RFC 8032 value `2^((p-1)/4)`. -/
+theorem sqrtM1_eq_pow : (2 : ZMod p) ^ ((p - 1) / 4) = sqrtM1 := by
+  have hp : p = 57896044618658097711785492504343953926634992332820282019728792003956564819949 := by
+    decide
+  rw [hp, sqrtM1]
+  reduce_mod_char
+
+attribute [irreducible] p L sqrtM1
 
 end curve25519

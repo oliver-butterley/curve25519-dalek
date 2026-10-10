@@ -29,9 +29,10 @@ private theorem carry_step {Sa Ss SL P cin s l c carry1 : ℕ} (hIH : Sa + P * c
 
 /-- The loop of `conditional_add_l` adds `c · L` limb by limb, where `c = 1` if
 `condition = 1` and `c = 0` otherwise. -/
-@[step]
-theorem conditional_add_l_loop_spec (self : Scalar52) (condition : subtle.Choice) (mask : U64)
-    (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) (hcondition : condition = 0#u8 ∨ condition = 1#u8)
+@[local step]
+private theorem conditional_add_l_loop_spec (self : Scalar52) (condition : subtle.Choice)
+    (mask : U64)
+    (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) (hcondition : condition.IsValid)
     (hmask : mask.val = 2 ^ 52 - 1) :
     conditional_add_l_loop { start := 0#usize, «end» := 5#usize } self condition 0#u64 mask
     ⦃ (c : U64) (r : Scalar52) =>
@@ -103,7 +104,7 @@ private theorem eq_mod_of_add_mul_eq {r q x M : ℕ} (hr : r < M) (h : r + M * q
 
 @[step]
 theorem conditional_add_l_spec (self : Scalar52) (condition : subtle.Choice)
-    (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) (hcondition : condition = 0#u8 ∨ condition = 1#u8) :
+    (hself : ∀ i < 5, self[i]!.val < 2 ^ 52) (hcondition : condition.IsValid) :
     conditional_add_l self condition ⦃ (c : U64) (r : Scalar52) =>
       (condition = 0#u8 → r.asNat = self.asNat) ∧
       (condition = 1#u8 → r.asNat = (self.asNat + L) % montgomeryRadix) ∧

@@ -10,8 +10,8 @@ open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open curve25519_dalek.backend.serial.u64.field (FieldElement51)
 
 namespace curve25519_dalek.backend.serial.u64.field.FieldElement51
-@[step]
-theorem pow2k_loop_spec (k : U32) (a : Array U64 5#usize) (hk : 0 < k.val)
+@[local step]
+private theorem pow2k_loop_spec (k : U32) (a : Array U64 5#usize) (hk : 0 < k.val)
     (ha : ∀ i < 5, a[i]!.val < 2 ^ 54) :
     pow2k_loop k a ⦃ (r : Array U64 5#usize) =>
       FieldElement51.asNat r % p = FieldElement51.asNat a ^ 2 ^ k.val % p ∧
