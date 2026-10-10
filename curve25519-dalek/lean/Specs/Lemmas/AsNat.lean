@@ -35,6 +35,20 @@ theorem asNat_add_eq_add {ty : UScalarTy} {n : Usize} (bits : ℕ) (a b c d : Ar
   simp only [asNat_eq_sum, ← Finset.sum_add_distrib, ← mul_add]
   exact Finset.sum_congr rfl fun i hi => by rw [h i (Finset.mem_range.mp hi)]
 
+/-- Modulo any `m` dividing the radix `2^bits`, the value of a nonempty array is that of its first
+digit (e.g. the parity of a byte string is the parity of its first byte). -/
+theorem asNat_mod_of_dvd {ty : UScalarTy} {n : Usize} (bits : ℕ) {m : ℕ} (hm : m ∣ 2 ^ bits)
+    (a : Array (UScalar ty) n) (hn : 0 < n.val) : a.asNat bits % m = a[0]!.val % m := by
+  have h : a.val.length = n.val := by simp
+  simp only [Array.asNat, Array.getElem!_Nat_eq]
+  generalize a.val = l at h ⊢
+  match l, h with
+  | [], h => simp at h; omega
+  | x :: l, _ =>
+    obtain ⟨k, hk⟩ := hm
+    simp only [List.map_cons, Nat.ofDigits_cons, List.getElem!_cons_zero]
+    rw [hk, Nat.mul_assoc, Nat.add_mul_mod_self_left]
+
 theorem asNat_five {ty : UScalarTy} (bits : ℕ) (a : Array (UScalar ty) 5#usize) :
     a.asNat bits = a[0]!.val + 2 ^ bits * a[1]!.val + 2 ^ (2 * bits) * a[2]!.val
       + 2 ^ (3 * bits) * a[3]!.val + 2 ^ (4 * bits) * a[4]!.val := by

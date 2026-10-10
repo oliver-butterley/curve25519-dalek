@@ -10,6 +10,7 @@ public import Specs.Scalar.AsBytes
 public import Specs.Scalar.Unpack
 public import Specs.Scalar.Scalar52Pack
 public import Specs.Scalar.Lemmas
+public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
@@ -17,15 +18,6 @@ open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
 open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
 namespace Curve25519Dalek.scalar.Scalar
-
-/-- The parity of a little-endian byte string's value is that of its first byte. -/
-private theorem ofDigits_mod_two (l : List U8) (h : 0 < l.length) :
-    Nat.ofDigits (2 ^ 8) (l.map (·.val)) % 2 = (l[0]'h).val % 2 := by
-  cases l with
-  | nil => simp at h
-  | cons x l =>
-    simp only [List.map_cons, Nat.ofDigits_cons, List.getElem_cons_zero]
-    omega
 
 /-- Halving modulo `L`: add `L` when odd, then shift right by one bit. -/
 private theorem half_mod_L {s u1 u2 c : ℕ} (hs : s < L)
@@ -58,7 +50,8 @@ theorem div_by_2.«x86_64-tables_spec» (self : Scalar) (hself : self.asNat < L)
     rw [hi1, UScalar.val_and]
     change i.val &&& 1 = _
     rw [Nat.and_one_is_mod, hi, ha]
-    exact (ofDigits_mod_two self.bytes.val _).symm
+    simpa [Array.getElem!_Nat_eq, Scalar.asNat] using
+      (Array.asNat_mod_of_dvd 8 (m := 2) (by norm_num) self.bytes (by simp)).symm
   have hvalid : i1 = 0#u8 ∨ i1 = 1#u8 := (subtle.Choice.isValid_iff i1).mpr (by omega)
   step as ⟨c, hcv, hc⟩
   step as ⟨u, hu, hub⟩

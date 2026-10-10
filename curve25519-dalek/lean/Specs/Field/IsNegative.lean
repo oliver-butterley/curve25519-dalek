@@ -4,21 +4,13 @@ public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Backend.Serial.U64.Field.ToBytes
+public import Specs.Lemmas.AsNat
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
 
 namespace Curve25519Dalek.field.FieldElement51
-
-/-- The parity of a little-endian byte string's value is that of its first byte. -/
-private theorem ofDigits_mod_two (l : List U8) (h : 0 < l.length) :
-    Nat.ofDigits (2 ^ 8) (l.map (·.val)) % 2 = (l[0]'h).val % 2 := by
-  cases l with
-  | nil => simp at h
-  | cons x l =>
-    simp only [List.map_cons, Nat.ofDigits_cons, List.getElem_cons_zero]
-    omega
 
 @[step]
 theorem is_negative_spec (self : FieldElement51) :
@@ -36,6 +28,7 @@ theorem is_negative_spec (self : FieldElement51) :
   rw [hc, hi1, UScalar.val_and]
   change i.val &&& 1 = _
   rw [Nat.and_one_is_mod, ← hbytes, hi]
-  exact (ofDigits_mod_two bytes.val _).symm
+  simpa [Array.getElem!_Nat_eq] using
+    (Array.asNat_mod_of_dvd 8 (m := 2) (by norm_num) bytes (by simp)).symm
 
 end Curve25519Dalek.field.FieldElement51
