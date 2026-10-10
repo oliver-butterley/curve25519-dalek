@@ -17,8 +17,8 @@ theorem m_spec (x y : U64) :
   unfold m
   step*
 
-/-- `m` on a 53-bit and a 52-bit factor, with the bound on the product (for `local step` in the
-limb products). -/
+/-- `m` on a 53-bit and a 52-bit factor, with the bound on the product (for the limb products,
+activated with `open scoped Specs.MLtStep`). -/
 theorem m_lt_spec (x y : U64) (hx : x.val < 2 ^ 53) (hy : y.val < 2 ^ 52) :
     m x y ⦃ (r : U128) => r.val = x.val * y.val ∧ r.val < 2 ^ 105 ⦄ := by
   step*

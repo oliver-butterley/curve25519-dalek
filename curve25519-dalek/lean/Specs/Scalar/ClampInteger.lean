@@ -4,7 +4,7 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.Array
 public section
 
@@ -66,7 +66,7 @@ theorem clamp_integer_spec (bytes : Array U8 32#usize) :
     exact Array.asNat_set_add 8 b2 31#usize d31 (by simp)
   have hX0 := Array.asNat_mod_pow_eq_sum 8 1 bytes (by simp) fun j _ => (bytes[j]!).hBounds
   rw [Finset.sum_range_one] at hX0
-  have hS := Array.sum_pow_mul_lt 8 31 (fun j => bytes[j]!.val) fun j _ => (bytes[j]!).hBounds
+  have hS := Nat.sum_pow_mul_lt 8 31 (fun j => bytes[j]!.val) fun j _ => (bytes[j]!).hBounds
   have hX : bytes.asNat 8 = ∑ j ∈ Finset.range 31, 2 ^ (8 * j) * bytes[j]!.val
       + 2 ^ (8 * 31) * bytes[31]!.val := by
     rw [Array.asNat_eq_sum, show (32#usize).val = 31 + 1 from rfl, Finset.sum_range_succ]

@@ -52,7 +52,7 @@ theorem div_by_2.«x86_64-tables_spec» (self : Scalar) (hself : self.asNat < L)
     rw [Nat.and_one_is_mod, hi, ha]
     simpa [Array.getElem!_Nat_eq, Scalar.asNat] using
       (Array.asNat_mod_of_dvd 8 (m := 2) (by norm_num) self.bytes (by simp)).symm
-  have hvalid : i1 = 0#u8 ∨ i1 = 1#u8 := (subtle.Choice.isValid_iff i1).mpr (by omega)
+  have hvalid : i1 = 0#u8 ∨ i1 = 1#u8 := (subtle.Choice.isValid_iff i1).mpr (by scalar_tac)
   step as ⟨c, hcv, hc⟩
   step as ⟨u, hu, hub⟩
   step with backend.serial.u64.scalar.Scalar52.conditional_add_l_spec u c hub hcv

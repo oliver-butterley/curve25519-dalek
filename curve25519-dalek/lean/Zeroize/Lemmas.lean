@@ -32,7 +32,7 @@ theorem core.slice.iter.IterMut.Insts.ZeroizeZeroize.zeroize_const_spec
   have hlen' : it'.slice.val.length = it.slice.val.length := by
     simpa [Slice.length] using hlen
   rw [← List.take_append_drop it.i it'.slice.val, htake]
-  congr 1
+  fcongr 1
   exact List.eq_replicate_iff.mpr ⟨by simp [Slice.length, hlen'], hdrop⟩
 
 /-- Zeroizing an array whose element `zeroize` always returns `z` gives `[z; N]`. -/

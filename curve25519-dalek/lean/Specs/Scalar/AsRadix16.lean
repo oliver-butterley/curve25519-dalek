@@ -14,6 +14,29 @@ open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
 open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
 
+/-- A sum over `2 m` terms, grouped in consecutive pairs. -/
+private theorem Finset.sum_range_two_mul {M : Type*} [AddCommMonoid M] (m : ℕ) (f : ℕ → M) :
+    ∑ j ∈ Finset.range (2 * m), f j =
+      ∑ i ∈ Finset.range m, (f (2 * i) + f (2 * i + 1)) := by
+  induction m with
+  | zero => simp
+  | succ m ih =>
+    rw [show 2 * (m + 1) = 2 * m + 1 + 1 by ring, Finset.sum_range_succ, Finset.sum_range_succ, ih,
+      Finset.sum_range_succ, add_assoc]
+
+/-- Signed digits in radix `2 ^ bits` whose consecutive pairs combine to the digits of `b` in radix
+`2 ^ (2 bits)` have the value of `b`. -/
+private theorem Aeneas.Std.Array.asInt_eq_asNat_of_pairs {tyI : IScalarTy} {tyU : UScalarTy}
+    {n m : Usize} (bits : ℕ) (a : Array (IScalar tyI) n) (b : Array (UScalar tyU) m)
+    (h : n.val = 2 * m.val)
+    (hab : ∀ i < m.val, a[2 * i]!.val + 2 ^ bits * a[2 * i + 1]!.val = b[i]!.val) :
+    a.asInt bits = b.asNat (2 * bits) := by
+  rw [Array.asInt_eq_sum, Array.asNat_eq_sum, h, Finset.sum_range_two_mul]
+  push_cast
+  refine Finset.sum_congr rfl fun i hi => ?_
+  rw [← hab i (Finset.mem_range.mp hi)]
+  ring
+
 namespace Curve25519Dalek.scalar.Scalar.as_radix_16
 
 @[step]

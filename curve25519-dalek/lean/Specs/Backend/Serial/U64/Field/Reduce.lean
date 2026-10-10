@@ -2,6 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Lemmas
 public import Subtle
 public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.StepSpecs
@@ -82,7 +83,7 @@ private theorem reduce.carry_spec (c0 c1 c2 c3 c4 : U64) (limbs5 : Array U64 5#u
 
 /-- `reduce` exactly: `p` is subtracted `limbs[4] / 2^51` times, and the limbs are below
 `2^51 + 2^18`. `reduce_spec` follows from this. -/
-theorem reduce_exact_spec (limbs : Array U64 5#usize) :
+private theorem reduce_exact_spec (limbs : Array U64 5#usize) :
     reduce limbs ⦃ (r : FieldElement51) =>
       r.asNat + p * (limbs[4]!.val / 2 ^ 51) = FieldElement51.asNat limbs ∧
       ∀ i < 5, r[i]!.val < 2 ^ 51 + 2 ^ 18 ⦄ := by

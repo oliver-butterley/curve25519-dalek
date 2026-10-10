@@ -4,13 +4,26 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.AsNat
 public import Specs.Scalar.HalfWidthFromBytes
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
 open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+/-- Splitting the digits of an array into its first `m` and its last `k` digits. -/
+private theorem Aeneas.Std.Array.asNat_eq_split {ty : UScalarTy} {n m k : Usize} (bits : ℕ)
+    (a : Array (UScalar ty) n) (b : Array (UScalar ty) m) (c : Array (UScalar ty) k)
+    (h : m.val + k.val = n.val) (hb : ∀ j < m.val, a[j]!.val = b[j]!.val)
+    (hc : ∀ j < k.val, a[m.val + j]!.val = c[j]!.val) :
+    a.asNat bits = b.asNat bits + 2 ^ (bits * m.val) * c.asNat bits := by
+  rw [Array.asNat_eq_sum, Array.asNat_eq_sum, Array.asNat_eq_sum, ← h, Finset.sum_range_add,
+    Finset.mul_sum]
+  fcongr 1
+  · exact Finset.sum_congr rfl fun j hj => by rw [hb j (Finset.mem_range.mp hj)]
+  · refine Finset.sum_congr rfl fun j hj => ?_
+    rw [hc j (Finset.mem_range.mp hj), Nat.mul_add, Nat.pow_add, Nat.mul_assoc]
 
 namespace Curve25519Dalek.scalar.Scalar
 

@@ -1,7 +1,9 @@
 module
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Lemmas
 public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.Array
+public import Specs.Lemmas.Bitwise
 public import Mathlib.Data.Nat.ModEq
 public section
 
@@ -11,7 +13,8 @@ Five 52-bit limbs stay below the Montgomery radix `R = montgomeryRadix` (`Scalar
 Modulo `L`, `R` can be cancelled (`mod_L_of_mul_montgomeryRadix`), and a Montgomery product with
 `RR = R^2 mod L` multiplies by `R` (`mod_L_of_mul_montgomeryRadix_eq_mul_RR`). Five limbs
 written over a `Scalar52` give its value (`Scalar52.asNat_set_five`) and its limb bounds
-(`Scalar52.getElem!_set_five_lt`). -/
+(`Scalar52.getElem!_set_five_lt`). `from_bytes` and `from_bytes_wide` cut their first limbs from
+64-bit words alike (`limb1_of_words`, `limb2_of_words`, `limb3_of_words`). -/
 
 open Aeneas Aeneas.Std curve25519
 
@@ -22,6 +25,27 @@ theorem Scalar52.asNat_lt (a : Scalar52) (h : ∀ i < 5, a[i]!.val < 2 ^ 52) :
     a.asNat < montgomeryRadix :=
   (Array.asNat_lt 52 a h).trans_eq
     ((congrArg (2 ^ ·) (show 52 * (5#usize).val = 260 from rfl)).trans montgomeryRadix_eq.symm)
+
+/-- Limb 1 of the 52-bit limbs cut from 64-bit words: word 0 without its low 52 bits, and the
+low 40 bits of word 1. -/
+theorem limb1_of_words (w0 w1 : U64) :
+    (w0.val >>> 52 ||| w1.val <<< 12 % U64.size) % 2 ^ 52
+      = w0.val / 2 ^ 52 + 2 ^ 12 * (w1.val % 2 ^ 40) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
+
+/-- Limb 2 of the 52-bit limbs cut from 64-bit words: word 1 without its low 40 bits, and the
+low 28 bits of word 2. -/
+theorem limb2_of_words (w1 w2 : U64) :
+    (w1.val >>> 40 ||| w2.val <<< 24 % U64.size) % 2 ^ 52
+      = w1.val / 2 ^ 40 + 2 ^ 24 * (w2.val % 2 ^ 28) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
+
+/-- Limb 3 of the 52-bit limbs cut from 64-bit words: word 2 without its low 28 bits, and the
+low 16 bits of word 3. -/
+theorem limb3_of_words (w2 w3 : U64) :
+    (w2.val >>> 28 ||| w3.val <<< 36 % U64.size) % 2 ^ 52
+      = w2.val / 2 ^ 28 + 2 ^ 36 * (w3.val % 2 ^ 16) :=
+  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
 
 /-- Multiplication by the Montgomery radix can be cancelled modulo `L`. -/
 theorem mod_L_of_mul_montgomeryRadix {x y : ℕ}

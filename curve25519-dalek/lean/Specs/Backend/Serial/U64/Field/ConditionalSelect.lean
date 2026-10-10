@@ -2,12 +2,20 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
-public import Specs.Lemmas.ArrayGetElem
 public import Subtle
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+
+/-- A five-element array rebuilt from its own elements is the array itself. -/
+private theorem Aeneas.Std.Array.make_getElem_five {α : Type} (a : Array α 5#usize)
+    (h : [a.val[0], a.val[1], a.val[2], a.val[3], a.val[4]].length = (5#usize).val) :
+    Array.make 5#usize [a.val[0], a.val[1], a.val[2], a.val[3], a.val[4]] h = a := by
+  ext : 1
+  rw [Array.make_val]
+  apply List.ext_getElem (by simp)
+  grind
 
 namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51.Insts
 namespace SubtleConditionallySelectable

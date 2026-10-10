@@ -12,20 +12,6 @@ public section
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.backend.serial.u64.scalar (Scalar52)
 
-/-- Setting digit `i` of an array changes its value by the difference of the digits. -/
-private theorem Aeneas.Std.Array.asNat_set_add {ty : UScalarTy} {n : Usize} (bits : ℕ)
-    (a : Array (UScalar ty) n) (i : Usize) (x : UScalar ty) (hi : i.val < n.val) :
-    (a.set i x).asNat bits + 2 ^ (bits * i.val) * a[i.val]!.val
-      = a.asNat bits + 2 ^ (bits * i.val) * x.val := by
-  have hmem := Finset.mem_range.mpr hi
-  simp only [Array.asNat_eq_sum]
-  rw [← Finset.add_sum_erase _ (fun j => 2 ^ (bits * j) * (a.set i x)[j]!.val) hmem,
-    ← Finset.add_sum_erase _ (fun j => 2 ^ (bits * j) * a[j]!.val) hmem,
-    Array.getElem!_Nat_set_eq _ _ _ _ ⟨rfl, by simpa using hi⟩,
-    Finset.sum_congr rfl fun j hj => by
-      rw [Array.getElem!_Nat_set_ne _ _ _ _ (Finset.ne_of_mem_erase hj).symm]]
-  ring
-
 /-- One limb of the shift: the halved limb with the incoming carry on top. -/
 private theorem shr1_limb {x c : ℕ} (hx : x < 2 ^ 52) (hc : c < 2) :
     2 * (x >>> 1 ||| c <<< 51) + x % 2 = x + 2 ^ 52 * c ∧ (x >>> 1 ||| c <<< 51) < 2 ^ 52 := by

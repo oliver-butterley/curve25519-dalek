@@ -29,7 +29,7 @@ def iterMut {Z : Type} (inst : zeroize.Zeroize Z) (it : core.slice.iter.IterMut 
       have h := rest.property
       have := it.slice.property
       simp only [List.length_append, List.length_take, List.length_drop] at h ⊢
-      omega)
+      scalar_tac)
   ok ({ slice, i := slice.length }, id)
 
 /-- Model of `zeroize::{impl Zeroize for [Z; N]}::zeroize`. -/
@@ -61,20 +61,20 @@ theorem iterMut_spec {Z : Type} (inst : zeroize.Zeroize Z) (it : core.slice.iter
     (fun i hi => h _ (List.getElem_mem hi)))
   intro rest hrest
   have hlen := rest.property
-  have hi : it.i ≤ it.slice.val.length ∨ it.slice.val.length < it.i := by omega
+  have hi : it.i ≤ it.slice.val.length ∨ it.slice.val.length < it.i := by scalar_tac
   simp only [List.length_drop] at hlen
   simp only [spec_ok, Slice.from_val, Slice.length]
   simp only [uncurry', Slice.from_val, List.length_append, List.length_take, hlen, true_and]
   rcases hi with hi | hi
-  · refine ⟨by omega, by omega, ?_, ?_⟩
+  · refine ⟨by scalar_tac, by scalar_tac, ?_, ?_⟩
     · rw [List.take_append]; simp [Nat.min_eq_left hi]
     · intro y hy
-      rw [List.drop_append_of_le_length (by simp; omega)] at hy
+      rw [List.drop_append_of_le_length (by simp only [List.length_take]; scalar_tac)] at hy
       simp only [List.length_take, hi, inf_of_le_left, Std.le_refl, List.drop_of_length_le,
         List.nil_append] at hy
       obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hy
       exact hrest j hj
-  · have : rest.val = [] := List.eq_nil_of_length_eq_zero (by omega)
+  · have : rest.val = [] := List.eq_nil_of_length_eq_zero (by scalar_tac)
     simp_all
     omega
 

@@ -4,8 +4,8 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
-public import Specs.Lemmas.BitWindow
+public import Specs.Lemmas.AsNat
+public import Specs.Lemmas.Bitwise
 public import Specs.Lemmas.AsInt
 public import Specs.Lemmas.Array
 public import Specs.Scalar.ReadLeU64Into
@@ -25,10 +25,6 @@ set_option linter.hashCommand false in
   letAt 1 (branch 1 (letRange 6 9)) => as_radix_2w_loop.body.digit
 
 attribute [nolint docBlame defsWithUnderscore] as_radix_2w_loop.body.digit
-
-/-- A window of `w` bits at offset `b < 64 - w` lies within one limb. -/
-private theorem window_fits {b t w : ℕ} (hbt : b < t) (ht : t = 64 - w) : b + w ≤ 64 := by
-  omega
 
 /-- The bit buffer of `as_radix_2w`: its low `w` bits are the bits `64 u + b …` of `X`. -/
 private theorem radix_bit_buf_spec (x : Array U64 4#usize) (X : ℕ) (hX : x.asNat 64 = X)
@@ -69,7 +65,7 @@ private theorem radix_bit_buf_spec (x : Array U64 4#usize) (X : ℕ) (hX : x.asN
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     rw [hr, Nat.shiftRight_eq_div_pow, hl, ← hlimb]
-    exact Nat.window_in_limb X u.val b.val w.val (window_fits hbt ht)
+    exact Nat.window_in_limb X u.val b.val w.val (by scalar_tac)
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     rw [hr, Nat.shiftRight_eq_div_pow, hl, ← hlimb]
@@ -108,16 +104,6 @@ private theorem radix_top_window {X pos c w : ℕ} (hX : X < 2 ^ 255) (hpos : 25
   norm_num at hY
   omega
 
-/-- A digit step: digit `d` and carry `c'` of the window at `pos`. -/
-private theorem digit_step {Y c c' w pos : ℕ} {d : ℤ}
-    (hd : d + 2 ^ w * c' = ((c + Y % 2 ^ w : ℕ) : ℤ)) :
-    (2 : ℤ) ^ pos * (c + Y : ℕ) = 2 ^ pos * d + 2 ^ (pos + w) * (c' + Y / 2 ^ w : ℕ) := by
-  have hY := Nat.mod_add_div Y (2 ^ w)
-  zify at hY
-  push_cast at hd ⊢
-  rw [pow_add]
-  linear_combination (-(2 : ℤ) ^ pos) * hd - (2 : ℤ) ^ pos * hY
-
 /-- The number of digits of width `w`: digit `k` starts below bit `256` iff `k < ⌈256 / w⌉`. -/
 private theorem lt_digits_count {k w : ℕ} (hw : 1 ≤ w) :
     k < (256 + w - 1) / w ↔ k * w < 256 := by
@@ -143,7 +129,7 @@ private theorem radix_inv_step {X w : ℕ} {digits : Array I8 64#usize} {k c c' 
     RadixInv X w (digits.set p d) (k + 1) c' := by
   obtain ⟨-, -, hval, hlow, hzero⟩ := hinv
   refine ⟨hc', hc'0, ?_, fun j hj => ?_, fun j hj hj64 => ?_⟩
-  · have hv := digit_step (pos := w * k) hd
+  · have hv := Nat.two_pow_mul_window_eq (pos := w * k) hd
     rw [Nat.div_div_eq_div_mul, ← Nat.pow_add, ← Nat.mul_succ] at hv
     rw [Array.asInt_set w digits p d (by simp [hp, hk]), hp, hzero k le_rfl hk, sub_zero, ← hval,
       hv, add_assoc]
@@ -240,10 +226,6 @@ private theorem digit_spec (w : Usize) (radix carry m : U64) (hw : 4 ≤ w.val �
 private theorem lt_64_of_mul_lt {k w : ℕ} (hw : 4 ≤ w) (h : k * w < 256) : k < 64 :=
   Nat.lt_of_mul_lt_mul_right (lt_of_le_of_lt (Nat.mul_le_mul_left k hw) h : k * 4 < 64 * 4)
 
-/-- The limb index and bit offset of a bit position below `256`. -/
-private theorem pos_split {pos : ℕ} (h : pos < 256) : pos / 64 ≤ 3 ∧ pos % 64 < 64 := by
-  omega
-
 /-- Once the window starts at bit `252` (`5 ≤ w`), it is below `2 ^ (w - 1)`: no carry out. -/
 private theorem radix_no_carry {X w k c : ℕ} (hX : X < 2 ^ 255) (hw : 5 ≤ w ∧ w ≤ 8)
     (h252 : 252 + w ≤ w * (k + 1)) (hc : c ≤ 1) :
@@ -267,7 +249,8 @@ private theorem radix_body_spec (w : Usize) (x : Array U64 4#usize) (radix mask 
         RadixInv X w.val digits' iter'.start.val carry'.val ⦄ := by
   have hc := hinv.1
   have hk64 : iter.start.val < 64 := lt_64_of_mul_lt hw.1 hk
-  have hsplit := pos_split hk
+  have hsplit : iter.start.val * w.val / 64 ≤ 3 ∧ iter.start.val * w.val % 64 < 64 :=
+    ⟨Nat.le_of_lt_succ (Nat.div_lt_of_lt_mul hk), Nat.mod_lt _ (by norm_num)⟩
   rw [as_radix_2w_loop.body_eq]
   step with core.iter.range.IteratorRange.next_Usize_some_spec as ⟨o, iter1, ho, hstart1, hend1⟩
   subst ho

@@ -2,6 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Lemmas
 public import Subtle
 public import Specs.Backend.Serial.U64.Field.SquareLimbs
 public section
@@ -13,7 +14,7 @@ namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
 /-- The loop doubles the elements of `iter` from position `iter.i` on and hands the updated
 iterator to `back`. -/
-theorem square2_loop_spec (iter : core.slice.iter.IterMut U64)
+private theorem square2_loop_spec (iter : core.slice.iter.IterMut U64)
     (back : core.slice.iter.IterMut U64 → core.slice.iter.IterMut U64)
     (hi : iter.i ≤ iter.slice.length)
     (hov : ∀ j < iter.slice.length, iter.i ≤ j → 2 * iter.slice.val[j]!.val ≤ U64.max) :

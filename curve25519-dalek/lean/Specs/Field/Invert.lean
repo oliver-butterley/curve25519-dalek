@@ -23,7 +23,6 @@ private theorem invert_exponent : (2 ^ 250 - 1) * 2 ^ 5 + 11 + 1 = p - 1 := by
   generalize 2 ^ 255 = B at *
   omega
 
-
 @[step]
 theorem invert_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
     invert self ⦃ (r : FieldElement51) =>

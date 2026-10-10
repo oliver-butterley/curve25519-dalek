@@ -28,7 +28,6 @@ co-authors of this work.
 - `jinxinglim`
 - `alok`
 - `faenuccio`
-- `ChrisEPhifer`
 - `Kukovec`
 - `rozbb`
 - `semaraugusto`
@@ -46,6 +45,56 @@ co-authors of this work.
   Making everything native (hand-linked shared library, since `precompileModules` fails on a
   `Batteries` ↔ `BatteriesRecycling` import cycle) saved only 2–5% wall time on the slowest
   files. Not worth pursuing; the lever is `step*`'s algorithm.
+
+## Performance measurement tooling
+
+Locally we only need approximate data, and nothing that needs privileges (no `perf`, no sudo).
+
+**Approaches, by granularity:**
+- **Whole build:** `lakeprof` (https://github.com/Kha/lakeprof, installed via `uv tool` at
+  `~/.local/bin/lakeprof`): `lakeprof record -- lake build …` timestamps Lake's output;
+  `lakeprof report` gives per-module times (from Lake's "Built X (n s)" lines), the critical
+  path (`-p`), the rebuild critical path (`-r`), simulated times by processor count (`-s`) and a
+  chrome trace (`-c`); `lakeprof diff BASE CURR` compares two logs. Only rebuilt modules appear:
+  force the same rebuild set in both runs (e.g. `touch` the files).
+- **Per module, real build setup:** the trick used by the org's radar benchmarks
+  (https://github.com/Beneficial-AI-Foundation/lean-bench-scripts, `scripts/bench/build/`):
+  `LAKE_OVERRIDE_LEAN=true LEAN=<wrapper> lake build …` makes Lake call `<wrapper>` instead of
+  `lean` for every module (with the usual `--setup <json>`, so plugins such as `AeneasMeta`
+  load). The wrapper answers `--print-prefix`/`--githash` by delegating, then runs the real
+  `lean --profile -Dprofiler.threshold=9999999 <args>` and parses the cumulative profiler lines
+  (`\t<category> <n>(m)s`: `simp`, `grind`, `typeclass inference`, `interpretation`, …).
+  Their wrapper measures with `perf stat` (instructions); a local variant can use
+  `/usr/bin/time -f "%e %M"` instead (wall time, peak memory per module), no privileges needed.
+- **Per file, quick:** `/usr/bin/time -f "%e %M" lake env lean <file>`. Caveat: `lake env lean`
+  does not load the `AeneasMeta` native plugin that `lake build` loads, so `step*`-heavy files
+  come out 1–2 s slower. Compare timings only under one setup.
+- **Per proof / per tactic:** `lake env lean -Dtrace.profiler=true -Dtrace.profiler.threshold=N
+  <file>` (per declaration with `N` ≈ 300; nested per tactic and `step*` phase with `N` = 1,
+  aggregating self time per trace node, as done for `step-star-performance.md`); the
+  cumulative breakdown with `-Dprofiler=true`. The lean-lsp MCP's `lean_profile_proof` does the
+  same for one theorem (copies it into a temporary file; may fail for proofs relying on private
+  helpers or local `#decompose` definitions). Full tracing adds overhead and can push heavy
+  proofs over their heartbeats.
+
+**Radar** (https://github.com/leanprover/radar) runs those scripts per repository and keeps the
+history; its numbers (instructions, profile categories summed over modules, build-wide `maxrss`
+of the largest process, lakeprof critical paths, `.lean`/`.olean` sizes) are the long-term record
+if this repository is added there. Memory per module is not among them.
+
+**Radar API** (tested 2026-10-10 on the org instance https://radar.18.118.100.156.nip.io, repo
+`curve25519-dalek-lean-verify`; no login needed for reads). JSON under `<host>/api`:
+`/repos/` (tracked repos), `/repos/{repo}/metrics/` (metric names and units),
+`/repos/{repo}/graph/?n=<commits>&m=<metric>&m=…` (commits oldest first, and per metric one value
+per commit, `null` if not benchmarked), `/repos/{repo}/history/`, `/commits/{repo}/{hash}/`,
+`/commits/{repo}/{hash}/runs/{run}/` (logs), `/compare/{repo}/{a}/{b}/`. To download everything:
+list the metrics, then query `graph` with `n=100000` in batches of about 50 metrics (400 names
+per request gives HTTP 414, URI too long). For that repo: 801 metrics, 331 commits, 23
+benchmarked; 17 requests, ~14 s, ~2 MB JSON. (`/api/metrics.prom` is only server health.)
+
+**Memory safety when measuring:** builds run one Lean process per module in parallel (20 cores);
+limit parallelism (e.g. `LEAN_NUM_THREADS`, observed to cap Lake's jobs) or measure files one
+at a time, and run nothing else meanwhile.
 
 ## Conventions
 

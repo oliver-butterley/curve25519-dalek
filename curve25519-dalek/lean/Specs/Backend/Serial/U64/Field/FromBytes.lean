@@ -2,6 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Lemmas
 public import Subtle
 public import Specs.Lemmas.StepSpecs
 public import Specs.Lemmas.AsNat
@@ -19,8 +20,8 @@ private theorem sum_window_eq {n : Usize} (a : Array U8 n) (o w : ℕ) (h : o + 
   have hbyte : ∀ k : ℕ, a[k]!.val < 2 ^ 8 := fun k => by scalar_tac
   set M := ∑ j ∈ Finset.range w, 2 ^ (8 * j) * a[o + j]!.val
   set U := ∑ j ∈ Finset.range (n.val - (o + w)), 2 ^ (8 * j) * a[o + w + j]!.val
-  have hL := Array.sum_pow_mul_lt 8 o (fun k => a[k]!.val) fun k _ => hbyte k
-  have hM : M < 2 ^ (8 * w) := Array.sum_pow_mul_lt 8 w (fun j => a[o + j]!.val) fun j _ => hbyte _
+  have hL := Nat.sum_pow_mul_lt 8 o (fun k => a[k]!.val) fun k _ => hbyte k
+  have hM : M < 2 ^ (8 * w) := Nat.sum_pow_mul_lt 8 w (fun j => a[o + j]!.val) fun j _ => hbyte _
   have hsplit : a.asNat 8 = ∑ k ∈ Finset.range o, 2 ^ (8 * k) * a[k]!.val
       + 2 ^ (8 * o) * (M + 2 ^ (8 * w) * U) := by
     rw [Array.asNat_eq_sum, show n.val = o + w + (n.val - (o + w)) by agrind,
@@ -29,7 +30,6 @@ private theorem sum_window_eq {n : Usize} (a : Array U8 n) (o w : ℕ) (h : o + 
     ring_nf
   rw [hsplit, Nat.add_mul_div_left _ _ (by positivity), Nat.div_eq_of_lt hL, Nat.zero_add,
     Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hM]
-
 
 /-- A 51-bit limb read from 8 bytes at offset `o`, shifted right by `s`, is bits
 `8 o + s, …, 8 o + s + 50` of `a.asNat 8`. -/

@@ -4,13 +4,28 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.StepSpecs
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
 open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+/-- An array whose first `m` digits are those of `b` and whose other digits are zero has the
+value of `b`. -/
+private theorem Aeneas.Std.Array.asNat_eq_of_prefix {ty : UScalarTy} {n m : Usize} (bits : ℕ)
+    (a : Array (UScalar ty) n) (b : Array (UScalar ty) m) (hmn : m.val ≤ n.val)
+    (hb : ∀ j < m.val, a[j]!.val = b[j]!.val)
+    (hz : ∀ j, m.val ≤ j → j < n.val → a[j]!.val = 0) :
+    a.asNat bits = b.asNat bits := by
+  rw [Array.asNat_eq_sum, Array.asNat_eq_sum, ← Finset.sum_range_add_sum_Ico _ hmn]
+  have h0 : ∑ j ∈ Finset.Ico m.val n.val, 2 ^ (bits * j) * a[j]!.val = 0 :=
+    Finset.sum_eq_zero fun j hj => by
+      rw [Finset.mem_Ico] at hj
+      rw [hz j hj.1 hj.2, Nat.mul_zero]
+  rw [h0, Nat.add_zero]
+  exact Finset.sum_congr rfl fun j hj => by rw [hb j (Finset.mem_range.mp hj)]
 
 namespace Curve25519Dalek.scalar.HalfWidthScalar
 

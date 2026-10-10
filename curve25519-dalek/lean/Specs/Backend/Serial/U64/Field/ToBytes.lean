@@ -5,13 +5,17 @@ public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Backend.Serial.U64.Field.Reduce
 public import Specs.Lemmas.StepSpecs
-public import Specs.Lemmas.BitWindow
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.Bitwise
+public import Specs.Backend.Serial.U64.Lemmas
 public import Mathlib.Tactic.LinearCombination
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.backend.serial.u64.field (FieldElement51)
+
+/-- Bit `k` of a number below `2 ^ k` is clear. -/
+private theorem Nat.and_two_pow_eq_zero_of_lt {x k : ℕ} (hx : x < 2 ^ k) : x &&& 2 ^ k = 0 := by
+  rw [Nat.and_two_pow, Nat.testBit_lt_two_pow hx, Bool.toNat_false, Nat.zero_mul]
 
 namespace Curve25519Dalek.backend.serial.u64.field.FieldElement51
 
@@ -22,7 +26,6 @@ set_option linter.hashCommand false in
   letRange 4 109 => to_bytes.pack
 
 attribute [nolint docBlame defsWithUnderscore] to_bytes.quotient to_bytes.carry to_bytes.pack
-
 
 /-! ## Byte packing -/
 

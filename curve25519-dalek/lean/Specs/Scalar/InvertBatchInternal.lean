@@ -74,8 +74,6 @@ private theorem mod_L_eq_one {a : ℕ} (h : (a : ZMod L) = 1) : a % L = 1 := by
   rw [← Nat.mod_eq_of_lt ((Nat.one_lt_two_pow (by decide)).trans two_pow_252_lt_L)]
   exact (ZMod.natCast_eq_natCast_iff' _ _ _).mp (by exact_mod_cast h)
 
-/-! ## Slice updates in the loops -/
-
 /-! ## First loop: Montgomery forms of the inputs and of their prefix products -/
 
 /-- One step of the first loop: store `acc` at `i`, replace input `i` by its Montgomery form `y`

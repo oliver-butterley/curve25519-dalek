@@ -1,5 +1,6 @@
 module
-public import Specs.Lemmas.AsNat
+public import Specs.Defs
+public import Specs.Lemmas.Array
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 public import Mathlib.Algebra.BigOperators.Ring.Finset
 public section
@@ -24,7 +25,7 @@ theorem asInt_eq_sum {ty : IScalarTy} {n : Usize} (bits : ℕ) (a : Array (IScal
     simp only [List.map_cons, List.foldr_cons, ih, List.getElem!_cons_succ, List.getElem!_cons_zero,
       Finset.mul_sum]
     rw [Nat.mul_zero, pow_zero, one_mul, add_comm]
-    congr 1
+    fcongr 1
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [Nat.mul_succ, pow_add]
     ring
@@ -43,33 +44,6 @@ theorem asInt_set {ty : IScalarTy} {n : Usize} (bits : ℕ) (a : Array (IScalar 
       rw [Array.getElem!_Nat_set_ne _ _ _ _ (Ne.symm (Finset.ne_of_mem_erase hj))]
   rw [hrest]
   ring
-
-/-- A sum over `2 m` terms, grouped in consecutive pairs. -/
-theorem _root_.Finset.sum_range_two_mul {M : Type*} [AddCommMonoid M] (m : ℕ) (f : ℕ → M) :
-    ∑ j ∈ Finset.range (2 * m), f j =
-      ∑ i ∈ Finset.range m, (f (2 * i) + f (2 * i + 1)) := by
-  induction m with
-  | zero => simp
-  | succ m ih =>
-    rw [show 2 * (m + 1) = 2 * m + 1 + 1 by ring, Finset.sum_range_succ, Finset.sum_range_succ, ih,
-      Finset.sum_range_succ, add_assoc]
-
-/-- Signed digits in radix `2 ^ bits` whose consecutive pairs combine to the digits of `b` in radix
-`2 ^ (2 bits)` have the value of `b`. -/
-theorem asInt_eq_asNat_of_pairs {tyI : IScalarTy} {tyU : UScalarTy} {n m : Usize} (bits : ℕ)
-    (a : Array (IScalar tyI) n) (b : Array (UScalar tyU) m) (h : n.val = 2 * m.val)
-    (hab : ∀ i < m.val, a[2 * i]!.val + 2 ^ bits * a[2 * i + 1]!.val = b[i]!.val) :
-    a.asInt bits = b.asNat (2 * bits) := by
-  rw [asInt_eq_sum, asNat_eq_sum, h, Finset.sum_range_two_mul]
-  push_cast
-  refine Finset.sum_congr rfl fun i hi => ?_
-  rw [← hab i (Finset.mem_range.mp hi)]
-  ring
-
-/-- The entries of `Array.repeat n x` below `n`. -/
-theorem getElem!_repeat {α : Type} [Inhabited α] {n : Usize} (x : α) {j : ℕ} (hj : j < n.val) :
-    (Array.repeat n x)[j]! = x := by
-  rw [Array.getElem!_Nat_eq, Array.repeat_val, List.getElem!_replicate _ hj]
 
 /-- An array of zero digits has value `0`. -/
 theorem asInt_repeat_zero {ty : IScalarTy} {n : Usize} (bits : ℕ) (z : IScalar ty)

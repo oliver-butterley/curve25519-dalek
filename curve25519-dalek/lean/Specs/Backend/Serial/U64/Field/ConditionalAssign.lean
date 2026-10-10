@@ -2,7 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
-public import Specs.Lemmas.ArrayGetElem
+public import Specs.Lemmas.Array
 public import Subtle
 public section
 

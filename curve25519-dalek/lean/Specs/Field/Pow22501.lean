@@ -43,7 +43,6 @@ private theorem pow_step {x y z u w : ℕ} (a b c : ℕ) (hc : a + b = c)
   rw [← pow_mul, ← pow_add, two_pow_sub_one_mul_add, hc] at h
   exact hw.trans h
 
-
 @[step]
 theorem pow22501_spec (self : FieldElement51) (hself : ∀ i < 5, self[i]!.val < 2 ^ 54) :
     pow22501 self ⦃ (t19 t3 : FieldElement51) =>

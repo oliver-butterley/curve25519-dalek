@@ -8,7 +8,7 @@ public import Specs.Backend.Serial.U64.Scalar.IndexMut
 public import Specs.Lemmas.AsNat
 public import Specs.Backend.Serial.U64.Scalar.Lemmas
 public import Specs.Lemmas.StepSpecs
-public import Specs.Lemmas.BitWindow
+public import Specs.Lemmas.Bitwise
 public import Specs.Lemmas.Bytes
 public import Mathlib.Tactic.LinearCombination
 public section
@@ -57,7 +57,7 @@ private theorem from_bytes_loop0_loop0_spec (bytes : Array U8 32#usize) (words :
         exact Nat.byte_mul_two_pow_lt hb_lt hlt
       have hacc_lt : acc.val < 2 ^ (8 * iter.start.val) := by
         rw [hacc, hwi]
-        exact Array.sum_pow_mul_lt 8 _ _ fun j _ => UScalar.hBounds _
+        exact Nat.sum_pow_mul_lt 8 _ _ fun j _ => UScalar.hBounds _
       refine ⟨by rw [hend1, hend], hstart1 ▸ hlt, ?_, fun k hk => (hw'rest k hk).trans (hrest k hk),
         hstart1 ▸ Nat.sub_succ_lt_self _ _ hlt⟩
       rw [hw'i, hacc', UScalar.val_or, hshift, Nat.or_shiftLeft_eq_add_pow_mul _ hacc_lt, hacc, hwi,
@@ -109,24 +109,6 @@ private theorem from_bytes_loop0_spec (bytes : Array U8 32#usize) :
     match k, hk with
     | 0, _ | 1, _ | 2, _ | 3, _ => rfl
 
-/-- Limb 1: word 0 without its low 52 bits, and the low 40 bits of word 1. -/
-private theorem from_bytes.limb_1 (w0 w1 : U64) :
-    (w0.val >>> 52 ||| w1.val <<< 12 % U64.size) % 2 ^ 52
-      = w0.val / 2 ^ 52 + 2 ^ 12 * (w1.val % 2 ^ 40) :=
-  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
-
-/-- Limb 2: word 1 without its low 40 bits, and the low 28 bits of word 2. -/
-private theorem from_bytes.limb_2 (w1 w2 : U64) :
-    (w1.val >>> 40 ||| w2.val <<< 24 % U64.size) % 2 ^ 52
-      = w1.val / 2 ^ 40 + 2 ^ 24 * (w2.val % 2 ^ 28) :=
-  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
-
-/-- Limb 3: word 2 without its low 28 bits, and the low 16 bits of word 3. -/
-private theorem from_bytes.limb_3 (w2 w3 : U64) :
-    (w2.val >>> 28 ||| w3.val <<< 36 % U64.size) % 2 ^ 52
-      = w2.val / 2 ^ 28 + 2 ^ 36 * (w3.val % 2 ^ 16) :=
-  Nat.shiftRight_or_shiftLeft_mod _ (UScalar.hBounds _) (U64.two_pow_dvd_size (by norm_num))
-
 /-- Limb 4: word 3 without its low 16 bits. -/
 private theorem from_bytes.limb_4 (w3 : U64) : w3.val >>> 16 % 2 ^ 48 = w3.val / 2 ^ 16 :=
   Nat.shiftRight_mod_eq_of_lt (UScalar.hBounds _)
@@ -138,9 +120,9 @@ private theorem from_bytes.limbs_eq (w0 w1 w2 w3 : U64) :
       + 2 ^ 156 * ((w2.val >>> 28 ||| w3.val <<< 36 % U64.size) % 2 ^ 52)
       + 2 ^ 208 * (w3.val >>> 16 % 2 ^ 48)
       = w0.val + 2 ^ 64 * w1.val + 2 ^ 128 * w2.val + 2 ^ 192 * w3.val := by
-  have g1 := from_bytes.limb_1 w0 w1
-  have g2 := from_bytes.limb_2 w1 w2
-  have g3 := from_bytes.limb_3 w2 w3
+  have g1 := limb1_of_words w0 w1
+  have g2 := limb2_of_words w1 w2
+  have g3 := limb3_of_words w2 w3
   have g4 := from_bytes.limb_4 w3
   have d0 := Nat.div_add_mod w0.val (2 ^ 52)
   have d1 := Nat.div_add_mod w1.val (2 ^ 40)

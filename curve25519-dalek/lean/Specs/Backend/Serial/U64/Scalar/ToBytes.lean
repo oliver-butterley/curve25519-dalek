@@ -5,8 +5,8 @@ public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.StepSpecs
-public import Specs.Lemmas.BitWindow
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.Bitwise
+public import Specs.Backend.Serial.U64.Lemmas
 public import Mathlib.Tactic.LinearCombination
 public section
 
@@ -89,7 +89,6 @@ private theorem to_bytes.bytes_eq (l0 l1 l2 l3 l4 : U64) (h0 : l0.val < 2 ^ 52)
   zify at g0 g1 g2 g3 g4 d1 d3 ⊢
   linear_combination g0 + 2 ^ 56 * g1 + 2 ^ 104 * g2 + 2 ^ 160 * g3 + 2 ^ 208 * g4
     + 2 ^ 52 * d1 + 2 ^ 156 * d3
-
 
 @[step]
 theorem to_bytes_spec (self : Scalar52) (hself : ∀ i < 5, self[i]!.val < 2 ^ 52)

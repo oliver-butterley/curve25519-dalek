@@ -2,6 +2,7 @@ module
 public import Curve25519
 public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
+public import Specs.Backend.Serial.U64.Lemmas
 public import Subtle
 public import Specs.Backend.Serial.U64.Scalar.Index
 public import Specs.Backend.Serial.U64.Scalar.MontgomeryReduce

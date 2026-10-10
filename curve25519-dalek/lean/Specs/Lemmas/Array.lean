@@ -2,7 +2,11 @@ module
 public import Aeneas
 public section
 
-/-! # Lemmas about Aeneas arrays -/
+/-! # Lemmas about Aeneas arrays and slices
+
+Reads and updates described with `getElem!` (opt-in `step` specs, see `Specs.Lemmas.StepSpecs`),
+the entries of array literals and of `Array.repeat`, rebuilding an array from its entries, and
+properties of the entries carried through `set`. -/
 
 open Aeneas Aeneas.Std
 
@@ -45,6 +49,27 @@ theorem index_usize_make_spec {α : Type} [Inhabited α] {n : Usize} (l : List �
     (Array.make n l hl).index_usize i ⦃ (x : α) => x = l[i.val]! ⦄ := by
   step*
   simp_lists [*, Array.make_val]
+
+/-- The entries of `Array.repeat n x` below `n`. -/
+theorem getElem!_repeat {α : Type} [Inhabited α] {n : Usize} (x : α) {j : ℕ} (hj : j < n.val) :
+    (Array.repeat n x)[j]! = x := by
+  rw [Array.getElem!_Nat_eq, Array.repeat_val, List.getElem!_replicate _ hj]
+
+/-- Overwriting all five elements of `a` with those of `b` gives `b`. -/
+theorem set_getElem_five {α : Type} (a b : Array α 5#usize) :
+    ((((a.set 0#usize b.val[0]).set 1#usize b.val[1]).set 2#usize b.val[2]).set 3#usize
+      b.val[3]).set 4#usize b.val[4] = b := by
+  ext : 1
+  simp only [Array.set_val_eq]
+  apply List.ext_getElem (by simp)
+  grind
+
+/-- Arrays are equal when their slices are. -/
+theorem eq_of_to_slice_eq {α : Type} {n : Usize} {a b : Array α n}
+    (h : a.to_slice = b.to_slice) : a = b := by
+  have hval := congrArg Slice.val h
+  simp only [Array.val_to_slice] at hval
+  exact Array.ext a b hval
 
 /-- A bound on five limbs, unfolded into its five instances (for `simp_lists`). -/
 theorem _root_.Nat.forall_lt_five {P : ℕ → Prop} :

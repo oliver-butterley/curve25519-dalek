@@ -38,8 +38,16 @@ attribute [irreducible] e58
 
 /-! ## Arithmetic in `ZMod p` -/
 
-private theorem cast_eq {a b : ℕ} (h : a % p = b % p) : (a : ZMod p) = b :=
-  (ZMod.natCast_eq_natCast_iff' a b p).mpr h
+/-- In a field containing a square root `i` of `-1`, the fourth roots of unity are `±1`, `±i`. -/
+private theorem eq_one_or_neg_one_or_of_pow_four_eq_one {K : Type*} [Field K] {t i : K}
+    (hi : i ^ 2 = -1) (ht : t ^ 4 = 1) : t = 1 ∨ t = -1 ∨ t = i ∨ t = -i := by
+  have h : (t - 1) * (t + 1) * ((t - i) * (t + i)) = 0 := by
+    linear_combination ht - (t ^ 2 - 1) * hi
+  simp only [mul_eq_zero, sub_eq_zero, add_eq_zero_iff_eq_neg] at h
+  tauto
+
+private theorem mod_eq_iff {a b : ℕ} : a % p = b % p ↔ (a : ZMod p) = b :=
+  (ZMod.natCast_eq_natCast_iff' a b p).symm
 
 private theorem cast_neg {a b : ℕ} (h : (a + b) % p = 0) : (a : ZMod p) = -b := by
   have h' := ZMod.natCast_eq_zero_iff_mod.mpr h
@@ -102,9 +110,6 @@ private theorem pow_cases_of_sq (X V : ZMod p) (hX : X ≠ 0) (hV : V ≠ 0) :
   rw [← mul_self_eq_one_iff, ← pow_add, show X ^ 2 * V * V ^ 7 = (X * V ^ 4) ^ 2 by ring,
     ← pow_mul, show 2 * (2 * e58 + 1 + (2 * e58 + 1)) = p - 1 by have := e58_eq; omega]
   exact ZMod.pow_card_sub_one_eq_one (mul_ne_zero hX (pow_ne_zero _ hV))
-
-private theorem mod_eq_iff {a b : ℕ} : a % p = b % p ↔ (a : ZMod p) = b :=
-  (ZMod.natCast_eq_natCast_iff' a b p).symm
 
 private theorem exists_sq_iff (v u : ℕ) :
     (∃ x : ℕ, x ^ 2 * v % p = u % p) ↔ ∃ X : ZMod p, X ^ 2 * v = u := by
@@ -220,29 +225,29 @@ theorem sqrt_ratio_i_spec (u v : FieldElement51) (hu : ∀ i < 5, u[i]!.val < 2 
     · exact (hr21 h).2
   -- move to `ZMod p`
   have eR : (r.asNat : ZMod p) = u.asNat * v.asNat ^ 3 * (u.asNat * v.asNat ^ 7) ^ e58 := by
-    have h1 := cast_eq hr
-    have h2 := cast_eq hfe2
-    have h3 := cast_eq hfe4
-    have h4 := cast_eq hfe3
-    have h5 := cast_eq hv7
-    have h6 := cast_eq hfe1
-    have h7 := cast_eq hv3
-    have h8 := cast_eq hfe
+    have h1 := mod_eq_iff.mp hr
+    have h2 := mod_eq_iff.mp hfe2
+    have h3 := mod_eq_iff.mp hfe4
+    have h4 := mod_eq_iff.mp hfe3
+    have h5 := mod_eq_iff.mp hv7
+    have h6 := mod_eq_iff.mp hfe1
+    have h7 := mod_eq_iff.mp hv3
+    have h8 := mod_eq_iff.mp hfe
     push_cast at h1 h2 h3 h4 h5 h6 h7 h8
     rw [h1, h2, h3, h4, h5, h6, h7, h8]
     ring
   have eF7 : (fe7.asNat : ZMod p) = -u.asNat := cast_neg hfe7
   have eF8 : (fe8.asNat : ZMod p) = -u.asNat * sqrtM1 := by
-    have h1 := cast_eq hfe8
+    have h1 := mod_eq_iff.mp hfe8
     push_cast at h1
     rw [h1, eF7, hfe6]
   have eR' : (r'.asNat : ZMod p) = sqrtM1 * r.asNat := by
-    have h1 := cast_eq hr'
+    have h1 := mod_eq_iff.mp hr'
     push_cast at h1
     rw [h1, hfe6]
   have eC0 : (check.asNat : ZMod p) = v.asNat * (r.asNat : ZMod p) ^ 2 := by
-    have h1 := cast_eq hcheck
-    have h2 := cast_eq hfe5
+    have h1 := mod_eq_iff.mp hcheck
+    have h2 := mod_eq_iff.mp hfe5
     push_cast at h1 h2
     rw [h1, h2]
   simp only [ne_eq, ← ZMod.natCast_eq_zero_iff_mod (n := p), mod_eq_iff (b := u.asNat),
@@ -251,7 +256,7 @@ theorem sqrt_ratio_i_spec (u v : FieldElement51) (hu : ∀ i < 5, u[i]!.val < 2 
   simp only [ne_eq, mod_eq_iff] at hcs1 hfs1 hfsi1 hcs0 hfs0 hfsi0
   rw [eF7] at hfs1 hfs0
   rw [eF8] at hfsi1 hfsi0
-  -- move to `ZMod p`
+  -- name the values in `ZMod p`
   set U : ZMod p := (u.asNat : ZMod p) with hU
   set V : ZMod p := (v.asNat : ZMod p) with hV
   set R : ZMod p := (r.asNat : ZMod p) with hR

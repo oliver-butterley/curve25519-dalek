@@ -17,11 +17,7 @@ open Aeneas Aeneas.Std Aeneas.Std.WP curve25519
 
 namespace Curve25519Dalek.backend.serial.u64.field
 
-/-- Masking with `2^51 - 1` keeps the low 51 bits. -/
-@[local step]
-private theorem and_low_51_spec (x m : U64) (hm : m.val = 2 ^ 51 - 1) :
-    lift (x &&& m) ⦃ (y : U64) => y.val = x.val % 2 ^ 51 ⦄ := by
-  simp only [lift, WP.spec_ok, UScalar.val_and, hm, Nat.and_two_pow_sub_one_eq_mod]
+open scoped Specs.MaskStep
 
 /-- Truncating cast from `u128` to `u64`. -/
 @[local step]

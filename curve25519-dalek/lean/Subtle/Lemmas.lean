@@ -37,14 +37,15 @@ theorem isValid_iff (c : subtle.Choice) : c.IsValid ↔ c.val ≤ 1 := by
   constructor
   · rintro (rfl | rfl) <;> decide
   · intro h
-    have : c.val = 0 ∨ c.val = 1 := by omega
+    have : c.val = 0 ∨ c.val = 1 := by scalar_tac
     rcases this with h0 | h1
     · exact Or.inl (UScalar.eq_of_val_eq (by simpa using h0))
     · exact Or.inr (UScalar.eq_of_val_eq (by simpa using h1))
 
 /-- Needed e.g. for `x.is_negative().unwrap_u8() << 7`. -/
 theorem IsValid.val_lt_two {c : subtle.Choice} (h : c.IsValid) : c.val < 2 := by
-  have := (isValid_iff c).mp h; omega
+  have := (isValid_iff c).mp h
+  scalar_tac
 
 theorem IsValid.and {a b : subtle.Choice} (ha : a.IsValid) (hb : b.IsValid) :
     subtle.Choice.IsValid (a &&& b) := by

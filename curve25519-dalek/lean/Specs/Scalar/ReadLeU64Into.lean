@@ -4,13 +4,37 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.AsNat
+public import Specs.Lemmas.Bitwise
 public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
 open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+/-- A little-endian byte list read as a bit vector has the value of its digits in radix `256`. -/
+private theorem BitVec.toNat_fromLEBytes (l : List Byte) :
+    (BitVec.fromLEBytes l).toNat = Nat.ofDigits 256 (l.map BitVec.toNat) := by
+  induction l with
+  | nil => simp [BitVec.fromLEBytes]
+  | cons b l ih =>
+    have hlt : (BitVec.fromLEBytes l).toNat < 2 ^ (8 * l.length) := (BitVec.fromLEBytes l).isLt
+    have hb : b.toNat < 2 ^ 8 := b.isLt
+    have hpow : 2 ^ (8 * l.length) * 2 ^ 8 = 2 ^ (8 * (l.length + 1)) := by
+      rw [← Nat.pow_add]; ring_nf
+    have hlt' : (BitVec.fromLEBytes l).toNat < 2 ^ (8 * (l.length + 1)) :=
+      lt_of_lt_of_le hlt (Nat.pow_le_pow_right (by norm_num) (by omega))
+    have hsh : (BitVec.fromLEBytes l).toNat <<< 8 < 2 ^ (8 * (l.length + 1)) := by
+      rw [Nat.shiftLeft_eq, ← hpow]
+      exact Nat.mul_lt_mul_of_pos_right hlt (by positivity)
+    have hb' : b.toNat < 2 ^ (8 * (l.length + 1)) :=
+      lt_of_lt_of_le hb (Nat.pow_le_pow_right (by norm_num) (by omega))
+    rw [BitVec.fromLEBytes, BitVec.toNat_or, BitVec.toNat_shiftLeft, BitVec.toNat_setWidth,
+      BitVec.toNat_setWidth, List.length_cons, Nat.mod_eq_of_lt hb', Nat.mod_eq_of_lt hlt',
+      Nat.mod_eq_of_lt hsh, Nat.or_shiftLeft_eq_add_pow_mul _ hb, ih, List.map_cons,
+      Nat.ofDigits_cons]
+    rfl
 
 namespace Curve25519Dalek.scalar
 
@@ -33,11 +57,8 @@ private theorem read_le_u64_into_loop_spec (src : Slice U8) (dst : Slice U64)
       step as ⟨i3, hi3⟩
       step as ⟨bytes, hbytes, hblen⟩
       step as ⟨r, hr⟩
-      cases r with
-      | Err e =>
-        exact absurd hblen (by scalar_tac)
-      | Ok a =>
-        obtain ⟨ha, -⟩ := hr
+      rcases r with a | e
+      · obtain ⟨ha, -⟩ := hr
         simp only [core.result.Result.expect]
         step as ⟨x, hx⟩
         step as ⟨d1, hd1⟩
@@ -63,6 +84,7 @@ private theorem read_le_u64_into_loop_spec (src : Slice U8) (dst : Slice U64)
           exact hword j hj
         · rw [hd1, Slice.getElem!_Nat_set_ne _ _ _ _ (Ne.symm hik)]
           exact hdone i (by scalar_tac) j hj
+      · exact absurd hblen (by scalar_tac)
     · simp only [show ¬ k < d.len by scalar_tac, if_false, WP.spec_ok]
       exact ⟨hd, fun i hi j hj => hdone i (by scalar_tac) j hj⟩
   · simp

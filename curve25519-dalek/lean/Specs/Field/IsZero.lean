@@ -4,7 +4,8 @@ public import Curve25519Dalek.Funs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
 public import Specs.Backend.Serial.U64.Field.ToBytes
-public import Specs.Lemmas.AsNatInj
+public import Specs.Lemmas.AsNat
+public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519

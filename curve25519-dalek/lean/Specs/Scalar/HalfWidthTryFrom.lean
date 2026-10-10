@@ -4,13 +4,38 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
+public import Specs.Lemmas.AsNat
 public import Specs.Lemmas.Array
 public section
 
 open Aeneas Aeneas.Std Result Aeneas.Std.WP curve25519
 open Curve25519Dalek.scalar (Scalar HalfWidthScalar)
 open Curve25519Dalek.backend.serial.u64.scalar (montgomeryRadix)
+
+/-- An array with digits below `2 ^ bits` is below `2 ^ (bits * m)` iff its digits from `m` on
+are zero. -/
+private theorem Aeneas.Std.Array.asNat_lt_pow_iff {ty : UScalarTy} {n : Usize} (bits m : ℕ)
+    (a : Array (UScalar ty) n) (hmn : m ≤ n.val) (ha : ∀ j < n.val, a[j]!.val < 2 ^ bits) :
+    a.asNat bits < 2 ^ (bits * m) ↔ ∀ j, m ≤ j → j < n.val → a[j]!.val = 0 := by
+  rw [Array.asNat_eq_sum, ← Finset.sum_range_add_sum_Ico _ hmn]
+  constructor
+  · intro hlt j hmj hjn
+    by_contra hne
+    have hle : 2 ^ (bits * j) * a[j]!.val ≤
+        ∑ k ∈ Finset.Ico m n.val, 2 ^ (bits * k) * a[k]!.val :=
+      Finset.single_le_sum (f := fun k => 2 ^ (bits * k) * a[k]!.val) (fun _ _ => Nat.zero_le _)
+        (Finset.mem_Ico.mpr ⟨hmj, hjn⟩)
+    have hpow : 2 ^ (bits * m) ≤ 2 ^ (bits * j) * a[j]!.val :=
+      (Nat.pow_le_pow_right (by norm_num) (Nat.mul_le_mul_left _ hmj)).trans
+        (Nat.le_mul_of_pos_right _ (Nat.pos_of_ne_zero hne))
+    exact absurd hlt (Nat.not_lt.mpr (hpow.trans (hle.trans (Nat.le_add_left _ _))))
+  · intro hz
+    have h0 : ∑ k ∈ Finset.Ico m n.val, 2 ^ (bits * k) * a[k]!.val = 0 :=
+      Finset.sum_eq_zero fun k hk => by
+        rw [Finset.mem_Ico] at hk
+        rw [hz k hk.1 hk.2, Nat.mul_zero]
+    rw [h0, Nat.add_zero]
+    exact Nat.sum_pow_mul_lt bits m (fun j => a[j]!.val) fun j hj => ha j (hj.trans_le hmn)
 
 namespace Curve25519Dalek.scalar.HalfWidthScalar.Insts.CoreConvertTryFromScalarTuple
 

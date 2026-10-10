@@ -4,8 +4,8 @@ public import Curve25519Dalek.Funs
 public import Specs.Defs
 public import Specs.Backend.Serial.U64.Defs
 public import Subtle
-public import Specs.Lemmas.Bytes
-public import Specs.Lemmas.BitWindow
+public import Specs.Lemmas.AsNat
+public import Specs.Lemmas.Bitwise
 public import Specs.Lemmas.AsInt
 public import Specs.Lemmas.Array
 public import Specs.Scalar.ReadLeU64Into
@@ -33,16 +33,6 @@ private theorem naf_even_carry {X pos c w : ℕ} (hX : X < 2 ^ 255) (hpos : 255 
     Nat.div_eq_of_lt (lt_of_lt_of_le hX (Nat.pow_le_pow_right (by norm_num) hpos))
   rw [hY, Nat.zero_mod] at hev
   omega
-
-/-- An odd window, taken as the digit `d` with carry `c'`. -/
-private theorem naf_odd_val {Y c c' w pos : ℕ} {d : ℤ}
-    (hd : d + 2 ^ w * c' = ((c + Y % 2 ^ w : ℕ) : ℤ)) :
-    (2 : ℤ) ^ pos * (c + Y : ℕ) = 2 ^ pos * d + 2 ^ (pos + w) * (c' + Y / 2 ^ w : ℕ) := by
-  have hY := Nat.mod_add_div Y (2 ^ w)
-  zify at hY
-  push_cast at hd ⊢
-  rw [pow_add]
-  linear_combination (-(2 : ℤ) ^ pos) * hd - (2 : ℤ) ^ pos * hY
 
 /-- Near the top, an odd window is below `2 ^ (w - 1)`: no carry out of bit `255`. -/
 private theorem naf_odd_carry {X pos c w : ℕ} (hX : X < 2 ^ 255) (hpw : 256 ≤ pos + w)
@@ -114,7 +104,7 @@ private theorem naf_inv_odd {X w : ℕ} {naf : Array I8 256#usize} {pos c c' : �
     NafInv X w (naf.set p d) (pos + w) c' := by
   obtain ⟨-, -, hval, hzero, hnz⟩ := hinv
   refine ⟨hc', hc'0, ?_, fun j hj hj256 => ?_, fun i hi hne => ?_⟩
-  · have hv := naf_odd_val (pos := pos) hd
+  · have hv := Nat.two_pow_mul_window_eq (pos := pos) hd
     rw [Nat.div_div_eq_div_mul, ← Nat.pow_add] at hv
     rw [Array.asInt_set 1 naf p d (by simp [hp, hpos]), hp, hzero pos le_rfl hpos, sub_zero,
       ← hval, hv, one_mul, add_assoc]
@@ -134,10 +124,6 @@ private theorem naf_inv_odd {X w : ℕ} {naf : Array I8 256#usize} {pos c c' : �
       refine ⟨hd', le_trans hiw (Nat.le_add_right _ _), fun j hj hjw hj256 => ?_⟩
       rw [Array.getElem!_Nat_set_ne _ _ _ _ (by rw [hp]; exact Nat.ne_of_gt (by omega))]
       exact hz j hj hjw hj256
-
-/-- A window of `w` bits at offset `b < 64 - w` lies within one limb. -/
-private theorem window_fits {b t w : ℕ} (hbt : b < t) (ht : t = 64 - w) : b + w ≤ 64 := by
-  omega
 
 /-- The bit buffer of `non_adjacent_form`: its low `w` bits are the bits `64 u + b …` of `X`. -/
 private theorem naf_bit_buf_spec (x : Array U64 5#usize) (X : ℕ) (hX : x.asNat 64 = X)
@@ -164,7 +150,7 @@ private theorem naf_bit_buf_spec (x : Array U64 5#usize) (X : ℕ) (hX : x.asNat
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     rw [hr, Nat.shiftRight_eq_div_pow, hl, ← hlimb]
-    exact Nat.window_in_limb X u.val b.val w.val (window_fits hbt ht)
+    exact Nat.window_in_limb X u.val b.val w.val (by scalar_tac)
   · step with Array.index_usize_getElem!_spec as ⟨l, hl⟩
     step as ⟨r, hr, hrbv⟩
     step as ⟨u1, hu1⟩
@@ -176,10 +162,6 @@ private theorem naf_bit_buf_spec (x : Array U64 5#usize) (X : ℕ) (hX : x.asNat
     have := Nat.window_across X u.val b.val w.val hb (hw.trans (by norm_num))
     rw [Nat.add_comm 1 u.val]
     simpa [U64.size, U64.numBits] using this
-
-/-- The limb index and bit offset of a bit position below `256`. -/
-private theorem naf_pos_split {pos : ℕ} (h : pos < 256) : pos / 64 ≤ 3 ∧ pos % 64 < 64 := by
-  omega
 
 /-- The half width `P = 2 ^ (w - 1)` of a window of `2 ≤ w ≤ 8` bits. -/
 private theorem naf_half {w : ℕ} (hw : 2 ≤ w ∧ w ≤ 8) :
@@ -217,7 +199,8 @@ private theorem naf_body_spec (w : Usize) (x : Array U64 5#usize) (width mask : 
   step as ⟨u, hu⟩
   step as ⟨b, hb⟩
   step as ⟨t, ht⟩
-  have hub' := naf_pos_split hpos
+  have hub' : pos.val / 64 ≤ 3 ∧ pos.val % 64 < 64 :=
+    ⟨Nat.le_of_lt_succ (Nat.div_lt_of_lt_mul hpos), Nat.mod_lt _ (by norm_num)⟩
   rw [← hu, ← hb] at hub'
   step with naf_bit_buf_spec x X hX w u b t hw.2 hub'.1 hub'.2 ht as ⟨bb, hbb⟩
   have hub : 64 * u.val + b.val = pos.val := by
